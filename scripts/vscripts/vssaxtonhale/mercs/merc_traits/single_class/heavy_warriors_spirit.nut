@@ -22,6 +22,6 @@ characterTraitsClasses.push(class extends CharacterTrait
     function OnDamageDealt(victim, params)
     {
         if (params.damage_type & 128)
-            player.SetHealth(clampCeiling(player.GetHealth() + 50, player.GetMaxHealth()));
+            player.SetHealth(clampCeiling(player.GetHealth() + 50, player.GetMaxOverheal()));
     }
 });

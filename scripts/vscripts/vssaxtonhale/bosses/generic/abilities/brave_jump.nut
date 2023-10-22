@@ -21,12 +21,36 @@ enum BOSS_JUMP_STATUS
     DOUBLE_JUMPED = 3
 };
 
+//todo: retard hack job to add a meter to this, can look nicer!
+
 class BraveJumpTrait extends BossTrait
 {
     jumpForce = API_GetFloat("jump_force");
     jumpStatus = BOSS_JUMP_STATUS.WALKING;
     voiceLinePlayed = 0;
     lastTimeJumped = Time();
+	meter = 0;
+	TRAIT_COOLDOWN = 4;
+
+    function OnApply()
+    {
+        if (!(player in hudAbilityInstances))
+            hudAbilityInstances[player] <- [];
+        hudAbilityInstances[player].push(this);
+    }
+
+	function OnTickAlive(timeDelta)
+    {
+        if (meter < 0)
+        {
+            meter += timeDelta;
+            if (meter >= 0)
+            {
+				EmitSoundOnClient("TFPlayer.ReCharged", boss);
+                meter = 0;
+			}
+		}
+	}
 
     function OnFrameTickAlive()
     {
@@ -44,13 +68,6 @@ class BraveJumpTrait extends BossTrait
 
         if (buttons & IN_JUMP && jumpStatus == BOSS_JUMP_STATUS.CAN_DOUBLE_JUMP)
         {
-            if (!IsRoundSetup() && Time() - voiceLinePlayed > 1.5)
-            {
-                voiceLinePlayed = Time();
-                EmitPlayerVO(boss, "jump");
-            }
-
-            jumpStatus = BOSS_JUMP_STATUS.DOUBLE_JUMPED;
             Perform();
         }
 
@@ -62,6 +79,18 @@ class BraveJumpTrait extends BossTrait
 
     function Perform()
     {
+	    if (meter != 0)
+            return false;
+        meter = -TRAIT_COOLDOWN;
+	
+	    if (!IsRoundSetup() && Time() - voiceLinePlayed > 1.5)
+        {
+            voiceLinePlayed = Time();
+            EmitPlayerVO(boss, "jump");
+        }
+
+        jumpStatus = BOSS_JUMP_STATUS.DOUBLE_JUMPED;
+	
         lastTimeJumped = Time() + 9999;
 
         local buttons = GetPropInt(boss, "m_nButtons");
@@ -110,5 +139,23 @@ class BraveJumpTrait extends BossTrait
         });
         EntFireByHandle(text_tf, "Display", "", 0.1, player, player);
         EntFireByHandle(text_tf, "Kill", "", 1, player, player);
+    }
+	
+	function MeterAsPercentage()
+    {
+        if (meter < 0)
+            return (TRAIT_COOLDOWN + meter) * 90 / TRAIT_COOLDOWN;
+        return 200
+    }
+
+    function MeterAsNumber()
+    {
+        local mapped = -meter+0.99;
+        if (mapped <= 1)
+            return "r";
+        if (mapped < 10)
+            return format(" %d", mapped);
+        else
+            return format("%d", mapped);
     }
 };

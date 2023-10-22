@@ -24,8 +24,7 @@ characterTraitsClasses.push(class extends CharacterTrait
         if (WeaponIs(params.weapon, "half_zatoichi"))
         {
             local newHealth = player.GetHealth() + player.GetMaxHealth() / 2.0;
-            local maxOverheal = player.GetMaxHealth() * 1.5
-            player.SetHealth(clampCeiling(newHealth, maxOverheal));
+            player.SetHealth(clampCeiling(newHealth, player.GetMaxOverheal()));
 			SetPropInt(params.weapon, "m_bIsBloody", 1);
 			AddPropInt(player, "m_Shared.m_iKillCountSinceLastDeploy", 1);
         }

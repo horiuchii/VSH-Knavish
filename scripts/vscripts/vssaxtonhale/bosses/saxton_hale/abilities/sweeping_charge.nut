@@ -27,6 +27,7 @@ PrecacheModel(saxton_dash_effect_model_path);
 
 class SweepingChargeTrait extends BossTrait
 {
+	TRAIT_COOLDOWN = 10;
     meter = 0;
     isCurrentlyDashing = false;
     haleLastFrameDownVelocity = 0;
@@ -175,7 +176,7 @@ class SweepingChargeTrait extends BossTrait
         vsh_vscript.Hale_SetBlueArm(boss, false);
         BossPlayViewModelAnim(boss, "vsh_dash_end");
         boss.AddCondEx(TF_COND_GRAPPLINGHOOK_LATCHED, 0.1, boss);
-        meter = -10;
+        meter = -TRAIT_COOLDOWN;
         isCurrentlyDashing = false;
         boss.SetGravity(1);
         EntFireByHandle(triggerCatapult, "Disable", "", 0, boss, boss)
@@ -236,7 +237,7 @@ class SweepingChargeTrait extends BossTrait
     function MeterAsPercentage()
     {
         if (meter < 0)
-            return (10 + meter) * 90 / 10;
+            return (TRAIT_COOLDOWN + meter) * 90 / TRAIT_COOLDOWN;
         return isCurrentlyDashing ? 200 : 100;
     }
 

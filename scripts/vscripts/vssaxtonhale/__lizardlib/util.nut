@@ -134,3 +134,9 @@ Include("__lizardlib/game_events.nut");
     }
     RunWithDelay(name + "()", null, delay);
 }
+
+::CTFPlayer.GetMaxOverheal <- function()
+{
+    local overheal = this.GetMaxHealth() * 1.5;
+    return overheal - (overheal % 5.0);
+}

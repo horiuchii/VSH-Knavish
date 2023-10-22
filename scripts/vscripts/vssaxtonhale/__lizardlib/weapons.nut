@@ -42,7 +42,8 @@
     disciplinary_action = GetModelIndex("models/workshop/weapons/c_models/c_riding_crop/c_riding_crop.mdl"),
     eviction_notice = GetModelIndex("models/workshop/weapons/c_models/c_eviction_notice/c_eviction_notice.mdl"),
     diamondback = GetModelIndex("models/workshop_partner/weapons/c_models/c_dex_revolver/c_dex_revolver.mdl"),
-    powerjack = GetModelIndex("models/workshop/weapons/c_models/c_powerjack/c_powerjack.mdl")
+    powerjack = GetModelIndex("models/workshop/weapons/c_models/c_powerjack/c_powerjack.mdl"),
+    baby_face_blaster = GetModelIndex("models/workshop/weapons/c_models/c_pep_scattergun/c_pep_scattergun.mdl")
 }
 
 ::SetItemId <- function(item, id)

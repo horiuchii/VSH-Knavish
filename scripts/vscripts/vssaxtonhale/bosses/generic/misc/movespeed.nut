@@ -15,7 +15,8 @@ class MovespeedTrait extends BossTrait
 {
     function OnTickAlive(timeDelta)
     {
-        local speed = 1.4 + (boss.GetMaxHealth() - boss.GetHealth()) * 1.2 / boss.GetMaxHealth()
+		//clamp speed to prevent going too slow or above 480
+        local speed = clamp(1.4 + (boss.GetMaxHealth() - boss.GetHealth()) * 1.2 / boss.GetMaxHealth(), 1.4, 2.08657)
         boss.RemoveCond(TF_COND_CRITBOOSTED_PUMPKIN);
         boss.AddCustomAttribute("move speed bonus", speed, -1);
     }

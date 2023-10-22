@@ -67,16 +67,17 @@ RegisterBoss("saxton_hale", SaxtonHale);
 
 Include("/bosses/saxton_hale/abilities/sweeping_charge.nut");
 Include("/bosses/saxton_hale/abilities/mighty_slam.nut");
-Include("/bosses/saxton_hale/abilities/saxton_punch.nut");
+//Include("/bosses/saxton_hale/abilities/saxton_punch.nut");
 Include("/bosses/saxton_hale/misc/colored_arms.nut");
 Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
 
 AddBossTrait("saxton_hale", AbilityHudTrait);
+
 AddBossTrait("saxton_hale", SweepingChargeTrait);
-AddBossTrait("saxton_hale", SaxtonPunchTrait);
+AddBossTrait("saxton_hale", BraveJumpTrait);
+//AddBossTrait("saxton_hale", SaxtonPunchTrait);
 AddBossTrait("saxton_hale", MightySlamTrait);
 
-AddBossTrait("saxton_hale", BraveJumpTrait);
 AddBossTrait("saxton_hale", DeathCleanupTrait);
 AddBossTrait("saxton_hale", MovespeedTrait);
 AddBossTrait("saxton_hale", ScreenShakeTrait);

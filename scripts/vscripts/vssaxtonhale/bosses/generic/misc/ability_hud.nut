@@ -50,12 +50,13 @@ class AbilityHudTrait extends BossTrait
             fadeout = 0,
             fxtime = 0,
             holdtime = 9999,
-            message = "Hold 'Reload'",
+            message = "Hold 'Reload' Double Jump Hold 'Crouch'",
             spawnflags = 0,
             x = 0.665,
             y = 0.955
         });
 
+		//empty for now, why wasn't this all on the first game_text?
         game_text_tip_2 = SpawnEntityFromTable("game_text",
         {
             color = "255 255 255",
@@ -66,7 +67,7 @@ class AbilityHudTrait extends BossTrait
             fadeout = 0,
             fxtime = 0,
             holdtime = 9999,
-            message = "Hold 'Crouch'",
+            message = "",
             spawnflags = 0,
             x = 0.88,
             y = 0.955

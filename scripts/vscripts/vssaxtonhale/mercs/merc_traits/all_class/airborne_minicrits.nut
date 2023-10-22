@@ -21,7 +21,7 @@ characterTraitsClasses.push(class extends CharacterTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (!victim.IsPlayer() || victim.IsOnGround())
+        if (!victim.IsPlayer() || victim.IsOnGround() || victim == params.attacker)
             return;
         if (WeaponIs(params.weapon, "direct_hit") || WeaponIs(params.weapon, "reserve_shooter"))
             params.crit_type = 1;

@@ -19,6 +19,7 @@ class MightySlamTrait extends BossTrait
     meter = 0;
     inUse = false;
     lastFrameDownVelocity = 0;
+	TRAIT_COOLDOWN = 15;
 
     function OnApply()
     {
@@ -82,7 +83,7 @@ class MightySlamTrait extends BossTrait
         DispatchParticleEffect("hammer_impact_button", boss.GetOrigin() + Vector(0,0,20), Vector(0,0,0));
         EmitSoundOn("vsh_sfx.boss_slam_impact", boss);
         lastFrameDownVelocity = 0;
-        meter = -15;
+        meter = -TRAIT_COOLDOWN;
 
         local bossLocal = boss;
         BossPlayViewModelAnim(boss, "vsh_slam_land");
@@ -119,7 +120,7 @@ class MightySlamTrait extends BossTrait
     function MeterAsPercentage()
     {
         if (meter < 0)
-            return (15 + meter) * 90 / 15;
+            return (TRAIT_COOLDOWN + meter) * 90 / TRAIT_COOLDOWN;
         return inUse ? 200 : 100
     }
 
