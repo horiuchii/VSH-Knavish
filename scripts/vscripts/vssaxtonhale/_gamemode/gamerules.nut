@@ -15,7 +15,10 @@ PrecacheClassVoiceLines("point_enabled")
 
 function SetConvars()
 {
-    Convars.SetValue("tf_weapon_criticals", 1);
+    Convars.SetValue("tf_weapon_criticals", 0);
+	Convars.SetValue("tf_fall_damage_disablespread", 1);
+	Convars.SetValue("tf_use_fixed_weaponspreads", 1);
+	
     Convars.SetValue("mp_autoteambalance", 0);
     Convars.SetValue("mp_teams_unbalance_limit", 0);
     Convars.SetValue("mp_disable_respawn_times", 0);
