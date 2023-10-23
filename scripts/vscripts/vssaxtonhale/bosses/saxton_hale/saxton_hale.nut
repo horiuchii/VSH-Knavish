@@ -83,7 +83,7 @@ AddBossTrait("saxton_hale", MovespeedTrait);
 AddBossTrait("saxton_hale", ScreenShakeTrait);
 AddBossTrait("saxton_hale", SetupStatRefreshTrait);
 AddBossTrait("saxton_hale", TauntHandlerTrait);
-AddBossTrait("saxton_hale", AoEPunchTrait);
+//AddBossTrait("saxton_hale", AoEPunchTrait);
 AddBossTrait("saxton_hale", DebuffResistanceTrait);
 AddBossTrait("saxton_hale", HeadStompTrait);
 AddBossTrait("saxton_hale", ReceivedDamageScalingTrait);
