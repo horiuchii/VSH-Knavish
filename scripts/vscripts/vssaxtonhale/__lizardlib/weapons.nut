@@ -44,7 +44,16 @@
     diamondback = GetModelIndex("models/workshop_partner/weapons/c_models/c_dex_revolver/c_dex_revolver.mdl"),
     powerjack = GetModelIndex("models/workshop/weapons/c_models/c_powerjack/c_powerjack.mdl"),
     baby_face_blaster = GetModelIndex("models/workshop/weapons/c_models/c_pep_scattergun/c_pep_scattergun.mdl"),
-	letranger = GetModelIndex("models/workshop/weapons/c_models/c_letranger/c_letranger.mdl")
+	letranger = GetModelIndex("models/workshop/weapons/c_models/c_letranger/c_letranger.mdl"),
+	back_scratcher = GetModelIndex("models/workshop/weapons/c_models/c_back_scratcher/c_back_scratcher.mdl"),
+	degreaser = GetModelIndex("models/workshop/weapons/c_models/c_degreaser/c_degreaser.mdl"),
+	claidheamhmor = GetModelIndex("models/workshop/weapons/c_models/c_claidheamohmor/c_claidheamohmor.mdl"),
+	xbow = GetModelIndex("models/workshop/weapons/c_models/c_crusaders_crossbow/c_crusaders_crossbow.mdl"),
+	xbow_xmas = GetModelIndex("models/workshop/weapons/c_models/c_crusaders_crossbow/c_crusaders_crossbow_xmas.mdl"),
+	syringegun = GetModelIndex("models/weapons/c_models/c_syringegun/c_syringegun.mdl"),
+	overdose = GetModelIndex("models/weapons/c_models/c_proto_syringegun/c_proto_syringegun.mdl"),
+	blutsauger = GetModelIndex("models/weapons/c_models/c_leechgun/c_leechgun.mdl"),
+	vitasaw = GetModelIndex("models/workshop/weapons/c_models/c_uberneedle/c_uberneedle.mdl"),
 }
 
 ::SetItemId <- function(item, id)

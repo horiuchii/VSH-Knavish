@@ -49,6 +49,14 @@ Include("/mercs/merc_traits/single_class/sniper_razorback.nut");
 Include("/mercs/merc_traits/single_class/spy_letranger_nerf.nut");
 Include("/mercs/merc_traits/single_class/pyro_airblast_nerf.nut");
 Include("/mercs/merc_traits/single_class/scout_critacola_fullcrit.nut");
+Include("/mercs/merc_traits/single_class/pyro_back_scratcher.nut");
+Include("/mercs/merc_traits/single_class/pyro_degreaser.nut");
+Include("/mercs/merc_traits/single_class/demo_claidheamhmor.nut");
+Include("/mercs/merc_traits/single_class/medic_xbow.nut");
+Include("/mercs/merc_traits/single_class/medic_syringegun.nut");
+Include("/mercs/merc_traits/single_class/medic_overdose.nut");
+Include("/mercs/merc_traits/single_class/medic_blutsauger.nut");
+Include("/mercs/merc_traits/single_class/medic_vitasaw.nut");
 
 Include("/mercs/voice_lines/all_class/tracing_boss.nut");
 Include("/mercs/voice_lines/all_class/no_medic.nut");

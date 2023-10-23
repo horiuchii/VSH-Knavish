@@ -13,25 +13,15 @@
 
 characterTraitsClasses.push(class extends CharacterTrait
 {
-    /*function CanApply()
+    function CanApply()
     {
         return player.GetPlayerClass() == TF_CLASS_MEDIC;
     }
-
-    function OnDamageDealt(victim, params)
+	
+	function OnApply()
     {
-        if (params.damage_type & 128)
-        {
-            local melee = player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
-            if (WeaponIs(melee, "ubersaw") || WeaponIs(melee, "ubersaw_xmas"))
-                AddPropFloat(player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY), "m_flChargeLevel", 0.25);
-        }
-    }*/
-
-    function OnApply()
-    {
-        local medigun = player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY);
-        if (medigun != null)
-            medigun.AddAttribute("ubercharge rate bonus", 2, -1);
+		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
+		if (WeaponIs(primary, "xbow") || WeaponIs(primary, "xbow_xmas"))
+			primary.AddAttribute("add uber charge on hit", 0.100001, -1);
     }
 });

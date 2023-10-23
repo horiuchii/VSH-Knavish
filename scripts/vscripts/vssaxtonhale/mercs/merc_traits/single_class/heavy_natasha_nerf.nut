@@ -20,8 +20,8 @@ characterTraitsClasses.push(class extends CharacterTrait
 
     function OnApply()
     {
-        local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-        if (WeaponIs(primary, "natasha"))
-            primary.AddAttribute("slow enemy on hit", 0.0, -1);
+		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
+		if (WeaponIs(primary, "natasha"))
+			primary.AddAttribute("slow enemy on hit", 0.0, -1);
     }
 });

@@ -13,25 +13,34 @@
 
 characterTraitsClasses.push(class extends CharacterTrait
 {
-    /*function CanApply()
+    function CanApply()
     {
         return player.GetPlayerClass() == TF_CLASS_MEDIC;
     }
-
-    function OnDamageDealt(victim, params)
+	
+	function OnApply()
     {
-        if (params.damage_type & 128)
-        {
-            local melee = player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
-            if (WeaponIs(melee, "ubersaw") || WeaponIs(melee, "ubersaw_xmas"))
-                AddPropFloat(player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY), "m_flChargeLevel", 0.25);
-        }
-    }*/
-
-    function OnApply()
+		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
+		if (WeaponIs(primary, "blutsauger"))
+		{
+			primary.AddAttribute("health drain medic", 0.0, -1);
+			primary.AddAttribute("heal on hit for rapidfire", 0.0, -1);
+			primary.AddAttribute("add uber charge on hit", 0.030001, -1);
+		}
+    }
+	
+	function OnDamageDealt(victim, params)
     {
-        local medigun = player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY);
-        if (medigun != null)
-            medigun.AddAttribute("ubercharge rate bonus", 2, -1);
+        if (params.damage_type & 2)
+		{
+			player.SetHealth(clampCeiling(player.GetHealth() + 5, player.GetMaxOverheal()));
+			
+			SendGlobalGameEvent("player_healonhit", 
+			{
+				player = player.entindex(),
+				amount = 5,
+			});
+		}
+            
     }
 });

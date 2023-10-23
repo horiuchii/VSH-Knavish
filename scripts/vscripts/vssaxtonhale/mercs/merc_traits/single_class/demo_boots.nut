@@ -23,7 +23,19 @@ characterTraitsClasses.push(class extends CharacterTrait
                 return true;
         return false;
     }
-
+	
+	function OnApply()
+	{
+		local wearable = null;
+        while (wearable = Entities.FindByClassname(wearable, "tf_wearable"))
+            if (wearable.GetOwner() == player && WeaponIs(wearable, "any_demo_boots"))
+            {
+                wearable.AddAttribute("move speed bonus shield required", 1.0, -1);
+                wearable.AddAttribute("move speed bonus", 1.25, -1);
+                break;
+            }
+	}
+	
     function OnDamageDealt(victim, params)
     {
         if (params.damage_type & 128)
