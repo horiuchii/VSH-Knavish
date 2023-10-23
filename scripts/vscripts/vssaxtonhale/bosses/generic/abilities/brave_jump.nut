@@ -21,8 +21,6 @@ enum BOSS_JUMP_STATUS
     DOUBLE_JUMPED = 3
 };
 
-//todo: retard hack job to add a meter to this, can look nicer!
-
 class BraveJumpTrait extends BossTrait
 {
     jumpForce = API_GetFloat("jump_force");
@@ -30,7 +28,7 @@ class BraveJumpTrait extends BossTrait
     voiceLinePlayed = 0;
     lastTimeJumped = Time();
 	meter = 0;
-	TRAIT_COOLDOWN = 4;
+	TRAIT_COOLDOWN = 3;
 
     function OnApply()
     {
@@ -51,6 +49,14 @@ class BraveJumpTrait extends BossTrait
 			}
 		}
 	}
+
+    function OnDamageTaken(attacker, params)
+    {
+        if (attacker.GetClassname() == "trigger_hurt")
+        {
+            jumpStatus = BOSS_JUMP_STATUS.CAN_DOUBLE_JUMP;
+        }
+    }
 
     function OnFrameTickAlive()
     {
@@ -82,7 +88,7 @@ class BraveJumpTrait extends BossTrait
 	    if (meter != 0)
             return false;
         meter = -TRAIT_COOLDOWN;
-	
+
 	    if (!IsRoundSetup() && Time() - voiceLinePlayed > 1.5)
         {
             voiceLinePlayed = Time();
@@ -90,7 +96,7 @@ class BraveJumpTrait extends BossTrait
         }
 
         jumpStatus = BOSS_JUMP_STATUS.DOUBLE_JUMPED;
-	
+
         lastTimeJumped = Time() + 9999;
 
         local buttons = GetPropInt(boss, "m_nButtons");
@@ -140,7 +146,7 @@ class BraveJumpTrait extends BossTrait
         EntFireByHandle(text_tf, "Display", "", 0.1, player, player);
         EntFireByHandle(text_tf, "Kill", "", 1, player, player);
     }
-	
+
 	function MeterAsPercentage()
     {
         if (meter < 0)
