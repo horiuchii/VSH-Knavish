@@ -48,6 +48,7 @@ Include("/mercs/merc_traits/single_class/scout_bfb_decay.nut");
 Include("/mercs/merc_traits/single_class/sniper_razorback.nut");
 Include("/mercs/merc_traits/single_class/spy_letranger_nerf.nut");
 Include("/mercs/merc_traits/single_class/pyro_airblast_nerf.nut");
+Include("/mercs/merc_traits/single_class/scout_critacola_fullcrit.nut");
 
 Include("/mercs/voice_lines/all_class/tracing_boss.nut");
 Include("/mercs/voice_lines/all_class/no_medic.nut");
