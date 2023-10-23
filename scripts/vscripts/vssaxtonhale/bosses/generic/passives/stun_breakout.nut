@@ -78,8 +78,8 @@ class StunBreakoutTrait extends BossTrait
         DispatchParticleEffect("hammer_impact_button", boss.GetOrigin() + Vector(0,0,20), Vector(0,0,0));
         EmitSoundOn("vsh_sfx.boss_slam_impact", boss);
 
-        CreateAoE(boss.GetCenter(), 400,
-            function (target, deltaVector, distance) {
+        CreateAoE(boss.GetCenter(), 400, false,
+            function (target, deltaVector, distance, InLOS, ZDiff) {
                 target.TakeDamageEx(
                     boss,
                     boss,
@@ -89,7 +89,7 @@ class StunBreakoutTrait extends BossTrait
                     1,
                     1);
             }
-            function (target, deltaVector, distance) {
+            function (target, deltaVector, distance, InLOS, ZDiff) {
                 local pushForce = distance < 100 ? 10 : 10 / sqrt(distance);
                 deltaVector.x = deltaVector.x * 1450 * pushForce;
                 deltaVector.y = deltaVector.y * 1450 * pushForce;

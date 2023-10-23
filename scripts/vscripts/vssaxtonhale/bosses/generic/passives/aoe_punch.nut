@@ -19,8 +19,8 @@ class AoEPunchTrait extends BossTrait
             return;
         local damage = params.damage;
 
-        CreateAoE(victim.GetCenter(), 75,
-            function(target, deltaVector, distance) {
+        CreateAoE(victim.GetCenter(), 75, false,
+            function(target, deltaVector, distance, InLOS, ZDiff) {
                 if (target == victim)
                     return;
                 target.TakeDamageEx(
@@ -32,6 +32,6 @@ class AoEPunchTrait extends BossTrait
                     damage / 2,
                     1);
             }
-            function(target, deltaVector, distance) {});
+            function(target, deltaVector, distance, InLOS, ZDiff) {});
     }
 };

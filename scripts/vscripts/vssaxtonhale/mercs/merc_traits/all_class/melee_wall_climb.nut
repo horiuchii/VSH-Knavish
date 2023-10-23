@@ -53,6 +53,7 @@ function MeleeClimb_Perform(player, quickFixLink = false)
         newVelocity.x /= 2;
         newVelocity.y /= 2;
     }
+    if (player.GetPlayerClass() == TF_CLASS_SNIPER) launchVelocity *= 1.25;
     newVelocity.z = launchVelocity > 430 ? launchVelocity : launchVelocity + newVelocity.z;
     player.SetAbsVelocity(newVelocity);
     FireListeners("wall_climb", player, hits, quickFixLink);

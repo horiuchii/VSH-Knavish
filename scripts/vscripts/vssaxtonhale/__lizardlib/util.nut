@@ -19,7 +19,7 @@ Include("__lizardlib/weapons.nut");
 Include("__lizardlib/character_trait.nut");
 Include("__lizardlib/game_events.nut");
 
-::CreateAoE <- function(center, radius, applyDamageFunc, applyPushFunc)
+::CreateAoE <- function(center, radius, bDoLOSCheck, applyDamageFunc, applyPushFunc)
 {
     foreach(target in GetAliveMercs())
     {
@@ -27,9 +27,19 @@ Include("__lizardlib/game_events.nut");
         local distance = deltaVector.Norm();
         if (distance > radius)
             continue;
+        local ZDiff = target.GetCenter().z - center.z;
 
-        applyPushFunc(target, deltaVector, distance);
-        applyDamageFunc(target, deltaVector, distance);
+        local InLOS = true;
+        if(bDoLOSCheck)
+        {
+            local trace_table = {start = center, end = target.GetCenter(), mask = MASK_SOLID_BRUSHONLY};
+            TraceLineEx(trace_table);
+            InLOS = !trace_table.hit;
+        }
+
+
+        applyPushFunc(target, deltaVector, distance, InLOS, ZDiff);
+        applyDamageFunc(target, deltaVector, distance, InLOS, ZDiff);
     }
 
     local target = null;
@@ -39,8 +49,17 @@ Include("__lizardlib/game_events.nut");
         local distance = deltaVector.Norm();
         if (distance > radius)
             continue;
+        local ZDiff = target.GetCenter().z - center.z;
 
-        applyDamageFunc(target, deltaVector, distance);
+        local InLOS = true;
+        if(bDoLOSCheck)
+        {
+            local trace_table = {start = center, end = target.GetCenter(), mask = MASK_SOLID_BRUSHONLY};
+            TraceLineEx(trace_table);
+            InLOS = !trace_table.hit;
+        }
+
+        applyDamageFunc(target, deltaVector, distance, InLOS, ZDiff);
     }
 }
 

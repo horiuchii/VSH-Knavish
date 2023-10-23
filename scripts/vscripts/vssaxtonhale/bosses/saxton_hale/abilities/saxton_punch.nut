@@ -68,8 +68,10 @@ class SaxtonPunchTrait extends BossTrait
         DispatchParticleEffect("vsh_megapunch_shockwave", victim.EyePosition(), QAngle(0,boss.EyeAngles().Yaw(),0).Forward());
         ScreenShake(boss.GetCenter(), 10, 2.5, 1, 1000, 0, true);
 
-        CreateAoE(boss.GetCenter(), 600,
-            function (target, deltaVector, distance) {
+        CreateAoE(boss.GetCenter(), 600, true,
+            function (target, deltaVector, distance, InLOS, ZDiff) {
+                if(!InLOS)
+                    return;
                 local dot = haleEyeVector.Dot(deltaVector);
                 if (dot < 0.6)
                     return;
@@ -85,7 +87,7 @@ class SaxtonPunchTrait extends BossTrait
                     damage,
                     DMG_BLAST);
             }
-            function (target, deltaVector, distance) {
+            function (target, deltaVector, distance, InLOS, ZDiff) {
                 local dot = haleEyeVector.Dot(deltaVector);
                 if (dot < 0.6)
                     return;

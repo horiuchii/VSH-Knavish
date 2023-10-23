@@ -202,7 +202,7 @@ class SweepingChargeTrait extends BossTrait
                 local dmg = target.GetMaxHealth() * 0.55;
                 if (startswith(target.GetClassname(), "obj_"))
                 {
-                    dmg *= 0.2;
+                    //dmg *= 0.2;
                     boss.SetAbsVelocity(Vector(0,0,0))
                 }
                 else

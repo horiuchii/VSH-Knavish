@@ -89,12 +89,21 @@ class MightySlamTrait extends BossTrait
         BossPlayViewModelAnim(boss, "vsh_slam_land");
         local weapon = boss.GetActiveWeapon();
         SetItemId(weapon, 444); //Mantreads
-        CreateAoE(boss.GetCenter(), 500,
-            function (target, deltaVector, distance) {
+        CreateAoE(boss.GetCenter(), 500, true,
+            function (target, deltaVector, distance, InLOS, ZDiff) {
                 local damage = target.GetMaxHealth() * (1 - distance / 500);
+
+                if(!InLOS)
+                {
+                    if(ZDiff < 151)
+                        damage *= 0.5;
+                    else
+                        return;
+                }
+
                 if (!target.IsPlayer())
                     damage *= 2;
-                if (damage <= 30 && target.GetMaxHealth() <= 30)
+                if (damage <= 30 && target.GetHealth() <= 30)
                     return; // We don't want to have people on low health die because Hale just Slammed a mile away.
                 target.TakeDamageEx(
                     bossLocal,
@@ -105,8 +114,17 @@ class MightySlamTrait extends BossTrait
                     damage,
                     DMG_BLAST);
             }
-            function (target, deltaVector, distance) {
+            function (target, deltaVector, distance, InLOS, ZDiff) {
                 local pushForce = distance < 100 ? 1 : 100 / distance;
+
+                if(!InLOS)
+                {
+                    if(ZDiff < 151)
+                        pushForce *= 0.5;
+                    else
+                        return;
+                }
+
                 deltaVector.x = deltaVector.x * 1250 * pushForce;
                 deltaVector.y = deltaVector.y * 1250 * pushForce;
                 deltaVector.z = 950 * pushForce;
