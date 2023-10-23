@@ -15,13 +15,13 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_HEAVY;
+        return player.GetPlayerClass() == TF_CLASS_SPY;
     }
 
     function OnApply()
     {
         local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-        if (primary != null)
-            primary.AddAttribute("damage bonus HIDDEN", 0.8, -1);
+        if (WeaponIs(primary, "letranger"))
+            primary.AddAttribute("add cloak on hit", 10.0, -1);
     }
 });

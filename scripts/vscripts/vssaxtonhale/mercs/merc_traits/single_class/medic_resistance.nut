@@ -23,10 +23,10 @@ characterTraitsClasses.push(class extends CharacterTrait
         if (IsValidBoss(attacker))
         {
             params.damage *= 0.7;
-            local deltaVector = player.GetOrigin() - attacker.GetOrigin();
+            /*local deltaVector = player.GetOrigin() - attacker.GetOrigin();
             deltaVector.z = 0;
             deltaVector.Norm();
-            player.Yeet(deltaVector * 300 + Vector(0, 0, 300));
+            player.Yeet(deltaVector * 300 + Vector(0, 0, 300));*/
         }
     }
 });

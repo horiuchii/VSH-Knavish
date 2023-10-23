@@ -46,6 +46,8 @@ Include("/mercs/merc_traits/single_class/demo_boots.nut");
 Include("/mercs/merc_traits/single_class/heavy_received_knockback.nut");
 Include("/mercs/merc_traits/single_class/scout_bfb_decay.nut");
 Include("/mercs/merc_traits/single_class/sniper_razorback.nut");
+Include("/mercs/merc_traits/single_class/spy_letranger_nerf.nut");
+Include("/mercs/merc_traits/single_class/pyro_airblast_nerf.nut");
 
 Include("/mercs/voice_lines/all_class/tracing_boss.nut");
 Include("/mercs/voice_lines/all_class/no_medic.nut");
@@ -64,4 +66,5 @@ Include("/mercs/voice_lines/single_class/heavy_tickle.nut");
 Include("/mercs/voice_lines/single_class/spy_dead_ringer.nut");
 Include("/mercs/voice_lines/single_class/spy_last_mann.nut");
 Include("/mercs/voice_lines/single_class/sniper_run.nut");
+Include("/mercs/voice_lines/single_class/pyro_airblast.nut");
 Include("/mercs/voice_lines/single_class/pyro_airblast.nut");

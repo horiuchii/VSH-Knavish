@@ -15,13 +15,17 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_HEAVY;
+		if (player.GetPlayerClass() != TF_CLASS_PYRO || !player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY))
+			return false;
+		
+		local classname = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY).GetClassname();
+		return classname == "tf_weapon_flamethrower" || classname == "tf_weapon_rocketlauncher_fireball";
     }
 
     function OnApply()
     {
-        local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-        if (primary != null)
-            primary.AddAttribute("damage bonus HIDDEN", 0.8, -1);
+		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
+        primary.AddAttribute("airblast vertical pushback scale", 0.75, -1);
+        primary.AddAttribute("damage bonus", 1.25, -1);
     }
 });
