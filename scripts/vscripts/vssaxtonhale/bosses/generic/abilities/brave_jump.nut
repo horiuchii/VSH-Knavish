@@ -28,7 +28,7 @@ class BraveJumpTrait extends BossTrait
     voiceLinePlayed = 0;
     lastTimeJumped = Time();
 	meter = 0;
-	TRAIT_COOLDOWN = 3;
+	TRAIT_COOLDOWN = 2.5;
 
     function OnApply()
     {
@@ -55,6 +55,7 @@ class BraveJumpTrait extends BossTrait
         if (attacker.GetClassname() == "trigger_hurt")
         {
             jumpStatus = BOSS_JUMP_STATUS.CAN_DOUBLE_JUMP;
+            meter = 0;
         }
     }
 
