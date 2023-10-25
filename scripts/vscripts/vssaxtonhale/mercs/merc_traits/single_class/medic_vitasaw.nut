@@ -15,16 +15,14 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_MEDIC;
+        return player.GetPlayerClass() == TF_CLASS_MEDIC
+			&& WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "vitasaw");
     }
 	
 	function OnApply()
     {
 		local melee = player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
-		if (WeaponIs(melee, "vitasaw"))
-		{
-			melee.AddAttribute("add uber charge on hit", 0.15, -1);
-			melee.AddAttribute("ubercharge_preserved_on_spawn_max", 0.0, -1);
-		}
+		melee.AddAttribute("add uber charge on hit", 0.15, -1);
+		melee.AddAttribute("ubercharge_preserved_on_spawn_max", 0.0, -1);
     }
 });

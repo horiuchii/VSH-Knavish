@@ -15,18 +15,16 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_MEDIC;
+        return player.GetPlayerClass() == TF_CLASS_MEDIC
+			&& WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "blutsauger");
     }
 	
 	function OnApply()
     {
 		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-		if (WeaponIs(primary, "blutsauger"))
-		{
-			primary.AddAttribute("health drain medic", 0.0, -1);
-			primary.AddAttribute("heal on hit for rapidfire", 0.0, -1);
-			primary.AddAttribute("add uber charge on hit", 0.030001, -1);
-		}
+		primary.AddAttribute("health drain medic", 0.0, -1);
+		primary.AddAttribute("heal on hit for rapidfire", 0.0, -1);
+		primary.AddAttribute("add uber charge on hit", 0.030001, -1);
     }
 	
 	function OnDamageDealt(victim, params)
@@ -41,6 +39,5 @@ characterTraitsClasses.push(class extends CharacterTrait
 				amount = 5,
 			});
 		}
-            
     }
 });

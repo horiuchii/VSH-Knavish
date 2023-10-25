@@ -15,13 +15,12 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_MEDIC;
+        return player.GetPlayerClass() == TF_CLASS_MEDIC
+			&& WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "syringegun");
     }
 	
 	function OnApply()
     {
-		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-		if (WeaponIs(primary, "syringegun"))
-			primary.AddAttribute("add uber charge on hit", 0.040001, -1);
+		player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY).AddAttribute("add uber charge on hit", 0.040001, -1);
     }
 });

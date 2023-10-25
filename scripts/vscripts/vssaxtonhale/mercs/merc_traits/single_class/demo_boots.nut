@@ -31,7 +31,7 @@ characterTraitsClasses.push(class extends CharacterTrait
             if (wearable.GetOwner() == player && WeaponIs(wearable, "any_demo_boots"))
             {
                 wearable.AddAttribute("move speed bonus shield required", 1.0, -1);
-                wearable.AddAttribute("move speed bonus", 1.25, -1);
+                wearable.AddAttribute("move speed bonus", 1.10, -1);
                 break;
             }
 	}
