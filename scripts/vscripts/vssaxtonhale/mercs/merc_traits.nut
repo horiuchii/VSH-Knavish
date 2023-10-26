@@ -19,6 +19,7 @@ Include("/mercs/merc_traits/all_class/melee_buffs.nut");
 Include("/mercs/merc_traits/all_class/melee_wall_climb.nut");
 Include("/mercs/merc_traits/all_class/burst_damage_nerf.nut");
 Include("/mercs/merc_traits/all_class/no_pyrovision.nut");
+Include("/mercs/merc_traits/all_class/allclass_katana.nut");
 Include("/mercs/merc_traits/all_class/base_jumper_duration_nerf.nut");
 
 //Scout
@@ -40,7 +41,6 @@ Include("/mercs/merc_traits/single_class/pyro_degreaser.nut");
 Include("/mercs/merc_traits/single_class/pyro_powerjack.nut");
 
 //Demoman
-Include("/mercs/merc_traits/single_class/demo_katana.nut"); //Also applies to soldier
 Include("/mercs/merc_traits/single_class/demo_shield.nut");
 Include("/mercs/merc_traits/single_class/demo_head_collecting.nut");
 Include("/mercs/merc_traits/single_class/demo_scottres_nerf.nut");
