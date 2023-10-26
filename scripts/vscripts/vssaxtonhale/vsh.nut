@@ -34,6 +34,7 @@ Include("/_gamemode/round_logic.nut");
 Include("/bosses/boss.nut");
 Include("/_gamemode/hud.nut");
 Include("/_gamemode/gamerules.nut");
+Include("/_gamemode/tick_all_entities.nut");
 
 try { IncludeScript("vsh_addons/main.nut"); } catch(e) { }
 

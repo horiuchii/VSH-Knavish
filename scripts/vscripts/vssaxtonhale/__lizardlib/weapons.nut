@@ -54,6 +54,7 @@
 	overdose = GetModelIndex("models/weapons/c_models/c_proto_syringegun/c_proto_syringegun.mdl"),
 	blutsauger = GetModelIndex("models/weapons/c_models/c_leechgun/c_leechgun.mdl"),
 	vitasaw = GetModelIndex("models/workshop/weapons/c_models/c_uberneedle/c_uberneedle.mdl"),
+	sunonastick = GetModelIndex("models/workshop/weapons/c_models/c_rift_fire_mace/c_rift_fire_mace.mdl"),
 }
 
 ::SetItemId <- function(item, id)
@@ -99,8 +100,35 @@
         return weapon.GetClassname() == "tf_weapon_sword" || weapon.GetClassname() == "tf_weapon_katana";
     else if (name == "any_demo_boots")
     {
-        local id = GetItemID(weapon)
+        local id = GetItemID(weapon);
         return id == 608 || id == 405;
     }
+	else if (name == "gru")
+	{
+        local id = GetItemID(weapon);
+        return id == 239 || id == 1084 || id == 1100;
+	}
+	else if (name == "ambassador")
+	{
+        local id = GetItemID(weapon);
+        return id == 61 || id == 1006;
+	}
+	else if(name == "base_jumper")
+	{
+		return GetItemID(weapon) == 1101;
+	}
     return (name in weaponModels ? weaponModels[name] : null) == GetPropInt(weapon, "m_iWorldModelIndex");
 }
+
+// When we need to check for headshots, use HitboxDetector
+if ("HitboxDetector" in getroottable() && HitboxDetector.IsValid())
+    HitboxDetector.Destroy();
+
+::HitboxDetector <- Entities.CreateByClassname("tf_weapon_sniperrifle");
+NetProps.SetPropInt(HitboxDetector, "m_AttributeManager.m_Item.m_iItemDefinitionIndex", 14);
+NetProps.SetPropBool(HitboxDetector, "m_AttributeManager.m_Item.m_bInitialized", true);
+Entities.DispatchSpawn(HitboxDetector);
+HitboxDetector.SetClip1(-1);
+
+::HitboxDetectorAttacking <- false;
+::HitboxDetectorHitgroup <- false;

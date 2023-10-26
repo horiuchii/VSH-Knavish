@@ -15,13 +15,37 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_DEMOMAN;
+        return player.GetPlayerClass() == TF_CLASS_DEMOMAN
+			&& WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY), "scottish_resistance");
     }
 
-    function OnApply()
+	function OnApply()
+	{
+		player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY).AddAttribute("no crit boost", 1, -1);
+	}
+
+	function OnDamageDealt(victim, params)
+	{
+		if (params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY))
+		{
+			params.crit_type = 0;
+			if (params.damage_type & DMG_ACID)
+			{
+				params.damage_type -= DMG_ACID;
+			}
+		}
+	}
+});
+
+AddListener("tick_frame", 0, function()
+{
+    local ent = null
+    while( ent = Entities.FindByClassname(ent, "tf_projectile_pipe_remote") )
     {
-        local secondary = player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY);
-        if (WeaponIs(secondary, "scottish_resistance"))
-            secondary.AddAttribute("damage penalty", 0.8, -1);
+        if (GetPropInt(ent, "m_hLauncher") == null)
+            continue;
+
+        if (GetItemID(GetPropEntity(ent, "m_hLauncher")) == 130)
+            SetPropBool(ent, "m_bCritical", false);
     }
 });

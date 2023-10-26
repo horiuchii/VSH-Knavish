@@ -15,29 +15,13 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_MEDIC
-			&& WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "blutsauger");
+        return player.GetPlayerClass() == TF_CLASS_SCOUT
+            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "sunonastick");
     }
 
-	function OnApply()
+    function OnDamageDealt(victim, params)
     {
-		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-		primary.AddAttribute("health drain medic", 0.0, -1);
-		primary.AddAttribute("heal on hit for rapidfire", 0.0, -1);
-		primary.AddAttribute("add uber charge on hit", 0.030001, -1);
-    }
-
-	function OnDamageDealt(victim, params)
-    {
-        if (params.damage_type & 2)
-		{
-			player.SetHealth(clampCeiling(player.GetHealth() + 5, player.GetMaxOverheal()));
-
-			SendGlobalGameEvent("player_healonhit",
-			{
-				entindex = player.entindex(),
-				amount = 5,
-			});
-		}
+        if ((params.damage_type & 128) && victim.InCond(TF_COND_BURNING))
+			params.damage *= 2.0;	
     }
 });

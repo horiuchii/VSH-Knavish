@@ -19,12 +19,14 @@ Include("/mercs/merc_traits/all_class/melee_buffs.nut");
 Include("/mercs/merc_traits/all_class/melee_wall_climb.nut");
 Include("/mercs/merc_traits/all_class/burst_damage_nerf.nut");
 Include("/mercs/merc_traits/all_class/no_pyrovision.nut");
+Include("/mercs/merc_traits/all_class/base_jumper_duration_nerf.nut");
 
 //Scout
 Include("/mercs/merc_traits/single_class/scout_candy_cane.nut");
 Include("/mercs/merc_traits/single_class/scout_stronger_fan.nut");
 Include("/mercs/merc_traits/single_class/scout_bfb_decay.nut");
 Include("/mercs/merc_traits/single_class/scout_critacola_fullcrit.nut");
+Include("/mercs/merc_traits/single_class/scout_sunonastick.nut");
 
 //Soldier
 Include("/mercs/merc_traits/single_class/soldier_jumper_ammo.nut");
@@ -52,6 +54,7 @@ Include("/mercs/merc_traits/single_class/heavy_natasha_nerf.nut");
 Include("/mercs/merc_traits/single_class/heavy_kgb_crits.nut");
 Include("/mercs/merc_traits/single_class/heavy_warriors_spirit.nut");
 Include("/mercs/merc_traits/single_class/heavy_received_knockback.nut");
+Include("/mercs/merc_traits/single_class/heavy_gru.nut");
 
 //Engineer
 Include("/mercs/merc_traits/single_class/engineer_sentry.nut");
@@ -76,6 +79,7 @@ Include("/mercs/merc_traits/single_class/spy_invis_res.nut");
 //Spy
 Include("/mercs/merc_traits/single_class/spy_letranger_nerf.nut");
 Include("/mercs/merc_traits/single_class/spy_backstab.nut");
+Include("/mercs/merc_traits/single_class/spy_ambassador.nut");
 
 //Voicelines
 Include("/mercs/voice_lines/all_class/tracing_boss.nut");

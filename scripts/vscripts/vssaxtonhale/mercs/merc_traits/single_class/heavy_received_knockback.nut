@@ -20,11 +20,7 @@ characterTraitsClasses.push(class extends CharacterTrait
 
     function OnDamageTaken(attacker, params)
     {
-        if (!IsValidBoss(attacker))
-            return;
-        local deltaVector = player.GetOrigin() - attacker.GetOrigin();
-        deltaVector.z = 0;
-        deltaVector.Norm();
-        player.Yeet(deltaVector * 300 + Vector(0, 0, 300));
+        if (IsValidBoss(attacker))
+			player.Yeet(Vector(0, 0, 150));
     }
 });

@@ -11,33 +11,40 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
+const maxParachuteTime = 3.0;
+
 characterTraitsClasses.push(class extends CharacterTrait
 {
+	isDeployed = false;
+	lastDeployTime = 0.0;
+	
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_MEDIC
-			&& WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "blutsauger");
+        local playerClass = player.GetPlayerClass();
+		return true;
+        return (playerClass == TF_CLASS_SOLDIER && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY), "base_jumper"))
+			|| (playerClass == TF_CLASS_DEMOMAN && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "base_jumper"));
     }
-
-	function OnApply()
-    {
-		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-		primary.AddAttribute("health drain medic", 0.0, -1);
-		primary.AddAttribute("heal on hit for rapidfire", 0.0, -1);
-		primary.AddAttribute("add uber charge on hit", 0.030001, -1);
-    }
-
-	function OnDamageDealt(victim, params)
-    {
-        if (params.damage_type & 2)
+	
+	function OnTickAlive(timeDelta)
+	{	
+		local hasParachute = player.InCond(TF_COND_PARACHUTE_ACTIVE);
+		if (isDeployed && !hasParachute)
 		{
-			player.SetHealth(clampCeiling(player.GetHealth() + 5, player.GetMaxOverheal()));
-
-			SendGlobalGameEvent("player_healonhit",
-			{
-				entindex = player.entindex(),
-				amount = 5,
-			});
+			isDeployed = false;
 		}
-    }
+		else if (!isDeployed && hasParachute)
+		{
+			isDeployed = true;
+			lastDeployTime = Time();
+		}
+		else if (isDeployed && hasParachute)
+		{
+			if (Time() > lastDeployTime + maxParachuteTime)
+			{
+				isDeployed = false;
+				player.RemoveCond(TF_COND_PARACHUTE_ACTIVE);
+			}
+		}
+	}
 });
