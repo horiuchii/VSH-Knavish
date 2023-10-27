@@ -27,7 +27,7 @@ characterTraitsClasses.push(class extends CharacterTrait
     function OnApply()
     {
         local melee = player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
-        melee.AddAttribute("move speed bonus", 1.4, -1);
+        melee.AddAttribute("mult_player_movespeed_active", 1.4, -1);
         melee.AddAttribute("mod_maxhealth_drain_rate", 0.0, -1);
         melee.AddAttribute("single wep holster time increased", 1.0, -1);
     }
