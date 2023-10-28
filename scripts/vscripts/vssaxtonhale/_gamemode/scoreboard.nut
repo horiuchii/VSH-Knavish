@@ -11,7 +11,25 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-damage <- {}
+game_text_scoreboard <- null;
+
+game_text_scoreboard = SpawnEntityFromTable("game_text",
+{
+    color = "255 255 255",
+    color2 = "0 0 0",
+    channel = 4,
+    effect = 0,
+    fadein = 0,
+    fadeout = 0,
+    fxtime = 0,
+    holdtime = 250,
+    message = "0",
+    spawnflags = 0,
+    x = 0.025,
+    y = 0.35
+});
+
+damage <- {};
 
 function ResetRoundDamage()
 {
@@ -51,3 +69,30 @@ function GetDamageBoardSorted()
     damageAsArray.sort(@(it, that) that[1] - it[1]);
     return damageAsArray;
 }
+
+AddListener("tick_only_valid", 10, function (timeDelta)
+{
+    return;
+    foreach (player in GetValidPlayers())
+    {
+        if (GetPropInt(player, "m_nButtons") & IN_SCORE)
+            continue;
+
+        local damage_data = GetDamageBoardSorted();
+        local damage_string = ""
+        local count = clampCeiling(damage.len(), 5)
+
+        for (local i = 0; i < 5; i++)
+        {
+            damage_string += (i + 1) + ". "
+
+            if(i >= count)
+                damage_string += "---\n"
+            else
+                damage_string += GetPropString(damage_data[i][0], "m_szNetname") + " - " + damage_data[i][1] + "\n";
+        }
+
+        EntFireByHandle(game_text_scoreboard, "AddOutput", "message " + damage_string, 0, player, player);
+        EntFireByHandle(game_text_scoreboard, "Display", "", 0, player, player);
+    }
+});

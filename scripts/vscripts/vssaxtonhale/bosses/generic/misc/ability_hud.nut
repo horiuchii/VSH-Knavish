@@ -15,8 +15,7 @@
 
 class AbilityHudTrait extends BossTrait
 {
-    game_text_tip_1 = null;
-    game_text_tip_2 = null;
+    game_text_tip = null;
     game_text_charge = null;
     game_text_punch = null;
     game_text_slam = null;
@@ -40,39 +39,6 @@ class AbilityHudTrait extends BossTrait
 
     function OnApply()
     {
-        game_text_tip_1 = SpawnEntityFromTable("game_text",
-        {
-            color = "255 255 255",
-            color2 = "0 0 0",
-            channel = 3,
-            effect = 0,
-            fadein = 0,
-            fadeout = 0,
-            fxtime = 0,
-            holdtime = 9999,
-            message = "Hold 'Reload' Double Jump Hold 'Crouch'",
-            spawnflags = 0,
-            x = 0.665,
-            y = 0.955
-        });
-
-		//empty for now, why wasn't this all on the first game_text?
-        game_text_tip_2 = SpawnEntityFromTable("game_text",
-        {
-            color = "255 255 255",
-            color2 = "0 0 0",
-            channel = 5,
-            effect = 0,
-            fadein = 0,
-            fadeout = 0,
-            fxtime = 0,
-            holdtime = 9999,
-            message = "",
-            spawnflags = 0,
-            x = 0.88,
-            y = 0.955
-        });
-
         game_text_charge = SpawnEntityFromTable("game_text",
         {
             color = "255 255 255",
@@ -121,9 +87,24 @@ class AbilityHudTrait extends BossTrait
             y = 0.91
         });
 
+        game_text_tip = SpawnEntityFromTable("game_text",
+        {
+            color = "255 255 255",
+            color2 = "0 0 0",
+            channel = 3,
+            effect = 0,
+            fadein = 0,
+            fadeout = 0,
+            fxtime = 0,
+            holdtime = 9999,
+            message = "Hold 'Reload' Double Jump Hold 'Crouch'",
+            spawnflags = 0,
+            x = 0.665,
+            y = 0.955
+        });
+
         RunWithDelay2(this, 0.2, function () {
-            EntFireByHandle(game_text_tip_1, "Display", "", 0, boss, boss);
-            EntFireByHandle(game_text_tip_2, "Display", "", 0, boss, boss);
+            EntFireByHandle(game_text_tip, "Display", "", 0, boss, boss);
         });
     }
 
@@ -159,8 +140,7 @@ class AbilityHudTrait extends BossTrait
         EntFireByHandle(game_text_slam, "AddOutput", "message "+progressBarTexts[2], 0, boss, boss);
         EntFireByHandle(game_text_slam, "Display", "", 0, boss, boss);
 
-        EntFireByHandle(game_text_tip_1, "Display", "", 0, boss, boss);
-        EntFireByHandle(game_text_tip_2, "Display", "", 0, boss, boss);
+        EntFireByHandle(game_text_tip, "Display", "", 0, boss, boss);
 
         player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/" + overlay);
     }
@@ -174,10 +154,8 @@ class AbilityHudTrait extends BossTrait
         EntFireByHandle(game_text_slam, "AddOutput", "message ", 0, boss, boss);
         EntFireByHandle(game_text_slam, "Display", "", 0, boss, boss);
 
-        EntFireByHandle(game_text_tip_1, "AddOutput", "message ", 0, boss, boss);
-        EntFireByHandle(game_text_tip_1, "Display", "", 0, boss, boss);
-        EntFireByHandle(game_text_tip_2, "AddOutput", "message ", 0, boss, boss);
-        EntFireByHandle(game_text_tip_2, "Display", "", 0, boss, boss);
+        EntFireByHandle(game_text_tip, "AddOutput", "message ", 0, boss, boss);
+        EntFireByHandle(game_text_tip, "Display", "", 0, boss, boss);
 
         player.SetScriptOverlayMaterial("");
     }
