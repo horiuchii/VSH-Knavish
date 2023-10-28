@@ -13,12 +13,12 @@
 
 characterTraitsClasses.push(class extends CharacterTrait
 {
-    /*function CanApply()
+    function CanApply()
     {
         return player.GetPlayerClass() == TF_CLASS_MEDIC;
     }
 
-    function OnDamageDealt(victim, params)
+    /*function OnDamageDealt(victim, params)
     {
         if (params.damage_type & 128)
         {
