@@ -128,6 +128,66 @@ function EndRound(winner)
     FireListeners("round_end", winner);
     isRoundOver = true;
     SetPersistentVar("last_round_winner", winner)
+
+    RunWithDelay2(this, -1, function()
+    {
+        local leaderboard = GetDamageBoardSorted();
+
+        local event_data = {
+            panel_style = 1,
+            winning_team = winner,
+            winreason = 0,
+            cappers = "",
+            flagcaplimit = 3,
+            blue_score = 0,
+            red_score = 0,
+            blue_score_prev = 0,
+            red_score_prev = 0,
+            round_complete = 1,
+            rounds_remaining = 0,
+            game_over = false
+        };
+
+        local count = clampCeiling(leaderboard.len(), 3);
+
+        if(count >= 3)
+        {
+            local ent_index = leaderboard[2][0].entindex()
+            local player = leaderboard[2][0]
+            event_data.player_3 <- ent_index
+            event_data.player_3_damage <- leaderboard[2][1]
+            event_data.player_3_lifetime <- GetDeathTime(player)
+            event_data.player_3_healing <- GetRoundHealing(player)
+            event_data.player_3_kills <- GetRoundKills(player)
+        }
+        if(count >= 2)
+        {
+            local ent_index = leaderboard[1][0].entindex()
+            local player = leaderboard[1][0]
+            event_data.player_2 <- ent_index
+            event_data.player_2_damage <- leaderboard[1][1]
+            event_data.player_2_lifetime <- GetDeathTime(player)
+            event_data.player_2_healing <- GetRoundHealing(player)
+            event_data.player_2_kills <- GetRoundKills(player)
+        }
+        if(count >= 1)
+        {
+            local ent_index = leaderboard[0][0].entindex()
+            local player = leaderboard[0][0]
+            event_data.player_1 <- leaderboard[0][0].entindex()
+            event_data.player_1_damage <- leaderboard[0][1]
+            event_data.player_1_lifetime <- GetDeathTime(player)
+            event_data.player_1_healing <- GetRoundHealing(player)
+            event_data.player_1_kills <- GetRoundKills(player)
+        }
+
+        event_data.player_4 <- GetBossPlayers()[0].entindex()
+        event_data.player_4_damage <- boss_damage //set up for duo-boss in future
+        event_data.player_4_lifetime <- GetTimeSinceRoundStarted() //set up for duo-boss in future
+        event_data.player_4_kills <- GetRoundKills(GetBossPlayers()[0])
+
+        SendGlobalGameEvent("arena_win_panel", event_data)
+    });
 }
 
 function IsNotValidRound()

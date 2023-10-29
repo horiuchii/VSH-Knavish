@@ -26,7 +26,6 @@ class BraveJumpTrait extends BossTrait
     jumpForce = API_GetFloat("jump_force");
     jumpStatus = BOSS_JUMP_STATUS.WALKING;
     voiceLinePlayed = 0;
-    lastTimeJumped = Time();
 	meter = 0;
 	TRAIT_COOLDOWN = 2.5;
 
@@ -77,11 +76,6 @@ class BraveJumpTrait extends BossTrait
         {
             Perform();
         }
-
-        if (Time() > lastTimeJumped + API_GetInt("setup_length") + 30)
-        {
-            NotifyJump();
-        }
     }
 
     function Perform()
@@ -97,8 +91,6 @@ class BraveJumpTrait extends BossTrait
         }
 
         jumpStatus = BOSS_JUMP_STATUS.DOUBLE_JUMPED;
-
-        lastTimeJumped = Time() + 9999;
 
         local buttons = GetPropInt(boss, "m_nButtons");
         local eyeAngles = boss.EyeAngles();
@@ -133,19 +125,6 @@ class BraveJumpTrait extends BossTrait
 
         SetPropEntity(boss, "m_hGroundEntity", null);
         boss.SetAbsVelocity(currentVelocity + newVelocity);
-    }
-
-    function NotifyJump()
-    {
-        lastTimeJumped = Time() + 9999;
-        local text_tf = SpawnEntityFromTable("game_text_tf", {
-            message = "#ClassTips_1_2",
-            icon = "ico_notify_flag_moving_alt",
-            background = TF_TEAM_BOSS,
-            display_to_team = TF_TEAM_BOSS
-        });
-        EntFireByHandle(text_tf, "Display", "", 0.1, player, player);
-        EntFireByHandle(text_tf, "Kill", "", 1, player, player);
     }
 
 	function MeterAsPercentage()

@@ -63,6 +63,20 @@ function OnGameEvent_player_hurt(params)
     FireListeners("player_hurt", attacker, victim, params);
 }
 
+function OnGameEvent_player_healed(params)
+{
+    if (IsNotValidRound())
+        return;
+    local patient = GetPlayerFromParams(params, "patient");
+    if (!IsValidPlayer(patient))
+        return;
+    local healer = GetPlayerFromParams(params, "healer");
+    if (!IsValidPlayer(healer))
+        return;
+    local amount = params.amount;
+    FireListeners("player_healed", patient, healer, amount);
+}
+
 function OnGameEvent_player_team(params)
 {
     if (IsNotValidRound())

@@ -142,3 +142,9 @@
         }
     }
 }
+
+::CTFPlayer.GetMaxOverheal <- function()
+{
+    local overheal = this.GetMaxHealth() * 1.5;
+    return overheal - (overheal % 5.0);
+}
