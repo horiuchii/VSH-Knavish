@@ -27,8 +27,79 @@
     SetPersistentVar("next_boss", playerEnt.entindex());
 }
 
+::QueuePoints <- {}
+::QueuePointThresholds <- [250, 500, 1000, 1500]
+
+function ResetQueuePoints(player)
+{
+    QueuePoints[player] <- 0;
+}
+
+function GetQueuePoints(player)
+{
+    return player in QueuePoints ? QueuePoints[player] : 0;
+}
+
+function SetQueuePoints(player, amount)
+{
+    QueuePoints[player] <- amount;
+}
+
+AddListener("round_end", 1, function (winner)
+{
+    foreach (player in GetValidMercs())
+    {
+        local damage = GetRoundDamage(player)
+        foreach (point in QueuePointThresholds)
+        {
+            if(point < damage)
+                SetQueuePoints(player, GetQueuePoints(player) + 1);
+            else
+                break;
+        }
+    }
+
+    SetPersistentVar("queue_points", QueuePoints);
+})
+
+AddListener("setup_start", 0, function ()
+{
+    QueuePoints = GetPersistentVar("queue_points", {});
+})
+
+function GetQueuePointsSorted()
+{
+    function sortFunction(it, that)
+    {
+        return that[1] - it[1];
+    }
+
+    local queueAsArray = []
+    foreach(player, points in QueuePoints)
+        queueAsArray.push([player, points]);
+    queueAsArray.sort(@(it, that) that[1] - it[1]);
+    return queueAsArray;
+}
+
 function ProgressBossQueue(iterations = 0)
 {
+    local nextBossIndex = GetPersistentVar("next_boss", null);
+    if (nextBossIndex != null)
+    {
+        SetPersistentVar("next_boss", null);
+        local nextBossPlayer = PlayerInstanceFromIndex(nextBossIndex);
+        if (IsValidPlayer(nextBossPlayer))
+            return nextBossPlayer;
+    }
+
+    if(QueuePoints.len() > 0)
+    {
+        local queueboard = GetQueuePointsSorted();
+        ResetQueuePoints(queueboard[0][0]);
+        SetPersistentVar("queue_points", QueuePoints);
+        return queueboard[0][0];
+    }
+
     try
     {
         local nextBossIndex = GetPersistentVar("next_boss", null);

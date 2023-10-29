@@ -16,7 +16,7 @@ isRoundOver <- false;
 ::isRoundSetup <- true;
 hasTimerBeenShortened <- false;
 
-AddListener("setup_start", 0, function ()
+AddListener("setup_start", 1, function ()
 {
     Convars.SetValue("mp_bonusroundtime", GetPersistentVar("mp_bonusroundtime"));
 
