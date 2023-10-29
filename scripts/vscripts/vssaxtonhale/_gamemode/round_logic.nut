@@ -181,10 +181,13 @@ function EndRound(winner)
             event_data.player_1_kills <- GetRoundKills(player)
         }
 
-        event_data.player_4 <- GetBossPlayers()[0].entindex()
-        event_data.player_4_damage <- boss_damage //set up for duo-boss in future
-        event_data.player_4_lifetime <- GetTimeSinceRoundStarted() //set up for duo-boss in future
-        event_data.player_4_kills <- GetRoundKills(GetBossPlayers()[0])
+        if(IsAnyBossValid())
+        {
+            event_data.player_4 <- GetBossPlayers()[0].entindex()
+            event_data.player_4_damage <- boss_damage //set up for duo-boss in future
+            event_data.player_4_lifetime <- GetTimeSinceRoundStarted() //set up for duo-boss in future
+            event_data.player_4_kills <- GetRoundKills(GetBossPlayers()[0])
+        }
 
         SendGlobalGameEvent("arena_win_panel", event_data)
     });
