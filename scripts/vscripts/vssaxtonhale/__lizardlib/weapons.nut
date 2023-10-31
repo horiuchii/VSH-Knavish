@@ -117,6 +117,14 @@
 	{
 		return GetItemID(weapon) == 1101;
 	}
+    else if(name == "invis_watch")
+    {
+        return GetItemID(weapon) == 30;
+    }
+    else if(name == "cloak_and_dagger")
+    {
+        return GetItemID(weapon) == 60;
+    }
     return (name in weaponModels ? weaponModels[name] : null) == GetPropInt(weapon, "m_iWorldModelIndex");
 }
 

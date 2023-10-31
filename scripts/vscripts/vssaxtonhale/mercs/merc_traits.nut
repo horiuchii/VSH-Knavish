@@ -11,75 +11,86 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
+enum TRAIT {
+    ALL = "all_class/"
+    SINGLE = "single_class/"
+}
+
+function IncludeTrait(type, path)
+{
+    Include("/mercs/merc_traits/" + type + path);
+}
+
 //Merc Traits
-Include("/mercs/merc_traits/all_class/fix_boss_leftovers.nut");
-Include("/mercs/merc_traits/all_class/airborne_minicrits.nut");
-Include("/mercs/merc_traits/all_class/last_mann_standing.nut");
-Include("/mercs/merc_traits/all_class/melee_buffs.nut");
-Include("/mercs/merc_traits/all_class/melee_wall_climb.nut");
-Include("/mercs/merc_traits/all_class/burst_damage_nerf.nut");
-Include("/mercs/merc_traits/all_class/no_pyrovision.nut");
-Include("/mercs/merc_traits/all_class/allclass_katana.nut");
-Include("/mercs/merc_traits/all_class/base_jumper_duration_nerf.nut");
+IncludeTrait(TRAIT.ALL, "fix_boss_leftovers.nut");
+IncludeTrait(TRAIT.ALL, "airborne_minicrits.nut");
+IncludeTrait(TRAIT.ALL, "last_mann_standing.nut");
+IncludeTrait(TRAIT.ALL, "melee_buffs.nut");
+IncludeTrait(TRAIT.ALL, "melee_wall_climb.nut");
+IncludeTrait(TRAIT.ALL, "burst_damage_nerf.nut");
+IncludeTrait(TRAIT.ALL, "no_pyrovision.nut");
+IncludeTrait(TRAIT.ALL, "allclass_katana.nut");
+IncludeTrait(TRAIT.ALL, "base_jumper_duration_nerf.nut");
 
 //Scout
-Include("/mercs/merc_traits/single_class/scout_candy_cane.nut");
-Include("/mercs/merc_traits/single_class/scout_stronger_fan.nut");
-Include("/mercs/merc_traits/single_class/scout_bfb_decay.nut");
-Include("/mercs/merc_traits/single_class/scout_critacola_fullcrit.nut");
-Include("/mercs/merc_traits/single_class/scout_sunonastick.nut");
+IncludeTrait(TRAIT.SINGLE, "scout_candy_cane.nut");
+IncludeTrait(TRAIT.SINGLE, "scout_stronger_fan.nut");
+IncludeTrait(TRAIT.SINGLE, "scout_bfb_decay.nut");
+IncludeTrait(TRAIT.SINGLE, "scout_critacola_fullcrit.nut");
+IncludeTrait(TRAIT.SINGLE, "scout_sunonastick.nut");
 
 //Soldier
-Include("/mercs/merc_traits/single_class/soldier_jumper_ammo.nut");
-Include("/mercs/merc_traits/single_class/soldier_airstrike.nut");
-Include("/mercs/merc_traits/single_class/soldier_market_gardener.nut");
+IncludeTrait(TRAIT.SINGLE, "soldier_jumper_ammo.nut");
+IncludeTrait(TRAIT.SINGLE, "soldier_airstrike.nut");
+IncludeTrait(TRAIT.SINGLE, "soldier_market_gardener.nut");
 
 //Pyro
-Include("/mercs/merc_traits/single_class/pyro_airblast_nerf.nut");
-Include("/mercs/merc_traits/single_class/pyro_back_scratcher.nut");
-Include("/mercs/merc_traits/single_class/pyro_degreaser.nut");
-Include("/mercs/merc_traits/single_class/pyro_powerjack.nut");
+IncludeTrait(TRAIT.SINGLE, "pyro_airblast_nerf.nut");
+IncludeTrait(TRAIT.SINGLE, "pyro_back_scratcher.nut");
+IncludeTrait(TRAIT.SINGLE, "pyro_degreaser.nut");
+IncludeTrait(TRAIT.SINGLE, "pyro_powerjack.nut");
 
 //Demoman
-Include("/mercs/merc_traits/single_class/demo_shield.nut");
-Include("/mercs/merc_traits/single_class/demo_head_collecting.nut");
-Include("/mercs/merc_traits/single_class/demo_scottres_nerf.nut");
-Include("/mercs/merc_traits/single_class/demo_jumper_ammo.nut");
-Include("/mercs/merc_traits/single_class/demo_boots.nut");
-Include("/mercs/merc_traits/single_class/demo_claidheamhmor.nut");
+IncludeTrait(TRAIT.SINGLE, "demo_shield.nut");
+IncludeTrait(TRAIT.SINGLE, "demo_head_collecting.nut");
+IncludeTrait(TRAIT.SINGLE, "demo_scottres_nerf.nut");
+IncludeTrait(TRAIT.SINGLE, "demo_jumper_ammo.nut");
+IncludeTrait(TRAIT.SINGLE, "demo_boots.nut");
+IncludeTrait(TRAIT.SINGLE, "demo_claidheamhmor.nut");
 
 //Heavy
-Include("/mercs/merc_traits/single_class/heavy_minigun_nerf.nut");
-Include("/mercs/merc_traits/single_class/heavy_natasha_nerf.nut");
-Include("/mercs/merc_traits/single_class/heavy_kgb_crits.nut");
-Include("/mercs/merc_traits/single_class/heavy_warriors_spirit.nut");
-Include("/mercs/merc_traits/single_class/heavy_received_knockback.nut");
-Include("/mercs/merc_traits/single_class/heavy_gru.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_minigun_nerf.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_natasha_nerf.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_kgb_crits.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_warriors_spirit.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_received_knockback.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_gru.nut");
 
 //Engineer
-Include("/mercs/merc_traits/single_class/engineer_sentry.nut");
-Include("/mercs/merc_traits/single_class/engineer_telefrag_scaling.nut");
+IncludeTrait(TRAIT.SINGLE, "engineer_sentry.nut");
+IncludeTrait(TRAIT.SINGLE, "engineer_telefrag_scaling.nut");
 
 //Medic
-Include("/mercs/merc_traits/single_class/medic_uber_rate.nut");
-//Include("/mercs/merc_traits/single_class/medic_resistance.nut");
-Include("/mercs/merc_traits/single_class/medic_xbow.nut");
-Include("/mercs/merc_traits/single_class/medic_syringegun.nut");
-Include("/mercs/merc_traits/single_class/medic_overdose.nut");
-Include("/mercs/merc_traits/single_class/medic_blutsauger.nut");
-Include("/mercs/merc_traits/single_class/medic_vitasaw.nut");
-Include("/mercs/merc_traits/single_class/medic_quickfix_overhealbuff.nut");
+IncludeTrait(TRAIT.SINGLE, "medic_uber_rate.nut");
+//IncludeTrait(TRAIT.SINGLE, "medic_resistance.nut");
+IncludeTrait(TRAIT.SINGLE, "medic_xbow.nut");
+IncludeTrait(TRAIT.SINGLE, "medic_syringegun.nut");
+IncludeTrait(TRAIT.SINGLE, "medic_overdose.nut");
+IncludeTrait(TRAIT.SINGLE, "medic_blutsauger.nut");
+IncludeTrait(TRAIT.SINGLE, "medic_vitasaw.nut");
+IncludeTrait(TRAIT.SINGLE, "medic_quickfix_overhealbuff.nut");
 
 //Sniper
-Include("/mercs/merc_traits/single_class/sniper_focus.nut");
-Include("/mercs/merc_traits/single_class/sniper_head_collecting.nut");
-Include("/mercs/merc_traits/single_class/sniper_razorback.nut");
-Include("/mercs/merc_traits/single_class/spy_invis_res.nut");
+IncludeTrait(TRAIT.SINGLE, "sniper_focus.nut");
+IncludeTrait(TRAIT.SINGLE, "sniper_head_collecting.nut");
+IncludeTrait(TRAIT.SINGLE, "sniper_razorback.nut");
+IncludeTrait(TRAIT.SINGLE, "spy_invis_res.nut");
 
 //Spy
-Include("/mercs/merc_traits/single_class/spy_letranger_nerf.nut");
-Include("/mercs/merc_traits/single_class/spy_backstab.nut");
-Include("/mercs/merc_traits/single_class/spy_ambassador.nut");
+IncludeTrait(TRAIT.SINGLE, "spy_letranger_nerf.nut");
+IncludeTrait(TRAIT.SINGLE, "spy_backstab.nut");
+IncludeTrait(TRAIT.SINGLE, "spy_ambassador.nut");
+IncludeTrait(TRAIT.SINGLE, "spy_cloak_and_dagger.nut");
 
 //Voicelines
 Include("/mercs/voice_lines/all_class/tracing_boss.nut");

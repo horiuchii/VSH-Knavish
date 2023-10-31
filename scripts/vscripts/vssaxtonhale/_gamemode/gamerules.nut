@@ -13,31 +13,41 @@
 
 PrecacheClassVoiceLines("point_enabled")
 
+function SetConvarValue(cvar, value, do_warning = true)
+{
+    if(!Convars.IsConVarOnAllowList(cvar))
+    {
+        ClientPrint(null, 2, "VSCRIPTVSH WARNING --- Tried to change convar " + cvar + " to " + value + " but it isn't on the convar allow list.")
+        return;
+    }
+
+    Convars.SetValue(cvar, value);
+}
+
 function SetConvars()
 {
-    Convars.SetValue("tf_weapon_criticals", 0);
-	Convars.SetValue("tf_fall_damage_disablespread", 1);
-	Convars.SetValue("tf_use_fixed_weaponspreads", 1);
-	
-    Convars.SetValue("mp_autoteambalance", 0);
-    Convars.SetValue("mp_teams_unbalance_limit", 0);
-    Convars.SetValue("mp_disable_respawn_times", 0);
-    Convars.SetValue("mp_respawnwavetime", 999999);
-    Convars.SetValue("tf_classlimit", 0);
-    Convars.SetValue("cl_use_tournament_specgui", 0);
-    Convars.SetValue("mp_forcecamera", 0);
-    Convars.SetValue("sv_alltalk", 1);
-    Convars.SetValue("tf_dropped_weapon_lifetime", 0);
-    Convars.SetValue("mp_idledealmethod", 0);
-    Convars.SetValue("mp_idlemaxtime", 9999);
-    Convars.SetValue("mp_scrambleteams_auto", 0);
-    Convars.SetValue("mp_stalemate_timelimit", 9999999);
-    Convars.SetValue("mp_scrambleteams_auto_windifference", 0);
-    Convars.SetValue("mp_humans_must_join_team", "red");
-    Convars.SetValue("tf_rd_points_per_approach", "500");
-    Convars.SetValue("sv_vote_issue_autobalance_allowed", "0");
-    Convars.SetValue("sv_vote_issue_scramble_teams_allowed", "0");
-    Convars.SetValue("tf_stalematechangeclasstime", casti2f(0x7fa00000)); //NaN.
+    SetConvarValue("tf_weapon_criticals", 0);
+	SetConvarValue("tf_fall_damage_disablespread", 1);
+	SetConvarValue("tf_use_fixed_weaponspreads", 1);
+
+    SetConvarValue("mp_autoteambalance", 0);
+    SetConvarValue("mp_teams_unbalance_limit", 0);
+    SetConvarValue("mp_disable_respawn_times", 0);
+    SetConvarValue("mp_respawnwavetime", 999999);
+    SetConvarValue("tf_classlimit", 0);
+    SetConvarValue("mp_forcecamera", 0);
+    SetConvarValue("sv_alltalk", 1);
+    SetConvarValue("tf_dropped_weapon_lifetime", 0);
+    SetConvarValue("mp_idledealmethod", 0);
+    SetConvarValue("mp_idlemaxtime", 9999);
+    SetConvarValue("mp_scrambleteams_auto", 0);
+    SetConvarValue("mp_stalemate_timelimit", 9999999);
+    SetConvarValue("mp_scrambleteams_auto_windifference", 0);
+    SetConvarValue("mp_humans_must_join_team", "red");
+    SetConvarValue("tf_rd_points_per_approach", "500");
+    SetConvarValue("sv_vote_issue_autobalance_allowed", "0");
+    SetConvarValue("sv_vote_issue_scramble_teams_allowed", "0");
+    SetConvarValue("tf_stalematechangeclasstime", casti2f(0x7fa00000)); //NaN.
     if (GetPersistentVar("mp_bonusroundtime") == null)
         SetPersistentVar("mp_bonusroundtime", Convars.GetInt("mp_bonusroundtime"));
 }
@@ -143,7 +153,7 @@ function SpawnHelperEntities()
     team_round_timer.GetScriptScope().Tick <- function()
     {
         vsh_vscript.FireListeners("tick_frame");
-        return 0;
+        return -1;
     }
     AddThinkToEnt(team_round_timer, "Tick")
 }

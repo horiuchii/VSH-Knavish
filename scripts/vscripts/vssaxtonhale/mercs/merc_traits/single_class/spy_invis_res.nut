@@ -21,6 +21,12 @@ characterTraitsClasses.push(class extends CharacterTrait
     function OnDamageTaken(attacker, params)
     {
         if (player.InCond(TF_COND_STEALTHED) && IsBoss(attacker))
-            params.damage *= 0.5;
+        {
+            if (WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "big_earner") &&
+            WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.INVIS_WATCH), "invis_watch"))
+                params.damage *= 0.25;
+            else
+                params.damage *= 0.5;
+        }
     }
 });

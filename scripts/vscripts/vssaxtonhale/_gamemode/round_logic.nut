@@ -18,7 +18,7 @@ hasTimerBeenShortened <- false;
 
 AddListener("setup_start", 1, function ()
 {
-    Convars.SetValue("mp_bonusroundtime", GetPersistentVar("mp_bonusroundtime"));
+    SetConvarValue("mp_bonusroundtime", GetPersistentVar("mp_bonusroundtime"));
 
     RecachePlayers();
     AssignBoss("saxton_hale", ProgressBossQueue());
@@ -54,14 +54,14 @@ AddListener("setup_end", 0, function()
     SetPropInt(tf_gamerules, "m_iRoundState", 7);
     SetPropInt(tf_gamerules, "m_nHudType", 2);
 
-    Convars.SetValue("tf_rd_points_per_approach", "10");
+    SetConvarValue("tf_rd_points_per_approach", "10");
 });
 
 AddListener("death", 2, function (attacker, victim, params)
 {
     if (IsRoundSetup() && !IsAnyBossAlive())
     {
-        Convars.SetValue("mp_bonusroundtime", 5);
+        SetConvarValue("mp_bonusroundtime", 5);
         EndRound(TF_TEAM_UNASSIGNED);
     }
 });
@@ -80,7 +80,7 @@ AddListener("tick_always", 8, function(timeDelta)
         //Bailout
         if (!IsAnyBossAlive())
         {
-            Convars.SetValue("mp_bonusroundtime", 5);
+            SetConvarValue("mp_bonusroundtime", 5);
             EndRound(TF_TEAM_UNASSIGNED);
         }
         return;
@@ -133,16 +133,20 @@ function EndRound(winner)
     {
         local leaderboard = GetDamageBoardSorted();
 
+        //todo - setting score doesn't fucking work
+        local merc_score = GetPropInt(tf_gamerules, "m_nRedScore")
+        local boss_score = GetPropInt(tf_gamerules, "m_nBlueScore")
+
         local event_data = {
             panel_style = 1,
             winning_team = winner,
             winreason = 0,
             cappers = "",
             flagcaplimit = 3,
-            blue_score = 0,
-            red_score = 0,
-            blue_score_prev = 0,
-            red_score_prev = 0,
+            blue_score = winner == TF_TEAM_BOSS ? boss_score + 1 : boss_score,
+            red_score = winner == TF_TEAM_MERC ? merc_score + 1 : merc_score,
+            blue_score_prev = boss_score,
+            red_score_prev = merc_score,
             round_complete = 1,
             rounds_remaining = 0,
             game_over = false

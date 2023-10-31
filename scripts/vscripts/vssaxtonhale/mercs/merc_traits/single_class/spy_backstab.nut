@@ -27,13 +27,7 @@ characterTraitsClasses.push(class extends CharacterTrait
         {
             params.damage = vsh_vscript.CalcStabDamage(victim) / 2.5; //Crit compensation
 
-            SetPropFloat(params.weapon, "m_flNextPrimaryAttack", Time() + 2.0);
-            SetPropFloat(player, "m_flNextAttack", Time() + 2.0);
-            SetPropFloat(player, "m_flStealthNextTraitTime", Time() + 2.0);
-            EmitSoundOn("Player.Spy_Shield_Break", victim);
-            EmitSoundOn("Player.Spy_Shield_Break", victim);
-            if (victim.GetHealth() > params.damage * 2.5)
-                PlayAnnouncerVO(victim, "stabbed");
+            local do_stab_stun = true;
 
             if (WeaponIs(params.weapon, "kunai"))
             {
@@ -43,6 +37,7 @@ characterTraitsClasses.push(class extends CharacterTrait
             {
                 player.AddCondEx(TF_COND_SPEED_BOOST, 3, player);
                 player.SetSpyCloakMeter(clampFloor(100, player.GetSpyCloakMeter() + 30));
+                do_stab_stun = false;
             }
             else if (WeaponIs(params.weapon, "your_eternal_reward") || WeaponIs(params.weapon, "wanga_prick"))
             {
@@ -51,6 +46,18 @@ characterTraitsClasses.push(class extends CharacterTrait
 
             if (WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "diamondback"))
                 AddPropInt(player, "m_Shared.m_iRevengeCrits", 2);
+
+            if(do_stab_stun)
+            {
+                SetPropFloat(params.weapon, "m_flNextPrimaryAttack", Time() + 2.0);
+                SetPropFloat(player, "m_flNextAttack", Time() + 2.0);
+                SetPropFloat(player, "m_flStealthNextTraitTime", Time() + 2.0);
+            }
+
+            EmitSoundOn("Player.Spy_Shield_Break", victim);
+            EmitSoundOn("Player.Spy_Shield_Break", victim);
+            if (victim.GetHealth() > params.damage * 2.5)
+                PlayAnnouncerVO(victim, "stabbed");
         }
     }
 });
