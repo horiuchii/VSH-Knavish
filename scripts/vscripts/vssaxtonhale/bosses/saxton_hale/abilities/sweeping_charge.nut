@@ -30,6 +30,7 @@ class SweepingChargeTrait extends BossTrait
 	TRAIT_COOLDOWN = 10;
     meter = 0;
     isCurrentlyDashing = false;
+    lastDenySoundPlay = 0;
     haleLastFrameDownVelocity = 0;
     voiceTime = 0;
     voiceRNG = "a";
@@ -84,14 +85,21 @@ class SweepingChargeTrait extends BossTrait
             TickDash();
             return;
         }
-        if (meter < 0 || boss.InCond(TF_COND_TAUNTING))
-            return;
 
         local buttons = GetPropInt(boss, "m_nButtons");
-        if (boss.IsUsingActionSlot()
-            || (buttons & IN_ATTACK3)
-            || (buttons & IN_RELOAD))
+        if (boss.IsUsingActionSlot() || (buttons & IN_ATTACK3) || (buttons & IN_RELOAD))
         {
+            if (meter < 0 || boss.InCond(TF_COND_TAUNTING) || GetPropFloat(boss.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "m_flNextPrimaryAttack") - 0.01 > Time())
+            {
+                if(lastDenySoundPlay + 0.5 < Time())
+                {
+                    EmitSoundOnClient("WeaponMedigun.NoTarget", boss);
+                    lastDenySoundPlay = Time()
+                }
+
+                return;
+            }
+
             WindUp();
         }
         else if (meter >= 0.01)
@@ -180,7 +188,7 @@ class SweepingChargeTrait extends BossTrait
         isCurrentlyDashing = false;
         boss.SetGravity(1);
         EntFireByHandle(triggerCatapult, "Disable", "", 0, boss, boss)
-        boss.AddCustomAttribute("no_attack", 1, 0.5);
+        SetPropFloat(boss.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "m_flNextPrimaryAttack", Time() + 0.75)
     }
 
     function TickDash()

@@ -67,15 +67,14 @@ RegisterBoss("saxton_hale", SaxtonHale);
 
 Include("/bosses/saxton_hale/abilities/sweeping_charge.nut");
 Include("/bosses/saxton_hale/abilities/mighty_slam.nut");
-//Include("/bosses/saxton_hale/abilities/saxton_punch.nut");
 Include("/bosses/saxton_hale/misc/colored_arms.nut");
 Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
+Include("/bosses/saxton_hale/misc/no_crit.nut")
 
 AddBossTrait("saxton_hale", AbilityHudTrait);
 
 AddBossTrait("saxton_hale", SweepingChargeTrait);
 AddBossTrait("saxton_hale", BraveJumpTrait);
-//AddBossTrait("saxton_hale", SaxtonPunchTrait);
 AddBossTrait("saxton_hale", MightySlamTrait);
 
 AddBossTrait("saxton_hale", DeathCleanupTrait);
@@ -83,7 +82,6 @@ AddBossTrait("saxton_hale", MovespeedTrait);
 AddBossTrait("saxton_hale", ScreenShakeTrait);
 AddBossTrait("saxton_hale", SetupStatRefreshTrait);
 AddBossTrait("saxton_hale", TauntHandlerTrait);
-//AddBossTrait("saxton_hale", AoEPunchTrait);
 AddBossTrait("saxton_hale", DebuffResistanceTrait);
 AddBossTrait("saxton_hale", HeadStompTrait);
 AddBossTrait("saxton_hale", ReceivedDamageScalingTrait);
@@ -91,6 +89,7 @@ AddBossTrait("saxton_hale", StunBreakoutTrait);
 AddBossTrait("saxton_hale", BuildingDamageRescaleTrait);
 AddBossTrait("saxton_hale", SpawnProtectionTrait);
 AddBossTrait("saxton_hale", NoGibFixTrait);
+AddBossTrait("saxton_hale", PreventBossCritTrait);
 
 AddBossTrait("saxton_hale", JaratedVoiceLine);
 AddBossTrait("saxton_hale", LastMannHidingVoiceLine);

@@ -11,22 +11,11 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-characterTraitsClasses.push(class extends CharacterTrait
+class PreventBossCritTrait extends BossTrait
 {
-    function CanApply()
+    function OnDamageDealt(victim, params)
     {
-        return player.GetPlayerClass() == TF_CLASS_MEDIC;
+        if(params.crit_type == 2)
+            params.crit_type = 0
     }
-
-    function OnDamageTaken(attacker, params)
-    {
-        if (IsValidBoss(attacker))
-        {
-            params.damage *= 0.7;
-            /*local deltaVector = player.GetOrigin() - attacker.GetOrigin();
-            deltaVector.z = 0;
-            deltaVector.Norm();
-            player.Yeet(deltaVector * 300 + Vector(0, 0, 300));*/
-        }
-    }
-});
+};

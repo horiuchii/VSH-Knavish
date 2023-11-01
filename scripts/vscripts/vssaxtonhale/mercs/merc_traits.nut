@@ -72,7 +72,6 @@ IncludeTrait(TRAIT.SINGLE, "engineer_telefrag_scaling.nut");
 
 //Medic
 IncludeTrait(TRAIT.SINGLE, "medic_uber_rate.nut");
-//IncludeTrait(TRAIT.SINGLE, "medic_resistance.nut");
 IncludeTrait(TRAIT.SINGLE, "medic_xbow.nut");
 IncludeTrait(TRAIT.SINGLE, "medic_syringegun.nut");
 IncludeTrait(TRAIT.SINGLE, "medic_overdose.nut");
@@ -84,9 +83,9 @@ IncludeTrait(TRAIT.SINGLE, "medic_quickfix_overhealbuff.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_focus.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_head_collecting.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_razorback.nut");
-IncludeTrait(TRAIT.SINGLE, "spy_invis_res.nut");
 
 //Spy
+IncludeTrait(TRAIT.SINGLE, "spy_invis_res.nut");
 IncludeTrait(TRAIT.SINGLE, "spy_letranger_nerf.nut");
 IncludeTrait(TRAIT.SINGLE, "spy_backstab.nut");
 IncludeTrait(TRAIT.SINGLE, "spy_ambassador.nut");

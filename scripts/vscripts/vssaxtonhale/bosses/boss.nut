@@ -60,7 +60,6 @@ Include("/bosses/boss_util.nut");
 Include("/bosses/generic/abilities/brave_jump.nut");
 Include("/bosses/generic/passives/stun_breakout.nut");
 Include("/bosses/generic/passives/debuff_resistance.nut");
-Include("/bosses/generic/passives/aoe_punch.nut");
 Include("/bosses/generic/passives/received_damage_scaling.nut");
 Include("/bosses/generic/passives/head_stomp.nut");
 Include("/bosses/generic/misc/ability_hud.nut");
