@@ -43,6 +43,8 @@ IncludeTrait(TRAIT.SINGLE, "scout_sunonastick.nut");
 IncludeTrait(TRAIT.SINGLE, "soldier_jumper_ammo.nut");
 IncludeTrait(TRAIT.SINGLE, "soldier_airstrike.nut");
 IncludeTrait(TRAIT.SINGLE, "soldier_market_gardener.nut");
+IncludeTrait(TRAIT.SINGLE, "soldier_equalizer.nut");
+IncludeTrait(TRAIT.SINGLE, "soldier_escape_plan.nut");
 
 //Pyro
 IncludeTrait(TRAIT.SINGLE, "pyro_airblast_nerf.nut");
@@ -60,11 +62,12 @@ IncludeTrait(TRAIT.SINGLE, "demo_claidheamhmor.nut");
 
 //Heavy
 IncludeTrait(TRAIT.SINGLE, "heavy_minigun_nerf.nut");
-IncludeTrait(TRAIT.SINGLE, "heavy_natasha_nerf.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_natascha_nerf.nut");
 IncludeTrait(TRAIT.SINGLE, "heavy_kgb_crits.nut");
 IncludeTrait(TRAIT.SINGLE, "heavy_warriors_spirit.nut");
 IncludeTrait(TRAIT.SINGLE, "heavy_received_knockback.nut");
 IncludeTrait(TRAIT.SINGLE, "heavy_gru.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_fists_of_steel.nut");
 
 //Engineer
 IncludeTrait(TRAIT.SINGLE, "engineer_sentry.nut");
@@ -80,6 +83,8 @@ IncludeTrait(TRAIT.SINGLE, "medic_vitasaw.nut");
 IncludeTrait(TRAIT.SINGLE, "medic_quickfix_overhealbuff.nut");
 
 //Sniper
+IncludeTrait(TRAIT.SINGLE, "sniper_hitmans_heatmaker.nut");
+IncludeTrait(TRAIT.SINGLE, "sniper_smg_headshots.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_focus.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_head_collecting.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_razorback.nut");

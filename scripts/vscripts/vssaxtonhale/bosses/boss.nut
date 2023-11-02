@@ -29,7 +29,6 @@ class Boss extends CharacterTrait
 {
     traits = null;
     name = null;
-    glow_color = "0 0 0";
     startingHealth = 0;
 
     function CheckTeam() { return true; }

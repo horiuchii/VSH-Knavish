@@ -15,35 +15,31 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_SPY
-            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "ambassador");
+        local weapon = player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY);
+        return player.GetPlayerClass() == TF_CLASS_SNIPER
+            && (WeaponIs(weapon, "smg") || WeaponIs(weapon, "cleaners_carbine"));
+    }
+
+    function OnApply()
+    {
+        player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY).AddAttribute("damage bonus", 1.5, -1);
     }
 
     function OnDamageDealt(victim, params)
     {
-        local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-
-        if (primary == params.weapon
-            && GetPropFloat(params.weapon, "m_flLastFireTime") + 1.0 < Time()
+        if (params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY)
             && GetPropInt(params.const_entity, "m_LastHitGroup") == HITGROUP_HEAD)
         {
-            params.damage_type = params.damage_type | DMG_CRIT | DMG_USE_HITLOCATIONS;
+            if (!(params.damage_type & DMG_CRIT))
+            {
+                params.damage_type += DMG_CRIT;
+            }
 
+            // Prevents weird rounding where the min damage fall off is only one less than max (min: 29 | max: 30)
             if (params.damage_type & DMG_USEDISTANCEMOD)
             {
                 params.damage_type -= DMG_USEDISTANCEMOD;
             }
-
-            params.damage = 50.0;
-        }
-    }
-
-    function OnTickAlive(timeDelta)
-    {
-        local ent = 0;
-        while(Entities.FindByClassname(ent, "tf_taunt_prop"))
-        {
-            printl("Found Glow");
         }
     }
 });

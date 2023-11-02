@@ -13,22 +13,31 @@
 
 ::characterTraitsClasses <- [];
 ::characterTraits <- {};
+::characterTraitObjects <- {};
 ::emptyTickAlive <- null;
 
 class CharacterTrait
 {
     player = null;
+    name = "Trait";
 
     function TryApply(player)
     {
         if (!IsValidPlayer(player))
             return;
+
         this.player = player;
         if (!CanApply() || !CheckTeam())
             return;
+
         if (!(player in characterTraits))
             characterTraits[player] <- [];
         characterTraits[player].push(this);
+
+        if (!(player in characterTraitObjects))
+        characterTraitObjects[player] <- { };
+        characterTraitObjects[player][this.name] <- this;
+
         OnApply();
         return this;
     }
@@ -60,6 +69,11 @@ class CharacterTrait
             OnFrameTickAlive();
         OnFrameTickAliveOrDead();
     }
+}
+
+::GetTrait <- function(player, traitName)
+{
+    return characterTraitObjects[player][traitName];
 }
 
 AddListener("spawn", -1, function (player, params)

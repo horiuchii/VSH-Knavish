@@ -66,6 +66,11 @@ function RegisterBoss(name, bossClass)
     return player in bosses;
 }
 
+::GetBoss <- function(player)
+{
+    return bosses[player];
+}
+
 ::GetBossPlayers <- function()
 {
     local players = []

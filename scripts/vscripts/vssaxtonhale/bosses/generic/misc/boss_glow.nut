@@ -11,12 +11,14 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-::tf_glow_ent <- null;
-
 class GlowTrait extends BossTrait
 {
+    name = "Glow Trait";
+
+    glow_ent = null;
+    glow_color = "0 0 0";
     glow_time_end = 0;
-    alpha = 0.0;
+    glow_alpha = 0.0;
 
     function SetGlowTime(length)
     {
@@ -36,21 +38,21 @@ class GlowTrait extends BossTrait
 
     function OnApply()
     {
-        if(tf_glow_ent == null || tf_glow_ent_vm == null)
+        if(glow_ent == null)
         {
             boss.KeyValueFromString("targetname", "client_" + boss.entindex().tostring());
-            tf_glow_ent = SpawnEntityFromTable("tf_glow",
+            glow_ent = SpawnEntityFromTable("tf_glow",
             {
                 target = "client_" + boss.entindex().tostring(),
                 GlowColor = "0 0 0 0",
                 Mode = 0,
                 StartDisabled = 1
             })
-            tf_glow_ent.DispatchSpawn();
-            EntFireByHandle(tf_glow_ent, "SetParent", "!activator", -1, boss, null);
+            glow_ent.DispatchSpawn();
+            EntFireByHandle(glow_ent, "SetParent", "!activator", -1, boss, null);
             boss.KeyValueFromString("targetname", "");
         }
-        EntFireByHandle(tf_glow_ent, "Enable", "", -1, boss, boss);
+        EntFireByHandle(glow_ent, "Enable", "", -1, boss, boss);
 
         SetGlowFlash(5);
     }
@@ -59,8 +61,8 @@ class GlowTrait extends BossTrait
     {
         local alpha_change = 7.727272;
 
-        alpha = clamp(alpha + (glow_time_end > Time() ? alpha_change : -alpha_change), 0, 255);
+        glow_alpha = clamp(glow_alpha + (glow_time_end > Time() ? alpha_change : -alpha_change), 0, 255);
 
-        EntFireByHandle(tf_glow_ent, "SetGlowColor", GetBossColor(player) + " " + alpha.tointeger(), -1, boss, boss);
+        EntFireByHandle(glow_ent, "SetGlowColor", GetBossColor(player) + " " + glow_alpha.tointeger(), -1, boss, boss);
     }
 }

@@ -11,52 +11,6 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-//Why does this table exist? Because the same weapon can have multiple IDs, namely, pre-JI weapon skins.
-::weaponModels <- {
-    market_gardener = GetModelIndex("models/workshop/weapons/c_models/c_market_gardener/c_market_gardener.mdl"),
-    holiday_punch = GetModelIndex("models/workshop/weapons/c_models/c_xms_gloves/c_xms_gloves.mdl"),
-    eyelander = GetModelIndex("models/weapons/c_models/c_claymore/c_claymore.mdl"),
-    eyelander_xmas = GetModelIndex("models/weapons/c_models/c_claymore/c_claymore_xmas.mdl"),
-    headtaker = GetModelIndex("models/weapons/c_models/c_headtaker/c_headtaker.mdl"),
-    golf_club = GetModelIndex("models/workshop/weapons/c_models/c_golfclub/c_golfclub.mdl"),
-    claymore_xmas = GetModelIndex("models/weapons/c_models/c_claymore/c_claymore_xmas.mdl"),
-    natasha = GetModelIndex("models/weapons/c_models/c_minigun/c_minigun_natascha.mdl"),
-    kunai = GetModelIndex("models/workshop_partner/weapons/c_models/c_shogun_kunai/c_shogun_kunai.mdl"),
-    big_earner = GetModelIndex("models/workshop/weapons/c_models/c_switchblade/c_switchblade.mdl"),
-    your_eternal_reward = GetModelIndex("models/workshop/weapons/c_models/c_eternal_reward/c_eternal_reward.mdl"),
-    wanga_prick = GetModelIndex("models/workshop/weapons/c_models/c_voodoo_pin/c_voodoo_pin.mdl"),
-    warriors_spirit = GetModelIndex("models/workshop/weapons/c_models/c_bear_claw/c_bear_claw.mdl"),
-    direct_hit = GetModelIndex("models/weapons/c_models/c_directhit/c_directhit.mdl"),
-    reserve_shooter = GetModelIndex("models/workshop/weapons/c_models/c_reserve_shooter/c_reserve_shooter.mdl"),
-    candy_cane = GetModelIndex("models/workshop/weapons/c_models/c_candy_cane/c_candy_cane.mdl"),
-    fan_o_war = GetModelIndex("models/workshop_partner/weapons/c_models/c_shogun_warfan/c_shogun_warfan.mdl"),
-    rocket_jumper = GetModelIndex("models/weapons/c_models/c_rocketjumper/c_rocketjumper.mdl"),
-    dead_ringer = GetModelIndex("models/weapons/v_models/v_watch_pocket_spy.mdl"),
-    ubersaw = GetModelIndex("models/weapons/c_models/c_ubersaw/c_ubersaw.mdl"),
-    ubersaw_xmas = GetModelIndex("models/weapons/c_models/c_ubersaw/c_ubersaw_xmas.mdl"),
-    quick_fix = GetModelIndex("models/weapons/c_models/c_proto_medigun/c_proto_medigun.mdl"),
-    scottish_resistance = GetModelIndex("models/weapons/c_models/c_scottish_resistance/c_scottish_resistance.mdl"),
-    force_a_nature = GetModelIndex("models/weapons/c_models/c_double_barrel.mdl"),
-    force_a_nature_xmas = GetModelIndex("models/weapons/c_models/c_xms_double_barrel.mdl"),
-    sticky_jumper = GetModelIndex("models/weapons/c_models/c_sticky_jumper/c_sticky_jumper.mdl"),
-    disciplinary_action = GetModelIndex("models/workshop/weapons/c_models/c_riding_crop/c_riding_crop.mdl"),
-    eviction_notice = GetModelIndex("models/workshop/weapons/c_models/c_eviction_notice/c_eviction_notice.mdl"),
-    diamondback = GetModelIndex("models/workshop_partner/weapons/c_models/c_dex_revolver/c_dex_revolver.mdl"),
-    powerjack = GetModelIndex("models/workshop/weapons/c_models/c_powerjack/c_powerjack.mdl"),
-    baby_face_blaster = GetModelIndex("models/workshop/weapons/c_models/c_pep_scattergun/c_pep_scattergun.mdl"),
-	letranger = GetModelIndex("models/workshop/weapons/c_models/c_letranger/c_letranger.mdl"),
-	back_scratcher = GetModelIndex("models/workshop/weapons/c_models/c_back_scratcher/c_back_scratcher.mdl"),
-	degreaser = GetModelIndex("models/workshop/weapons/c_models/c_degreaser/c_degreaser.mdl"),
-	claidheamhmor = GetModelIndex("models/workshop/weapons/c_models/c_claidheamohmor/c_claidheamohmor.mdl"),
-	xbow = GetModelIndex("models/workshop/weapons/c_models/c_crusaders_crossbow/c_crusaders_crossbow.mdl"),
-	xbow_xmas = GetModelIndex("models/workshop/weapons/c_models/c_crusaders_crossbow/c_crusaders_crossbow_xmas.mdl"),
-	syringegun = GetModelIndex("models/weapons/c_models/c_syringegun/c_syringegun.mdl"),
-	overdose = GetModelIndex("models/weapons/c_models/c_proto_syringegun/c_proto_syringegun.mdl"),
-	blutsauger = GetModelIndex("models/weapons/c_models/c_leechgun/c_leechgun.mdl"),
-	vitasaw = GetModelIndex("models/workshop/weapons/c_models/c_uberneedle/c_uberneedle.mdl"),
-	sunonastick = GetModelIndex("models/workshop/weapons/c_models/c_rift_fire_mace/c_rift_fire_mace.mdl"),
-}
-
 ::SetItemId <- function(item, id)
 {
     if (item != null)
@@ -82,50 +36,241 @@
         item.Kill();
 }
 
-::WeaponIs <- function(weapon, name)
+::WeaponTable <-
 {
-    if (weapon == null)
-        return false;
-    if (name == "kgb")
-        return GetPropInt(weapon, "m_AttributeManager.m_Item.m_iItemDefinitionIndex") == 43;
-    else if (name == "mad_milk")
-        return weapon.GetClassname() == "tf_weapon_jar_milk";
-    else if (name == "airstrike")
-        return weapon.GetClassname() == "tf_weapon_rocketlauncher_airstrike";
-    else if (name == "half_zatoichi")
-        return weapon.GetClassname() == "tf_weapon_katana";
-    else if (name == "any_stickybomb_launcher")
-        return weapon.GetClassname() == "tf_weapon_pipebomblauncher";
-    else if (name == "any_sword")
+    ["gru"] =
+    {
+        ids = [239, 1084, 1100]
+    },
+    ["market_gardener"] =
+    {
+        ids = [416]
+    },
+    ["holiday_punch"] =
+    {
+        ids = [656]
+    },
+    ["eyelander"] =
+    {
+        ids = [132, 266, 482, 1082]
+    },
+    ["natascha"] =
+    {
+        ids = [41]
+    },
+    ["kunai"] =
+    {
+        ids = [356]
+    },
+    ["big_earner"] =
+    {
+        ids = [461]
+    },
+    ["your_eternal_reward"] =
+    {
+        ids = [225, 574]
+    },
+    ["warriors_spirit"] =
+    {
+        ids = [310]
+    },
+    ["direct_hit"] =
+    {
+        ids = [127]
+    },
+    ["reserve_shooter"] =
+    {
+        ids = [415]
+    },
+    ["candy_cane"] =
+    {
+        ids = [317]
+    },
+    ["fan_o_war"] =
+    {
+        ids = [355]
+    },
+    ["rocket_jumper"] =
+    {
+        ids = [237]
+    },
+    ["dead_ringer"] =
+    {
+        ids = [59]
+    },
+    ["ubersaw"] =
+    {
+        ids = [37, 1003]
+    },
+    ["quick_fix"] =
+    {
+        ids = [411]
+    },
+    ["stickybomb_launcher"] =
+    {
+        ids = [20, 207, 661, 797, 806, 886, 895, 904, 913, 962, 971, 15009, 15012, 15024,
+            15038, 15045, 15048, 15082, 15083, 15084, 15113, 15137, 15138, 15155]
+    },
+    ["scottish_resistance"] =
+    {
+        ids = [130]
+    },
+    ["quickiebomb_launcher"] =
+    {
+        ids = [1150]
+    },
+    ["sticky_jumper"] =
+    {
+        ids = [265]
+    },
+    ["force_a_nature"] =
+    {
+        ids = [45, 1078]
+    },
+    ["disciplinary_action"] =
+    {
+        ids = [447]
+    },
+    ["eviction_notice"] =
+    {
+        ids = [426]
+    },
+    ["diamondback"] =
+    {
+        ids = [525]
+    },
+    ["powerjack"] =
+    {
+        ids = [214]
+    },
+    ["baby_face_blaster"] =
+    {
+        ids = [772]
+    },
+    ["letranger"] =
+    {
+        ids = [224]
+    },
+    ["back_scratcher"] =
+    {
+        ids = [326]
+    },
+    ["degreaser"] =
+    {
+        ids = [215]
+    },
+    ["claidheamhmor"] =
+    {
+        ids = [327]
+    },
+    ["xbow"] =
+    {
+        ids = [305, 1079]
+    },
+    ["syringegun"] =
+    {
+        ids = [17, 204]
+    },
+    ["overdose"] =
+    {
+        ids = [412]
+    },
+    ["blutsauger"] =
+    {
+        ids = [36]
+    },
+    ["vitasaw"] =
+    {
+        ids = [173]
+    },
+    ["sunonastick"] =
+    {
+        ids = [349]
+    },
+    ["mad_milk"] =
+    {
+        ids = [222, 1121]
+    },
+    ["airstrike"] =
+    {
+        ids = [1104]
+    },
+    ["half_zatoichi"] =
+    {
+        ids = [357]
+    },
+    ["fists_of_steel"] =
+    {
+        ids = [331]
+    },
+    ["ambassador"] =
+    {
+        ids = [61, 1006]
+    },
+    ["base_jumper"] =
+    {
+        ids = [1101]
+    },
+    ["invis_watch"] =
+    {
+        ids = [30]
+    },
+    ["cloak_and_dagger"] =
+    {
+        ids = [60]
+    },
+    ["equalizer"] =
+    {
+        ids = [128]
+    },
+    ["escape_plan"] =
+    {
+        ids = [775]
+    },
+    ["hitmans_heatmaker"] =
+    {
+        ids = [752]
+    },
+    ["booties"] =
+    {
+        ids = [405]
+    },
+    ["boot_legger"] =
+    {
+        ids = [608]
+    },
+    ["smg"] =
+    {
+        ids = [16, 203, 1149, 15001, 15022, 15032, 15037, 15058, 15076, 15110, 15134, 15153]
+    },
+    ["cleaners_carbine"] =
+    {
+        ids = [751]
+    },
+};
+
+::IsWeapon <- function(weapon, name)
+{
+    local index = GetItemID(weapon);
+    if (name == "any_stickybomb_launcher")
+    {
+        return IsWeapon(weapon, "stickybomb_launcher")
+            || IsWeapon(weapon, "scottish_resistance")
+            || IsWeapon(weapon, "quickiebomb_launcher")
+            || IsWeapon(weapon, "sticky_jumper");
+    }
+    else if(name == "any_sword")
+    {
         return weapon.GetClassname() == "tf_weapon_sword" || weapon.GetClassname() == "tf_weapon_katana";
-    else if (name == "any_demo_boots")
-    {
-        local id = GetItemID(weapon);
-        return id == 608 || id == 405;
     }
-	else if (name == "gru")
-	{
-        local id = GetItemID(weapon);
-        return id == 239 || id == 1084 || id == 1100;
-	}
-	else if (name == "ambassador")
-	{
-        local id = GetItemID(weapon);
-        return id == 61 || id == 1006;
-	}
-	else if(name == "base_jumper")
-	{
-		return GetItemID(weapon) == 1101;
-	}
-    else if(name == "invis_watch")
+    else if(name == "any_boots")
     {
-        return GetItemID(weapon) == 30;
+        return IsWeapon(weapon, "booties") || IsWeapon(weapon, "boot_legger")
     }
-    else if(name == "cloak_and_dagger")
+    else
     {
-        return GetItemID(weapon) == 60;
+        return WeaponTable.rawin(name) && WeaponTable[name].ids.find() != null;
     }
-    return (name in weaponModels ? weaponModels[name] : null) == GetPropInt(weapon, "m_iWorldModelIndex");
 }
 
 // When we need to check for headshots, use HitboxDetector

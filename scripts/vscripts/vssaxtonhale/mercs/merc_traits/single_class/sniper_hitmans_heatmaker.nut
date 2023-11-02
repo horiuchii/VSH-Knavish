@@ -15,35 +15,15 @@ characterTraitsClasses.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_SPY
-            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "ambassador");
+        return player.GetPlayerClass() == TF_CLASS_SNIPER
+            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "hitmans_heatmaker");
     }
 
     function OnDamageDealt(victim, params)
     {
-        local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-
-        if (primary == params.weapon
-            && GetPropFloat(params.weapon, "m_flLastFireTime") + 1.0 < Time()
-            && GetPropInt(params.const_entity, "m_LastHitGroup") == HITGROUP_HEAD)
+        if (IsBoss(victim) && params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY))
         {
-            params.damage_type = params.damage_type | DMG_CRIT | DMG_USE_HITLOCATIONS;
-
-            if (params.damage_type & DMG_USEDISTANCEMOD)
-            {
-                params.damage_type -= DMG_USEDISTANCEMOD;
-            }
-
-            params.damage = 50.0;
-        }
-    }
-
-    function OnTickAlive(timeDelta)
-    {
-        local ent = 0;
-        while(Entities.FindByClassname(ent, "tf_taunt_prop"))
-        {
-            printl("Found Glow");
+            GetTrait(victim, "Glow Trait").SetGlowTime(clamp(GetPropFloat(params.weapon, "m_flChargedDamage") / 30 + 1.0, 3, 6));
         }
     }
 });

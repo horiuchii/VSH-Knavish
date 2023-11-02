@@ -23,7 +23,7 @@ PrecacheModel(saxton_viewmodel_path);
 class SaxtonHale extends Boss
 {
     name = "saxton_hale";
-    glow_color = "255 255 0"
+    glow_color = "255 230 0"
 
     function OnApply0Delay()
     {
