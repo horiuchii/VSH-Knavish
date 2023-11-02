@@ -133,9 +133,18 @@ function EndRound(winner)
     {
         local leaderboard = GetDamageBoardSorted();
 
-        //todo - setting score doesn't fucking work
-        local merc_score = GetPropInt(tf_gamerules, "m_nRedScore")
-        local boss_score = GetPropInt(tf_gamerules, "m_nBlueScore")
+        local merc_score = 0
+        local boss_score = 0
+
+        local ent = null
+        while( ent = Entities.FindByClassname(ent, "tf_team") )
+        {
+            local team = GetPropInt(ent, "m_iTeamNum")
+            if(team == TF_TEAM_MERC)
+                merc_score = GetPropInt(ent, "m_iScore");
+            if(team == TF_TEAM_BOSS)
+                boss_score = GetPropInt(ent, "m_iScore");
+        }
 
         local event_data = {
             panel_style = 1,
@@ -143,10 +152,10 @@ function EndRound(winner)
             winreason = 0,
             cappers = "",
             flagcaplimit = 3,
-            blue_score = winner == TF_TEAM_BOSS ? boss_score + 1 : boss_score,
-            red_score = winner == TF_TEAM_MERC ? merc_score + 1 : merc_score,
-            blue_score_prev = boss_score,
-            red_score_prev = merc_score,
+            blue_score = boss_score,
+            red_score = merc_score,
+            blue_score_prev = winner == TF_TEAM_BOSS ? boss_score - 1 : boss_score,
+            red_score_prev = winner == TF_TEAM_MERC ? merc_score - 1 : merc_score,
             round_complete = 1,
             rounds_remaining = 0,
             game_over = false
