@@ -23,6 +23,7 @@ PrecacheModel(saxton_viewmodel_path);
 class SaxtonHale extends Boss
 {
     name = "saxton_hale";
+    glow_color = "255 255 0"
 
     function OnApply0Delay()
     {
@@ -77,6 +78,7 @@ AddBossTrait("saxton_hale", SweepingChargeTrait);
 AddBossTrait("saxton_hale", BraveJumpTrait);
 AddBossTrait("saxton_hale", MightySlamTrait);
 
+AddBossTrait("saxton_hale", GlowTrait);
 AddBossTrait("saxton_hale", DeathCleanupTrait);
 AddBossTrait("saxton_hale", MovespeedTrait);
 AddBossTrait("saxton_hale", ScreenShakeTrait);

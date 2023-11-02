@@ -29,6 +29,7 @@ class Boss extends CharacterTrait
 {
     traits = null;
     name = null;
+    glow_color = "0 0 0";
     startingHealth = 0;
 
     function CheckTeam() { return true; }
@@ -62,6 +63,7 @@ Include("/bosses/generic/passives/stun_breakout.nut");
 Include("/bosses/generic/passives/debuff_resistance.nut");
 Include("/bosses/generic/passives/received_damage_scaling.nut");
 Include("/bosses/generic/passives/head_stomp.nut");
+Include("/bosses/generic/misc/boss_glow.nut");
 Include("/bosses/generic/misc/ability_hud.nut");
 Include("/bosses/generic/misc/death_cleanup.nut");
 Include("/bosses/generic/misc/movespeed.nut");

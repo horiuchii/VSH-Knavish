@@ -33,6 +33,13 @@ function RegisterBoss(name, bossClass)
     return null;
 }
 
+::GetBossColor <- function(player)
+{
+    if (player in bosses)
+        return bosses[player].glow_color;
+    return null;
+}
+
 ::IsAnyBossValid <- function()
 {
     foreach (player, boss in bosses)
