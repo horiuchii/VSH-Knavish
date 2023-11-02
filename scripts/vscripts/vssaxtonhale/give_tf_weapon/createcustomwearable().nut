@@ -8,7 +8,7 @@
 	local ply = this;
 	local item_modelstring;
 	local main_viewmodel = GetPropEntity(ply, "m_hViewModel");
-	
+
 // Defining which entity should be created
 	//Only these classnames are valid:
 	switch ( wearable_classname ) {
@@ -41,14 +41,14 @@
 		item_modelindex = GetModelIndex(item_modelindex);
 	}
 	if ( ply.HasGunslinger() && wearable_classname == "tf_wearable_vm" && weapon == main_viewmodel ) {
-		
+
 		GTFW.DevPrint(0,"CreateCustomWearable", "Creating VM Gunslinger arms.");
-		
+
 		PrecacheModel(GTFW_MODEL_ARMS[10])
 		item_modelindex = GetModelIndex(GTFW_MODEL_ARMS[10]);
 	}
-	
-	
+
+
 	local hWearable = Entities.CreateByClassname(wearable_classname);
 
 // our properties. Taken from source code for Super Zombie Fortress + SCP Secret Fortress
@@ -56,10 +56,10 @@
 	hWearable.SetAbsAngles(ply.GetLocalAngles());
 	SetPropBool(hWearable, "m_bClientSideAnimation", true);
 	SetPropInt(hWearable, "m_iTeamNum", ply.GetTeam());
-	SetPropInt(hWearable, "m_Collision.m_usSolidFlags", Constants.FSolid.FSOLID_NOT_SOLID);
+	SetPropInt(hWearable, "m_Collision.m_usSolidFlags", FSOLID_NOT_SOLID);
 	SetPropInt(hWearable, "m_CollisionGroup", 11);
 	SetPropInt(hWearable, "m_fEffects", 129);	//1 and 128 bitmasks both bone merge to player model
-	
+
 	SetPropInt(hWearable, "m_AttributeManager.m_Item.m_iItemDefinitionIndex", 65535);
 	if ( type( itemID ) == "integer" ) {
 		SetPropInt(hWearable, "m_AttributeManager.m_Item.m_iItemDefinitionIndex", itemID);
@@ -67,18 +67,18 @@
 	else if ( type( item_modelindex ) == "integer" ) {
 		SetPropInt(hWearable, "m_nModelIndex", item_modelindex);
 	}
-	
+
 	//SetPropInt(hWearable, "m_AttributeManager.m_Item.m_iEntityQuality", 0);	//doesn't work due to vscript security reasons
 	SetPropInt(hWearable, "m_AttributeManager.m_Item.m_iEntityLevel", 1);
-	
+
 	SetPropBool(hWearable, "m_bValidatedAttachedEntity", true);
 	SetPropInt(hWearable, "m_AttributeManager.m_iReapplyProvisionParity", 3);
 	SetPropBool(hWearable, "m_AttributeManager.m_Item.m_bInitialized", true)	//Seems to bug with upgrades stations / MvM
 	SetPropBool(hWearable, "m_AttributeManager.m_Item.m_bOnlyIterateItemViewAttributes", false);
-	
+
 	SetPropEntity(hWearable, "m_hOwnerEntity", ply);
 	hWearable.SetOwner(ply);
-	
+
 //We associate the weapon via netprops "m_hExtraWearableViewModel" and "m_hExtraWearable" for cleanup using KillWepAll()
 	if ( weapon && weapon != main_viewmodel ) {
 		if ( wearable_classname == "tf_wearable_vm" ) {
@@ -88,26 +88,26 @@
 		else if ( wearable_classname == "tf_wearable" )
 			SetPropEntity(weapon, "m_hExtraWearable", hWearable);
 	}
-	
+
 //Dispatch Spawn && stats reapply
 	Entities.DispatchSpawn(hWearable);	//Spawns ent into world
 	hWearable.ReapplyProvision();		//reapplies any attributes from weapon onto the player
-	
+
 	if ( wearable_classname == "tf_wearable_vm" ) {
 	//This ent relies on being parented to the viewmodel of the player. Otherwise it won't show up!
 	//However, it shows for all weapons. For some reason it can't show up for just one...? Needs more testing.
-		DoEntFire("!self", "SetParent", "!activator", 0, main_viewmodel, hWearable);	
+		DoEntFire("!self", "SetParent", "!activator", 0, main_viewmodel, hWearable);
 		ply.EquipWearableViewModel(hWearable);
 	}
 	else {
 		DoEntFire("!self", "SetParent", "!activator", 0, ply, hWearable);
 	}
-	
+
 	if ( item_modelstring )
 		hWearable.SetModelSimple(item_modelstring);
-	
+
 	hWearable.KeyValueFromString("targetname",format("tf_wearable_vs_%d_%d",ply.entindex(),GetItemID(hWearable)));
-	
+
 	GTFW.DevPrint(0,"CreateCustomWearable", "Created "+"\x22"+hWearable.GetClassname()+"\x22 ("+hWearable.GetModelName()+")");
 
 	return hWearable;

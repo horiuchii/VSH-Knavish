@@ -295,10 +295,10 @@
 
     // Seems without this, we can't hit Engineer objects!
         local solidFlags = GetPropInt(weapon, "m_Collision.m_usSolidFlags");
-        SetPropInt(weapon, "m_Collision.m_usSolidFlags", solidFlags | Constants.FSolid.FSOLID_NOT_SOLID);
+        SetPropInt(weapon, "m_Collision.m_usSolidFlags", solidFlags | FSOLID_NOT_SOLID);
 
         solidFlags = GetPropInt(weapon, "m_Collision.m_usSolidFlags");
-        SetPropInt(weapon, "m_Collision.m_usSolidFlags", solidFlags & ~(Constants.FSolid.FSOLID_TRIGGER));
+        SetPropInt(weapon, "m_Collision.m_usSolidFlags", solidFlags & ~(FSOLID_TRIGGER));
 
 
         Entities.DispatchSpawn(weapon)	//Dispatches weapon into the world
@@ -409,7 +409,7 @@
 		FinalAmmoReserve = AmmoReserve.tofloat();
 
 // Purpose: Sets ammo reserve
-	if ( AmmoType == TF_AMMO.METAL && EntityOutputs.HasAction(AmmoFix, "OnUser3") == false && player.GetPlayerClass() != Constants.ETFClass.TF_CLASS_ENGINEER ) {
+	if ( AmmoType == TF_AMMO.METAL && EntityOutputs.HasAction(AmmoFix, "OnUser3") == false && player.GetPlayerClass() != TF_CLASS_ENGINEER ) {
 		EntityOutputs.AddOutput(AmmoFix, "OnUser3", "", "", "", 0.0, -1);	//used to flag for Metal ammo so we don't update twice
 		SetPropIntArray(player, "m_iAmmo", FinalAmmoReserve, TF_AMMO.METAL);
 	}
@@ -417,7 +417,7 @@
 		SetPropIntArray(player, "m_iAmmo", FinalAmmoReserve, AmmoType);
 	}
 
-	if ( AmmoType == TF_AMMO.METAL && EntityOutputs.HasAction(AmmoFix, "OnUser3") == false && player.GetPlayerClass() != Constants.ETFClass.TF_CLASS_ENGINEER ) {
+	if ( AmmoType == TF_AMMO.METAL && EntityOutputs.HasAction(AmmoFix, "OnUser3") == false && player.GetPlayerClass() != TF_CLASS_ENGINEER ) {
 		EntityOutputs.AddOutput(AmmoFix, "OnUser3", "", "", "", 0.0, -1);	//used to flag for Metal ammo so we don't update twice
 		SetPropIntArray(player, "m_iAmmo", AmmoReserve, TF_AMMO.METAL);
 	}
@@ -562,7 +562,7 @@
 				local modelIndex = GetModelIndex( model );;
 				wep.SetModelSimple(model);
 				wep.SetCustomViewModelModelIndex(modelIndex);
-				NetProps.SetPropInt(wep, "m_iViewModelIndex", modelIndex);
+				SetPropInt(wep, "m_iViewModelIndex", modelIndex);
 
 				GTFW.DevPrint(0,"UpdateArms", "Updated model for " + wep);
 

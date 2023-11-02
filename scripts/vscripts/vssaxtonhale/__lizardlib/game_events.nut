@@ -33,11 +33,11 @@ function OnScriptHook_OnTakeDamage(params)
 {
     if (params.const_entity == worldspawn) //wall climb off of the static world
     {
-        if (params.damage_type & 128)  // DMG_CLUB - constants are slower than plain numbers
+        if (params.damage_type & DMG_CLUB)
             MeleeWallClimb_Hit(params);
         return;
     }
-    if (params.damage_type & 128) // Wall climb off of the rest of the world. worldspawn handled separately for performance reasons
+    if (params.damage_type & DMG_CLUB) // Wall climb off of the rest of the world. worldspawn handled separately for performance reasons
     {
         if (MeleeWallClimb_Check(params))
         {

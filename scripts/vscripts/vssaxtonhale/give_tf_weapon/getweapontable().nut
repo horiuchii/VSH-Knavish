@@ -9,9 +9,9 @@
 		GTFW.DevPrint(1,"GetWeaponTableBySlot", "Function failed. Parameter is Null. Returning null.");
 		return null;
 	}
-	
+
 	local ply = this;
-	
+
 // Purpose: Begins to search by slot
 // All slots MUST be searched as negative number, otherwise it won't take.
 	if ( GTFW.CheckNegativeSlotBool(slot) ) {
@@ -41,9 +41,9 @@
 		GTFW.DevPrint(1,"GetWeaponTableByClassname", "Function failed. Parameter is Null. Returning null.");
 		return null;
 	}
-	
+
 	local ply = this;
-	
+
 // Purpose: Searches by classname.
 // 			Runs a loop to check all entities under array netprop "m_hMyWeapons"
 	 if ( type( WepC ) == "string"
@@ -77,15 +77,15 @@
 		GTFW.DevPrint(1,"GetWeaponTableByString", "Function failed. Parameter is Null. Returning null.");
 		return null;
 	}
-	
+
 // Purpose: Catches item names (i.e. "Brass Beast" or "Wrench", etc)
 	local baseitem = GetWeaponTableNoPlayer(string);
-	
+
 	if ( baseitem ) {
 		baseitem = GTFW.PostWepFix(baseitem,this);
 		return baseitem;
 	}
-	
+
 //if all else fails, have an error!
 	GTFW.DevPrint(1,"GetWeaponTableByString", "Function failed. Could not find weapon by name. Returning null.");
 	return null;
@@ -97,20 +97,20 @@
 		GTFW.DevPrint(1,"GetWeaponTableByID", "Function failed. Parameter is not an integer or instance. Returning null.")
 		return null
 	}
-	
+
 	local ItemID = idx
 	if ( type( idx ) == "instance" && HasProp(idx, "m_AttributeManager.m_Item.m_iItemDefinitionIndex") ) {
 		ItemID = GetItemID(idx)
 	}
-	
+
 	// this one catches item IDs if we are using a handle
 	local baseitem = GetWeaponTableNoPlayer(ItemID)
-	
+
 	if ( baseitem ) {
 		baseitem = GTFW.PostWepFix(baseitem,this)
 		return baseitem
 	}
-	
+
 //if all else fails, have an error!
 	GTFW.DevPrint(1,"GetWeaponTableByID", "Function failed. Could not find weapon by Item Definition Index. Returning null.")
 	return null
@@ -128,15 +128,15 @@
 // 			Requires player handle to start the function.
 //-----------------------------------------------------------------------------
 ::CTFPlayer.GetWeaponTable <- function(weapon=null)
-{	
+{
 	if ( weapon == null ) {
 		GTFW.DevPrint(1,"GetWeaponTable", "Function failed. Parameter is Null. Returning null.");
 		return null;
 	}
-	else 
+	else
 		GTFW.DevPrint(0,"GetWeaponTable", "Getting table for \x22"+weapon+"\x22.");
 
-	
+
 	local ply = this;
 	local getWeapon;
 
@@ -152,7 +152,7 @@
 	getWeapon = ply.GetWeaponTableByID(weapon)
 	if ( getWeapon )
 		return getWeapon;
-	
+
 //if all else fails, have an error!
 	GTFW.DevPrint(1,"GetWeaponTable", "Function failed. Could not find \x22"+weapon+"\x22. Returning null.");
 	return null;
@@ -162,7 +162,7 @@
 
 
 
-	
+
 //-----------------------------------------------------------------------------
 // Purpose: Searches all items under tables.nut, then returns a table
 // 			First looks through all custom weapons that were registered
@@ -175,34 +175,34 @@
 		GTFW.DevPrint(1,"GetWeaponTableNoPlayer", "Function failed.");
 		return;
 	}
-	
+
 //Define variables
 	local typeItem = type ( baseitem );
 	local baseitem_toupper;
 	if ( typeItem == "string" )
 		baseitem_toupper = baseitem.toupper();
-	
+
 	local Continue = true
 	local ID;
 	local wepTable;
-	
+
 	local classname;
 	local itemid;
 	local itemstring;
 	local itemstring2;
-	
+
 	foreach (table in TF_CUSTOM_WEAPONS_REGISTRY)
 	{
 		itemstring	= table.name;
 		itemid		= table.itemID;
-	
+
 	//Searches for CW name first
 		if ( typeItem == "string"
 		 && itemstring.toupper() == baseitem_toupper )
 		{
 			ID = itemid;
 			wepTable = GTFW.PreWepFix(table, ID);
-			
+
 			Continue = false;
 			return wepTable;
 		}
@@ -211,7 +211,7 @@
 		{
 			ID = itemid;
 			wepTable = GTFW.PreWepFix(table, ID);
-				
+
 			Continue = false;
 			return wepTable;
 		}
@@ -230,15 +230,15 @@
 			if ( table.name2 ) {
 				itemstring2	= table.name2.toupper();
 			}
-			
+
 	//Searches for classname first, due to things like "revolver" and "REVOLVER" potentially processing as the same thing
 			if ( typeItem == "string"
 			 && table.classname == baseitem )
 			{
 				ID = itemid;
-				
+
 				wepTable = GTFW.PreWepFix(table, ID);
-				
+
 				Continue = false;
 				return wepTable;
 			}
@@ -247,9 +247,9 @@
 			 && itemstring == baseitem_toupper || itemstring2 == baseitem_toupper )
 			{
 				ID = itemid;
-				
+
 				wepTable = GTFW.PreWepFix(table, ID);
-				
+
 				Continue = false;
 				return wepTable;
 			}
@@ -257,9 +257,9 @@
 			if ( itemid == baseitem )
 			{
 				ID = itemid;
-				
+
 				wepTable = GTFW.PreWepFix(table, ID);
-				
+
 				Continue = false;
 				return wepTable;
 			}
@@ -306,15 +306,15 @@
 						ID = table.itemID14;
 					else if ( table.itemID15 == baseitem )
 						ID = table.itemID15;
-					
+
 					wepTable = GTFW.PreWepFix(table, ID);
-					
+
 					return wepTable;
 				}
 			}
 		}
 	}
-	
+
 	GTFW.DevPrint(1,"GetWeaponTableNoPlayer", "Function failed.");
 	return null
 }
@@ -331,10 +331,10 @@
 	local worldModel;
 	local viewModel;
 	local classarms;
-	
+
 	if ( "tf_class" in table )
 		tf_class = table.tf_class;
-	
+
 	if ( "func" in table )
 		func = table.func;
 
@@ -354,34 +354,34 @@
 	if ( "classarms" in table )
 		classarms = table.classArms;
 
-	
+
 	local itemName	= table.name;
 	local slot		= table.slot;
 	local classname	= table.classname;
 	local itemID	= ID;
 	local ammoType	= table.ammoType;
-	
-	
+
+
 	local clipSize	= table.clipSize;
 	local clipSizeMax;
 	if ( "clipSizeMax" in table )
 		clipSizeMax	= table.clipSizeMax;
 	else
 		clipSizeMax	= table.clipSize;
-	
+
 	local reserve	= table.reserve;
 	local reserveMax;
 	if ( "reserveMax" in table )
 		reserveMax	= table.reserveMax;
 	else
 		reserveMax	= table.reserve;
-	
+
 	local wearable	= table.wearable;
-	
+
 	local wearable_vm;
 	if ( "wearable_vm" in table )
 		wearable_vm	= table.wearable_vm;
-	
+
 	// gw_props stands for GiveWeapon PROPertieS
 	// It's a bitmask that gives extra customization for weapons
 	// i.e. if the weapon replaces the old one in slot, if it auto switches when obtained, if the weapon is announced in chat, etc.
@@ -389,7 +389,7 @@
 	local gw_props = 0;
 	if ( "gw_props" in table )
 		gw_props = table.gw_props;
-	
+
 	//AnnounceToChat bitmask
 	 // item quality; color
 	local announce_quality;
@@ -409,10 +409,10 @@
 	local postwepfix;
 	if ( "PostWepFix" in table )
 		postwepfix = table.PostWepFix;
-	
+
 	// Finalize
 	local baseitem	= TF_WEAPONS_BASE(tf_class, slot, classname, itemID, itemName, ammoType, clipSize, clipSizeMax, reserve, reserveMax, worldModel, viewModel, wearable, wearable_vm, gw_props, func, classarms, postwepfix, announce_quality, announce_prefix, announce_has_string)
-	
+
 	return baseitem
 }
 
@@ -432,7 +432,7 @@
 
 // Define variable
 	local WepC = wep.classname;
-	
+
 	if ( WepC == "demoshield" )
 		wep.classname = "tf_wearable_demoshield";
 	else if ( WepC == "razorback" )
@@ -450,75 +450,75 @@
 		else if ( wep.itemID == 773 ) {
 			wep.name		= "Pretty Boy's Pocket Pistol";
 		}
-		
-		if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_SCOUT ) {
+
+		if ( ply.GetPlayerClass() == TF_CLASS_SCOUT ) {
 			wep.classname	= "pistol_scout";
 			wep.reserve	= 36;
-			wep.tf_class 	= Constants.ETFClass.TF_CLASS_SCOUT;
+			wep.tf_class 	= TF_CLASS_SCOUT;
 		}
-		else if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_ENGINEER ) {
+		else if ( ply.GetPlayerClass() == TF_CLASS_ENGINEER ) {
 			wep.classname	= "pistol";
 			wep.reserve	= 200;
-			wep.tf_class 	= Constants.ETFClass.TF_CLASS_ENGINEER;
+			wep.tf_class 	= TF_CLASS_ENGINEER;
 		}
 		else {
 			wep.classname	= "pistol";
 			wep.reserve	= 36;
-			wep.tf_class 	= Constants.ETFClass.TF_CLASS_ENGINEER;
+			wep.tf_class 	= TF_CLASS_ENGINEER;
 		}
 	}
 	else if ( WepC == "pistol_scout" ) {
-		if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_ENGINEER ) {
+		if ( ply.GetPlayerClass() == TF_CLASS_ENGINEER ) {
 			wep.classname	= "pistol_scout";
 			wep.reserve		= 200;
-			wep.tf_class 	= Constants.ETFClass.TF_CLASS_ENGINEER;
+			wep.tf_class 	= TF_CLASS_ENGINEER;
 		}
 	}
 	else if ( WepC == "shotgun" ) {
 	//Fixups for All-Class Shotguns
-		if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_ENGINEER ) {
+		if ( ply.GetPlayerClass() == TF_CLASS_ENGINEER ) {
 			wep.classname	= "shotgun_primary";
 			wep.slot = 0;
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_ENGINEER;
+			wep.tf_class 	=	TF_CLASS_ENGINEER;
 			wep.ammoType	=	TF_AMMO.PRIMARY;
 		}
-		else if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_HEAVYWEAPONS ) {
+		else if ( ply.GetPlayerClass() == TF_CLASS_HEAVYWEAPONS ) {
 			wep.classname	= "shotgun_hwg";
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_HEAVYWEAPONS;
+			wep.tf_class 	=	TF_CLASS_HEAVYWEAPONS;
 		}
-		else if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_SOLDIER ) {
+		else if ( ply.GetPlayerClass() == TF_CLASS_SOLDIER ) {
 			wep.classname	= "shotgun_soldier";
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_SOLDIER;
+			wep.tf_class 	=	TF_CLASS_SOLDIER;
 		}
-		else if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_PYRO ) {
+		else if ( ply.GetPlayerClass() == TF_CLASS_PYRO ) {
 			wep.classname	= "shotgun_pyro";
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_PYRO;
+			wep.tf_class 	=	TF_CLASS_PYRO;
 		}
-		else if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_DEMOMAN ) {
+		else if ( ply.GetPlayerClass() == TF_CLASS_DEMOMAN ) {
 			wep.classname	= "shotgun_soldier";
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_SOLDIER;
+			wep.tf_class 	=	TF_CLASS_SOLDIER;
 		}
-		else if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_MEDIC ) {
+		else if ( ply.GetPlayerClass() == TF_CLASS_MEDIC ) {
 			wep.classname	= "shotgun_primary";
 			wep.slot = 0;
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_ENGINEER;
+			wep.tf_class 	=	TF_CLASS_ENGINEER;
 			wep.ammoType	=	TF_AMMO.PRIMARY;
 		}
-		else if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_SPY ) {
+		else if ( ply.GetPlayerClass() == TF_CLASS_SPY ) {
 			wep.classname	= "shotgun_primary";
 			wep.slot = 0;
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_ENGINEER;
+			wep.tf_class 	=	TF_CLASS_ENGINEER;
 			wep.ammoType	=	TF_AMMO.PRIMARY;
 		}
-		else if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_SCOUT ) {
+		else if ( ply.GetPlayerClass() == TF_CLASS_SCOUT ) {
 			wep.classname	= "shotgun_primary";
 			wep.slot = 0;
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_ENGINEER;
+			wep.tf_class 	=	TF_CLASS_ENGINEER;
 			wep.ammoType	=	TF_AMMO.PRIMARY;
 		}
 		else {
 			wep.classname	= "shotgun_pyro";
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_PYRO;
+			wep.tf_class 	=	TF_CLASS_PYRO;
 		}
 	// All-Class Widowmaker
 		if ( wep.itemID == 527 ) {
@@ -535,13 +535,13 @@
 		}
 	}
 	else if ( WepC == "katana" ) {
-		if ( ply.GetPlayerClass() == Constants.ETFClass.TF_CLASS_DEMOMAN ) {
+		if ( ply.GetPlayerClass() == TF_CLASS_DEMOMAN ) {
 			wep.classname = "katana";
-			wep.tf_class 	=	Constants.ETFClass.TF_CLASS_DEMOMAN;
+			wep.tf_class 	=	TF_CLASS_DEMOMAN;
 		}
 	}
 	else if ( WepC == "revolver" ) {
-		if ( ply.GetPlayerClass() != Constants.ETFClass.TF_CLASS_SPY ) {
+		if ( ply.GetPlayerClass() != TF_CLASS_SPY ) {
 			wep.classname = "revolver";
 			wep.ammoType	=	TF_AMMO.PRIMARY;
 		}
@@ -565,7 +565,7 @@
 	}
 
 // Adds prefix "tf_weapon_" if unavailable
-	if ( !wep.classname.find("wearable") ) 
+	if ( !wep.classname.find("wearable") )
 		wep.classname = wep.classname.find("weapon") ? wep.classname : "tf_weapon_" + wep.classname;
 
 	return wep

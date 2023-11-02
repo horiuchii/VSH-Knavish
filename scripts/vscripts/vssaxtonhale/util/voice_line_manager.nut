@@ -132,7 +132,7 @@ function PlaySoundForAll(soundScript)
         return false;
     EmitSoundEx({
         sound_name = GetCurrentCharacterName(source)+"."+soundPath,
-        filter_type = Constants.EScriptRecipientFilter.RECIPIENT_FILTER_SINGLE_PLAYER
+        filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
         volume = (GetAliveMercCount() > 10 ? 1 : 1.2 - clampFloor(300.0, distance) / 1500.0) / 1.8,
         flags =  1,
         entity = target,

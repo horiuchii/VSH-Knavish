@@ -48,13 +48,13 @@ characterTraitsClasses.push(class extends CharacterTrait
                 HitboxDetectorHitgroup = -1;
                 HitboxDetectorAttacking = true;
                 HitboxDetector.SetTeam(attacker.GetTeam());
-                NetProps.SetPropFloat(HitboxDetector, "m_flNextPrimaryAttack", 0);
-                NetProps.SetPropEntity(HitboxDetector, "m_hOwner", attacker);
+                SetPropFloat(HitboxDetector, "m_flNextPrimaryAttack", 0);
+                SetPropEntity(HitboxDetector, "m_hOwner", attacker);
                 HitboxDetector.PrimaryAttack();
                 HitboxDetectorAttacking = false;
                 attacker.StopSound("Weapon_SniperRifle.Single");
 
-                if (HitboxDetectorHitgroup == Constants.EHitGroup.HITGROUP_HEAD)
+                if (HitboxDetectorHitgroup == HITGROUP_HEAD)
                 {
                     params.damage_type = params.damage_type | DMG_ACID | DMG_AIRBOAT;
 

@@ -133,8 +133,8 @@ if ("HitboxDetector" in getroottable() && HitboxDetector.IsValid())
     HitboxDetector.Destroy();
 
 ::HitboxDetector <- Entities.CreateByClassname("tf_weapon_sniperrifle");
-NetProps.SetPropInt(HitboxDetector, "m_AttributeManager.m_Item.m_iItemDefinitionIndex", 14);
-NetProps.SetPropBool(HitboxDetector, "m_AttributeManager.m_Item.m_bInitialized", true);
+SetPropInt(HitboxDetector, "m_AttributeManager.m_Item.m_iItemDefinitionIndex", 14);
+SetPropBool(HitboxDetector, "m_AttributeManager.m_Item.m_bInitialized", true);
 Entities.DispatchSpawn(HitboxDetector);
 HitboxDetector.SetClip1(-1);
 

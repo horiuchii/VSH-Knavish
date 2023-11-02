@@ -24,7 +24,7 @@ characterTraitsClasses.push(class extends CharacterTrait
         if (WeaponIs(weapon, "rocket_jumper"))
         {
             weapon.AddAttribute("maxammo primary increased", 1, -1);
-            NetProps.SetPropInt(player, "m_iAmmo.001", 20)
+            SetPropInt(player, "m_iAmmo.001", 20)
         }
     }
 });

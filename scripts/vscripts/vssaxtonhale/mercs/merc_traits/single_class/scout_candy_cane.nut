@@ -29,7 +29,7 @@ characterTraitsClasses.push(class extends CharacterTrait
             "OnPlayerTouch": "!self,Kill,,0,-1",
         });
         vsh_vscript.totalHealthKits++;
-        healthKit.SetMoveType(Constants.EMoveType.MOVETYPE_FLYGRAVITY, Constants.EMoveCollide.MOVECOLLIDE_FLY_BOUNCE);
+        healthKit.SetMoveType(MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_BOUNCE);
         healthKit.SetAbsOrigin(victim.GetCenter());
         healthKit.SetVelocity(Vector(RandomFloat(-50, 50), RandomFloat(-50, 50), 250));
         RunWithDelay2(this, 30, function(healthKit)

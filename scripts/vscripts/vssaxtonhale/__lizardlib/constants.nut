@@ -11,18 +11,28 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-foreach (c in [
-    Constants.ETFClass,
-    Constants.ETFTeam,
-    Constants.ETFCond,
-    Constants.FPlayer,
-    Constants.FButtons,
-    Constants.FDmgType,
-    Constants.FSolid,
-    Constants.ETFDmgCustom
-])
-    foreach (k, v in c)
-        getroottable()[k] <- v;
+::ROOT <- getroottable();
+if (!("ConstantNamingConvention" in ROOT)) // make sure folding is only done once
+{
+	foreach (a,b in Constants)
+		foreach (k,v in b)
+			if (v == null)
+				ROOT[k] <- 0;
+			else
+				ROOT[k] <- v;
+}
+
+foreach (k, v in NetProps.getclass())
+    if (k != "IsValid")
+		ROOT[k] <- NetProps[k].bindenv(NetProps);
+
+::DMG_CRIT <- DMG_ACID;                 //Crit / Minicrit
+::DMG_RADIUS_MAX <- DMG_ENERGYBEAM;     //No Damage Falloff
+::DMG_NOCLOSEDISTANCEMOD <- DMG_POISON; //Don't do damage falloff too close
+::DMG_HALF_FALLOFF <- DMG_POISON;       //50% damage falloff
+::DMG_USEDISTANCEMOD <- DMG_SLOWBURN;   //Do damage falloff
+::DMG_IGNITE <- DMG_PLASMA;             //Ignite victim
+::DMG_USE_HITLOCATIONS <- DMG_AIRBOAT;  //Do hit location damage (sniper rifle & ambassador)
 
 ::TF_TEAM_UNASSIGNED <- TEAM_UNASSIGNED;
 ::TF_TEAM_SPECTATOR <- TEAM_SPECTATOR;

@@ -24,7 +24,7 @@ characterTraitsClasses.push(class extends CharacterTrait
         if (WeaponIs(weapon, "sticky_jumper"))
         {
             weapon.AddAttribute("maxammo secondary increased", 0.5, -1);
-            NetProps.SetPropInt(player, "m_iAmmo.002", 12)
+            SetPropInt(player, "m_iAmmo.002", 12)
         }
     }
 });
