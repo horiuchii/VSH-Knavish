@@ -19,6 +19,7 @@ hasTimerBeenShortened <- false;
 AddListener("setup_start", 1, function ()
 {
     SetConvarValue("mp_bonusroundtime", GetPersistentVar("mp_bonusroundtime"));
+    RemoveAllRespawnRooms();
 
     RecachePlayers();
     AssignBoss("saxton_hale", ProgressBossQueue());
@@ -44,12 +45,7 @@ AddListener("setup_end", 0, function()
         if (!IsPlayerAlive(player))
             player.ForceRespawn();
 
-    local respawnRoom = null;
-    local respawnsToKill = [];
-    while (respawnRoom = Entities.FindByClassname(respawnRoom, "func_respawnroom"))
-        respawnsToKill.push(respawnRoom);
-    foreach (respawnRoom in respawnsToKill)
-        respawnRoom.Kill();
+    RemoveAllRespawnRooms();
 
     SetPropInt(tf_gamerules, "m_iRoundState", 7);
     SetPropInt(tf_gamerules, "m_nHudType", 2);
@@ -65,6 +61,28 @@ AddListener("death", 2, function (attacker, victim, params)
         EndRound(TF_TEAM_UNASSIGNED);
     }
 });
+
+AddListener("spawn", 10, function(player, params)
+{
+    if (IsInWaitingForPlayers() || !IsRoundSetup())
+        return;
+
+    if (IsBoss(player))
+        return;
+
+    local respawn_trigger = SpawnEntityFromTable("func_respawnroom", {
+        origin = player.GetCenter(),
+        spawnflags = 1,
+        IsEnabled = true,
+        StartDisabled = 0,
+        TeamNum = TF_TEAM_MERC
+    });
+
+    respawn_trigger.KeyValueFromInt("solid", 2);
+    respawn_trigger.KeyValueFromString("mins", "-16 -16 -16");
+    respawn_trigger.KeyValueFromString("maxs", "16 16 16");
+    EntFireByHandle(respawn_trigger, "SetParent", "!activator", -1, player, null);
+})
 
 AddListener("tick_always", 8, function(timeDelta)
 {
@@ -229,4 +247,14 @@ function IsValidRoundPreStart()
 function IsRoundOver()
 {
     return isRoundOver;
+}
+
+function RemoveAllRespawnRooms()
+{
+    local respawnRoom = null;
+    local respawnsToKill = [];
+    while (respawnRoom = Entities.FindByClassname(respawnRoom, "func_respawnroom"))
+        respawnsToKill.push(respawnRoom);
+    foreach (respawnRoom in respawnsToKill)
+        respawnRoom.Kill();
 }
