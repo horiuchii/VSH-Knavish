@@ -249,27 +249,27 @@
     },
 };
 
-::IsWeapon <- function(weapon, name)
+::WeaponIs <- function(weapon, name)
 {
     local index = GetItemID(weapon);
     if (name == "any_stickybomb_launcher")
     {
-        return IsWeapon(weapon, "stickybomb_launcher")
-            || IsWeapon(weapon, "scottish_resistance")
-            || IsWeapon(weapon, "quickiebomb_launcher")
-            || IsWeapon(weapon, "sticky_jumper");
+        return WeaponIs(weapon, "stickybomb_launcher")
+            || WeaponIs(weapon, "scottish_resistance")
+            || WeaponIs(weapon, "quickiebomb_launcher")
+            || WeaponIs(weapon, "sticky_jumper");
     }
     else if(name == "any_sword")
     {
         return weapon.GetClassname() == "tf_weapon_sword" || weapon.GetClassname() == "tf_weapon_katana";
     }
-    else if(name == "any_boots")
+    else if(name == "any_demo_boots")
     {
-        return IsWeapon(weapon, "booties") || IsWeapon(weapon, "boot_legger")
+        return WeaponIs(weapon, "booties") || WeaponIs(weapon, "boot_legger")
     }
     else
     {
-        return WeaponTable.rawin(name) && WeaponTable[name].ids.find() != null;
+        return WeaponTable.rawin(name) && WeaponTable[name].ids.find(index) != null;
     }
 }
 
