@@ -89,7 +89,7 @@ class SweepingChargeTrait extends BossTrait
         local buttons = GetPropInt(boss, "m_nButtons");
         if (boss.IsUsingActionSlot() || (buttons & IN_ATTACK3) || (buttons & IN_RELOAD))
         {
-            if (meter < 0 || boss.InCond(TF_COND_TAUNTING) || GetPropFloat(boss.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "m_flNextPrimaryAttack") - 0.01 > Time())
+            if (meter < 0 || boss.InCond(TF_COND_TAUNTING))
             {
                 if(lastDenySoundPlay + 0.5 < Time())
                 {
@@ -188,7 +188,7 @@ class SweepingChargeTrait extends BossTrait
         isCurrentlyDashing = false;
         boss.SetGravity(1);
         EntFireByHandle(triggerCatapult, "Disable", "", 0, boss, boss)
-        SetPropFloat(boss.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "m_flNextPrimaryAttack", Time() + 0.75)
+        boss.AddCustomAttribute("no_attack", 1, 0.5);
     }
 
     function TickDash()
