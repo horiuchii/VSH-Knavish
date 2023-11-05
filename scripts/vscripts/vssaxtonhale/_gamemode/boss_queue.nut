@@ -32,7 +32,8 @@
 
 function ResetQueuePoints(player)
 {
-    delete QueuePoints[player];
+    if (player in QueuePoints)
+        delete QueuePoints[player];
 }
 
 function GetQueuePoints(player)
@@ -65,6 +66,10 @@ AddListener("round_end", 1, function (winner)
 AddListener("setup_start", 0, function ()
 {
     QueuePoints = GetPersistentVar("queue_points", {});
+
+    foreach (player in QueuePoints)
+        if(!player || player == null)
+            ResetQueuePoints(player);
 })
 
 AddListener("disconnect", 0, function(player, params)

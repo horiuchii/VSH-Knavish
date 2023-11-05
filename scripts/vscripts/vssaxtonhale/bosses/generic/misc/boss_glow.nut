@@ -22,7 +22,8 @@ class GlowTrait extends BossTrait
 
     function SetGlowTime(length)
     {
-        glow_time_end = Time() + length;
+        if(length > glow_time_end - Time())
+            glow_time_end = Time() + length;
     }
 
     function SetGlowFlash(amount)
