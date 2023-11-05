@@ -153,3 +153,35 @@ Include("__lizardlib/game_events.nut");
     }
     RunWithDelay(name + "()", null, delay);
 }
+
+function CSimpleCallChainer::Call(...)
+{
+	if ( chain.len() )
+	{
+		local i;
+		local args = [];
+		if ( vargv.len() > 0 )
+		{
+			args.push( scope );
+			for ( i = 0; i < vargv.len(); i++ )
+			{
+				args.push( vargv[i] );
+			}
+		}
+		for ( i = chain.len() - 1; i >= 0; i -= 1 )
+		{
+			local func = chain[i];
+			local result;
+			if ( !args.len() )
+			{
+				result = func.call( scope );
+			}
+			else
+			{
+				result = func.acall( scope, args );
+			}
+			if ( result != null && !result )
+				return false;
+		}
+	}
+}
