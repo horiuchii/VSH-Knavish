@@ -14,7 +14,7 @@
 
 isRoundOver <- false;
 ::isRoundSetup <- true;
-hasTimerBeenShortened <- false;
+hasStalemateTimerBegun <- false;
 
 AddListener("setup_start", 1, function ()
 {
@@ -103,7 +103,7 @@ AddListener("tick_always", 8, function(timeDelta)
         }
         return;
     }
-    if (GetAliveMercCount() <= 5 && GetPropFloat(team_round_timer, "m_flTimeRemaining") > 60)
+    if (!hasStalemateTimerBegun && GetAliveMercCount() <= 5 && GetPropFloat(team_round_timer, "m_flTimeRemaining") > 60)
         EntFireByHandle(team_round_timer, "SetTime", "60", 0, null, null);
 
     local noBossesAlive = !IsAnyBossAlive();

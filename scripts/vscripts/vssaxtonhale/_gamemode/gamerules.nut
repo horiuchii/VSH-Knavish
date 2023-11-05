@@ -12,6 +12,7 @@
 //=========================================================================
 
 PrecacheClassVoiceLines("point_enabled")
+hasControlPointBeenUnlocked <- false;
 
 function SetConvarValue(cvar, value, do_warning = true)
 {
@@ -161,6 +162,11 @@ SpawnHelperEntities();
 
 function UnlockControlPoint()
 {
+    if(hasControlPointBeenUnlocked)
+        return;
+
+    hasControlPointBeenUnlocked <- true;
+
     local controlPoint = Entities.FindByClassname(null, "team_control_point");
     if (controlPoint != null)
         EntFireByHandle(controlPoint, "SetUnlockTime", "0", 0, null, null);
@@ -169,19 +175,15 @@ function UnlockControlPoint()
 
 function PrepareStalemate()
 {
+    if(hasStalemateTimerBegun)
+        return;
+
+    hasStalemateTimerBegun <- true;
+
     local boss = GetRandomBossPlayer();
     local delay = clampFloor(60, API_GetFloat("stalemate_time"));
 
-    local text_tf = SpawnEntityFromTable("game_text_tf", {
-        message = "#vsh_end_this",
-        icon = "ico_notify_flag_moving_alt",
-        background = 0,
-        display_to_team = 0
-    });
-    EntFireByHandle(text_tf, "Display", "", delay - 60, null, null);
-    EntFireByHandle(text_tf, "Kill", "", delay - 59, null, null);
-
-    RunWithDelay("EntFireByHandle(team_round_timer, `SetTime`, `60`, 0, null, null)", null, delay - 60);
+    EntFireByHandle(team_round_timer, "SetTime", delay.tostring(), 0, null, null);
 
     PlayAnnouncerVODelayed(boss, "count5", delay - 6);
     PlayAnnouncerVODelayed(boss, "count4", delay - 5);
