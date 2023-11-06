@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
@@ -20,7 +20,7 @@ characterTraitsClasses.push(class extends CharacterTrait
 
     /*function OnDamageDealt(victim, params)
     {
-        if (params.damage_type & 128)
+        if (params.damage_type & DMG_CLUB)
         {
             local melee = player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
             if (WeaponIs(melee, "ubersaw") || WeaponIs(melee, "ubersaw_xmas"))

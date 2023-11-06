@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
@@ -20,7 +20,7 @@ characterTraitsClasses.push(class extends CharacterTrait
 
     function OnDamageDealt(victim, params)
     {
-        if ((params.damage_type & 128) && WeaponIs(params.weapon, "kgb"))
+        if ((params.damage_type & DMG_CLUB) && WeaponIs(params.weapon, "kgb"))
             player.AddCondEx(TF_COND_CRITBOOSTED_ON_KILL, 5, null);
     }
 });

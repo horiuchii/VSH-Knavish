@@ -13,7 +13,7 @@
 
 PrecacheArbitrarySound("soldier.setup_special")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     tmpFix = [false];
     function CanApply()

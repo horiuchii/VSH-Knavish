@@ -17,7 +17,7 @@
         SetPropInt(item, "m_AttributeManager.m_Item.m_iItemDefinitionIndex", id);
 }
 
-::ClearPlayerWearables <- function(player)
+::ClearPlayerItems <- function(player)
 {
     local item = null;
     local itemsToKill = [];

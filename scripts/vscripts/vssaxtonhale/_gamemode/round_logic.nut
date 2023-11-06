@@ -21,8 +21,8 @@ AddListener("setup_start", 1, function ()
     SetConvarValue("mp_bonusroundtime", GetPersistentVar("mp_bonusroundtime"));
     RemoveAllRespawnRooms();
 
-    RecachePlayers();
     AssignBoss("saxton_hale", ProgressBossQueue());
+    RecachePlayers();
 
     foreach (player in GetValidMercs())
     {

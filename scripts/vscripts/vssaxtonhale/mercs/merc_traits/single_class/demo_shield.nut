@@ -15,7 +15,7 @@ PrecacheArbitrarySound("vsh_sfx.shield_break");
 PrecacheArbitrarySound("demo.shield")
 PrecacheArbitrarySound("demo.shield_lowhp")
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     wasDestroyed = false;
     function CanApply()
@@ -34,7 +34,7 @@ characterTraitsClasses.push(class extends CharacterTrait
         if (wasDestroyed || !IsValidBoss(attacker) || player.InCond(TF_COND_INVULNERABLE))
             return;
 
-        if ((params.damage_type == 1 || params.damage_type == DMG_BLAST) && params.damage < player.GetHealth())
+        if ((params.damage_type == DMG_CRUSH || params.damage_type == DMG_BLAST) && params.damage < player.GetHealth())
             return;
 
         wasDestroyed = true;

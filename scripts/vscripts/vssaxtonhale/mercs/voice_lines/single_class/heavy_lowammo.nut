@@ -13,7 +13,7 @@
 
 PrecacheArbitrarySound("heavy.low_ammo")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 0.5;
     wentAbove100 = true;

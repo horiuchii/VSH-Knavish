@@ -13,7 +13,7 @@
 
 PrecacheClassVoiceLines("stabbed")
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {

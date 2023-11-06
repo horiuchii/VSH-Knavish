@@ -43,9 +43,8 @@ class Boss extends CharacterTrait
     {
         foreach (traitClass in traitLibrary[name])
             traitClass().TryApply(player);
-        bosses[player] <- this;
 
-        ClearPlayerWearables(player);
+        ClearPlayerItems(player);
     }
 }
 function AddBossTrait(bossName, traitClass)

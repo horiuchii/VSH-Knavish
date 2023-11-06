@@ -14,7 +14,7 @@
 PrecacheClassVoiceLines("medic_dead")
 PrecacheClassVoiceLines("no_medic")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     nextTimeAvailable = 0;
     function OnFrameTickAlive()

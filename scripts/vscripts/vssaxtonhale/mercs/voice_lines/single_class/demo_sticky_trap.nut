@@ -13,7 +13,7 @@
 
 PrecacheArbitrarySound("demo.sticky_trap")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 0.5;
     playInterval = 30;

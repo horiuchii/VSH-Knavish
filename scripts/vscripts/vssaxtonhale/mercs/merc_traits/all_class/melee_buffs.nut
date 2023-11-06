@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
@@ -55,7 +55,7 @@ characterTraitsClasses.push(class extends CharacterTrait
     function OnDamageDealt(victim, params)
     {
         if (IsBoss(victim)
-            && (params.damage_type & 128)
+            && (params.damage_type & DMG_CLUB)
             && player.InCond(TF_COND_CRITBOOSTED_ON_KILL))
         {
             params.damage *= 1.2; //Hale has Crit Resistance. Restoring melee damage back.

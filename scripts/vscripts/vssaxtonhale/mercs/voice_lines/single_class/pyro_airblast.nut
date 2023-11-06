@@ -13,7 +13,7 @@
 
 PrecacheArbitrarySound("pyro.airblast")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 0.1;
     playInterval = 20;

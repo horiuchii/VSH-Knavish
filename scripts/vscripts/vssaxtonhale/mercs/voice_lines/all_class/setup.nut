@@ -13,7 +13,7 @@
 
 PrecacheClassVoiceLines("setup")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     timesPlayedGlobal = [0];
 

@@ -14,7 +14,7 @@
 PrecacheArbitrarySound("soldier.gardened")
 PrecacheArbitrarySound("vsh_sfx.gardened");
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {

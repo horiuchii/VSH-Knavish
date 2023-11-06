@@ -13,7 +13,7 @@
 
 PrecacheClassVoiceLines("wall_climb")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 0.5;
     sharedPlayInterval = 20;

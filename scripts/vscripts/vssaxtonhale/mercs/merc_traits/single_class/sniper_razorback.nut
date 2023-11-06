@@ -1,4 +1,4 @@
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     wasDestroyed = false;
     function CanApply()

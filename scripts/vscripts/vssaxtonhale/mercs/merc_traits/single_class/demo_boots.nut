@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
@@ -23,7 +23,7 @@ characterTraitsClasses.push(class extends CharacterTrait
                 return true;
         return false;
     }
-	
+
 	function OnApply()
 	{
 		local wearable = null;
@@ -35,10 +35,10 @@ characterTraitsClasses.push(class extends CharacterTrait
                 break;
             }
 	}
-	
+
     function OnDamageDealt(victim, params)
     {
-        if (params.damage_type & 128)
+        if (params.damage_type & DMG_CLUB)
             SetPropFloat(player, "m_Shared.m_flChargeMeter", clampCeiling(100.0, GetPropFloat(player, "m_Shared.m_flChargeMeter") + 25.0))
     }
 });

@@ -13,7 +13,7 @@
 
 PrecacheArbitrarySound("demo.special_01")
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     lastTimeSoundPlayed = 0;
 

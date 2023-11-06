@@ -13,7 +13,7 @@
 
 PrecacheArbitrarySound("vsh_sfx.demo_charge");
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     isInCharge = false;
 

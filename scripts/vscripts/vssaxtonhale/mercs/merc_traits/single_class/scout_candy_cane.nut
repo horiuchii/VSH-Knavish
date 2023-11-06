@@ -13,7 +13,7 @@
 
 totalHealthKits <- 0;
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
@@ -23,7 +23,7 @@ characterTraitsClasses.push(class extends CharacterTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (!(params.damage_type & 128) || vsh_vscript.totalHealthKits > 30)
+        if (!(params.damage_type & DMG_CLUB) || vsh_vscript.totalHealthKits > 30)
             return;
         local healthKit = SpawnEntityFromTable("item_healthkit_small", {
             "OnPlayerTouch": "!self,Kill,,0,-1",

@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-characterTraitsClasses.push(class extends CharacterTrait
+characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
@@ -29,7 +29,7 @@ characterTraitsClasses.push(class extends CharacterTrait
 
 	function OnDamageDealt(victim, params)
     {
-        if (params.damage_type & 2)
+        if (params.damage_type & DMG_BULLET)
 		{
 			player.SetHealth(clampCeiling(player.GetHealth() + 5, player.GetMaxOverheal()));
 

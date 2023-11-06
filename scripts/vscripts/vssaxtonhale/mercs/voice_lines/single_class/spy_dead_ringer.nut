@@ -14,7 +14,7 @@
 PrecacheArbitrarySound("spy.special_01")
 PrecacheArbitrarySound("spy.noinvis")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     playInterval = 20;
 

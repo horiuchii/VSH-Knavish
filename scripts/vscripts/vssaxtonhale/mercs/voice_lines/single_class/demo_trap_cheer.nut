@@ -13,7 +13,7 @@
 
 PrecacheArbitrarySound("demo.trap_cheer")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     playInterval = 10;
     damageDoneRecently = 0;

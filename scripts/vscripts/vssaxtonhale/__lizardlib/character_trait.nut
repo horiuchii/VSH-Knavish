@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-::characterTraitsClasses <- [];
+::characterTraitsLibrary <- [];
 ::characterTraits <- {};
 ::characterTraitObjects <- {};
 ::emptyTickAlive <- null;
@@ -80,7 +80,7 @@ AddListener("spawn", -1, function (player, params)
 {
     DiscardTraits(player);
     characterTraits[player] <- [];
-    foreach (characterTrait in characterTraitsClasses)
+    foreach (characterTrait in characterTraitsLibrary)
         try
         {
             local newTrait = characterTrait();

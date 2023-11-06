@@ -13,7 +13,7 @@
 
 PrecacheArbitrarySound("spy.left_last")
 
-characterTraitsClasses.push(class extends CustomVoiceLine
+characterTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 1;
     lastTimeSeenByBoss = 0;

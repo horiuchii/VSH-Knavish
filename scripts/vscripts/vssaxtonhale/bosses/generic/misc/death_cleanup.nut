@@ -15,7 +15,7 @@ class DeathCleanupTrait extends BossTrait
 {
     function OnDeath(attacker, params)
     {
-        ClearPlayerWearables(player);
+        ClearPlayerItems(player);
 
         //This disables Heavy's death scream
         SetPropInt(player, "m_PlayerClass.m_iClass", 0);
