@@ -67,9 +67,16 @@ AddListener("setup_start", 0, function ()
 {
     QueuePoints = GetPersistentVar("queue_points", {});
 
-    foreach (player in QueuePoints)
-        if(!player || player == null || player.GetTeam() == TEAM_SPECTATOR)
+    if (QueuePoints.len() <= 0)
+        return;
+
+    foreach (player, amount in QueuePoints)
+    {
+        if(!player || player == null || !player.IsPlayer())
             ResetQueuePoints(player);
+        else if(player.GetTeam() != TF_TEAM_MERC || player.GetTeam() != TF_TEAM_BOSS)
+            ResetQueuePoints(player);
+    }
 })
 
 AddListener("disconnect", 0, function(player, params)
