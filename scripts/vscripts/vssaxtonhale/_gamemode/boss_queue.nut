@@ -68,7 +68,7 @@ AddListener("setup_start", 0, function ()
     QueuePoints = GetPersistentVar("queue_points", {});
 
     foreach (player in QueuePoints)
-        if(!player || player == null)
+        if(!player || player == null || player.GetTeam() == TEAM_SPECTATOR)
             ResetQueuePoints(player);
 })
 

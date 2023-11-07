@@ -19,6 +19,7 @@
     health_factor = 40,
     setup_length = 16,
     setup_lines = true,
+    freeze_boss_setup = false,
     beer_lines = false,
     long_setup_lines = true,
     setup_countdown_lines = true,

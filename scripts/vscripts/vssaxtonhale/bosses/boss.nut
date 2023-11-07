@@ -62,6 +62,7 @@ Include("/bosses/generic/passives/debuff_resistance.nut");
 Include("/bosses/generic/passives/received_damage_scaling.nut");
 Include("/bosses/generic/passives/head_stomp.nut");
 Include("/bosses/generic/misc/boss_glow.nut");
+Include("/bosses/generic/misc/freeze_boss_setup");
 Include("/bosses/generic/misc/ability_hud.nut");
 Include("/bosses/generic/misc/death_cleanup.nut");
 Include("/bosses/generic/misc/movespeed.nut");

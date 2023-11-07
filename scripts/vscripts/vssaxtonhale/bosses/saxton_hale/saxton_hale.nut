@@ -79,6 +79,7 @@ AddBossTrait("saxton_hale", BraveJumpTrait);
 AddBossTrait("saxton_hale", MightySlamTrait);
 
 AddBossTrait("saxton_hale", GlowTrait);
+AddBossTrait("saxton_hale", FreezeSetupTrait);
 AddBossTrait("saxton_hale", DeathCleanupTrait);
 AddBossTrait("saxton_hale", MovespeedTrait);
 AddBossTrait("saxton_hale", ScreenShakeTrait);

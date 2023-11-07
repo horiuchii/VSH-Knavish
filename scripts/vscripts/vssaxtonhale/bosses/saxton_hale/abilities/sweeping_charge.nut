@@ -80,6 +80,9 @@ class SweepingChargeTrait extends BossTrait
 
     function OnFrameTickAlive()
     {
+        if (API_GetBool("freeze_boss_setup") && IsRoundSetup())
+            return;
+
         if (isCurrentlyDashing)
         {
             TickDash();

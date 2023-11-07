@@ -60,6 +60,9 @@ class BraveJumpTrait extends BossTrait
 
     function OnFrameTickAlive()
     {
+        if (API_GetBool("freeze_boss_setup") && IsRoundSetup())
+            return;
+
         local buttons = GetPropInt(boss, "m_nButtons");
 
         if (!boss.IsOnGround())
