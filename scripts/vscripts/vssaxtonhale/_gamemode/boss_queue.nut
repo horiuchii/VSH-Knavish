@@ -46,55 +46,19 @@ function SetQueuePoints(player, amount)
     QueuePoints[player] <- amount;
 }
 
-AddListener("round_end", 1, function (winner)
-{
-    foreach (player in GetValidMercs())
-    {
-        local damage = GetRoundDamage(player)
-        foreach (point in QueuePointThresholds)
-        {
-            if(point < damage)
-                SetQueuePoints(player, GetQueuePoints(player) + 1);
-            else
-                break;
-        }
-    }
-
-    SetPersistentVar("queue_points", QueuePoints);
-})
-
-AddListener("setup_start", 0, function ()
-{
-    QueuePoints = GetPersistentVar("queue_points", {});
-
-    if (QueuePoints.len() <= 0)
-        return;
-
-    foreach (player, amount in QueuePoints)
-    {
-        if(!player || player == null || !player.IsPlayer())
-            ResetQueuePoints(player);
-        else if(player.GetTeam() != TF_TEAM_MERC || player.GetTeam() != TF_TEAM_BOSS)
-            ResetQueuePoints(player);
-    }
-})
-
-AddListener("disconnect", 0, function(player, params)
-{
-    ResetQueuePoints(player);
-});
-
 function GetQueuePointsSorted()
 {
-    function sortFunction(it, that)
+    function sortFunction(a, b)
     {
-        return that[1] - it[1];
+        if (a < b) return 1;
+        if (a > b) return -1;
+        return 0;
     }
 
     local queueAsArray = []
     foreach(player, points in QueuePoints)
         queueAsArray.push([player, points]);
-    queueAsArray.sort(@(it, that) that[1] - it[1]);
+    queueAsArray.sort(sortFunction);
     return queueAsArray;
 }
 
@@ -116,51 +80,51 @@ function ProgressBossQueue(iterations = 0)
         SetPersistentVar("queue_points", QueuePoints);
         return queueboard[0][0];
     }
-
-    try
-    {
-        local nextBossIndex = GetPersistentVar("next_boss", null);
-        if (nextBossIndex != null)
-        {
-            SetPersistentVar("next_boss", null);
-            local nextBossPlayer = PlayerInstanceFromIndex(nextBossIndex);
-            if (IsValidPlayer(nextBossPlayer))
-                return nextBossPlayer;
-        }
-
-        local playedAsBossAlready = GetPersistentVar("played_as_boss");
-        if (playedAsBossAlready == null)
-            SetPersistentVar("played_as_boss", playedAsBossAlready = []);
-
-        local candidates = GetValidPlayers().slice();
-        if (iterations < 3 && RandomInt(1, 10) != 1) //We leave a small chance for a completely random selection
-        {
-            foreach (played in playedAsBossAlready)
-            {
-                local index = candidates.find(played);
-                if (index != null)
-                    candidates.remove(index);
-            }
-            if (candidates.len() == 0)
-            {
-                for (local i = 0; i < clampCeiling(6, playedAsBossAlready.len()); i++)
-                    playedAsBossAlready.remove(0);
-                return ProgressBossQueue(iterations + 1);
-            }
-        }
-        local newBossPlayer = candidates[RandomInt(0, candidates.len() - 1)];
-        playedAsBossAlready.push(newBossPlayer);
-        return newBossPlayer;
-    }
-    catch(e)
+    else
     {
         try
         {
             return GetValidPlayers()[RandomInt(0, GetValidPlayers().len() - 1)];
         }
-        catch(e1)
+        catch(e)
         {
             return GetValidClients()[RandomInt(0, GetValidClients().len() - 1)];
         }
     }
 }
+
+AddListener("setup_start", 0, function ()
+{
+    QueuePoints = GetPersistentVar("queue_points", {});
+
+    foreach (player, amount in QueuePoints)
+    {
+        if(player == null
+            || !player
+            || !player.IsPlayer()
+            || (player.GetTeam() != TF_TEAM_MERC && player.GetTeam() != TF_TEAM_BOSS))
+                ResetQueuePoints(player);
+    }
+})
+
+AddListener("round_end", 1, function (winner)
+{
+    foreach (player in GetValidMercs())
+    {
+        local damage = GetRoundDamage(player);
+        foreach (point in QueuePointThresholds)
+        {
+            if(point <= damage)
+                SetQueuePoints(player, GetQueuePoints(player) + 1);
+            else
+                break;
+        }
+    }
+
+    SetPersistentVar("queue_points", QueuePoints);
+})
+
+AddListener("disconnect", 0, function(player, params)
+{
+    ResetQueuePoints(player);
+});

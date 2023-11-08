@@ -39,8 +39,8 @@ function SetConvars()
     SetConvarValue("mp_forcecamera", 0);
     SetConvarValue("sv_alltalk", 1);
     SetConvarValue("tf_dropped_weapon_lifetime", 0);
-    SetConvarValue("mp_idledealmethod", 0);
-    SetConvarValue("mp_idlemaxtime", 9999);
+    //SetConvarValue("mp_idledealmethod", 0);
+    //SetConvarValue("mp_idlemaxtime", 9999);
     SetConvarValue("mp_scrambleteams_auto", 0);
     SetConvarValue("mp_stalemate_timelimit", 9999999);
     SetConvarValue("mp_scrambleteams_auto_windifference", 0);
