@@ -113,6 +113,12 @@ class AbilityHudTrait extends BossTrait
         if (!(player in hudAbilityInstances))
             return;
 
+        if (GetPropInt(player, "m_nButtons") & IN_SCORE)
+        {
+            player.SetScriptOverlayMaterial("");
+            return;
+        }
+
         local progressBarTexts = [];
         local overlay = "";
         foreach(ability in hudAbilityInstances[player])

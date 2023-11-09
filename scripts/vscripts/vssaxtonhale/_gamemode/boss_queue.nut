@@ -50,8 +50,8 @@ function GetQueuePointsSorted()
 {
     function sortFunction(a, b)
     {
-        if (a < b) return 1;
-        if (a > b) return -1;
+        if (a[1] < b[1]) return 1;
+        if (a[1] > b[1]) return -1;
         return 0;
     }
 
@@ -120,6 +120,16 @@ AddListener("round_end", 1, function (winner)
                 break;
         }
     }
+
+    /*
+    local queueboard = GetQueuePointsSorted();
+    local count = clampCeiling(queueboard.len(), 5);
+    local message = "Queue Standings\n";
+    for (local i = 0; i < count; i++)
+    {
+        message += GetPropString(queueboard[i][0], "m_szNetname") + " - " + queueboard[i][1] + "\n";
+    }
+    ClientPrint(null, HUD_PRINTCENTER, message); */
 
     SetPersistentVar("queue_points", QueuePoints);
 })
