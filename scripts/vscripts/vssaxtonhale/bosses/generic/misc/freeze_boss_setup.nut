@@ -13,14 +13,23 @@
 
 class FreezeSetupTrait extends BossTrait
 {
+    bHasRoundStarted = false;
+
     function OnFrameTickAlive()
     {
-        if(!API_GetBool("freeze_boss_setup"))
+        if(bHasRoundStarted || !API_GetBool("freeze_boss_setup"))
             return;
 
         if(IsRoundSetup())
+        {
+            SetPropBool(boss, "m_bAllowMoveDuringTaunt", true);
             boss.AddFlag(FL_ATCONTROLS);
+        }
         else
+        {
+            SetPropBool(boss, "m_bAllowMoveDuringTaunt", false);
             boss.RemoveFlag(FL_ATCONTROLS);
+            bHasRoundStarted = true;
+        }
     }
 }
