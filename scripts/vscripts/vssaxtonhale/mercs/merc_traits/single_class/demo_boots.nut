@@ -15,25 +15,14 @@ characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        if (player.GetPlayerClass() != TF_CLASS_DEMOMAN)
-            return false;
-        local wearable = null;
-        while (wearable = Entities.FindByClassname(wearable, "tf_wearable"))
-            if (wearable.GetOwner() == player && WeaponIs(wearable, "any_demo_boots"))
-                return true;
-        return false;
+        return player.GetPlayerClass() == TF_CLASS_DEMOMAN && player.HasWearable("any_demo_boots");
     }
 
 	function OnApply()
 	{
-		local wearable = null;
-        while (wearable = Entities.FindByClassname(wearable, "tf_wearable"))
-            if (wearable.GetOwner() == player && WeaponIs(wearable, "any_demo_boots"))
-            {
-                wearable.AddAttribute("move speed bonus shield required", 1.0, -1);
-                wearable.AddAttribute("move speed bonus", 1.10, -1);
-                break;
-            }
+        local wearable = player.GetWearable("any_demo_boots");
+        wearable.AddAttribute("move speed bonus shield required", 1.0, -1);
+        wearable.AddAttribute("move speed bonus", 1.10, -1);
 	}
 
     function OnDamageDealt(victim, params)

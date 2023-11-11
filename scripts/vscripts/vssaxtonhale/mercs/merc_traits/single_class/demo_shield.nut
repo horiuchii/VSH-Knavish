@@ -20,13 +20,7 @@ characterTraitsLibrary.push(class extends CharacterTrait
     wasDestroyed = false;
     function CanApply()
     {
-        if (player.GetPlayerClass() != TF_CLASS_DEMOMAN)
-            return false;
-        local wearable = null;
-        while (wearable = Entities.FindByClassname(wearable, "tf_wearable_demo*"))
-            if (wearable.GetOwner() == player)
-                return true;
-        return false;
+        return player.GetPlayerClass() == TF_CLASS_DEMOMAN && player.HasWearable("any_demo_shield");
     }
 
     function OnDamageTaken(attacker, params)
@@ -39,16 +33,6 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
         wasDestroyed = true;
         params.damage = 0;
-		
-		
-		
-        /*local wearable = null;
-        while (wearable = Entities.FindByClassname(wearable, "tf_wearable_demo*"))
-            if (wearable.GetOwner() == player)
-            {
-                wearable.Kill();
-                break;
-            }*/
 
         local deltaVector = player.GetCenter() - attacker.GetCenter();
         deltaVector.z = 0;

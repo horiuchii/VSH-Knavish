@@ -31,6 +31,7 @@ IncludeTrait(TRAIT.ALL, "burst_damage_nerf.nut");
 IncludeTrait(TRAIT.ALL, "no_pyrovision.nut");
 IncludeTrait(TRAIT.ALL, "allclass_katana.nut");
 IncludeTrait(TRAIT.ALL, "base_jumper_duration_nerf.nut");
+IncludeTrait(TRAIT.ALL, "goomba.nut");
 
 //Scout
 IncludeTrait(TRAIT.SINGLE, "scout_candy_cane.nut");

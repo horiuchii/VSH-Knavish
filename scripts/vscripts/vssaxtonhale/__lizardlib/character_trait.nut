@@ -35,7 +35,7 @@ class CharacterTrait
         characterTraits[player].push(this);
 
         if (!(player in characterTraitObjects))
-        characterTraitObjects[player] <- { };
+            characterTraitObjects[player] <- { };
         characterTraitObjects[player][this.name] <- this;
 
         OnApply();

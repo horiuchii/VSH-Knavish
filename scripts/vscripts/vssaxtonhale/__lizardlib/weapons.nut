@@ -251,6 +251,30 @@
     {
         ids = [751]
     },
+    ["mantreads"] =
+    {
+        ids = [444]
+    },
+    ["chargin_targe"] =
+    {
+        ids = [131, 1144]
+    },
+    ["splendid_screen"] =
+    {
+        ids = [406]
+    },
+    ["tide_turner"] =
+    {
+        ids = [1099]
+    },
+    ["razorback"] =
+    {
+        ids = [57]
+    },
+    ["thermal_thruster"] =
+    {
+        ids = [1179]
+    },
 };
 
 ::WeaponIs <- function(weapon, name)
@@ -271,10 +295,46 @@
     {
         return WeaponIs(weapon, "booties") || WeaponIs(weapon, "boot_legger")
     }
+    else if(name == "any_demo_shield")
+    {
+        return WeaponIs(weapon, "chargin_targe")
+        || WeaponIs(weapon, "splendid_screen")
+        || WeaponIs(weapon, "tide_turner");
+    }
     else
     {
         return WeaponTable.rawin(name) && WeaponTable[name].ids.find(index) != null;
     }
+}
+
+::CTFPlayer.HasWearable <- function(name)
+{
+    for (local wearable = FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
+    {
+        if (wearable.GetClassname().find("tf_wearable") == null)
+            continue;
+
+        if (WeaponIs(wearable, name))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+::CTFPlayer.GetWearable <- function(name)
+{
+    for (local wearable = FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
+    {
+        if (wearable.GetClassname().find("tf_wearable") == null)
+            continue;
+
+        if (WeaponIs(wearable, name))
+            return wearable;
+    }
+
+    return false;
 }
 
 // When we need to check for headshots, use HitboxDetector

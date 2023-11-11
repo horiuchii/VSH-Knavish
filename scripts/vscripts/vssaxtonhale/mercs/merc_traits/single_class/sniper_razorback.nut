@@ -3,14 +3,7 @@ characterTraitsLibrary.push(class extends CharacterTrait
     wasDestroyed = false;
     function CanApply()
     {
-        if (player.GetPlayerClass() != TF_CLASS_SNIPER)
-            return false;
-
-        local wearable = null;
-        while (wearable = Entities.FindByClassname(wearable, "tf_wearable_razorback"))
-            if (wearable.GetOwner() == player)
-                return true;
-        return false;
+        return player.GetPlayerClass() == TF_CLASS_SNIPER && player.HasWearable("razorback");
     }
 
     function OnDamageTaken(attacker, params)
@@ -24,13 +17,9 @@ characterTraitsLibrary.push(class extends CharacterTrait
         wasDestroyed = true;
         params.damage = 0;
 
-        local wearable = null;
-        while (wearable = Entities.FindByClassname(wearable, "tf_wearable_razorback"))
-            if (wearable.GetOwner() == player)
-            {
-                wearable.Kill();
-                break;
-            }
+        local wearable = player.GetWearable("razorback");
+        if (wearable != null)
+            wearable.Kill();
 
         local deltaVector = player.GetCenter() - attacker.GetCenter();
         deltaVector.z = 0;
