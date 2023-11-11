@@ -87,6 +87,14 @@ function OnGameEvent_player_team(params)
     FireListeners("team_change", player, params);
 }
 
+function OnGameEvent_player_say(params)
+{
+	local player = GetPlayerFromUserID(params.userid);
+    if (player == null || !player.IsValid() || !player.IsPlayer())
+    return;
+    FireListeners("chat", player, params.text);
+}
+
 function OnGameEvent_player_changeclass(params)
 {
     if (IsNotValidRound())

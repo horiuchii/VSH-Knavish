@@ -11,9 +11,17 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
+AddListener("chat", 0, function (player, message)
+{
+    if(Convars.GetInt("sv_cheats") == 1 && message == "!respawnme")
+    {
+        player.ForceRespawn();
+    }
+});
+
 AddListener("spawn", 0, function (player, params)
 {
-    if (IsRoundSetup())
+    if (IsRoundSetup() || Convars.GetInt("sv_cheats") == 1)
         return;
 
     player.TakeDamage(9999, 0, null);
