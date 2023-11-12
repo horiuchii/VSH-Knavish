@@ -275,6 +275,10 @@
     {
         ids = [1179]
     },
+    ["backscatter"] =
+    {
+        ids = [1103]
+    }
 };
 
 ::WeaponIs <- function(weapon, name)
@@ -323,6 +327,8 @@
     return false;
 }
 
+::CTFBot.HasWearable <- CTFPlayer.HasWearable;
+
 ::CTFPlayer.GetWearable <- function(name)
 {
     for (local wearable = FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
@@ -336,6 +342,8 @@
 
     return false;
 }
+
+::CTFBot.GetWearable <- CTFPlayer.GetWearable;
 
 // When we need to check for headshots, use HitboxDetector
 if ("HitboxDetector" in getroottable() && HitboxDetector.IsValid())
