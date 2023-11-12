@@ -39,6 +39,7 @@ IncludeTrait(TRAIT.SINGLE, "scout_stronger_fan.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_bfb_decay.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_critacola_fullcrit.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_sunonastick.nut");
+IncludeTrait(TRAIT.SINGLE, "scout_backscatter.nut");
 
 //Soldier
 IncludeTrait(TRAIT.SINGLE, "soldier_jumper_ammo.nut");
