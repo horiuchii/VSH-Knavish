@@ -29,6 +29,7 @@ characterTraitsLibrary.push(class extends CharacterTrait
             "OnPlayerTouch": "!self,Kill,,0,-1",
         });
         vsh_vscript.totalHealthKits++;
+        healthKit.SetTeam(TF_TEAM_MERC);
         healthKit.SetMoveType(MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_BOUNCE);
         healthKit.SetAbsOrigin(victim.GetCenter());
         healthKit.SetVelocity(Vector(RandomFloat(-50, 50), RandomFloat(-50, 50), 250));
