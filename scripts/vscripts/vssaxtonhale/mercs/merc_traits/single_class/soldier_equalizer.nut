@@ -26,7 +26,8 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
     function OnDamageTaken(victim, params)
     {
-        if (IsBoss(params.attacker))
+        if (IsBoss(params.attacker)
+            && GetPropEntity(player, "m_hActiveWeapon") == player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE))
         {
             params.damage *= 0.5;
         }
