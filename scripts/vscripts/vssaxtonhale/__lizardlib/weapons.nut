@@ -187,10 +187,6 @@
     {
         ids = [173]
     },
-    ["sunonastick"] =
-    {
-        ids = [349]
-    },
     ["mad_milk"] =
     {
         ids = [222, 1121]
@@ -278,7 +274,19 @@
     ["backscatter"] =
     {
         ids = [1103]
-    }
+    },
+    ["bushwaka"] =
+    {
+        ids = [232]
+    },
+    ["axtinguisher"] =
+    {
+        ids = [38,1000]
+    },
+    ["sunonastick"] =
+    {
+        ids = [349]
+    },
 };
 
 ::WeaponIs <- function(weapon, name)
@@ -293,17 +301,24 @@
     }
     else if(name == "any_sword")
     {
-        return weapon.GetClassname() == "tf_weapon_sword" || weapon.GetClassname() == "tf_weapon_katana";
+        return weapon.GetClassname() == "tf_weapon_sword"
+            || weapon.GetClassname() == "tf_weapon_katana";
     }
     else if(name == "any_demo_boots")
     {
-        return WeaponIs(weapon, "booties") || WeaponIs(weapon, "boot_legger")
+        return WeaponIs(weapon, "booties")
+            || WeaponIs(weapon, "boot_legger")
     }
     else if(name == "any_demo_shield")
     {
         return WeaponIs(weapon, "chargin_targe")
-        || WeaponIs(weapon, "splendid_screen")
-        || WeaponIs(weapon, "tide_turner");
+            || WeaponIs(weapon, "splendid_screen")
+            || WeaponIs(weapon, "tide_turner");
+    }
+    else if(name == "any_pistol")
+    {
+        return weapon.GetClassname() == "tf_weapon_pistol"
+            || weapon.GetClassname() == "tf_weapon_handgun_scout_secondary";
     }
     else
     {

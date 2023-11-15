@@ -31,10 +31,6 @@ characterTraitsLibrary.push(class extends CharacterTrait
         if (melee == null || melee.GetSlot() != TF_WEAPONSLOTS.MELEE)
             return;
 
-        if (!WeaponIs(melee, "market_gardener") && !WeaponIs(melee, "holiday_punch")
-			&& !WeaponIs(melee, "sunonastick"))
-            player.AddCondEx(TF_COND_CRITBOOSTED_ON_KILL, 0.13, null);
-
         if (!WeaponIs(melee, "disciplinary_action") && !WeaponIs(melee, "any_sword"))
         {
             local myCenter = player.GetCenter();

@@ -24,7 +24,6 @@ function IncludeTrait(type, path)
 //Merc Traits
 IncludeTrait(TRAIT.ALL, "fix_boss_leftovers.nut");
 IncludeTrait(TRAIT.ALL, "airborne_minicrits.nut");
-IncludeTrait(TRAIT.ALL, "last_mann_standing.nut");
 IncludeTrait(TRAIT.ALL, "melee_buffs.nut");
 IncludeTrait(TRAIT.ALL, "melee_wall_climb.nut");
 IncludeTrait(TRAIT.ALL, "burst_damage_nerf.nut");
@@ -32,6 +31,7 @@ IncludeTrait(TRAIT.ALL, "no_pyrovision.nut");
 IncludeTrait(TRAIT.ALL, "allclass_katana.nut");
 IncludeTrait(TRAIT.ALL, "base_jumper_duration_nerf.nut");
 IncludeTrait(TRAIT.ALL, "goomba.nut");
+IncludeTrait(TRAIT.ALL, "crit_buffs.nut");
 
 //Scout
 IncludeTrait(TRAIT.SINGLE, "scout_candy_cane.nut");
