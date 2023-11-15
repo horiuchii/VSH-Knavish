@@ -107,34 +107,85 @@ AddListener("setup_start", 0, function ()
     }
 })
 
-AddListener("round_end", 1, function (winner)
-{
-    foreach (player in GetValidMercs())
-    {
-        local damage = GetRoundDamage(player);
-        foreach (point in QueuePointThresholds)
-        {
-            if(point <= damage)
-                SetQueuePoints(player, GetQueuePoints(player) + 1);
-            else
-                break;
-        }
-    }
-
-    /*
-    local queueboard = GetQueuePointsSorted();
-    local count = clampCeiling(queueboard.len(), 5);
-    local message = "Queue Standings\n";
-    for (local i = 0; i < count; i++)
-    {
-        message += GetPropString(queueboard[i][0], "m_szNetname") + " - " + queueboard[i][1] + "\n";
-    }
-    ClientPrint(null, HUD_PRINTCENTER, message); */
-
-    SetPersistentVar("queue_points", QueuePoints);
-})
-
 AddListener("disconnect", 0, function(player, params)
 {
     ResetQueuePoints(player);
 });
+
+::points_added_round <- {};
+
+AddListener("round_end", 1, function (winner)
+{
+    foreach (player in GetValidMercs())
+    {
+        SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundDamageToPoints(player));
+    }
+
+    SetPersistentVar("queue_points", QueuePoints);
+})
+
+AddListener("round_end", 100, function (winner)
+{
+    local queue_pos = 0;
+    local queueboard = GetQueuePointsSorted();
+
+    foreach (player in GetValidMercs())
+    {
+        foreach (i, position in queueboard)
+        {
+            if (position[0] == player)
+            {
+                queue_pos = i + 1;
+                break;
+            }
+            queue_pos = queueboard.len() + 1;
+        }
+
+        local message = "\x01" + "\x07FFD700" + "[VSH] ";
+        message += "\x01You gained \x07FFD700" + ConvertRoundDamageToPoints(player) + "\x01 points this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage.\n"
+        message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 points."
+        ClientPrint(player, HUD_PRINTTALK, message);
+    }
+});
+
+
+function addSuffix(number)
+{
+    if (number == 1)
+        return "next";
+
+    local lastDigit = number % 10;
+    local suffix;
+
+    if (number >= 10 && number <= 20)
+        suffix = "th";
+    else
+    {
+        switch (lastDigit)
+        {
+            case 1: suffix = "st"; break;
+            case 2: suffix = "nd"; break;
+            case 3: suffix = "rd"; break;
+            default: suffix = "th"; break;
+        }
+    }
+
+    return (number + suffix).tostring();
+}
+
+function ConvertRoundDamageToPoints(player)
+{
+    local damage = GetRoundDamage(player);
+    local points_added = 0;
+    foreach (point in QueuePointThresholds)
+    {
+        if(point <= damage)
+        {
+            points_added += 1;
+        }
+        else
+            break;
+    }
+
+    return points_added;
+}
