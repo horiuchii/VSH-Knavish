@@ -37,13 +37,4 @@ characterTraitsLibrary.push(class extends CharacterTrait
             params.damage = 50.0;
         }
     }
-
-    function OnTickAlive(timeDelta)
-    {
-        local ent = 0;
-        while(Entities.FindByClassname(ent, "tf_taunt_prop"))
-        {
-            printl("Found Glow");
-        }
-    }
 });

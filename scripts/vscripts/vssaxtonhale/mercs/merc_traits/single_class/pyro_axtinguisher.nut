@@ -15,20 +15,12 @@ characterTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_SCOUT
-            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "sunonastick");
+        return player.GetPlayerClass() == TF_CLASS_PYRO
+            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "axtinguisher");
     }
 
     function OnApply()
     {
-        player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE).AddAttribute("damage bonus", 1.5, -1);
-    }
-
-    function OnDamageDealt(victim, params)
-    {
-        if (params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE)
-            && (params.damage_type & DMG_CLUB)
-            && victim.InCond(TF_COND_BURNING))
-			params.damage *= 2.0;
+        player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE).AddAttribute("damage bonus", 2.0, -1);
     }
 });

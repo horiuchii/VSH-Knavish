@@ -40,6 +40,7 @@ IncludeTrait(TRAIT.SINGLE, "scout_bfb_decay.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_critacola_fullcrit.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_sunonastick.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_backscatter.nut");
+IncludeTrait(TRAIT.SINGLE, "scout_shortstop.nut");
 
 //Soldier
 IncludeTrait(TRAIT.SINGLE, "soldier_jumper_ammo.nut");
@@ -53,6 +54,7 @@ IncludeTrait(TRAIT.SINGLE, "pyro_airblast_nerf.nut");
 IncludeTrait(TRAIT.SINGLE, "pyro_back_scratcher.nut");
 IncludeTrait(TRAIT.SINGLE, "pyro_degreaser.nut");
 IncludeTrait(TRAIT.SINGLE, "pyro_powerjack.nut");
+IncludeTrait(TRAIT.SINGLE, "pyro_axtinguisher.nut");
 
 //Demoman
 IncludeTrait(TRAIT.SINGLE, "demo_shield.nut");
@@ -90,6 +92,7 @@ IncludeTrait(TRAIT.SINGLE, "sniper_smg_headshots.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_focus.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_head_collecting.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_razorback.nut");
+IncludeTrait(TRAIT.SINGLE, "sniper_bushwaka.nut");
 
 //Spy
 IncludeTrait(TRAIT.SINGLE, "spy_invis_res.nut");

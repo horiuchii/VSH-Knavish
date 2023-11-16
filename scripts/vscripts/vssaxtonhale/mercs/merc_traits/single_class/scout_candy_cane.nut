@@ -23,7 +23,9 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (!(params.damage_type & DMG_CLUB) || vsh_vscript.totalHealthKits > 30)
+        if (!(params.damage_type & DMG_CLUB)
+            || vsh_vscript.totalHealthKits > 30
+            || params.weapon != player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE))
             return;
         local healthKit = SpawnEntityFromTable("item_healthkit_small", {
             "OnPlayerTouch": "!self,Kill,,0,-1",

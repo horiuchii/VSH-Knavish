@@ -17,24 +17,21 @@ class ReceivedDamageScalingTrait extends BossTrait
 
     function OnTickAlive(timeDelta)
     {
-        /*local accDelta = accumulatorHP - boss.GetHealth();
+        local accDelta = accumulatorHP - boss.GetHealth();
         accumulatorHP -= accDelta * timeDelta / 2;
         if (accumulatorHP < boss.GetHealth())
-            accumulatorHP = boss.GetHealth();*/
+            accumulatorHP = boss.GetHealth();
     }
 
     function OnDamageTaken(attacker, params)
     {
-        printl("Damage Pre: " + params.damage);
-        /*local mercMultiplier = clampFloor(1, 1.85 - (GetAliveMercCount() * 1.0) / startMercCount);
+        local mercMultiplier = clampFloor(1, 1.85 - (GetAliveMercCount() * 1.0) / startMercCount);
 
         local accDelta = accumulatorHP - boss.GetHealth();
-        printl(accumulatorHP);
         local resistance = 0.5 + clampFloor(0, 0.5 - (accDelta / 4000.0));
 
         local totalMultiplier = mercMultiplier * resistance;
         if (totalMultiplier <= 0.9 || totalMultiplier >= 1.1)
             params.damage *= totalMultiplier;
-        printl("Damage Post: " + params.damage + " | Mult: " + totalMultiplier);*/
     }
 };

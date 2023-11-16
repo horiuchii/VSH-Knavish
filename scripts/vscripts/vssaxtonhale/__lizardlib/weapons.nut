@@ -287,6 +287,10 @@
     {
         ids = [349]
     },
+    ["shortstop"] =
+    {
+        ids = [220]
+    },
 };
 
 ::WeaponIs <- function(weapon, name)
