@@ -15,9 +15,20 @@ PrecacheClassVoiceLines("stabbed")
 
 characterTraitsLibrary.push(class extends CharacterTrait
 {
+    bDisallowCloak = false;
+    iCloakToSet = 0.0;
+
     function CanApply()
     {
         return player.GetPlayerClass() == TF_CLASS_SPY;
+    }
+
+    function OnTickAlive(timeDelta)
+    {
+        if(bDisallowCloak)
+        {
+            player.SetSpyCloakMeter(0.01);
+        }
     }
 
     function OnDamageDealt(victim, params)
@@ -51,7 +62,14 @@ characterTraitsLibrary.push(class extends CharacterTrait
             {
                 SetPropFloat(params.weapon, "m_flNextPrimaryAttack", Time() + 2.0);
                 SetPropFloat(player, "m_flNextAttack", Time() + 2.0);
-                SetPropFloat(player, "m_flStealthNextTraitTime", Time() + 2.0);
+
+                bDisallowCloak = true;
+                iCloakToSet = player.GetSpyCloakMeter();
+                RunWithDelay2(this, 1.9, function()
+                {
+                    bDisallowCloak = false;
+                    player.SetSpyCloakMeter(iCloakToSet);
+                });
             }
 
             EmitSoundOn("Player.Spy_Shield_Break", victim);

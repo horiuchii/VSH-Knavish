@@ -16,28 +16,12 @@ characterTraitsLibrary.push(class extends CharacterTrait
     function CanApply()
     {
         return player.GetPlayerClass() == TF_CLASS_SPY
-            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.INVIS_WATCH), "cloak_and_dagger");
+            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "big_earner");
     }
 
     function OnApply()
     {
-        local invis_watch = player.GetWeaponBySlot(TF_WEAPONSLOTS.INVIS_WATCH);
-        invis_watch.AddAttribute("cloak regen rate increased", 1.0, -1);
-        invis_watch.AddAttribute("cloak consume rate increased", 1.25, -1);
-        invis_watch.AddAttribute("mult decloak rate", 0.45, -1);
-    }
-
-    function OnTickAlive(timeDelta)
-    {
-        if(player.InCond(TF_COND_STEALTHED))
-        {
-            if(player.GetSpyCloakMeter() == 0)
-            {
-                player.RemoveCondEx(TF_COND_STEALTHED, true);
-                return;
-            }
-
-            player.AddCondEx(TF_COND_SPEED_BOOST, 0.15, null);
-        }
+        local melee = player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
+        melee.AddAttribute("max health additive penalty", -55, -1);
     }
 });

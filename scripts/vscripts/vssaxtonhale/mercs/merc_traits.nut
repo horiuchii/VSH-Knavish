@@ -100,6 +100,7 @@ IncludeTrait(TRAIT.SINGLE, "spy_letranger_nerf.nut");
 IncludeTrait(TRAIT.SINGLE, "spy_backstab.nut");
 IncludeTrait(TRAIT.SINGLE, "spy_ambassador.nut");
 IncludeTrait(TRAIT.SINGLE, "spy_cloak_and_dagger.nut");
+IncludeTrait(TRAIT.SINGLE, "spy_bigearner_nerf.nut");
 
 //Voicelines
 Include("/mercs/voice_lines/all_class/tracing_boss.nut");
