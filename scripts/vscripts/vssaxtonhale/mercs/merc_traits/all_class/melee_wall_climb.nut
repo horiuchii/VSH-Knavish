@@ -11,7 +11,8 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-hitStreak <- {};
+::hitStreak <- {};
+::justWallClimbed <- {};
 ignoreWallClimb <- [
     "player",
     "tf_bot",
@@ -38,8 +39,15 @@ AddListener("tick_always", 0, function (timeDelta)
             hitStreak[player] <- 0;
 });
 
-function MeleeClimb_Perform(player, quickFixLink = false)
+::MeleeClimb_Perform <- function(player, quickFixLink = false)
 {
+    justWallClimbed[player] <- true;
+
+    RunWithDelay2(this, -1, function()
+    {
+        justWallClimbed[player] <- false;
+    })
+
     local hits = (player in hitStreak ? hitStreak[player] : 0) + 1;
     local launchVelocity = hits == 1 ? 600 : hits == 2 ? 450 : hits <= 4 ? 400 : 200;
     hitStreak[player] <- hits;
@@ -71,3 +79,64 @@ function MeleeClimb_Perform(player, quickFixLink = false)
                 return MeleeClimb_Perform(otherPlayer, true);
         }
 }
+
+::CheckMeleeSmack <- function()
+{
+	local player = self.GetOwner();
+	// when melee smacks, m_iNextMeleeCrit is 0
+	if (GetPropInt(player, "m_Shared.m_iNextMeleeCrit") == 0)
+	{
+		// when switching away from melee, m_iNextMeleeCrit will also be 0 so check for that case
+		if (player.GetActiveWeapon() == self)
+		{
+            local docheck = player in justWallClimbed ? justWallClimbed[player] : false;
+
+            if(docheck)
+            {
+                // continue smack detection
+		        SetPropInt(player, "m_Shared.m_iNextMeleeCrit", -2);
+                return -1;
+            }
+
+            local eyepos = player.EyePosition();
+
+            local bounds_scale = GetBoundsMultiplier(self);
+
+            traceTable <-
+            {
+                start = eyepos
+                end = eyepos + (player.EyeAngles().Forward() * GetSwingLength(self))
+                hullmin = Vector(-18,-18,-18) * bounds_scale
+                hullmax = Vector(18,18,18) * bounds_scale
+                mask = MASK_SOLID_BRUSHONLY
+            }
+
+            if(TraceHull(traceTable) && !traceTable.hit)
+            {
+                // continue smack detection
+		        SetPropInt(player, "m_Shared.m_iNextMeleeCrit", -2);
+                return -1;
+            }
+
+            MeleeClimb_Perform(player);
+		}
+
+		// continue smack detection
+		SetPropInt(player, "m_Shared.m_iNextMeleeCrit", -2);
+	}
+
+	return -1;
+}
+
+AddListener("spawn", 15, function (player, params)
+{
+    if (player.GetTeam() != TF_TEAM_MERC)
+        return;
+
+    local weapon = player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
+    if (weapon != null)
+    {
+        SetPropInt(player, "m_Shared.m_iNextMeleeCrit", -2);
+        AddThinkToEnt(weapon, "CheckMeleeSmack");
+    }
+});

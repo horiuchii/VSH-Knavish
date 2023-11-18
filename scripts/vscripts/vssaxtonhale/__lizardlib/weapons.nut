@@ -364,6 +364,25 @@
 
 ::CTFBot.GetWearable <- CTFPlayer.GetWearable;
 
+::GetSwingLength <- function(weapon)
+{
+    if(WeaponIs(weapon, "any_sword"))
+        return 72;
+
+    if(WeaponIs(weapon, "disciplinary_action"))
+        return 81.6;
+
+    return 48;
+}
+
+::GetBoundsMultiplier <- function(weapon)
+{
+    if(WeaponIs(weapon, "disciplinary_action"))
+        return 1.55;
+
+    return 1.0;
+}
+
 // When we need to check for headshots, use HitboxDetector
 if ("HitboxDetector" in getroottable() && HitboxDetector.IsValid())
     HitboxDetector.Destroy();
