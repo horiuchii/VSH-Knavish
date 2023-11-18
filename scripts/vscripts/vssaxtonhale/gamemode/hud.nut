@@ -53,7 +53,7 @@ AddListener("tick_only_valid", 2, function (timeDelta)
 
 function TickBossBar(boss)
 {
-    if (IsPlayerDead(boss))
+    if (boss.IsDead())
         return;
     if (bossBarTicker < 2)
     {

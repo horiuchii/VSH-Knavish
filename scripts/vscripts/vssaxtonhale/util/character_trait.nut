@@ -58,14 +58,14 @@ class CharacterTrait
 
     function DoTick(timeDelta)
     {
-        if (IsPlayerAlive(player))
+        if (player.IsAlive())
             OnTickAlive(timeDelta);
         OnTickAliveOrDead(timeDelta);
     }
 
     function DoFrameTick()
     {
-        if (IsPlayerAlive(player))
+        if (player.IsAlive())
             OnFrameTickAlive();
         OnFrameTickAliveOrDead();
     }

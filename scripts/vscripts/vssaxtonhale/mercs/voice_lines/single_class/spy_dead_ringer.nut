@@ -28,7 +28,7 @@ characterTraitsLibrary.push(class extends CustomVoiceLine
         if (params.damage < 30 && player.GetHealth() > 50 && RandomInt(0, 2) == 0 && !player.InCond(TF_COND_STEALTHED))
             RunWithDelay2(this, 0, function()
             {
-                if (IsPlayerAlive(player) && player.InCond(TF_COND_STEALTHED))
+                if (player.IsAlive() && player.InCond(TF_COND_STEALTHED))
                     EmitPlayerVODelayed(player, "special_01", 1.5)
             });
     }

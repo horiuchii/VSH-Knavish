@@ -11,14 +11,6 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-Include("__lizardlib/constants.nut");
-Include("__lizardlib/netprops.nut");
-Include("__lizardlib/listeners.nut");
-Include("__lizardlib/player_util.nut");
-Include("__lizardlib/weapons.nut");
-Include("__lizardlib/character_trait.nut");
-Include("__lizardlib/game_events.nut");
-
 ::CreateAoE <- function(center, radius, bDoLOSCheck, applyDamageFunc, applyPushFunc)
 {
     foreach(target in GetAliveMercs())
@@ -36,7 +28,6 @@ Include("__lizardlib/game_events.nut");
             TraceLineEx(trace_table);
             InLOS = !trace_table.hit;
         }
-
 
         applyPushFunc(target, deltaVector, distance, InLOS, ZDiff);
         applyDamageFunc(target, deltaVector, distance, InLOS, ZDiff);
@@ -147,8 +138,13 @@ Include("__lizardlib/game_events.nut");
     local name = UniqueString();
     vsh_vscript[name] <- function()
     {
-        try { func.acall([scope].extend(vargv)) }
-        catch (e) { throw e; }
+        try {
+            func.acall([scope].extend(vargv))
+        }
+        catch (e) {
+            throw e;
+        }
+
         delete vsh_vscript[name];
     }
     RunWithDelay(name + "()", null, delay);

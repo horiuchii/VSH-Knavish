@@ -20,20 +20,34 @@ function Include(path)
 
 try { IncludeScript("vsh_addons/main_pre.nut"); } catch(e) { }
 
-Include("__lizardlib/util.nut");
-Include("/util/entities.nut");
-Include("/vsh_api.nut");
-Include("/util/player_cache.nut");
-Include("/_gamemode/boss_queue.nut");
-Include("/_gamemode/forced_arena.nut");
-Include("/_gamemode/scoreboard.nut");
-Include("/util/voice_line_manager.nut");
 Include("/give_tf_weapon/_master.nut");
-Include("/mercs/merc_traits.nut");
-Include("/_gamemode/round_logic.nut");
+
+// These must be included first and in order!
+Include("/util/constants.nut");
+Include("/util/listeners.nut");
+Include("/util/player_util.nut");
+Include("/util/character_trait.nut");
+Include("/vsh_api.nut");
+
+// Order doesn't matter
+Include("/util/entities.nut");
+Include("/util/netprops.nut");
+Include("/util/player_cache.nut");
+Include("/util/util.nut");
+Include("/util/voice_line_manager.nut");
+Include("/util/weapons.nut");
+
+Include("/gamemode/boss_queue.nut");
+Include("/gamemode/forced_arena.nut");
+Include("/gamemode/gamerules.nut");
+Include("/gamemode/game_events.nut");
+Include("/gamemode/hud.nut");
+Include("/gamemode/round_logic.nut");
+Include("/gamemode/scoreboard.nut");
+
+// These must be included last
 Include("/bosses/boss.nut");
-Include("/_gamemode/hud.nut");
-Include("/_gamemode/gamerules.nut");
+Include("/mercs/merc_traits.nut");
 
 try { IncludeScript("vsh_addons/main.nut"); } catch(e) { }
 

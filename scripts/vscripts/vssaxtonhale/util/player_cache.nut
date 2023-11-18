@@ -34,7 +34,7 @@
             {
                 validPlayersL.push(player);
 
-                local isAlive = IsPlayerAlive(player);
+                local isAlive = player.IsAlive();
                 local isMerc = !IsBoss(player);
 
                 if (isAlive && isMerc)
@@ -99,5 +99,5 @@ AddListener("disconnect", -9999, function(player, params)
 
 ::IsMercValidAndAlive <- function(player)
 {
-    return IsValidPlayer(player) && !IsValidBoss(player) && IsPlayerAlive(player);
+    return IsValidPlayer(player) && !IsValidBoss(player) && player.IsAlive();
 }

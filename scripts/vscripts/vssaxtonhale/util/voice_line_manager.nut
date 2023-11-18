@@ -35,7 +35,7 @@ class CustomVoiceLine extends CharacterTrait
             lastTick += tickInverval;
             if (time - lastPlay >= playInterval)
             {
-                local wasPlayed = IsPlayerAlive(player) ? OnTickAlive(timeDelta) : false;
+                local wasPlayed = player.IsAlive() ? OnTickAlive(timeDelta) : false;
                 local wasPlayed2 = OnTickAliveOrDead(timeDelta);
                 if (wasPlayed || wasPlayed2)
                     lastPlay = time;
@@ -122,7 +122,7 @@ function PlaySoundForAll(soundScript)
 
 ::EmitPlayerVODelayed <- function(player, soundPath, delay)
 {
-    RunWithDelay("if (IsValidPlayer(activator) && IsPlayerAlive(activator)) EmitPlayerVO(activator,`"+soundPath+"`)", player, delay);
+    RunWithDelay("if (IsValidPlayer(activator) && activator.IsAlive()) EmitPlayerVO(activator,`"+soundPath+"`)", player, delay);
     return true;
 }
 

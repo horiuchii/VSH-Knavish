@@ -42,7 +42,7 @@ AddListener("setup_end", 0, function()
 {
     //Respawn all Mercs when Setup ends
     foreach (player in GetValidMercs())
-        if (!IsPlayerAlive(player))
+        if (!player.IsAlive())
             player.ForceRespawn();
 
     RemoveAllRespawnRooms();

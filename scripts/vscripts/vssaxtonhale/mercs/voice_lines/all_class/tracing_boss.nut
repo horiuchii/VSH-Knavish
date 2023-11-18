@@ -28,7 +28,7 @@ characterTraitsLibrary.push(class extends CustomVoiceLine
     function OnTickAlive(tickDelta)
     {
         local boss = GetBossPlayers()[0]; //todo supports only 1 boss
-        if (!IsValidBoss(boss) || !IsPlayerAlive(boss) || GetAliveMercCount() <= 1)
+        if (!IsValidBoss(boss) || !boss.IsAlive() || GetAliveMercCount() <= 1)
             return;
         local time = Time();
 

@@ -38,78 +38,141 @@
 
 ::WeaponTable <-
 {
-    ["kgb"] =
+    /*
+    *   All-Class
+    */
+
+    ["half_zatoichi"] =
     {
-        ids = [43]
-    },
-	["gru"] =
-    {
-        ids = [239, 1084, 1100]
-    },
-    ["market_gardener"] =
-    {
-        ids = [416]
-    },
-    ["holiday_punch"] =
-    {
-        ids = [656]
-    },
-    ["eyelander"] =
-    {
-        ids = [132, 266, 482, 1082]
-    },
-    ["natascha"] =
-    {
-        ids = [41]
-    },
-    ["kunai"] =
-    {
-        ids = [356]
-    },
-    ["big_earner"] =
-    {
-        ids = [461]
-    },
-    ["your_eternal_reward"] =
-    {
-        ids = [225, 574]
-    },
-    ["warriors_spirit"] =
-    {
-        ids = [310]
-    },
-    ["direct_hit"] =
-    {
-        ids = [127]
+        ids = [357]
     },
     ["reserve_shooter"] =
     {
         ids = [415]
     },
+    ["base_jumper"] =
+    {
+        ids = [1101]
+    },
+
+    /*
+    *   Scout
+    */
+
+    ["force_a_nature"] =
+    {
+        ids = [45, 1078]
+    },
+    ["shortstop"] =
+    {
+        ids = [220]
+    },
+    ["baby_face_blaster"] =
+    {
+        ids = [772]
+    },
+    ["backscatter"] =
+    {
+        ids = [1103]
+    },
+
+    ["mad_milk"] =
+    {
+        ids = [222, 1121]
+    },
+
     ["candy_cane"] =
     {
         ids = [317]
+    },
+    ["sunonastick"] =
+    {
+        ids = [349]
     },
     ["fan_o_war"] =
     {
         ids = [355]
     },
+
+    /*
+    *   Soldier
+    */
+
+    ["direct_hit"] =
+    {
+        ids = [127]
+    },
     ["rocket_jumper"] =
     {
         ids = [237]
     },
-    ["dead_ringer"] =
+    ["airstrike"] =
     {
-        ids = [59]
+        ids = [1104]
     },
-    ["ubersaw"] =
+
+    ["mantreads"] =
     {
-        ids = [37, 1003]
+        ids = [444]
     },
-    ["quick_fix"] =
+
+    ["equalizer"] =
     {
-        ids = [411]
+        ids = [128]
     },
+    ["market_gardener"] =
+    {
+        ids = [416]
+    },
+    ["disciplinary_action"] =
+    {
+        ids = [447]
+    },
+    ["escape_plan"] =
+    {
+        ids = [775]
+    },
+
+    /*
+    *   Pyro
+    */
+
+    ["degreaser"] =
+    {
+        ids = [215]
+    },
+
+    ["thermal_thruster"] =
+    {
+        ids = [1179]
+    },
+
+    ["axtinguisher"] =
+    {
+        ids = [38,1000]
+    },
+    ["powerjack"] =
+    {
+        ids = [214]
+    },
+    ["back_scratcher"] =
+    {
+        ids = [326]
+    },
+
+    /*
+    *   Demoman
+    */
+
+    ["booties"] =
+    {
+        ids = [405]
+    },
+    ["boot_legger"] =
+    {
+        ids = [608]
+    },
+
     ["stickybomb_launcher"] =
     {
         ids = [20, 207, 661, 797, 806, 886, 895, 904, 913, 962, 971, 15009, 15012, 15024,
@@ -119,141 +182,13 @@
     {
         ids = [130]
     },
-    ["quickiebomb_launcher"] =
+    ["chargin_targe"] =
     {
-        ids = [1150]
+        ids = [131, 1144]
     },
     ["sticky_jumper"] =
     {
         ids = [265]
-    },
-    ["force_a_nature"] =
-    {
-        ids = [45, 1078]
-    },
-    ["disciplinary_action"] =
-    {
-        ids = [447]
-    },
-    ["eviction_notice"] =
-    {
-        ids = [426]
-    },
-    ["diamondback"] =
-    {
-        ids = [525]
-    },
-    ["powerjack"] =
-    {
-        ids = [214]
-    },
-    ["baby_face_blaster"] =
-    {
-        ids = [772]
-    },
-    ["letranger"] =
-    {
-        ids = [224]
-    },
-    ["back_scratcher"] =
-    {
-        ids = [326]
-    },
-    ["degreaser"] =
-    {
-        ids = [215]
-    },
-    ["claidheamhmor"] =
-    {
-        ids = [327]
-    },
-    ["xbow"] =
-    {
-        ids = [305, 1079]
-    },
-    ["syringegun"] =
-    {
-        ids = [17, 204]
-    },
-    ["overdose"] =
-    {
-        ids = [412]
-    },
-    ["blutsauger"] =
-    {
-        ids = [36]
-    },
-    ["vitasaw"] =
-    {
-        ids = [173]
-    },
-    ["mad_milk"] =
-    {
-        ids = [222, 1121]
-    },
-    ["airstrike"] =
-    {
-        ids = [1104]
-    },
-    ["half_zatoichi"] =
-    {
-        ids = [357]
-    },
-    ["fists_of_steel"] =
-    {
-        ids = [331]
-    },
-    ["ambassador"] =
-    {
-        ids = [61, 1006]
-    },
-    ["base_jumper"] =
-    {
-        ids = [1101]
-    },
-    ["invis_watch"] =
-    {
-        ids = [30]
-    },
-    ["cloak_and_dagger"] =
-    {
-        ids = [60]
-    },
-    ["equalizer"] =
-    {
-        ids = [128]
-    },
-    ["escape_plan"] =
-    {
-        ids = [775]
-    },
-    ["hitmans_heatmaker"] =
-    {
-        ids = [752]
-    },
-    ["booties"] =
-    {
-        ids = [405]
-    },
-    ["boot_legger"] =
-    {
-        ids = [608]
-    },
-    ["smg"] =
-    {
-        ids = [16, 203, 1149, 15001, 15022, 15032, 15037, 15058, 15076, 15110, 15134, 15153]
-    },
-    ["cleaners_carbine"] =
-    {
-        ids = [751]
-    },
-    ["mantreads"] =
-    {
-        ids = [444]
-    },
-    ["chargin_targe"] =
-    {
-        ids = [131, 1144]
     },
     ["splendid_screen"] =
     {
@@ -263,33 +198,163 @@
     {
         ids = [1099]
     },
+    ["quickiebomb_launcher"] =
+    {
+        ids = [1150]
+    },
+
+    ["eyelander"] =
+    {
+        ids = [132, 266, 482, 1082]
+    },
+    ["claidheamhmor"] =
+    {
+        ids = [327]
+    },
+
+    /*
+    *   Heavy
+    */
+
+    ["natascha"] =
+    {
+        ids = [41]
+    },
+
+    ["kgb"] =
+    {
+        ids = [43]
+    },
+	["gru"] =
+    {
+        ids = [239, 1084, 1100]
+    },
+    ["warriors_spirit"] =
+    {
+        ids = [310]
+    },
+    ["fists_of_steel"] =
+    {
+        ids = [331]
+    },
+    ["eviction_notice"] =
+    {
+        ids = [426]
+    },
+    ["holiday_punch"] =
+    {
+        ids = [656]
+    },
+
+    /*
+    *   Engineer
+    */
+
+
+
+    /*
+    *   Medic
+    */
+
+    ["syringegun"] =
+    {
+        ids = [17, 204]
+    },
+    ["blutsauger"] =
+    {
+        ids = [36]
+    },
+    ["xbow"] =
+    {
+        ids = [305, 1079]
+    },
+    ["overdose"] =
+    {
+        ids = [412]
+    },
+
+    ["quick_fix"] =
+    {
+        ids = [411]
+    },
+
+    ["ubersaw"] =
+    {
+        ids = [37, 1003]
+    },
+    ["vitasaw"] =
+    {
+        ids = [173]
+    },
+
+    /*
+    *   Sniper
+    */
+
+    ["hitmans_heatmaker"] =
+    {
+        ids = [752]
+    },
+
+    ["smg"] =
+    {
+        ids = [16, 203, 1149, 15001, 15022, 15032, 15037, 15058, 15076, 15110, 15134, 15153]
+    },
     ["razorback"] =
     {
         ids = [57]
     },
-    ["thermal_thruster"] =
+    ["cleaners_carbine"] =
     {
-        ids = [1179]
+        ids = [751]
     },
-    ["backscatter"] =
-    {
-        ids = [1103]
-    },
+
     ["bushwaka"] =
     {
         ids = [232]
     },
-    ["axtinguisher"] =
+
+    /*
+    *   Spy
+    */
+
+    ["ambassador"] =
     {
-        ids = [38,1000]
+        ids = [61, 1006]
     },
-    ["sunonastick"] =
+    ["letranger"] =
     {
-        ids = [349]
+        ids = [224]
     },
-    ["shortstop"] =
+    ["diamondback"] =
     {
-        ids = [220]
+        ids = [525]
+    },
+
+    ["your_eternal_reward"] =
+    {
+        ids = [225, 574]
+    },
+    ["kunai"] =
+    {
+        ids = [356]
+    },
+    ["big_earner"] =
+    {
+        ids = [461]
+    },
+
+    ["invis_watch"] =
+    {
+        ids = [30]
+    },
+    ["dead_ringer"] =
+    {
+        ids = [59]
+    },
+    ["cloak_and_dagger"] =
+    {
+        ids = [60]
     },
 };
 

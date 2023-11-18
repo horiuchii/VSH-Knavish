@@ -51,7 +51,7 @@ function RegisterBoss(name, bossClass)
 ::IsAnyBossAlive <- function()
 {
     foreach (player, boss in bosses)
-        if (IsValidPlayer(player) && IsPlayerAlive(player))
+        if (IsValidPlayer(player) && player.IsAlive())
             return true;
     return false;
 }
@@ -84,7 +84,7 @@ function RegisterBoss(name, bossClass)
 {
     local players = []
     foreach (player, boss in bosses)
-        if (IsValidPlayer(player) && IsPlayerAlive(player))
+        if (IsValidPlayer(player) && player.IsAlive())
             players.push(player);
     return players;
 }

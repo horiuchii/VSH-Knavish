@@ -45,7 +45,7 @@ AddListener("death", 10, function (attacker, victim, params)
         || GetAliveMercCount() == 1
         || IsBoss(victim)
         || bossKillLinesEnabled.find(attacker) == null
-        || !IsPlayerAlive(attacker))
+        || !attacker.IsAlive())
         return;
 
     local voiceLine = null;

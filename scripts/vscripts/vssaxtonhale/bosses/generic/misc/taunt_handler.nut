@@ -154,7 +154,7 @@ class TauntHandlerTrait extends BossTrait
             RunWithDelay2(this, 3, function(winner, loser) {
                 if (!IsValidPlayer(loser))
                     return;
-                local attacker = IsValidPlayer(winner) ? winner : lower
+                local attacker = IsValidPlayer(winner) ? winner : loser
                 loser.TakeDamageEx(
                     attacker,
                     attacker,

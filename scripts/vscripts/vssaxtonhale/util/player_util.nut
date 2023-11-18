@@ -11,14 +11,14 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-::IsPlayerAlive <- function(player)
+::CTFPlayer.IsAlive <- function()
 {
-    return GetPropInt(player, "m_lifeState") == LIFE_STATE.ALIVE;
+    return GetPropInt(this, "m_lifeState") == LIFE_STATE.ALIVE;
 }
 
-::IsPlayerDead <- function(player)
+::CTFPlayer.IsDead <- function()
 {
-    return GetPropInt(player, "m_lifeState") != LIFE_STATE.ALIVE;
+    return GetPropInt(this, "m_lifeState") != LIFE_STATE.ALIVE;
 }
 
 ::CTFPlayer.IsOnGround <- function()
@@ -26,7 +26,38 @@
     return this.GetFlags() & FL_ONGROUND;
 }
 
+::CTFPlayer.Yeet <- function(vector)
+{
+    SetPropEntity(this, "m_hGroundEntity", null);
+    this.ApplyAbsVelocityImpulse(vector);
+    this.RemoveFlag(FL_ONGROUND);
+}
+
+::CTFBot.SwitchTeam <- function(team)
+{
+    this.ForceChangeTeam(team, true);
+    SetPropInt(this, "m_iTeamNum", team);
+}
+
+::CTFPlayer.SwitchTeam <- function(team)
+{
+    SetPropInt(this, "m_bIsCoaching", 1);
+    this.ForceChangeTeam(team, true);
+    SetPropInt(this, "m_bIsCoaching", 0);
+}
+
+::CTFPlayer.GetMaxOverheal <- function()
+{
+    local overheal = this.GetMaxHealth() * 1.5;
+    return overheal - (overheal % 5.0);
+}
+
+// Shared with CTFBot
+::CTFBot.IsAlive <- CTFPlayer.IsAlive;
+::CTFBot.IsDead <- CTFPlayer.IsDead;
 ::CTFBot.IsOnGround <- CTFPlayer.IsOnGround;
+::CTFBot.Yeet <- CTFPlayer.Yeet;
+::CTFBot.GetMaxOverheal <- CTFPlayer.GetMaxOverheal;
 
 ::IsValidClient <- function(player)
 {
@@ -102,28 +133,6 @@
     }
 }
 
-::CTFPlayer.Yeet <- function(vector)
-{
-    SetPropEntity(this, "m_hGroundEntity", null);
-    this.ApplyAbsVelocityImpulse(vector);
-    this.RemoveFlag(FL_ONGROUND);
-}
-
-::CTFBot.Yeet <- CTFPlayer.Yeet;
-
-::CTFBot.SwitchTeam <- function(team)
-{
-    this.ForceChangeTeam(team, true);
-    SetPropInt(this, "m_iTeamNum", team);
-}
-
-::CTFPlayer.SwitchTeam <- function(team)
-{
-    SetPropInt(this, "m_bIsCoaching", 1);
-    this.ForceChangeTeam(team, true);
-    SetPropInt(this, "m_bIsCoaching", 0);
-}
-
 ::SwitchPlayerTeam <- function(player, team)
 {
     if (IsValidPlayer(player))
@@ -134,17 +143,13 @@
             player.ForceRegenerateAndRespawn();
             local ammoPack = null;
             while (ammoPack = Entities.FindByClassname(ammoPack, "tf_ammo_pack"))
+            {
                 if (ammoPack.GetOwner() == player)
                 {
                     ammoPack.Kill();
                     return;
                 }
+            }
         }
     }
-}
-
-::CTFPlayer.GetMaxOverheal <- function()
-{
-    local overheal = this.GetMaxHealth() * 1.5;
-    return overheal - (overheal % 5.0);
 }

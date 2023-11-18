@@ -95,7 +95,7 @@ AddListener("death", 5, function (attacker, player, params)
 
 function GetDeathTime(player)
 {
-    if (IsPlayerAlive(player))
+    if (player.IsAlive())
     {
         return GetTimeSinceRoundStarted();
     }
