@@ -157,7 +157,7 @@
     },
     ["homewrecker"] =
     {
-        ids = [153]
+        ids = [153,466]
     },
     ["powerjack"] =
     {
