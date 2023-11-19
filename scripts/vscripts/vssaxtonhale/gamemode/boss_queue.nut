@@ -142,8 +142,8 @@ AddListener("round_end", 100, function (winner)
         }
 
         local message = "\x01" + "\x07FFD700" + "[VSH] ";
-        message += "\x01You gained \x07FFD700" + ConvertRoundDamageToPoints(player) + "\x01 points this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage.\n"
-        message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 points."
+        message += "\x01You gained \x07FFD700" + ConvertRoundDamageToPoints(player) + "\x01 point(s) this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage.\n"
+        message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 point(s)."
         ClientPrint(player, HUD_PRINTTALK, message);
     }
 });
