@@ -24,7 +24,7 @@ characterTraitsLibrary.push(class extends CharacterTrait
         if (!CanReceiveBuffs(active))
             return;
 
-        if (CanReceivePassiveCrits(active, player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE) == active))
+        if (CanReceivePassiveCrits(player, active, player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE) == active))
         {
             player.AddCondEx(TF_COND_CRITBOOSTED_ON_KILL, 0.2, player);
         }
@@ -71,11 +71,14 @@ characterTraitsLibrary.push(class extends CharacterTrait
             || classname == "tf_weapon_handgun_scout_secondary";
     }
 
-    function CanReceivePassiveCrits(active, isMelee)
+    function CanReceivePassiveCrits(player, active, isMelee)
     {
         if (isMelee)
         {
-            return !(WeaponIs(active, "sunonastick") || WeaponIs(active, "axtinguisher") || WeaponIs(active, "bushwaka"));
+            return !(WeaponIs(active, "sunonastick")
+            || WeaponIs(active, "axtinguisher")
+            || WeaponIs(active, "bushwaka")
+            || player.GetPlayerClass() == TF_CLASS_SPY);
         }
 
         // Add separate weapon checks here ~ Brad

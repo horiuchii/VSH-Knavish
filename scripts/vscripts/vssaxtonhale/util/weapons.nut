@@ -106,6 +106,10 @@
     {
         ids = [237]
     },
+    ["cowmangler"] =
+    {
+        ids = [441]
+    },
     ["airstrike"] =
     {
         ids = [1104]
@@ -150,6 +154,10 @@
     ["axtinguisher"] =
     {
         ids = [38,1000]
+    },
+    ["homewrecker"] =
+    {
+        ids = [153]
     },
     ["powerjack"] =
     {
@@ -286,6 +294,10 @@
     {
         ids = [173]
     },
+    ["solemnvow"] =
+    {
+        ids = [413]
+    },
 
     /*
     *   Sniper
@@ -395,6 +407,34 @@
     }
 }
 
+::CTFPlayer.ResupplyAmmo <- function()
+{
+    for (local i = TF_WEAPONSLOTS.PRIMARY; i < TF_WEAPONSLOTS.MELEE; i++)
+    {
+        local num = 0;
+        while (num < 2)
+        {
+            local weapon = this.GetWeaponBySlot(i);
+            if (weapon != null)
+            {
+                local offset = "00";
+                local ammotype = !num ? weapon.GetPrimaryAmmoType() : weapon.GetSecondaryAmmoType();
+                if (ammotype < 10)
+                {
+                    offset = "0" + ammotype.tostring();
+                }
+                else
+                {
+                    offset = ammotype.tostring();
+                }
+            }
+            num++;
+        }
+    }
+}
+
+::CTFBot.ResupplyAmmo <- CTFPlayer.ResupplyAmmo;
+
 ::CTFPlayer.HasWearable <- function(name)
 {
     for (local wearable = FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
@@ -460,3 +500,4 @@ HitboxDetector.SetClip1(-1);
 
 ::HitboxDetectorAttacking <- false;
 ::HitboxDetectorHitgroup <- false;
+

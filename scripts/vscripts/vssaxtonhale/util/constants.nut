@@ -79,4 +79,13 @@ enum LIFE_STATE
     DISCARDBODY = 4
 }
 
+enum MINIGUNSTATE
+{
+    IDLE = 0,
+    STARTFIRING = 1,
+    FIRING = 2,
+    SPINNING = 3,
+    DRYFIRE = 4,
+}
+
 ::MASK_SOLID_BRUSHONLY <- 16395;

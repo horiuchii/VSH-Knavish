@@ -61,7 +61,34 @@ AddListener("tick_always", 0, function (timeDelta)
         newVelocity.x /= 2;
         newVelocity.y /= 2;
     }
-    if (player.GetPlayerClass() == TF_CLASS_SNIPER) launchVelocity *= 1.25;
+
+    switch (player.GetPlayerClass())
+    {
+        case TF_CLASS_PYRO:
+            {
+                if (WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "homewrecker"))
+                {
+                    launchVelocity *= 1.10;
+                }
+
+                break;
+            }
+        case TF_CLASS_MEDIC:
+            {
+                if (WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "solemnvow"))
+                {
+                    launchVelocity *= 1.10;
+                }
+
+                break;
+            }
+        case TF_CLASS_SNIPER:
+            {
+                launchVelocity *= 1.25;
+                break;
+            }
+    }
+
     newVelocity.z = launchVelocity > 430 ? launchVelocity : launchVelocity + newVelocity.z;
     player.SetAbsVelocity(newVelocity);
     FireListeners("wall_climb", player, hits, quickFixLink);

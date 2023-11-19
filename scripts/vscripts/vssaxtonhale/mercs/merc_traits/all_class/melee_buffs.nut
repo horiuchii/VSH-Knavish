@@ -62,8 +62,13 @@ characterTraitsLibrary.push(class extends CharacterTrait
                 deltaVector.z = 0;
                 if (deltaVector.Norm() < 180)
                 {
-                    local force = !WeaponIs(params.weapon, "any_sword") ? 300 : 100;
-                    victim.Yeet(deltaVector * force + Vector(0, 0, force));
+                    local force = 300.0;
+                    if (WeaponIs(params.weapon, "any_sword")
+                        || WeaponIs(params.weapon, "ubersaw"))
+                    {
+                        force = 100.0;
+                    }
+                    victim.Yeet(deltaVector * force + Vector(0.0, 0.0, force));
                 }
             }
         }

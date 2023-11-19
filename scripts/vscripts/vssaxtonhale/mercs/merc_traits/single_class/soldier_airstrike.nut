@@ -18,24 +18,29 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_SOLDIER;
+        return player.GetPlayerClass() == TF_CLASS_SOLDIER
+            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "airstrike");
     }
 
-    function OnDamageDealt(victim, params)
+    function OnApply()
     {
-        lastHitWasAirStrike = player != victim && WeaponIs(params.weapon, "airstrike");
+        local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
+        primary.AddAttribute("damage penalty", 0.80, -1);
+        primary.AddAttribute("Reload time decreased", 0.70, -1);
+        primary.AddAttribute("maxammo primary increased", 1.5, -1);
+        player.ResupplyAmmo();
     }
 
     function OnHurtDealtEvent(victim, params)
     {
-        if (lastHitWasAirStrike)
+        if (player == victim)
+            return;
+
+        damageAccumulated += params.damageamount;
+        while (damageAccumulated >= 200)
         {
-            damageAccumulated += params.damageamount;
-            while (damageAccumulated >= 250)
-            {
-                AddPropInt(player, "m_Shared.m_iDecapitations", 1);
-                damageAccumulated -= 250;
-            }
+            AddPropInt(player, "m_Shared.m_iDecapitations", 1);
+            damageAccumulated -= 200;
         }
     }
 });

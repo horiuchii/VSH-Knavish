@@ -13,6 +13,8 @@
 
 characterTraitsLibrary.push(class extends CharacterTrait
 {
+    cloaking = false;
+
     function CanApply()
     {
         return player.GetPlayerClass() == TF_CLASS_SPY
@@ -23,20 +25,46 @@ characterTraitsLibrary.push(class extends CharacterTrait
     {
         local invis_watch = player.GetWeaponBySlot(TF_WEAPONSLOTS.INVIS_WATCH);
         invis_watch.AddAttribute("cloak regen rate increased", 1.0, -1);
-        invis_watch.AddAttribute("cloak consume rate increased", 1.25, -1);
-        invis_watch.AddAttribute("mult decloak rate", 0.45, -1);
+        invis_watch.AddAttribute("mult cloak meter consume rate", 2.5, -1);
+        invis_watch.AddAttribute("set cloak is movement based", 0.0, -1);
     }
 
     function OnTickAlive(timeDelta)
     {
-        if(player.InCond(TF_COND_STEALTHED))
+        if(player.InCond(TF_COND_STEALTHED)
+            && GetPropFloat(player, "m_Shared.m_flInvisChangeCompleteTime") < Time())
         {
-            if(player.GetSpyCloakMeter() == 0)
-            {
-                player.RemoveCondEx(TF_COND_STEALTHED, true);
-                return;
-            }
+            player.AddCondEx(TF_COND_SPEED_BOOST, 0.15, null);
+        }
+    }
 
+    function OnFrameTickAlive()
+    {
+        local inStealth = player.InCond(TF_COND_STEALTHED)
+        local invisTime = GetPropFloat(player, "m_Shared.m_flInvisChangeCompleteTime");
+        if (inStealth)
+        {
+            // Cloaking
+            if (!cloaking && invisTime > Time())
+            {
+                cloaking = true;
+                SetPropFloat(player, "m_Shared.m_flInvisChangeCompleteTime", ((invisTime - Time()) * 0.5) + Time());
+            }
+        }
+        else
+        {
+            // Decloaking
+            if (cloaking && invisTime > Time())
+            {
+                cloaking = false;
+                SetPropFloat(player, "m_Shared.m_flInvisChangeCompleteTime", ((invisTime - Time()) * 0.5) + Time());
+                SetPropFloat(player, "m_Shared.m_flStealthNextChangeTime", ((invisTime - Time()) * 0.5) + Time());
+                SetPropFloat(player, "m_Shared.m_flStealthNoAttackExpire", ((invisTime - Time()) * 0.5) + Time());
+            }
+        }
+
+        if (inStealth && invisTime < Time())
+        {
             player.AddCondEx(TF_COND_SPEED_BOOST, 0.15, null);
         }
     }

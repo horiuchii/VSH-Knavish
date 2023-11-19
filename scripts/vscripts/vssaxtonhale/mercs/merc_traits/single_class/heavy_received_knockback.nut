@@ -20,7 +20,18 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
     function OnDamageTaken(attacker, params)
     {
-        if (IsValidBoss(attacker))
-			player.Yeet(Vector(0, 0, 150));
+        if (!IsValidBoss(attacker))
+            return;
+
+        local weapon = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
+        if (weapon == null)
+            return;
+
+        local flags = player.GetFlags();
+        if (flags & FL_ONGROUND &&
+            (GetPropBool(player, "m_bDucked") || GetPropInt(weapon, "m_iWeaponState") > MINIGUNSTATE.STARTFIRING))
+            return;
+
+        player.Yeet(Vector(0, 0, 150));
     }
 });

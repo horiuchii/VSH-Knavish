@@ -48,6 +48,7 @@ IncludeTrait(TRAIT.SINGLE, "soldier_airstrike.nut");
 IncludeTrait(TRAIT.SINGLE, "soldier_market_gardener.nut");
 IncludeTrait(TRAIT.SINGLE, "soldier_equalizer.nut");
 IncludeTrait(TRAIT.SINGLE, "soldier_escape_plan.nut");
+IncludeTrait(TRAIT.SINGLE, "soldier_cowmangler.nut");
 
 //Pyro
 IncludeTrait(TRAIT.SINGLE, "pyro_airblast_nerf.nut");
