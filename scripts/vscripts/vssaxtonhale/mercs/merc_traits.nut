@@ -75,6 +75,7 @@ IncludeTrait(TRAIT.SINGLE, "heavy_gru.nut");
 IncludeTrait(TRAIT.SINGLE, "heavy_fists_of_steel.nut");
 
 //Engineer
+IncludeTrait(TRAIT.SINGLE, "engineer_building_build_boost.nut");
 IncludeTrait(TRAIT.SINGLE, "engineer_sentry.nut");
 IncludeTrait(TRAIT.SINGLE, "engineer_telefrag_scaling.nut");
 
