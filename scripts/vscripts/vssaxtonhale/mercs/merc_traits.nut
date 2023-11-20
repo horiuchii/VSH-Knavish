@@ -73,6 +73,7 @@ IncludeTrait(TRAIT.SINGLE, "heavy_warriors_spirit.nut");
 IncludeTrait(TRAIT.SINGLE, "heavy_received_knockback.nut");
 IncludeTrait(TRAIT.SINGLE, "heavy_gru.nut");
 IncludeTrait(TRAIT.SINGLE, "heavy_fists_of_steel.nut");
+IncludeTrait(TRAIT.SINGLE, "heavy_eviction_notice.nut");
 
 //Engineer
 IncludeTrait(TRAIT.SINGLE, "engineer_building_build_boost.nut");
@@ -94,7 +95,9 @@ IncludeTrait(TRAIT.SINGLE, "sniper_smg_buffs.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_focus.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_head_collecting.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_razorback.nut");
+IncludeTrait(TRAIT.SINGLE, "sniper_darwins_danger_shield.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_bushwaka.nut");
+IncludeTrait(TRAIT.SINGLE, "sniper_classic.nut");
 
 //Spy
 IncludeTrait(TRAIT.SINGLE, "spy_invis_res.nut");

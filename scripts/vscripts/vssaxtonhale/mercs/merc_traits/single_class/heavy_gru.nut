@@ -44,8 +44,10 @@ characterTraitsLibrary.push(class extends CharacterTrait
                 local health = player.GetHealth();
                 if (health - healthDrainPerSecond < 1)
                 {
-                    RemoveUberConditions(player);
-                    player.TakeDamageCustom(player, player, 0, Vector(0, 0, 0), Vector(90, 0, 0), healthDrainPerSecond * 1.0, 0, TF_DMG_CUSTOM_SUICIDE);
+                    local trigger_hurt = SpawnEntityFromTable("trigger_hurt", { damage = 9999.0 });
+                    trigger_hurt.DispatchSpawn();
+                    player.TakeDamageCustom(trigger_hurt, trigger_hurt, 0, Vector(0, 0, 0), Vector(90, 0, 0), healthDrainPerSecond * 1.0, 0, TF_DMG_CUSTOM_TRIGGER_HURT);
+                    trigger_hurt.Kill();
                 }
                 else
                 {
@@ -61,13 +63,3 @@ characterTraitsLibrary.push(class extends CharacterTrait
         }
 	}
 });
-
-::RemoveUberConditions <- function(player)
-{
-    return player.RemoveCond(TF_COND_INVULNERABLE)
-        || player.RemoveCond(TF_COND_INVULNERABLE_USER_BUFF)
-        || player.RemoveCond(TF_COND_INVULNERABLE_CARD_EFFECT)
-        || player.RemoveCond(TF_COND_INVULNERABLE_WEARINGOFF)
-        || player.RemoveCond(TF_COND_INVULNERABLE_HIDE_UNLESS_DAMAGED)
-        || player.RemoveCond(TF_COND_INVULNERABLE_CARD_EFFECT);
-}

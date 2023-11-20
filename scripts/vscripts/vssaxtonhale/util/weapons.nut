@@ -320,6 +320,10 @@
     {
         ids = [57]
     },
+    ["darwins_danger_shield"] =
+    {
+        ids = [231]
+    },
     ["cleaners_carbine"] =
     {
         ids = [751]
