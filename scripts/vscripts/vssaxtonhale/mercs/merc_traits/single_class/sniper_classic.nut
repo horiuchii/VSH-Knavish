@@ -13,34 +13,14 @@
 
 characterTraitsLibrary.push(class extends CharacterTrait
 {
-    damageAccumulated = 0;
-    lastHitWasAirStrike = false;
-
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_SOLDIER
-            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "airstrike");
+        return player.GetPlayerClass() == TF_CLASS_SNIPER
+            && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY), "classic");
     }
 
     function OnApply()
     {
-        local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-        primary.AddAttribute("damage penalty", 0.80, -1);
-        primary.AddAttribute("Reload time decreased", 0.70, -1);
-        primary.AddAttribute("maxammo primary increased", 1.5, -1);
-        player.SetAmmo(primary, 30);
-    }
-
-    function OnHurtDealtEvent(victim, params)
-    {
-        if (player == victim)
-            return;
-
-        damageAccumulated += params.damageamount;
-        while (damageAccumulated >= 200)
-        {
-            AddPropInt(player, "m_Shared.m_iDecapitations", 1);
-            damageAccumulated -= 200;
-        }
+        player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY).AddAttribute("SRifle Charge rate increased", 1.25, -1);
     }
 });

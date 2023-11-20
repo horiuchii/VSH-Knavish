@@ -307,6 +307,10 @@
     {
         ids = [752]
     },
+    ["classic"] =
+    {
+        ids = [1098]
+    },
 
     ["smg"] =
     {
@@ -407,33 +411,25 @@
     }
 }
 
-::CTFPlayer.ResupplyAmmo <- function()
+::CTFPlayer.GetAmmo <- function(weapon)
 {
-    for (local i = TF_WEAPONSLOTS.PRIMARY; i < TF_WEAPONSLOTS.MELEE; i++)
-    {
-        local num = 0;
-        while (num < 2)
-        {
-            local weapon = this.GetWeaponBySlot(i);
-            if (weapon != null)
-            {
-                local offset = "00";
-                local ammotype = !num ? weapon.GetPrimaryAmmoType() : weapon.GetSecondaryAmmoType();
-                if (ammotype < 10)
-                {
-                    offset = "0" + ammotype.tostring();
-                }
-                else
-                {
-                    offset = ammotype.tostring();
-                }
-            }
-            num++;
-        }
-    }
+    local ammotype = weapon.GetPrimaryAmmoType();
+    return ammotype == -1 ? -1 : GetPropInt(this, "m_iAmmo." + "00" + ammotype.tostring());
 }
 
-::CTFBot.ResupplyAmmo <- CTFPlayer.ResupplyAmmo;
+::CTFBot.GetAmmo <- CTFPlayer.GetAmmo;
+
+
+::CTFPlayer.SetAmmo <- function(weapon, amount)
+{
+    local ammotype = weapon.GetPrimaryAmmoType();
+    if (ammotype == -1)
+        return;
+
+    SetPropInt(this, "m_iAmmo." + "00" + ammotype.tostring(), amount);
+}
+
+::CTFBot.SetAmmo <- CTFPlayer.SetAmmo;
 
 ::CTFPlayer.HasWearable <- function(name)
 {

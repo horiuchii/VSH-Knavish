@@ -90,7 +90,7 @@ IncludeTrait(TRAIT.SINGLE, "medic_quickfix_overhealbuff.nut");
 
 //Sniper
 IncludeTrait(TRAIT.SINGLE, "sniper_hitmans_heatmaker.nut");
-IncludeTrait(TRAIT.SINGLE, "sniper_smg_headshots.nut");
+IncludeTrait(TRAIT.SINGLE, "sniper_smg_buffs.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_focus.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_head_collecting.nut");
 IncludeTrait(TRAIT.SINGLE, "sniper_razorback.nut");

@@ -22,7 +22,10 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
     function OnApply()
     {
-        player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY).AddAttribute("damage bonus", 1.5, -1);
+        local secondary = player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY);
+        secondary.AddAttribute("damage bonus", 1.5, -1);
+        secondary.AddAttribute("maxammo secondary increased", 1.33, -1);
+        player.SetAmmo(secondary, 100);
     }
 
     function OnDamageDealt(victim, params)
