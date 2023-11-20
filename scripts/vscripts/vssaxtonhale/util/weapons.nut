@@ -55,7 +55,7 @@
     ["base_jumper"] =
     {
         ids = [1101]
-        desc = "Cuts after 3 seconds of being active\n\n\n\n\n"
+        desc = "Lasts 3 seconds once deployed\n\n\n\n\n"
     },
 
     /*
@@ -70,7 +70,7 @@
     ["shortstop"] =
     {
         ids = [220]
-        desc = "+25% damage bonus\nStronger push\n\n\n\n"
+        desc = "+25% Damage bonus\n+50% Stronger shove\n\n\n\n"
     },
     ["baby_face_blaster"] =
     {
@@ -80,7 +80,7 @@
     ["backscatter"] =
     {
         ids = [1103]
-        desc = "Crits victim when fired at\ntheir back from close range\n\n\n\n"
+        desc = "Crits from behind\n\n\n\n\n"
     },
 
     ["mad_milk"] =
@@ -91,7 +91,7 @@
     ["candy_cane"] =
     {
         ids = [317]
-        desc = "A small health pack\nis dropped on hit\n\n\n\n"
+        desc = "Drop a small health pack on hit\n\n\n\n\n"
     },
     ["sunonastick"] =
     {
@@ -121,7 +121,7 @@
     ["cowmangler"] =
     {
         ids = [441]
-        desc = "TODO\n\n\n\n\n"
+        desc = "+65% Charge shot damage\n+90% Charge shot projectile speed\n\n\n\n"
     },
     ["airstrike"] =
     {
@@ -210,11 +210,6 @@
         desc = "+10% faster move speed\n(no shield required)\n\n\n\n"
     },
 
-    ["shield_generic"] =
-    {
-        ids = [0]
-        desc = "Blocks a single hit (can still charge)\n\n\n\n\n"
-    },
     ["stickybomb_launcher"] =
     {
         ids = [20, 207, 661, 797, 806, 886, 895, 904, 913, 962, 971, 15009, 15012, 15024,
@@ -228,6 +223,7 @@
     ["chargin_targe"] =
     {
         ids = [131, 1144]
+        desc = "Blocks a single hit (can still charge)\n\n\n\n\n"
     },
     ["sticky_jumper"] =
     {
@@ -237,10 +233,12 @@
     ["splendid_screen"] =
     {
         ids = [406]
+        desc = "Blocks a single hit (can still charge)\n\n\n\n\n"
     },
     ["tide_turner"] =
     {
         ids = [1099]
+        desc = "Blocks a single hit (can still charge)\n\n\n\n\n"
     },
     ["quickiebomb_launcher"] =
     {
@@ -360,7 +358,7 @@
     ["classic"] =
     {
         ids = [1098]
-        desc = "TODO\n\n\n\n\n"
+        desc = "+25% Faster charge rate\n\n\n\n\n"
     },
 
     ["smg"] =
@@ -376,7 +374,11 @@
     ["darwins_danger_shield"] =
     {
         ids = [231]
-        desc = "TODO\n\n\n\n\n"
+        desc = "Overheal increased to 225\n\n\n\n\n"
+    },
+    ["cozy_camper"] =
+    {
+        ids = [642]
     },
     ["cleaners_carbine"] =
     {
@@ -500,6 +502,12 @@ foreach (key, weapon in WeaponTable)
     {
         return weapon.GetClassname() == "tf_weapon_pistol"
             || weapon.GetClassname() == "tf_weapon_handgun_scout_secondary";
+    }
+    else if(name == "any_sniper_backpack")
+    {
+        return WeaponIs("razorback")
+            || WeaponIs("darwins_danger_shield")
+            || WeaponIs("cozy_camper");
     }
     else
     {

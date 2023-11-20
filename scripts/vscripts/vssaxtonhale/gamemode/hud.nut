@@ -12,30 +12,33 @@
 //=========================================================================
 
 game_text_merc_hud <- null;
-env_hudhint <- null;
+env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "HOLD <SPECIAL ATTACK / +ATTACK3>                     \n    TO VIEW WEAPON STAT CHANGES                         \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"});;
 bossBarTicker <- 0;
-
-function SpawnTextEntities(void)
+game_text_merc_hud = SpawnEntityFromTable("game_text",
 {
-    game_text_merc_hud = SpawnEntityFromTable("game_text",
-    {
-        color = "236 227 203",
-        color2 = "0 0 0",
-        channel = 1,
-        effect = 0,
-        fadein = 0,
-        fadeout = 0,
-        fxtime = 0,
-        holdtime = 250,
-        message = "0",
-        spawnflags = 0,
-        x = 0.481,
-        y = 0.788
-    });
+    color = "236 227 203",
+    color2 = "0 0 0",
+    channel = 1,
+    effect = 0,
+    fadein = 0,
+    fadeout = 0,
+    fxtime = 0,
+    holdtime = 250,
+    message = "0",
+    spawnflags = 0,
+    x = 0.481,
+    y = 0.788
+});
 
-    env_hudhint = SpawnEntityFromTable("env_hudhint", {message = "HOLD <SPECIAL ATTACK / MOUSE3> TO VIEW WEAPON STAT CHANGES"});
-}
-SpawnTextEntities(null);
+AddListener("spawn", 0, function (player, params)
+{
+    RunWithDelay2(this, 0.1, function () {
+        if (IsRoundSetup())
+        {
+            EntFireByHandle(env_hudhint, "ShowHudHint", "", 0, player, player);
+        }
+    })
+});
 
 AddListener("tick_only_valid", 2, function (timeDelta)
 {
@@ -70,10 +73,16 @@ AddListener("tick_only_valid", 2, function (timeDelta)
                 weapon_primary = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY)))
 
             local weapon_secondary = "";
-            if (player.GetPlayerClass() == TF_CLASS_SNIPER && player.HasWearable("razorback"))
-                weapon_secondary = GetWeaponDescription("razorback");
+            if (player.GetPlayerClass() == TF_CLASS_SNIPER && player.HasWearable("any_sniper_backpack"))
+            {
+                local wearable = player.GetWearable("any_sniper_backpack");
+                weapon_secondary = GetWeaponDescription(GetWeaponName(wearable));
+            }
             else if (player.GetPlayerClass() == TF_CLASS_DEMOMAN && player.HasWearable("any_demo_shield"))
-                weapon_secondary = GetWeaponDescription("shield_generic");
+            {
+                local wearable = player.GetWearable("any_demo_shield");
+                weapon_secondary = GetWeaponDescription(GetWeaponName(wearable));
+            }
             else if (player.GetPlayerClass() == TF_CLASS_SPY)
                 weapon_secondary = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.INVIS_WATCH)));
             else
@@ -82,7 +91,7 @@ AddListener("tick_only_valid", 2, function (timeDelta)
             local weapon_melee = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE)));
 
             player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/weapon_info");
-            EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
+
             EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
             EntFireByHandle(game_text_merc_hud, "AddOutput", "message " + weapon_primary + weapon_secondary + weapon_melee, 0, player, player);
             EntFireByHandle(game_text_merc_hud, "AddOutput", "y 0.295", 0, player, player);
@@ -92,7 +101,6 @@ AddListener("tick_only_valid", 2, function (timeDelta)
         else
         {
             player.SetScriptOverlayMaterial(null);
-            EntFireByHandle(env_hudhint, IsRoundSetup() ? "ShowHudHint" : "HideHudHint", "", 0, player, player);
             EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
             EntFireByHandle(game_text_merc_hud, "AddOutput", "message  ", 0, player, player);
             EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
