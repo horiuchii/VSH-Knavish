@@ -45,14 +45,17 @@
     ["half_zatoichi"] =
     {
         ids = [357]
+        desc = "Heal 50% of health on hit\n\n\n\n\n"
     },
     ["reserve_shooter"] =
     {
         ids = [415]
+        desc = "Crits airborne victims\n\n\n\n\n"
     },
     ["base_jumper"] =
     {
         ids = [1101]
+        desc = "Cuts after 3 seconds of being active\n\n\n\n\n"
     },
 
     /*
@@ -62,18 +65,22 @@
     ["force_a_nature"] =
     {
         ids = [45, 1078]
+        desc = "Buffed knockback\n\n\n\n\n"
     },
     ["shortstop"] =
     {
         ids = [220]
+        desc = "+25% damage bonus\nStronger push\n\n\n\n"
     },
     ["baby_face_blaster"] =
     {
         ids = [772]
+        desc = "Decays over 8 seconds\n\n\n\n\n"
     },
     ["backscatter"] =
     {
         ids = [1103]
+        desc = "Crits victim when fired at\ntheir back from close range\n\n\n\n"
     },
 
     ["mad_milk"] =
@@ -84,14 +91,17 @@
     ["candy_cane"] =
     {
         ids = [317]
+        desc = "A small health pack\nis dropped on hit\n\n\n\n"
     },
     ["sunonastick"] =
     {
         ids = [349]
+        desc = "No passive crits\n+50% damage bonus\n\n\n\n"
     },
     ["fan_o_war"] =
     {
         ids = [355]
+        desc = "Marked-For-Death effect\nlasts 8 seconds instead of 15\n\n\n\n"
     },
 
     /*
@@ -101,18 +111,22 @@
     ["direct_hit"] =
     {
         ids = [127]
+        desc = "Crits airborne victims\n\n\n\n\n"
     },
     ["rocket_jumper"] =
     {
         ids = [237]
+        desc = "No bonus reserve ammo\n\n\n\n\n"
     },
     ["cowmangler"] =
     {
         ids = [441]
+        desc = "TODO\n\n\n\n\n"
     },
     ["airstrike"] =
     {
         ids = [1104]
+        desc = "Gain extra clip every 200 damage\n-5% damage penalty\n+20% faster reload\n\n\n"
     },
 
     ["mantreads"] =
@@ -123,10 +137,12 @@
     ["equalizer"] =
     {
         ids = [128]
+        desc = "+100% holster speed bonus\n\n\n\n\n"
     },
     ["market_gardener"] =
     {
         ids = [416]
+        desc = "Gardens deal bonus damage\n\n\n\n\n"
     },
     ["disciplinary_action"] =
     {
@@ -135,15 +151,23 @@
     ["escape_plan"] =
     {
         ids = [775]
+        desc = "No longer Marked-For-Death\nwhile active\n\n\n\n"
     },
 
     /*
     *   Pyro
     */
 
+    ["flamethrower"] =
+    {
+        ids = [21, 208, 659, 741, 798, 807, 887, 896, 905, 914, 963, 972, 15005, 15017, 15030,
+            15034, 15049, 15054, 15066, 15067, 15068, 15089, 15090, 15115, 15141, 30474]
+        desc = "-25% vertical airblast scale\n+25% damage bonus\n\n\n\n"
+    },
     ["degreaser"] =
     {
         ids = [215]
+        desc = "-25% vertical airblast scale\n+25% damage bonus\n+9% afterburn damage bonus\n\n\n"
     },
 
     ["thermal_thruster"] =
@@ -154,6 +178,7 @@
     ["axtinguisher"] =
     {
         ids = [38,1000]
+        desc = "No passive crits\n+100% damage bonus\n\n\n\n"
     },
     ["homewrecker"] =
     {
@@ -162,10 +187,12 @@
     ["powerjack"] =
     {
         ids = [214]
+        desc = "+75 health on hit, overheals\n\n\n\n\n"
     },
     ["back_scratcher"] =
     {
         ids = [326]
+        desc = "+50% health from healers\n\n\n\n\n"
     },
 
     /*
@@ -175,12 +202,19 @@
     ["booties"] =
     {
         ids = [405]
+        desc = "+10% faster move speed\n(no shield required)\n\n\n\n"
     },
     ["boot_legger"] =
     {
         ids = [608]
+        desc = "+10% faster move speed\n(no shield required)\n\n\n\n"
     },
 
+    ["shield_generic"] =
+    {
+        ids = [0]
+        desc = "Blocks a single hit (can still charge)\n\n\n\n\n"
+    },
     ["stickybomb_launcher"] =
     {
         ids = [20, 207, 661, 797, 806, 886, 895, 904, 913, 962, 971, 15009, 15012, 15024,
@@ -189,6 +223,7 @@
     ["scottish_resistance"] =
     {
         ids = [130]
+        desc = "Cannot Crit\n\n\n\n\n"
     },
     ["chargin_targe"] =
     {
@@ -197,6 +232,7 @@
     ["sticky_jumper"] =
     {
         ids = [265]
+        desc = "No bonus reserve ammo\n\n\n\n\n"
     },
     ["splendid_screen"] =
     {
@@ -214,10 +250,12 @@
     ["eyelander"] =
     {
         ids = [132, 266, 482, 1082]
+        desc = "Gain a head for every hit\n+15 health on hit, overheals\n\n\n\n"
     },
     ["claidheamhmor"] =
     {
         ids = [327]
+        desc = "No damage vulnerability\n\n\n\n\n"
     },
 
     /*
@@ -227,19 +265,23 @@
     ["natascha"] =
     {
         ids = [41]
+        desc = "No slow on hit\n\n\n\n\n\n"
     },
 
     ["kgb"] =
     {
         ids = [43]
+        desc = "+5 seconds of crits on hit\n\n\n\n\n\n"
     },
 	["gru"] =
     {
         ids = [239, 1084, 1100]
+        desc = "+10% faster move speed while active\n-7 health per second\n\n\n\n\n"
     },
     ["warriors_spirit"] =
     {
         ids = [310]
+        desc = "+50 health on hit, overheals\n\n\n\n\n\n"
     },
     ["fists_of_steel"] =
     {
@@ -267,23 +309,28 @@
     ["syringegun"] =
     {
         ids = [17, 204]
+        desc = "+4% ÜberCharge added on hit\n\n\n\n\n"
     },
     ["blutsauger"] =
     {
         ids = [36]
+        desc = "No Regen penalty\n+3% ÜberCharge added on hit\n+5 health added on hit, overheals\n\n\n"
     },
     ["xbow"] =
     {
         ids = [305, 1079]
+        desc = "+10% ÜberCharge added on hit\n\n\n\n\n"
     },
     ["overdose"] =
     {
         ids = [412]
+        desc = "+2% ÜberCharge added on hit\n+10% faster move speed while active\n\n\n\n"
     },
 
     ["quick_fix"] =
     {
         ids = [411]
+        desc = "No Overheal penalty\n\n\n\n\n"
     },
 
     ["ubersaw"] =
@@ -293,10 +340,12 @@
     ["vitasaw"] =
     {
         ids = [173]
+        desc = "On Hit: +15% UberCharge added\n\n\n\n\n"
     },
     ["solemnvow"] =
     {
         ids = [413]
+        desc = "+10% stronger wall climb\n\n\n\n\n"
     },
 
     /*
@@ -306,32 +355,39 @@
     ["hitmans_heatmaker"] =
     {
         ids = [752]
+        desc = "Outline victim on hit,\nlength based on charge power\n\n\n\n"
     },
     ["classic"] =
     {
         ids = [1098]
+        desc = "TODO\n\n\n\n\n"
     },
 
     ["smg"] =
     {
         ids = [16, 203, 1149, 15001, 15022, 15032, 15037, 15058, 15076, 15110, 15134, 15153]
+        desc = "+50% damage bonus\nCrit on headshot\n\n\n\n"
     },
     ["razorback"] =
     {
         ids = [57]
+        desc = "Blocks a single hit\n\n\n\n\n"
     },
     ["darwins_danger_shield"] =
     {
         ids = [231]
+        desc = "TODO\n\n\n\n\n"
     },
     ["cleaners_carbine"] =
     {
         ids = [751]
+        desc = "+50% damage bonus\nCrit on headshot\n\n\n\n"
     },
 
     ["bushwaka"] =
     {
         ids = [232]
+        desc = "No passive crits\n+100% damage bonus\n\n\n\n"
     },
 
     /*
@@ -341,27 +397,33 @@
     ["ambassador"] =
     {
         ids = [61, 1006]
+        desc = "No headshot falloff\n\n\n\n\n"
     },
     ["letranger"] =
     {
         ids = [224]
+        desc = "-10% cloak on hit\n\n\n\n\n"
     },
     ["diamondback"] =
     {
         ids = [525]
+        desc = "Grants 2 guaranteed\ncritical hits on backstab\n\n\n\n"
     },
 
     ["your_eternal_reward"] =
     {
         ids = [225, 574]
+        desc = "Disguise as teammate on backstab\n\n\n\n\n"
     },
     ["kunai"] =
     {
         ids = [356]
+        desc = "+180 health on backstab\n\n\n\n\n"
     },
     ["big_earner"] =
     {
         ids = [461]
+        desc = "No backstab stun\n-30 max health on wearer\n\n\n\n"
     },
 
     ["invis_watch"] =
@@ -375,8 +437,38 @@
     ["cloak_and_dagger"] =
     {
         ids = [60]
+        desc = "+50% cloak / decloak rate\nSpeed boost while cloaked\nRegular cloak type\n\n\n"
     },
 };
+
+::WeaponTableID <- {};
+
+foreach (key, weapon in WeaponTable)
+{
+    foreach(id in weapon.ids)
+    {
+        WeaponTableID[id] <- key;
+    }
+}
+
+::GetWeaponName <- function(weapon)
+{
+    if(GetItemID(weapon) in WeaponTableID)
+        return WeaponTableID[GetItemID(weapon)];
+
+    return null;
+}
+
+::GetWeaponDescription <- function(name)
+{
+    if(name == null)
+        return "Not Changed\n\n\n\n\n";
+
+    if(!("desc" in WeaponTable[name]))
+        return "Not Changed\n\n\n\n\n";
+
+    return WeaponTable[name].desc;
+}
 
 ::WeaponIs <- function(weapon, name)
 {
