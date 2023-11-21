@@ -118,7 +118,7 @@ AddListener("round_end", 1, function (winner)
 {
     foreach (player in GetValidMercs())
     {
-        SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundDamageToPoints(player));
+        SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundDamageToPoints(player) + 1);
     }
 
     SetPersistentVar("queue_points", QueuePoints);
@@ -142,7 +142,7 @@ AddListener("round_end", 100, function (winner)
         }
 
         local message = "\x01" + "\x07FFD700" + "[VSH] ";
-        message += "\x01You gained \x07FFD700" + ConvertRoundDamageToPoints(player) + "\x01 point(s) this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage.\n"
+        message += "\x01You gained \x07FFD700" + (ConvertRoundDamageToPoints(player) + 1) + "\x01 point(s) this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage.\n"
         message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 point(s)."
         ClientPrint(player, HUD_PRINTTALK, message);
     }
