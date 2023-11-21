@@ -21,7 +21,6 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
     function OnDamageDealt(victim, params)
     {
-        player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY).AddAttribute("Reload time decreased", 0.50, -1);
         if (params.damage_custom == TF_DMG_CUSTOM_PLASMA_CHARGED)
         {
             params.damage *= 1.65;
@@ -31,11 +30,6 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
 AddListener("tick_always", 0, function (timeDelta)
 {
-    function Undo(launcher)
-    {
-        launcher.RemoveAttribute("Reload time decreased");
-    }
-
     local ent = MAX_PLAYERS + 1;
     while (ent = Entities.FindByClassname(ent, "tf_projectile_energy_ball"))
     {
@@ -50,15 +44,6 @@ AddListener("tick_always", 0, function (timeDelta)
             if (GetPropBool(ent, "m_bChargedShot"))
             {
                 ent.SetAbsVelocity(ent.GetAbsAngles().Forward() * 2100.0);
-                launcher.AddAttribute("Reload time decreased", 2.25, -1);
-                RunWithDelay2(this, 2.0, function() {
-                    launcher.RemoveAttribute("Reload time decreased");
-                    launcher.AddAttribute("Reload time decreased", 0.65, -1);
-                });
-            }
-            else
-            {
-                launcher.RemoveAttribute("Reload time decreased");
             }
         }
     }
