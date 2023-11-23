@@ -539,7 +539,8 @@ foreach (key, weapon in WeaponTable)
 {
     for (local wearable = FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
     {
-        if (wearable.GetClassname().find("tf_wearable") == null)
+        local name = wearable.GetClassname();
+        if (!startswith(name, "tf_wearable"))
             continue;
 
         if (WeaponIs(wearable, name))
