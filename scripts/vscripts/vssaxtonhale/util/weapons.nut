@@ -137,7 +137,7 @@
     ["equalizer"] =
     {
         ids = [128]
-        desc = "+100% holster speed bonus\n\n\n\n\n"
+        desc = "+100% holster speed bonus\n+50% damage resist while active\n\n\n\n"
     },
     ["market_gardener"] =
     {

@@ -33,7 +33,7 @@ game_text_merc_hud = SpawnEntityFromTable("game_text",
 AddListener("spawn", 0, function (player, params)
 {
     RunWithDelay2(this, 0.1, function () {
-        if (IsRoundSetup())
+        if (IsRoundSetup() && !IsBoss(player))
         {
             EntFireByHandle(env_hudhint, "ShowHudHint", "", 0, player, player);
         }
