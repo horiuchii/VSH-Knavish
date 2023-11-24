@@ -34,8 +34,11 @@ Include("/util/entities.nut");
 Include("/util/netprops.nut");
 Include("/util/player_cache.nut");
 Include("/util/util.nut");
-Include("/util/voice_line_manager.nut");
 Include("/util/weapons.nut");
+
+Include("/scriptsounds/soundcache_utils.nut");
+Include("/scriptsounds/scriptsound_utils.nut");
+Include("/scriptsounds/voiceline_traits.nut");
 
 Include("/gamemode/boss_queue.nut");
 Include("/gamemode/forced_arena.nut");

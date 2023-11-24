@@ -11,60 +11,6 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-::BOSS_NAMES <- ["saxton_hale"]
-
-class CustomVoiceLine extends CharacterTrait
-{
-    tickInverval = 0.1;
-    playInterval = 0.1;
-    lastTick = 0;
-    lastPlay = 0;
-
-    function constructor()
-    {
-        lastTick = Time();
-        lastPlay = 0;
-    }
-
-    function DoTick(timeDelta)
-    {
-        local time = Time();
-        while (time - lastTick >= tickInverval)
-        {
-            local timeDelta = time - lastTick;
-            lastTick += tickInverval;
-            if (time - lastPlay >= playInterval)
-            {
-                local wasPlayed = player.IsAlive() ? OnTickAlive(timeDelta) : false;
-                local wasPlayed2 = OnTickAliveOrDead(timeDelta);
-                if (wasPlayed || wasPlayed2)
-                    lastPlay = time;
-            }
-        }
-    }
-}
-
-class BossVoiceLine extends CustomVoiceLine
-{
-    boss = null;
-
-    function CheckTeam()
-    {
-        boss = player;
-        return IsValidBoss(player);
-    }
-}
-
-::PrecacheClassVoiceLines <- function(name)
-{
-    foreach (className in TF_CLASS_NAMES)
-        PrecacheScriptSound(className+"."+name);
-    foreach (className in BOSS_NAMES)
-        PrecacheScriptSound(className+"."+name);
-}
-
-::PrecacheArbitrarySound <- PrecacheScriptSound
-
 ::GetCurrentCharacterName <- function(player)
 {
     local bossName = GetBossName(player);

@@ -11,10 +11,10 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("behind")
-PrecacheClassVoiceLines("above")
-PrecacheClassVoiceLines("contact")
-PrecacheArbitrarySound("medic.contact_uber")
+AddVoiceLineScriptSoundToQueue("behind")
+AddVoiceLineScriptSoundToQueue("above")
+AddVoiceLineScriptSoundToQueue("contact")
+AddGenericScriptSoundToQueue("medic.contact_uber")
 
 characterTraitsLibrary.push(class extends CustomVoiceLine
 {

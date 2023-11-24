@@ -14,6 +14,9 @@
 function OnPostSpawn()
 {
     RecachePlayers();
+    PrecacheGenericSoundScripts();
+    PrecacheVoiceLineSoundScripts();
+
     if (IsValidRoundPreStart())
         FireListeners("setup_start");
 }

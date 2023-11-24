@@ -11,17 +11,17 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("count1")
-PrecacheClassVoiceLines("count2")
-PrecacheClassVoiceLines("count3")
-PrecacheClassVoiceLines("count4")
-PrecacheClassVoiceLines("count5")
+AddVoiceLineScriptSoundToQueue("count1")
+AddVoiceLineScriptSoundToQueue("count2")
+AddVoiceLineScriptSoundToQueue("count3")
+AddVoiceLineScriptSoundToQueue("count4")
+AddVoiceLineScriptSoundToQueue("count5")
 
-PrecacheClassVoiceLines("round_start")
-PrecacheClassVoiceLines("round_start_4boss")
-PrecacheClassVoiceLines("round_start_long")
-PrecacheClassVoiceLines("round_start_beer")
-PrecacheClassVoiceLines("round_start_after_loss")
+AddVoiceLineScriptSoundToQueue("round_start")
+AddVoiceLineScriptSoundToQueue("round_start_4boss")
+AddVoiceLineScriptSoundToQueue("round_start_long")
+AddVoiceLineScriptSoundToQueue("round_start_beer")
+AddVoiceLineScriptSoundToQueue("round_start_after_loss")
 
 AddListener("setup_start", 0, function ()
 {

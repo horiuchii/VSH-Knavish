@@ -29,7 +29,7 @@ characterTraitsLibrary.push(class extends CharacterTrait
 
         local flags = player.GetFlags();
         if (flags & FL_ONGROUND &&
-            (GetPropBool(player, "m_bDucked") || GetPropInt(weapon, "m_iWeaponState") > MINIGUNSTATE.STARTFIRING))
+            (GetPropBool(player, "m_bDucked") || GetPropInt(weapon, "m_iWeaponState") > MINIGUN_STATE.STARTFIRING))
             return;
 
         player.Yeet(Vector(0, 0, 150));

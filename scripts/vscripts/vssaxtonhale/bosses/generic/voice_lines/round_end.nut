@@ -11,11 +11,11 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("boss_win")
-PrecacheClassVoiceLines("boss_win_4boss")
-PrecacheClassVoiceLines("mercs_win_capture")
-PrecacheClassVoiceLines("mercs_win_kill")
-PrecacheClassVoiceLines("bailout")
+AddVoiceLineScriptSoundToQueue("boss_win")
+AddVoiceLineScriptSoundToQueue("boss_win_4boss")
+AddVoiceLineScriptSoundToQueue("mercs_win_capture")
+AddVoiceLineScriptSoundToQueue("mercs_win_kill")
+AddVoiceLineScriptSoundToQueue("bailout")
 
 ::lostByRPS <- false;
 

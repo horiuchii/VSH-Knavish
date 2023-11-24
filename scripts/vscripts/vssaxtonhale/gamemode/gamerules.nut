@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("point_enabled")
+AddVoiceLineScriptSoundToQueue("point_enabled")
 hasControlPointBeenUnlocked <- false;
 
 function SetConvarValue(cvar, value, do_warning = true)

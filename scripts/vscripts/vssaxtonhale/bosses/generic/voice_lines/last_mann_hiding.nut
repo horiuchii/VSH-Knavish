@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("last_mann_hiding")
+AddVoiceLineScriptSoundToQueue("last_mann_hiding")
 
 class LastMannHidingVoiceLine extends BossVoiceLine
 {

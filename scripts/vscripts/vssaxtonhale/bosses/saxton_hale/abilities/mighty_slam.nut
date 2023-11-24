@@ -11,8 +11,8 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheArbitrarySound("vsh_sfx.boss_slam_impact");
-PrecacheArbitrarySound("vsh_sfx.slam_ready");
+AddGenericScriptSoundToQueue("vsh_sfx.boss_slam_impact");
+AddGenericScriptSoundToQueue("vsh_sfx.slam_ready");
 
 class MightySlamTrait extends BossTrait
 {

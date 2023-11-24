@@ -11,20 +11,20 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("laugh")
-PrecacheClassVoiceLines("rps_init")
-PrecacheClassVoiceLines("rps_lose")
-PrecacheClassVoiceLines("rps_lose_rock")
-PrecacheClassVoiceLines("rps_lose_paper")
-PrecacheClassVoiceLines("rps_lose_scissors")
-PrecacheClassVoiceLines("rps_win_rock")
-PrecacheClassVoiceLines("rps_win_paper")
-PrecacheClassVoiceLines("rps_win_scissors")
-PrecacheClassVoiceLines("rps_on3")
-PrecacheClassVoiceLines("rps_1")
-PrecacheClassVoiceLines("rps_2")
-PrecacheClassVoiceLines("rps_3")
-PrecacheClassVoiceLines("high5")
+AddVoiceLineScriptSoundToQueue("laugh")
+AddVoiceLineScriptSoundToQueue("rps_init")
+AddVoiceLineScriptSoundToQueue("rps_lose")
+AddVoiceLineScriptSoundToQueue("rps_lose_rock")
+AddVoiceLineScriptSoundToQueue("rps_lose_paper")
+AddVoiceLineScriptSoundToQueue("rps_lose_scissors")
+AddVoiceLineScriptSoundToQueue("rps_win_rock")
+AddVoiceLineScriptSoundToQueue("rps_win_paper")
+AddVoiceLineScriptSoundToQueue("rps_win_scissors")
+AddVoiceLineScriptSoundToQueue("rps_on3")
+AddVoiceLineScriptSoundToQueue("rps_1")
+AddVoiceLineScriptSoundToQueue("rps_2")
+AddVoiceLineScriptSoundToQueue("rps_3")
+AddVoiceLineScriptSoundToQueue("high5")
 
 class TauntHandlerTrait extends BossTrait
 {

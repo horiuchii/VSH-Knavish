@@ -11,21 +11,21 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("kill_scout")
-PrecacheClassVoiceLines("kill_soldier")
-PrecacheClassVoiceLines("kill_pyro")
-PrecacheClassVoiceLines("kill_demoman")
-PrecacheClassVoiceLines("kill_heavy")
-PrecacheClassVoiceLines("kill_engineer")
-PrecacheClassVoiceLines("kill_medic")
-PrecacheClassVoiceLines("kill_sniper")
-PrecacheClassVoiceLines("kill_spy")
-PrecacheClassVoiceLines("kill_spy_dr")
-PrecacheClassVoiceLines("kill_building")
-PrecacheClassVoiceLines("kill_dispenser")
-PrecacheClassVoiceLines("kill_generic")
-PrecacheClassVoiceLines("kill_medic_last")
-PrecacheClassVoiceLines("kill_medic_only")
+AddVoiceLineScriptSoundToQueue("kill_scout")
+AddVoiceLineScriptSoundToQueue("kill_soldier")
+AddVoiceLineScriptSoundToQueue("kill_pyro")
+AddVoiceLineScriptSoundToQueue("kill_demoman")
+AddVoiceLineScriptSoundToQueue("kill_heavy")
+AddVoiceLineScriptSoundToQueue("kill_engineer")
+AddVoiceLineScriptSoundToQueue("kill_medic")
+AddVoiceLineScriptSoundToQueue("kill_sniper")
+AddVoiceLineScriptSoundToQueue("kill_spy")
+AddVoiceLineScriptSoundToQueue("kill_spy_dr")
+AddVoiceLineScriptSoundToQueue("kill_building")
+AddVoiceLineScriptSoundToQueue("kill_dispenser")
+AddVoiceLineScriptSoundToQueue("kill_generic")
+AddVoiceLineScriptSoundToQueue("kill_medic_last")
+AddVoiceLineScriptSoundToQueue("kill_medic_only")
 
 ::bossKillLinesEnabled <- [];
 ::bossKillLinesLastPlayed <- 0;

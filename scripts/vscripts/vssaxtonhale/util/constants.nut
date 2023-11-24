@@ -79,7 +79,7 @@ enum LIFE_STATE
     DISCARDBODY = 4
 }
 
-enum MINIGUNSTATE
+enum MINIGUN_STATE
 {
     IDLE = 0,
     STARTFIRING = 1,

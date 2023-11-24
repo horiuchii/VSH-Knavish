@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("jump")
+AddVoiceLineScriptSoundToQueue("jump");
 
 enum BOSS_JUMP_STATUS
 {

@@ -11,8 +11,8 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheClassVoiceLines("rage")
-PrecacheArbitrarySound("xmas.jingle_noisemaker");
+AddVoiceLineScriptSoundToQueue("rage");
+AddGenericScriptSoundToQueue("xmas.jingle_noisemaker");
 
 class StunBreakoutTrait extends BossTrait
 {
