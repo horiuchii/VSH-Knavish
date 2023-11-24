@@ -57,7 +57,7 @@ characterTraitsLibrary.push(class extends CharacterTrait
         if (IsBoss(groundEntity)
             && lastFallVelocity > requiredFallVelocity
             && !player.HasWearable("mantreads")
-            && (!WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY), "thermal_thruster") && player.InCond(TF_COND_ROCKETPACK))
+            && !(WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY), "thermal_thruster") && player.InCond(TF_COND_ROCKETPACK))
             )
         {
             params.damage = 0.0;
