@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends CharacterTrait
 {
     function CanApply()
     {
@@ -23,7 +23,9 @@ characterTraitsLibrary.push(class extends CharacterTrait
     {
         if (IsBoss(victim) && params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY))
         {
-            GetTrait(victim, "Glow Trait").SetGlowTime(clamp(GetPropFloat(params.weapon, "m_flChargedDamage") / 30 + 1.0, 3, 6));
+            local glowTrait = GetTraitByClass(victim, GlowTrait);
+            if (glowTrait != null)
+                glowTrait.SetGlowTime(clamp(GetPropFloat(params.weapon, "m_flChargedDamage") / 30 + 1.0, 3, 6));
         }
     }
 });

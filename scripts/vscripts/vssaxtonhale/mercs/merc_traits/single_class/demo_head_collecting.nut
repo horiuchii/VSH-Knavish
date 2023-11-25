@@ -13,7 +13,7 @@
 
 AddGenericScriptSoundToQueue("demo.special_01")
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     lastTimeSoundPlayed = 0;
 

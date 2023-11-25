@@ -13,12 +13,19 @@
 
 ::GetCurrentCharacterName <- function(player)
 {
-    local bossName = GetBossName(player);
-    if (bossName != null)
-        return bossName;
-    local className = TF_CLASS_NAMES[player.GetPlayerClass()];
-    if (className != null)
-        return className;
+    if (validBosses.find(player) != null)
+    {
+        local bossName = player.GetTypeName();
+        if(bossName != null)
+            return bossName;
+    }
+    else
+    {
+        local className = TF_CLASS_NAMES[player.GetPlayerClass()];
+        if (className != null)
+            return className;
+    }
+
     return "generic";
 }
 

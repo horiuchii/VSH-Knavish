@@ -13,7 +13,7 @@
 
 //Hale is technically a Heavy with Voice Pitch shifted to 0.
 //Pyrovision overrides that shift enabling Heavy's lines.
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     function OnApply()
     {

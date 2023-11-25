@@ -1,4 +1,4 @@
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     //time it takes to decay at 100%
     DECAY_TIME = 8;

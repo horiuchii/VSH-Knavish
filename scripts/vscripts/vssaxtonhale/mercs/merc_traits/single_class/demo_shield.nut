@@ -15,7 +15,7 @@ AddGenericScriptSoundToQueue("vsh_sfx.shield_break");
 AddGenericScriptSoundToQueue("demo.shield")
 AddGenericScriptSoundToQueue("demo.shield_lowhp")
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     wasDestroyed = false;
     function CanApply()

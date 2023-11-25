@@ -11,6 +11,13 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
+::mercTraitsLibrary <- [];
+
+class MercenaryTrait extends CharacterTrait
+{
+    trait_team = TF_TEAM_MERCS;
+}
+
 enum TRAIT {
     ALL = "all_class/"
     SINGLE = "single_class/"

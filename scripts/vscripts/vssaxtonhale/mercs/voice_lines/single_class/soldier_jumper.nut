@@ -13,7 +13,7 @@
 
 AddGenericScriptSoundToQueue("soldier.setup_special")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     tmpFix = [false];
     function CanApply()

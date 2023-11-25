@@ -16,33 +16,20 @@
     return damage_type & DMG_BLAST | DMG_BURN | DMG_BULLET | DMG_CRUSH;
 }
 
-function AssignBoss(bossClass, bossPlayer)
-{
-    bosses[bossPlayer] <- bossLibrary[bossClass]();
-}
-
 function RegisterBoss(name, bossClass)
 {
     bossLibrary[name] <- bossClass;
 }
 
-::GetBossName <- function(player)
+function AssignBoss(bossClass, bossPlayer)
 {
-    if (player in bosses)
-        return bosses[player].name;
-    return null;
-}
-
-::GetBossColor <- function(player)
-{
-    if (player in bosses)
-        return bosses[player].glow_color;
-    return null;
+    validBosses.push(bossPlayer);
+    playerType[bossPlayer] <- bossLibrary[bossClass]();
 }
 
 ::IsAnyBossValid <- function()
 {
-    foreach (player, boss in bosses)
+    foreach (player in validBosses)
         if (IsValidPlayer(player))
             return true;
     return false;
@@ -50,7 +37,7 @@ function RegisterBoss(name, bossClass)
 
 ::IsAnyBossAlive <- function()
 {
-    foreach (player, boss in bosses)
+    foreach (player in validBosses)
         if (IsValidPlayer(player) && player.IsAlive())
             return true;
     return false;
@@ -63,27 +50,18 @@ function RegisterBoss(name, bossClass)
 
 ::IsBoss <- function(player)
 {
-    return player in bosses;
-}
-
-::GetBoss <- function(player)
-{
-    return bosses[player];
+    return validBosses.find(player) != null;
 }
 
 ::GetBossPlayers <- function()
 {
-    local players = []
-    foreach (player, boss in bosses)
-        if (IsValidPlayer(player))
-            players.push(player);
-    return players;
+    return validBosses;
 }
 
 ::GetAliveBossPlayers <- function()
 {
     local players = []
-    foreach (player, boss in bosses)
+    foreach (player in validBosses)
         if (IsValidPlayer(player) && player.IsAlive())
             players.push(player);
     return players;

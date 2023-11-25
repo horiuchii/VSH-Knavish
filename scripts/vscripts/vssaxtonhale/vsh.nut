@@ -27,6 +27,7 @@ Include("/util/constants.nut");
 Include("/util/listeners.nut");
 Include("/util/player_util.nut");
 Include("/util/character_trait.nut");
+Include("/playertypes/player_type.nut");
 Include("/vsh_api.nut");
 
 // Order doesn't matter
@@ -51,6 +52,7 @@ Include("/gamemode/scoreboard.nut");
 // These must be included last
 Include("/bosses/boss.nut");
 Include("/mercs/merc_traits.nut");
+Include("/shared/shared_traits.nut");
 
 try { IncludeScript("vsh_addons/main.nut"); } catch(e) { }
 

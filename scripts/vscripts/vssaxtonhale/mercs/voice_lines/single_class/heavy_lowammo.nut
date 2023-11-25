@@ -13,7 +13,7 @@
 
 AddGenericScriptSoundToQueue("heavy.low_ammo")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 0.5;
     wentAbove100 = true;

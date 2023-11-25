@@ -13,7 +13,7 @@
 
 AddGenericScriptSoundToQueue("heavy.tickle")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 0.5;
     playInterval = 20;

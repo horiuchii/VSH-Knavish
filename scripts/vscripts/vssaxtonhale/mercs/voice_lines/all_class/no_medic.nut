@@ -14,7 +14,7 @@
 AddVoiceLineScriptSoundToQueue("medic_dead")
 AddVoiceLineScriptSoundToQueue("no_medic")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     nextTimeAvailable = 0;
     function OnFrameTickAlive()

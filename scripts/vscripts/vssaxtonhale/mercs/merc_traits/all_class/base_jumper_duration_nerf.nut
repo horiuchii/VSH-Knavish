@@ -13,7 +13,7 @@
 
 const maxParachuteTime = 3.0;
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
 	isDeployed = false;
 	lastDeployTime = 0.0;

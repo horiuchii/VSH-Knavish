@@ -13,40 +13,21 @@
 
 ::bossLibrary <- {};
 ::traitLibrary <- {};
-::bosses <- {};
+::validBosses <- [];
 
 class BossTrait extends CharacterTrait
 {
     boss = null;
-    function CheckTeam()
+    trait_team = TF_TEAM_BOSS;
+
+    // NEVER override ApplyTrait() past this point
+    function ApplyTrait(player)
     {
         boss = player;
-        return true;
+        base.ApplyTrait(player);
     }
 }
 
-class Boss extends CharacterTrait
-{
-    traits = null;
-    name = null;
-    startingHealth = 0;
-
-    function CheckTeam() { return true; }
-
-    function OnApply()
-    {
-        player.ForceRespawn();
-        RunWithDelay2(this, 0, OnApply0Delay);
-    }
-
-    function OnApply0Delay()
-    {
-        foreach (traitClass in traitLibrary[name])
-            traitClass().TryApply(player);
-
-        ClearPlayerItems(player);
-    }
-}
 function AddBossTrait(bossName, traitClass)
 {
     if (!(bossName in traitLibrary))
@@ -61,7 +42,6 @@ Include("/bosses/generic/passives/stun_breakout.nut");
 Include("/bosses/generic/passives/debuff_resistance.nut");
 Include("/bosses/generic/passives/received_damage_scaling.nut");
 Include("/bosses/generic/passives/head_stomp.nut");
-Include("/bosses/generic/misc/boss_glow.nut");
 Include("/bosses/generic/misc/freeze_boss_setup");
 Include("/bosses/generic/misc/ability_hud.nut");
 Include("/bosses/generic/misc/death_cleanup.nut");

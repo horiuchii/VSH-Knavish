@@ -41,6 +41,7 @@ foreach (k, v in NetProps.getclass())
 ::TF_TEAM_MERCS <- TF_TEAM_RED;
 ::TF_TEAM_BOSS <- TF_TEAM_BLUE;
 ::TF_TEAM_BOSSES <- TF_TEAM_BLUE;
+::TF_TEAM_ANY <- -1;
 ::TF_CLASS_HEAVY <- TF_CLASS_HEAVYWEAPONS;
 ::MAX_PLAYERS <- MaxClients().tointeger();
 

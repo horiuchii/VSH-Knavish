@@ -13,7 +13,7 @@
 
 AddGenericScriptSoundToQueue("spy.left_last")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 1;
     lastTimeSeenByBoss = 0;

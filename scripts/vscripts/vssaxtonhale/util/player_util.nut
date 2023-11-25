@@ -52,12 +52,18 @@
     return overheal - (overheal % 5.0);
 }
 
+::CTFPlayer.NetName <- function()
+{
+    return GetPropString(this, "m_szNetName");
+}
+
 // Shared with CTFBot
 ::CTFBot.IsAlive <- CTFPlayer.IsAlive;
 ::CTFBot.IsDead <- CTFPlayer.IsDead;
 ::CTFBot.IsOnGround <- CTFPlayer.IsOnGround;
 ::CTFBot.Yeet <- CTFPlayer.Yeet;
 ::CTFBot.GetMaxOverheal <- CTFPlayer.GetMaxOverheal;
+::CTFBot.NetName <- CTFPlayer.NetName;
 
 ::IsValidClient <- function(player)
 {

@@ -161,7 +161,7 @@ function FinishSetup()
         hudAbilityInstances[boss] <- [];
         boss.ForceRespawn();
         RefreshBossSetup(boss);
-        bosses[boss].TryApply(boss);
+        playerType[boss].ApplyTrait(boss);
 
         RunWithDelay2(this, 1, function (boss)
         {

@@ -13,7 +13,7 @@
 
 AddGenericScriptSoundToQueue("vsh_sfx.demo_charge");
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     isInCharge = false;
 

@@ -23,16 +23,21 @@ PrecacheModel(saxton_viewmodel_path);
 class SaxtonHale extends Boss
 {
     name = "saxton_hale";
-    glow_color = "255 230 0"
+    color = "255 230 0";
+    tfclass = TF_CLASS_HEAVY;
 
     function OnApply0Delay()
     {
         player.SetPlayerClass(TF_CLASS_HEAVY);
         player.Regenerate(true);
+        base.OnApply0Delay();
+        CreateBoss();
+    }
+
+    function CreateBoss()
+    {
         SetPropInt(player, "m_bForcedSkin", 1);
         SetPropInt(player, "m_nForcedSkin", 0);
-
-        base.OnApply0Delay();
 
         player.SetCustomModelWithClassAnimations(saxton_model_path);
         vsh_vscript.Hale_SetRedArm(player, false);
@@ -78,7 +83,6 @@ AddBossTrait("saxton_hale", SweepingChargeTrait);
 AddBossTrait("saxton_hale", BraveJumpTrait);
 AddBossTrait("saxton_hale", MightySlamTrait);
 
-AddBossTrait("saxton_hale", GlowTrait);
 AddBossTrait("saxton_hale", FreezeSetupTrait);
 AddBossTrait("saxton_hale", DeathCleanupTrait);
 AddBossTrait("saxton_hale", MovespeedTrait);

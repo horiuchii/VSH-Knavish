@@ -13,7 +13,7 @@
 
 totalHealthKits <- 0;
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     function CanApply()
     {

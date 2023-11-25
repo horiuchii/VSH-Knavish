@@ -14,7 +14,7 @@
 AddGenericScriptSoundToQueue("spy.special_01")
 AddGenericScriptSoundToQueue("spy.noinvis")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     playInterval = 20;
 

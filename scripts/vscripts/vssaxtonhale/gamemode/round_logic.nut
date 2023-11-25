@@ -23,18 +23,26 @@ AddListener("setup_start", 1, function ()
 
     RecachePlayers();
     AssignBoss("saxton_hale", ProgressBossQueue());
+    RecachePlayers();
 
     foreach (player in GetValidMercs())
     {
+        if (!(player in playerType))
+            playerType[player] <- [];
+
+        playerType[player] = Mercenary();
         player.SwitchTeam(TF_TEAM_MERCS);
         player.ForceRegenerateAndRespawn();
     }
 
     foreach (player in GetBossPlayers())
     {
+        if (!(player in playerType))
+            playerType[player] <- [];
+
         player.SwitchTeam(TF_TEAM_BOSS);
         player.ForceRegenerateAndRespawn();
-        bosses[player].TryApply(player);
+        playerType[player].ApplyTrait(player);
     }
 });
 

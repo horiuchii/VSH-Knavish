@@ -13,7 +13,7 @@
 
 AddVoiceLineScriptSoundToQueue("stabbed")
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     bDisallowCloak = false;
     iCloakToSet = 0.0;
@@ -87,9 +87,9 @@ function CalcStabDamage(victim)
 
 function GetPerPlayerDamageQuota(victim)
 {
-    if (!(victim in bosses))
+    if (!(victim in playerType))
         return 0;
-    return startMercCount > 0 ? bosses[victim].startingHealth / startMercCount : 500;
+    return startMercCount > 0 ? playerType[victim].startingHealth / startMercCount : 500;
 }
 
 function YERDisguise(player)

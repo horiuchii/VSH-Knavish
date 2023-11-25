@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     function OnTickAlive(timeDelta)
     {
@@ -28,7 +28,6 @@ characterTraitsLibrary.push(class extends CharacterTrait
         {
             player.AddCondEx(TF_COND_CRITBOOSTED_ON_KILL, 0.2, player);
         }
-
 
         if (mercsAlive <= 3)
         {

@@ -11,39 +11,39 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-::characterTraitsLibrary <- [];
 ::characterTraits <- {};
-::characterTraitObjects <- {};
 ::emptyTickAlive <- null;
 
 class CharacterTrait
 {
     player = null;
-    name = "Trait";
+    trait_team = TF_TEAM_ANY;
 
     function TryApply(player)
     {
         if (!IsValidPlayer(player))
-            return;
+            return null;
 
         this.player = player;
-        if (!CanApply() || !CheckTeam())
-            return;
+        if (!CanApply() || !CanReceiveTrait())
+            return null;
+
+        return ApplyTrait(player);
+    }
+
+    function ApplyTrait(player)
+    {
+        this.player = player; // For when TryApply is skipped
 
         if (!(player in characterTraits))
             characterTraits[player] <- [];
         characterTraits[player].push(this);
-
-        if (!(player in characterTraitObjects))
-            characterTraitObjects[player] <- { };
-        characterTraitObjects[player][this.name] <- this;
 
         OnApply();
         return this;
     }
 
     function CanApply() { return true; }
-    function CheckTeam() { return !IsBoss(player); }
     function OnApply() { }
     function OnFrameTickAlive() { }
     function OnFrameTickAliveOrDead() { }
@@ -55,6 +55,24 @@ class CharacterTrait
     function OnDeath(attacker, params) { }
     function OnHurtDealtEvent(victim, params) { }
     function OnDiscard() { }
+
+    function CanReceiveTrait()
+    {
+        switch (trait_team)
+        {
+            case TF_TEAM_ANY: return true;
+            case TF_TEAM_MERCS:
+                {
+                    return !IsBoss(player);
+                }
+            case TF_TEAM_BOSS:
+                {
+                    return IsBoss(player);
+                }
+        }
+
+        return false;
+    }
 
     function DoTick(timeDelta)
     {
@@ -71,22 +89,43 @@ class CharacterTrait
     }
 }
 
-::GetTrait <- function(player, traitName)
+::GetTraitByClass <- function(player, traitClass)
 {
-    return characterTraitObjects[player][traitName];
+    foreach (trait in characterTraits[player])
+    {
+        if (trait instanceof traitClass)
+            return trait;
+    }
+
+    return null;
 }
 
 AddListener("spawn", -1, function (player, params)
 {
     DiscardTraits(player);
     characterTraits[player] <- [];
-    foreach (characterTrait in characterTraitsLibrary)
+    if (!(player in playerType))
+        playerType[player] <- Mercenary();
+
+    foreach (mercTrait in mercTraitsLibrary)
+    {
         try
         {
-            local newTrait = characterTrait();
+            local newTrait = mercTrait();
             newTrait.TryApply.call(newTrait, player);
         }
         catch(e) { throw e; }
+    }
+
+    foreach (sharedTrait in sharedTraitLibrary)
+    {
+        try
+        {
+            local newTrait = sharedTrait();
+            newTrait.TryApply.call(newTrait, player);
+        }
+        catch(e) { throw e; }
+    }
 });
 
 AddListener("tick_only_valid", 2, function (timeDelta)

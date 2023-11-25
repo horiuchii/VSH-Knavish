@@ -14,7 +14,7 @@
 AddGenericScriptSoundToQueue("soldier.gardened")
 AddGenericScriptSoundToQueue("vsh_sfx.gardened");
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     function CanApply()
     {

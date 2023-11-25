@@ -37,10 +37,15 @@
                 local isAlive = player.IsAlive();
                 local isMerc = !IsBoss(player);
 
-                if (isAlive && isMerc)
-                    aliveMercsL.push(player);
                 if (isAlive)
+                {
                     alivePlayersL.push(player);
+                    if (isMerc)
+                    {
+                        aliveMercsL.push(player);
+                    }
+                }
+
                 if (isMerc)
                     validMercsL.push(player);
             }

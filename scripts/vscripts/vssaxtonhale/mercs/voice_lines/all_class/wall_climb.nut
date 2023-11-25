@@ -13,7 +13,7 @@
 
 AddVoiceLineScriptSoundToQueue("wall_climb")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 0.5;
     sharedPlayInterval = 20;

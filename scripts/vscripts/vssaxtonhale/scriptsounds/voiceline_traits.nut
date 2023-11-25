@@ -32,10 +32,12 @@ class CustomVoiceLine extends CharacterTrait
 class BossVoiceLine extends CustomVoiceLine
 {
     boss = null;
+    trait_team = TF_TEAM_BOSS;
 
-    function CheckTeam()
+    // NEVER override ApplyTrait() past this point
+    function ApplyTrait(player)
     {
         boss = player;
-        return IsValidBoss(player);
+        base.ApplyTrait(player);
     }
 }

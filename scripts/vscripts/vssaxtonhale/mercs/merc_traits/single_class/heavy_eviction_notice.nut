@@ -14,7 +14,7 @@
 const healthDrainPerSecond = 7;
 const ticksPerSecond = 67;
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     degenTicks = 0;
 

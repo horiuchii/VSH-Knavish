@@ -16,7 +16,7 @@ AddVoiceLineScriptSoundToQueue("above")
 AddVoiceLineScriptSoundToQueue("contact")
 AddGenericScriptSoundToQueue("medic.contact_uber")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     tickInverval = 0.5;
     sharedPlayInterval = 20;

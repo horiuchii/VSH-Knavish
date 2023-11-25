@@ -14,7 +14,7 @@
 PrecacheSound("weapons/mantreads.wav");
 PrecacheEntityFromTable({ classname = "info_particle_system", effect_name = "mini_fireworks" });
 
-characterTraitsLibrary.push(class extends CharacterTrait
+mercTraitsLibrary.push(class extends MercenaryTrait
 {
     lastFallVelocity = 0.0;
     bounceHeight = 650.0;

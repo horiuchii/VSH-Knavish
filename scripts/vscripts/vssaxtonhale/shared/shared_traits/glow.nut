@@ -11,12 +11,9 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-class GlowTrait extends BossTrait
+class GlowTrait extends SharedTrait
 {
-    name = "Glow Trait";
-
     glow_ent = null;
-    glow_color = "0 0 0";
     glow_time_end = 0;
     glow_alpha = 0.0;
 
@@ -41,21 +38,22 @@ class GlowTrait extends BossTrait
     {
         if(glow_ent == null)
         {
-            boss.KeyValueFromString("targetname", "client_" + boss.entindex().tostring());
+            player.KeyValueFromString("targetname", "client_" + player.entindex().tostring());
             glow_ent = SpawnEntityFromTable("tf_glow",
             {
-                target = "client_" + boss.entindex().tostring(),
-                GlowColor = "0 0 0 0",
+                target = "client_" + player.entindex().tostring(),
+                GlowColor = player.GetTypeColor() + " 0",
                 Mode = 0,
                 StartDisabled = 1
             })
             glow_ent.DispatchSpawn();
-            EntFireByHandle(glow_ent, "SetParent", "!activator", -1, boss, null);
-            boss.KeyValueFromString("targetname", "");
+            EntFireByHandle(glow_ent, "SetParent", "!activator", -1, player, null);
+            player.KeyValueFromString("targetname", "");
         }
-        EntFireByHandle(glow_ent, "Enable", "", -1, boss, boss);
+        EntFireByHandle(glow_ent, "Enable", "", -1, player, player);
 
-        SetGlowFlash(5);
+        if (IsBoss(player))
+            SetGlowFlash(5);
     }
 
     function OnFrameTickAlive()
@@ -64,6 +62,9 @@ class GlowTrait extends BossTrait
 
         glow_alpha = clamp(glow_alpha + (glow_time_end > Time() ? alpha_change : -alpha_change), 0, 255);
 
-        EntFireByHandle(glow_ent, "SetGlowColor", GetBossColor(player) + " " + glow_alpha.tointeger(), -1, boss, boss);
+        EntFireByHandle(glow_ent, "SetGlowColor", player.GetTypeColor() + " " + glow_alpha.tointeger(), -1, player, player);
     }
 }
+
+::GlowTrait <- GlowTrait;
+sharedTraitLibrary.push(GlowTrait);

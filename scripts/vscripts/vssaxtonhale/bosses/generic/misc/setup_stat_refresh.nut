@@ -26,7 +26,7 @@
     boss.SetMaxHealth(maxHealth);
     boss.RemoveCustomAttribute("max health additive bonus");
     boss.AddCustomAttribute("max health additive bonus", maxHealth - 300, -1);
-    bosses[boss].startingHealth = maxHealth;
+    playerType[boss].startingHealth = maxHealth;
     ::startMercCount <- GetAliveMercCount();
 }
 

@@ -13,7 +13,7 @@
 
 AddGenericScriptSoundToQueue("demo.trap_cheer")
 
-characterTraitsLibrary.push(class extends CustomVoiceLine
+mercTraitsLibrary.push(class extends CustomVoiceLine
 {
     playInterval = 10;
     damageDoneRecently = 0;
