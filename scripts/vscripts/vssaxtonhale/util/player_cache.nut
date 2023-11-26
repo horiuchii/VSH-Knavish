@@ -24,6 +24,7 @@
     local alivePlayersL = [];
     local validMercsL = [];
     local aliveMercsL = [];
+    local validBossesL = [];
     for (local i = 1; i <= MAX_PLAYERS; i++)
     {
         local player = PlayerInstanceFromIndex(i);
@@ -35,7 +36,11 @@
                 validPlayersL.push(player);
 
                 local isAlive = player.IsAlive();
-                local isMerc = !IsBoss(player);
+                if (!(player in playerType))
+                    playerType[player] <- Mercenary();
+
+                local isMerc = playerType[player] instanceof Mercenary;
+                local isBoss = playerType[player] instanceof Boss;
 
                 if (isAlive)
                 {
@@ -48,6 +53,9 @@
 
                 if (isMerc)
                     validMercsL.push(player);
+
+                if (isBoss)
+                    validBossesL.push(player);
             }
         }
     }
@@ -56,6 +64,7 @@
     validMercs = validMercsL;
     alivePlayers = alivePlayersL;
     aliveMercs = aliveMercsL;
+    validBosses = validBossesL;
 };
 AddListener("tick_frame", -9999, RecachePlayers);
 AddListener("tick_always", -9999, function(tickDelta)

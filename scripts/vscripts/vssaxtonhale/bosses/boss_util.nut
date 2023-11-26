@@ -23,7 +23,6 @@ function RegisterBoss(name, bossClass)
 
 function AssignBoss(bossClass, bossPlayer)
 {
-    validBosses.push(bossPlayer);
     playerType[bossPlayer] <- bossLibrary[bossClass]();
 }
 
