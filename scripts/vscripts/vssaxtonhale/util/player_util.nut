@@ -145,6 +145,16 @@
     EmitSoundEx({sound_name = sound, entity = player, filter_type = RECIPIENT_FILTER_SINGLE_PLAYER});
 }
 
+::GetPlayerAccountID <- function(player)
+{
+    return split(GetPropString(player, "m_szNetworkIDString"), ":")[2].tointeger();
+}
+
+::PrintToClient <- function(player, message)
+{
+    ClientPrint(player, HUD_PRINTTALK, message);
+}
+
 ::SwitchPlayerTeam <- function(player, team)
 {
     if (IsValidPlayer(player))

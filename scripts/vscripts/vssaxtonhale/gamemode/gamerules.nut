@@ -18,7 +18,7 @@ function SetConvarValue(cvar, value, do_warning = true)
 {
     if(!Convars.IsConVarOnAllowList(cvar))
     {
-        ClientPrint(null, 2, "VSCRIPTVSH WARNING --- Tried to change convar " + cvar + " to " + value + " but it isn't on the convar allow list.")
+        ClientPrint(null, HUD_PRINTCONSOLE, "VSCRIPTVSH WARNING --- Tried to change convar " + cvar + " to " + value + " but it isn't on the convar allow list.")
         return;
     }
 

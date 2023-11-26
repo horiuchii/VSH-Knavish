@@ -17,6 +17,8 @@ function OnPostSpawn()
     PrecacheGenericSoundScripts();
     PrecacheVoiceLineSoundScripts();
 
+    FireListeners("new_round");
+
     if (IsValidRoundPreStart())
         FireListeners("setup_start");
 }
@@ -190,4 +192,12 @@ function OnGameEvent_player_disconnect(params)
     if (!IsValidClient(player))
         return;
     FireListeners("disconnect", player, params);
+}
+
+function OnGameEvent_player_connect(params)
+{
+    local player = GetPlayerFromParams(params);
+    if (!IsValidClient(player))
+        return;
+    FireListeners("connect", player, params);
 }
