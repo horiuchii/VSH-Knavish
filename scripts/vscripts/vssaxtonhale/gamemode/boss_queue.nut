@@ -84,7 +84,15 @@ function ProgressBossQueue(iterations = 0)
     {
         try
         {
-            return GetValidPlayers()[RandomInt(0, GetValidPlayers().len() - 1)];
+            local valid_players = [];
+            foreach (i, player in GetValidPlayers())
+            {
+                if(!!GetPref(player, COOKIE.BecomeBoss))
+                {
+                    valid_players.append(player)
+                }
+            }
+            return valid_players[RandomInt(0, valid_players.len() - 1)];
         }
         catch(e)
         {
@@ -118,6 +126,9 @@ AddListener("round_end", 1, function (winner)
 {
     foreach (player in GetValidMercs())
     {
+        if(!!!GetPref(player, COOKIE.BecomeBoss))
+            continue;
+
         SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundDamageToPoints(player));
     }
 
@@ -131,6 +142,12 @@ AddListener("round_end", 100, function (winner)
 
     foreach (player in GetValidMercs())
     {
+        if(!!!GetPref(player, COOKIE.BecomeBoss))
+        {
+            PrintToClient(player, VSH_MESSAGE_PREFIX + "You didn't gain any points due your prefrence to not become the boss.");
+            continue;
+        }
+
         foreach (i, position in queueboard)
         {
             if (position[0] == player)
@@ -141,7 +158,7 @@ AddListener("round_end", 100, function (winner)
             queue_pos = queueboard.len() + 1;
         }
 
-        local message = "\x01" + "\x07FFD700" + "[KNA-VSH] ";
+        local message = VSH_MESSAGE_PREFIX;
         message += "\x01You gained \x07FFD700" + (ConvertRoundDamageToPoints(player)) + "\x01 point(s) this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage.\n"
         message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 point(s)."
         PrintToClient(player, message);

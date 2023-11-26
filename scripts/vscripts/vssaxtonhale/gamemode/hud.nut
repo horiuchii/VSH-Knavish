@@ -49,7 +49,7 @@ function ToggleBoss(player)
     else
         message = "You can no longer be the boss. Queue points have been reset."
 
-    PrintToClient(player, "\x01" + "\x07FFD700" + "[KNA-VSH] \x01" + message);
+    PrintToClient(player, VSH_MESSAGE_PREFIX + message);
 }
 
 function SetBossDifficulty(player, difficulty)
@@ -65,7 +65,7 @@ function SetBossDifficulty(player, difficulty)
         case 3: message += "Insane"; break;
     }
 
-    PrintToClient(player, "\x01" + "\x07FFD700" + "[KNA-VSH] \x01" + message);
+    PrintToClient(player, VSH_MESSAGE_PREFIX + message);
     SetPref(player, COOKIE.Difficulty, difficulty);
     menu_index[player] <- 0;
     selected_option[player] <- 2;
@@ -81,7 +81,7 @@ function ToggleCustomVO(player)
     else
         message = "You can no longer hear James McGuinn merc VO."
 
-    PrintToClient(player, "\x01" + "\x07FFD700" + "[KNA-VSH] \x01" + message);
+    PrintToClient(player, VSH_MESSAGE_PREFIX + message);
 }
 
 menu_option_names <- [
@@ -94,7 +94,7 @@ menu_option_names <- [
         ["Reset Queue Points",
         null,
         "Resets your position in\nthe queue to become boss.",
-        function(player){ResetQueuePoints(player); PrintToClient(player, "\x01" + "\x07FFD700" + "[KNA-VSH]\x01 Your queue points have been reset.")}],
+        function(player){ResetQueuePoints(player); PrintToClient(player, VSH_MESSAGE_PREFIX + "Your queue points have been reset.")}],
 
         ["Set Boss Difficulty",
         COOKIE.Difficulty,
@@ -104,7 +104,7 @@ menu_option_names <- [
         ["Set Preferred Boss",
         COOKIE.Boss,
         "Choose who you would like to play as when\nchosen as the boss. (More coming soon)",
-        function(player){PrintToClient(player, "\x01" + "\x07FFD700" + "[KNA-VSH]\x01 Coming Soon!")}],
+        function(player){PrintToClient(player, VSH_MESSAGE_PREFIX + "Coming Soon!")}],
 
         ["Toggle Merc Voicelines",
         COOKIE.CustomVO,
