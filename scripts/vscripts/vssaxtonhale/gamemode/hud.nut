@@ -139,7 +139,7 @@ AddListener("tick_frame", 2, function ()
     foreach (player in GetValidPlayers())
     {
         if(IsBoss(player) || IsPlayerABot(player))
-            return;
+            continue;
 
         local buttons = GetPropInt(player, "m_nButtons");
         if (!(player in last_press_menu_button))
