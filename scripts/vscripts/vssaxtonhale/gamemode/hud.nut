@@ -369,12 +369,14 @@ function UpdateWeaponStatHUD(player)
         weapon_primary = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY)))
 
     local weapon_secondary = "";
-    if (player.GetPlayerClass() == TF_CLASS_SNIPER && player.HasWearable("any_sniper_backpack"))
+    if (player.GetPlayerClass() == TF_CLASS_SNIPER
+        && player.HasWearable("any_sniper_backpack"))
     {
         local wearable = player.GetWearable("any_sniper_backpack");
         weapon_secondary = GetWeaponDescription(GetWeaponName(wearable));
     }
-    else if (player.GetPlayerClass() == TF_CLASS_DEMOMAN && player.HasWearable("any_demo_shield"))
+    else if (player.GetPlayerClass() == TF_CLASS_DEMOMAN
+        && player.HasWearable("any_demo_shield"))
     {
         local wearable = player.GetWearable("any_demo_shield");
         weapon_secondary = GetWeaponDescription(GetWeaponName(wearable));

@@ -505,9 +505,9 @@ foreach (key, weapon in WeaponTable)
     }
     else if(name == "any_sniper_backpack")
     {
-        return WeaponIs("razorback")
-            || WeaponIs("darwins_danger_shield")
-            || WeaponIs("cozy_camper");
+        return WeaponIs(weapon, "razorback")
+            || WeaponIs(weapon, "darwins_danger_shield")
+            || WeaponIs(weapon, "cozy_camper");
     }
     else
     {
@@ -539,9 +539,10 @@ foreach (key, weapon in WeaponTable)
 {
     for (local wearable = FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
     {
-        local name = wearable.GetClassname();
-        if (!startswith(name, "tf_wearable"))
+        if (!startswith(wearable.GetClassname(), "tf_wearable"))
+        {
             continue;
+        }
 
         if (WeaponIs(wearable, name))
         {
@@ -558,11 +559,15 @@ foreach (key, weapon in WeaponTable)
 {
     for (local wearable = FirstMoveChild(); wearable != null; wearable = wearable.NextMovePeer())
     {
-        if (wearable.GetClassname().find("tf_wearable") == null)
+        if (!startswith(wearable.GetClassname(), "tf_wearable"))
+        {
             continue;
+        }
 
         if (WeaponIs(wearable, name))
+        {
             return wearable;
+        }
     }
 
     return false;

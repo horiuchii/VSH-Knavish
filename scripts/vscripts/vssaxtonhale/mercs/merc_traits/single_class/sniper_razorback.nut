@@ -3,16 +3,21 @@ mercTraitsLibrary.push(class extends MercenaryTrait
     wasDestroyed = false;
     function CanApply()
     {
-        return player.GetPlayerClass() == TF_CLASS_SNIPER && player.HasWearable("razorback");
+        return player.GetPlayerClass() == TF_CLASS_SNIPER
+            && player.HasWearable("razorback");
     }
 
     function OnDamageTaken(attacker, params)
     {
         if (wasDestroyed || !IsValidBoss(attacker) || player.InCond(TF_COND_INVULNERABLE))
+        {
             return;
+        }
 
         if ((params.damage_type == 1 || params.damage_type == DMG_BLAST) && params.damage < player.GetHealth())
+        {
             return;
+        }
 
         wasDestroyed = true;
         params.damage = 0;

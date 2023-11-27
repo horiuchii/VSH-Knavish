@@ -93,18 +93,14 @@
     }
 }
 
-::clampCeiling <- function(valueA, valueB)
+::clampCeiling <- function(A, B)
 {
-    if (valueA < valueB)
-        return valueA;
-    return valueB;
+    return (A < B) ? A : B;
 }
 
-::clampFloor <- function(valueA, valueB)
+::clampFloor <- function(A, B)
 {
-    if (valueA > valueB)
-        return valueA;
-    return valueB;
+    return (A > B) ? A : B;
 }
 
 ::clamp <- function(value, min, max)
