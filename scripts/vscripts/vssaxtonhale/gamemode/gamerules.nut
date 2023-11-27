@@ -122,7 +122,7 @@ function SpawnHelperEntities()
         points_per_player = 0,
         red_respawn_time = 0,
         targetname = "pd_logic",
-        res_file = "resource/ui/vsh_hud.res"
+        res_file = "resource/ui/knavish_vsh_hud.res"
     });
 
     local auto = SpawnEntityFromTable("logic_auto", {

@@ -151,20 +151,11 @@ AddListener("tick_frame", 2, function ()
             continue;
         }
 
-        if (!(player in menu_index) && (WasButtonDownLastFrame(player, IN_ATTACK3, buttons) || WasButtonDownLastFrame(player, IN_RELOAD, buttons)))
+        if ((WasButtonDownLastFrame(player, IN_ATTACK3, buttons) || WasButtonDownLastFrame(player, IN_RELOAD, buttons)))
         {
             if (Time() - last_press_menu_button[player] < DOUBLE_PRESS_MENU_THRESHOLD)
             {
-                if(!(player in selected_option))
-                    selected_option[player] <- 0;
-
-                menu_index[player] <- 0;
-                SetPropString(env_hudhint, "m_iszMessage", "");
-                EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
-                PlaySoundForPlayer(player, "ui/cyoa_map_open.wav");
-
-                if(!player.IsAlive())
-                    player.SetOrigin(player.GetOrigin() + Vector(0,0,64))
+                OpenVSHMenuHUD(player);
             }
             else
                 last_press_menu_button[player] <- Time();
@@ -190,6 +181,23 @@ AddListener("tick_frame", 2, function ()
         player_last_buttons[player] <- buttons;
     }
 });
+
+function OpenVSHMenuHUD(player)
+{
+    if(player in menu_index)
+        return;
+
+    if(!(player in selected_option))
+        selected_option[player] <- 0;
+
+    menu_index[player] <- 0;
+    SetPropString(env_hudhint, "m_iszMessage", "");
+    EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
+    PlaySoundForPlayer(player, "ui/cyoa_map_open.wav");
+
+    if(!player.IsAlive())
+        player.SetOrigin(player.GetOrigin() + Vector(0,0,64))
+}
 
 function TickBossBar(boss)
 {

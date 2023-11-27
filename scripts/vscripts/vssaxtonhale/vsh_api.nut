@@ -24,7 +24,7 @@
     long_setup_lines = true,
     setup_countdown_lines = true,
     spawn_protection = false,
-    ability_hud_folder = "vgui/vssaxtonhale/"
+    ability_hud_folder = "vgui/knavish_vssaxtonhale/"
 }
 
 ::VSH_API_VALUES <- {}
