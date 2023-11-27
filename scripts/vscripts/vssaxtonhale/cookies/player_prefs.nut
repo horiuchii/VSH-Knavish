@@ -16,11 +16,15 @@ DefaultPrefs <- {
 
 function GetPref(player, cookie)
 {
+    ValidatePlayerPrefs(player);
+
     return PlayerCookies[player.entindex()][cookie];
 }
 
 function SetPref(player, cookie, value)
 {
+    ValidatePlayerPrefs(player);
+
     PlayerCookies[player.entindex()][cookie] <- value;
     SetPersistentVar("player_preferences", PlayerCookies);
     SavePlayerData(player);
@@ -33,6 +37,21 @@ function ResetPrefs(player)
     SetPersistentVar("player_preferences", PlayerCookies);
 }
 
+function ValidatePlayerPrefs(player)
+{
+    //there should NEVER be a case where a player's entindex doesnt exist in PlayerCookies, but my code sucks and im lazy
+    //if they dont exist, reset their cookies and attempt to load their save file
+    if(!(player.entindex() in PlayerCookies))
+    {
+        ResetPrefs(player);
+
+        if(!IsPlayerABot(player))
+        {
+            LoadPlayerData(player);
+        }
+    }
+}
+
 AddListener("new_round", -2, function()
 {
     local prefrences_to_load = GetPersistentVar("player_preferences", null);
@@ -41,25 +60,13 @@ AddListener("new_round", -2, function()
 
     foreach(player in GetValidPlayers())
     {
-        if(!(player.entindex() in PlayerCookies))
-        {
-            ResetPrefs(player);
-        }
-
-        if(!IsPlayerABot(player))
-        {
-            LoadPlayerData(player);
-        }
+        ValidatePlayerPrefs(player);
     }
 });
 
 AddListener("connect", -1, function(player, params)
 {
-    ResetPrefs(player);
-    if(!IsPlayerABot(player))
-    {
-        LoadPlayerData(player);
-    }
+    ValidatePlayerPrefs(player);
 });
 
 function SavePlayerData(player)

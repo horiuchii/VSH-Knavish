@@ -18,11 +18,12 @@ game_text_merc_hud <- SpawnEntityFromTable("game_text",
     fadein = 0,
     fadeout = 0,
     holdtime = 250,
-    message = "This is a test",
+    message = "",
     x = 0.481,
     y = 0.788
 });
-env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "HOLD <SPECIAL ATTACK / +ATTACK3> TO VIEW WEAPON STATS\nDOUBLE TAP TO OPEN VSH MENU"});
+env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "HOLD <SPECIAL ATTACK / +ATTACK3> TO VIEW WEAPON STATS\nDOUBLE TAP OR TYPE /vshmenu IN CHAT TO OPEN VSH MENU"});
+env_hudhint_boss <- SpawnEntityFromTable("env_hudhint", {message = "TYPE /vshmenu IN CHAT TO OPEN VSH MENU"});
 bossBarTicker <- 0;
 
 player_last_buttons <- {};
@@ -93,7 +94,7 @@ menu_option_names <- [
 
         ["Reset Queue Points",
         null,
-        "Resets your position in\nthe queue to become boss.",
+        "\nResets your position in\nthe queue to become boss.",
         function(player){ResetQueuePoints(player); PrintToClient(player, VSH_MESSAGE_PREFIX + "Your queue points have been reset.")}],
 
         ["Set Boss Difficulty",
@@ -112,8 +113,8 @@ menu_option_names <- [
         function(player){ToggleCustomVO(player)}]
     ]
     menu_1 <- [
-        ["Easy", null, "easy_desc\n", function(player){SetBossDifficulty(player, -1)}],
-        ["Normal", null, "normal_desc\n", function(player){SetBossDifficulty(player, 0)}],
+        ["Easy", null, "+25% More Health\nNo Jump Cooldown\nRegular AOE Attack Range", function(player){SetBossDifficulty(player, -1)}],
+        ["Normal", null, "Normal Health\n2s Jump Cooldown\n-20% Smaller AOE Attack Range", function(player){SetBossDifficulty(player, 0)}],
         ["Hard", null, "hard_desc\n", function(player){SetBossDifficulty(player, 1)}],
         ["Extreme", null, "extreme_desc\n", function(player){SetBossDifficulty(player, 2)}],
         ["Insane", null, "insane_desc\n", function(player){SetBossDifficulty(player, 3)}]
@@ -122,12 +123,20 @@ menu_option_names <- [
 
 AddListener("spawn", 0, function (player, params)
 {
-    RunWithDelay2(this, 0.1, function () {
-        if (IsRoundSetup() && !IsBoss(player))
-        {
+    RunWithDelay2(this, 1.0, function () {
+        if(IsBoss(player))
+            EntFireByHandle(env_hudhint_boss, "ShowHudHint", "", 0, player, player);
+        else
             EntFireByHandle(env_hudhint, "ShowHudHint", "", 0, player, player);
-        }
     })
+});
+
+AddListener("chat", 0, function (player, message)
+{
+    if(message == "!vshmenu" || message == "/vshmenu")
+    {
+        OpenVSHMenuHUD(player);
+    }
 });
 
 AddListener("tick_only_valid", 2, function (deltaTime) {
@@ -153,7 +162,11 @@ AddListener("tick_frame", 2, function ()
 
         if ((WasButtonDownLastFrame(player, IN_ATTACK3, buttons) || WasButtonDownLastFrame(player, IN_RELOAD, buttons)))
         {
-            if (Time() - last_press_menu_button[player] < DOUBLE_PRESS_MENU_THRESHOLD)
+            if(player in menu_index)
+            {
+                CloseVSHMenuHUD(player);
+            }
+            else if (Time() - last_press_menu_button[player] < DOUBLE_PRESS_MENU_THRESHOLD)
             {
                 OpenVSHMenuHUD(player);
             }
@@ -191,12 +204,34 @@ function OpenVSHMenuHUD(player)
         selected_option[player] <- 0;
 
     menu_index[player] <- 0;
-    SetPropString(env_hudhint, "m_iszMessage", "");
     EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
     PlaySoundForPlayer(player, "ui/cyoa_map_open.wav");
 
     if(!player.IsAlive())
         player.SetOrigin(player.GetOrigin() + Vector(0,0,64))
+}
+
+function CloseVSHMenuHUD(player)
+{
+    if(!(player in menu_index))
+        return;
+
+    delete menu_index[player];
+    player.RemoveFlag(FL_ATCONTROLS);
+    player.SetScriptOverlayMaterial(null);
+    SetPropFloat(player, "m_flNextAttack", Time() + 0.5);
+    PlaySoundForPlayer(player, "ui/cyoa_map_close.wav");
+    if(!player.IsAlive())
+    {
+        SetPropInt(player, "m_iObserverMode", OBS_MODE_CHASE)
+        SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_HEALTH);
+    }
+    else
+        SetPropInt(player, "m_Local.m_iHideHUD", 0);
+
+    EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
+    EntFireByHandle(game_text_merc_hud, "AddOutput", "message ", 0, player, player);
+    EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
 }
 
 function TickBossBar(boss)
@@ -285,22 +320,7 @@ function UpdateVSHMenuHUD(player)
             return;
         }
 
-        delete menu_index[player];
-        player.RemoveFlag(FL_ATCONTROLS);
-        player.SetScriptOverlayMaterial(null);
-        SetPropFloat(player, "m_flNextAttack", Time() + 0.5);
-        PlaySoundForPlayer(player, "ui/cyoa_map_close.wav");
-        if(!player.IsAlive())
-        {
-            SetPropInt(player, "m_iObserverMode", OBS_MODE_CHASE)
-            SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_HEALTH);
-        }
-        else
-            SetPropInt(player, "m_Local.m_iHideHUD", 0);
-
-        EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
-        EntFireByHandle(game_text_merc_hud, "AddOutput", "message ", 0, player, player);
-        EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
+        CloseVSHMenuHUD(player);
         return;
     }
 
@@ -332,20 +352,20 @@ function UpdateVSHMenuHUD(player)
             option_setting = GetPref(player, COOKIE.Difficulty);
             switch(option_setting)
             {
-                case -1: option_setting = "[EASY]"; break;
-                case 0: option_setting = "[NORMAL]"; break;
-                case 1: option_setting = "[HARD]"; break;
-                case 2: option_setting = "[EXTREME]"; break;
-                case 3: option_setting = "[INSANE]"; break;
+                case -1: option_setting = "[EASY]\n"; break;
+                case 0: option_setting = "[NORMAL]\n"; break;
+                case 1: option_setting = "[HARD]\n"; break;
+                case 2: option_setting = "[EXTREME]\n"; break;
+                case 3: option_setting = "[INSANE]\n"; break;
             }
         }
         else
         {
             option_setting = GetPref(player, option_setting);
             if(type(option_setting) == "integer" || type(option_setting) == "bool")
-                option_setting = option_setting ? "[ON]" : "[OFF]";
+                option_setting = option_setting ? "[ON]\n" : "[OFF]\n";
             else
-                option_setting = "[" + option_setting + "]";
+                option_setting = "[" + option_setting + "]\n";
         }
     }
     else
@@ -353,7 +373,7 @@ function UpdateVSHMenuHUD(player)
 
     local description = menu_option_names[menu_index[player]][selected_option[player]][2]
 
-    message += "\n" + option_setting + "\n" + description + "\n\n\n\n\n\n";
+    message += "\n" + option_setting + description + "\n\n\n\n\n\n";
 
     EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
     EntFireByHandle(game_text_merc_hud, "AddOutput", "y -1", 0, player, player);

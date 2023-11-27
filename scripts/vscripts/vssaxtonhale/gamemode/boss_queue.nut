@@ -28,7 +28,6 @@
 }
 
 ::QueuePoints <- {}
-::QueuePointThresholds <- [1, 250, 500, 1000, 1500]
 
 function ResetQueuePoints(player)
 {
@@ -129,7 +128,7 @@ AddListener("round_end", 1, function (winner)
         if(!!!GetPref(player, COOKIE.BecomeBoss))
             continue;
 
-        SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundDamageToPoints(player));
+        SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundPerformanceToPoints(player));
     }
 
     SetPersistentVar("queue_points", QueuePoints);
@@ -159,7 +158,7 @@ AddListener("round_end", 100, function (winner)
         }
 
         local message = VSH_MESSAGE_PREFIX;
-        message += "\x01You gained \x07FFD700" + (ConvertRoundDamageToPoints(player)) + "\x01 point(s) this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage.\n"
+        message += "\x01You gained \x07FFD700" + (ConvertRoundPerformanceToPoints(player)) + "\x01 point(s) this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage and " + GetRoundHealing(player) + " healing.\n"
         message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 point(s)."
         PrintToClient(player, message);
     }
@@ -190,19 +189,16 @@ function addSuffix(number)
     return (number + suffix).tostring();
 }
 
-function ConvertRoundDamageToPoints(player)
+function ConvertRoundPerformanceToPoints(player)
 {
     local damage = GetRoundDamage(player);
+    local healing = GetRoundHealing(player);
     local points_added = 0;
-    foreach (point in QueuePointThresholds)
-    {
-        if(point <= damage)
-        {
-            points_added += 1;
-        }
-        else
-            break;
-    }
+
+    if(damage > 1)
+        points_added += 5;
+
+    points_added += ((damage + healing) / 500) * 2
 
     return points_added;
 }
