@@ -128,7 +128,16 @@ AddListener("player_healed", 5, function (patient, healer, amount)
     if (patient.GetTeam() != healer.GetTeam())
         return;
 
-        SetRoundHealing(healer, GetRoundHealing(healer) + amount);
+    //healing yourself doesn't add to your healing stat
+    if(patient == healer)
+        return;
+
+    //don't allow overheal to add to your healing stat
+    local overheal = (patient.GetHealth() + amount) - patient.GetMaxHealth();
+    if(overheal > 0)
+        amount -= overheal;
+
+    SetRoundHealing(healer, GetRoundHealing(healer) + amount);
 })
 
 //

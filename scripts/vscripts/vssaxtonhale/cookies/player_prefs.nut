@@ -41,6 +41,7 @@ function ValidatePlayerPrefs(player)
 {
     //there should NEVER be a case where a player's entindex doesnt exist in PlayerCookies, but my code sucks and im lazy
     //if they dont exist, reset their cookies and attempt to load their save file
+    //TOO BAD!
     if(!(player.entindex() in PlayerCookies))
     {
         ResetPrefs(player);
@@ -54,19 +55,14 @@ function ValidatePlayerPrefs(player)
 
 AddListener("new_round", -2, function()
 {
-    local prefrences_to_load = GetPersistentVar("player_preferences", null);
-    if(prefrences_to_load)
-        PlayerCookies <- prefrences_to_load;
+    local preferences_to_load = GetPersistentVar("player_preferences", null);
+    if(preferences_to_load)
+        PlayerCookies <- preferences_to_load;
 
     foreach(player in GetValidPlayers())
     {
         ValidatePlayerPrefs(player);
     }
-});
-
-AddListener("connect", -1, function(player, params)
-{
-    ValidatePlayerPrefs(player);
 });
 
 function SavePlayerData(player)

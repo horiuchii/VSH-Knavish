@@ -33,6 +33,8 @@ function ResetQueuePoints(player)
 {
     if (player in QueuePoints)
         delete QueuePoints[player];
+
+    SetPersistentVar("queue_points", QueuePoints);
 }
 
 function GetQueuePoints(player)
@@ -43,6 +45,8 @@ function GetQueuePoints(player)
 function SetQueuePoints(player, amount)
 {
     QueuePoints[player] <- amount;
+
+    SetPersistentVar("queue_points", QueuePoints);
 }
 
 function GetQueuePointsSorted()
@@ -106,11 +110,8 @@ AddListener("setup_start", 0, function ()
 
     foreach (player, amount in QueuePoints)
     {
-        if(player == null
-            || !player
-            || !player.IsPlayer()
-            || (player.GetTeam() != TF_TEAM_MERC && player.GetTeam() != TF_TEAM_BOSS))
-                ResetQueuePoints(player);
+        if(!IsValidPlayer(player))
+            ResetQueuePoints(player);
     }
 })
 
@@ -156,9 +157,31 @@ AddListener("round_end", 100, function (winner)
             }
             queue_pos = queueboard.len() + 1;
         }
-
         local message = VSH_MESSAGE_PREFIX;
-        message += "\x01You gained \x07FFD700" + (ConvertRoundPerformanceToPoints(player)) + "\x01 point(s) this round with \x07FFD700" + GetRoundDamage(player) + "\x01 damage and " + GetRoundHealing(player) + " healing.\n"
+        local points = ConvertRoundPerformanceToPoints(player);
+        message += "\x01You gained \x07FFD700" + points + "\x01 ";
+        message += (points == 1 ? "point" : "points");
+        message += " this round with ";
+
+        local dealt_damage = GetRoundDamage(player) > 0;
+        local provided_healing = GetRoundHealing(player) > 0;
+
+        if (dealt_damage)
+            message += "\x07FFD700" + GetRoundDamage(player) + "\x01 damage";
+
+        if (provided_healing)
+        {
+            if(dealt_damage)
+                message += " and ";
+
+            message += "\x07FFD700" + GetRoundHealing(player) + "\x01 healing";
+        }
+
+        if(!dealt_damage && !provided_healing)
+            message += "no damage or healing.";
+
+        message += ".\n";
+
         message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 point(s)."
         PrintToClient(player, message);
     }
@@ -198,7 +221,7 @@ function ConvertRoundPerformanceToPoints(player)
     if(damage > 1)
         points_added += 5;
 
-    points_added += ((damage + healing) / 500) * 2
+    points_added += ((damage + healing) / 250)
 
     return points_added;
 }

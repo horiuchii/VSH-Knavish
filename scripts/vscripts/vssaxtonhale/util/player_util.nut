@@ -23,7 +23,7 @@
 
 ::CTFPlayer.IsOnGround <- function()
 {
-    return this.GetFlags() & FL_ONGROUND;
+    return GetPropEntity(this, "m_hGroundEntity") != null;
 }
 
 ::CTFPlayer.Yeet <- function(vector)

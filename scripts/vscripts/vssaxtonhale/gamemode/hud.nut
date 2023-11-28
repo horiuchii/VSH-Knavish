@@ -22,8 +22,8 @@ game_text_merc_hud <- SpawnEntityFromTable("game_text",
     x = 0.481,
     y = 0.788
 });
-env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "HOLD <SPECIAL ATTACK / +ATTACK3> TO VIEW WEAPON STATS\nDOUBLE TAP OR TYPE /vshmenu IN CHAT TO OPEN VSH MENU"});
-env_hudhint_boss <- SpawnEntityFromTable("env_hudhint", {message = "TYPE /vshmenu IN CHAT TO OPEN VSH MENU"});
+env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "HOLD <INSPECT> TO VIEW WEAPON STATS\nDOUBLE TAP <MOUSE 3> OR TYPE /vshmenu IN CHAT TO OPEN VSH MENU"});
+env_hudhint_boss <- SpawnEntityFromTable("env_hudhint", {message = "DOUBLE TAP <MOUSE 3> OR TYPE /vshmenu IN CHAT TO OPEN VSH MENU"});
 bossBarTicker <- 0;
 
 player_last_buttons <- {};
@@ -38,7 +38,7 @@ function WasButtonDownLastFrame (player, button_query, current_buttons)
 DOUBLE_PRESS_MENU_THRESHOLD <- 0.25;
 last_press_menu_button <- {};
 selected_option <- {};
-menu_index <- {};
+::menu_index <- {};
 
 function ToggleBoss(player)
 {
@@ -133,7 +133,7 @@ AddListener("spawn", 0, function (player, params)
 
 AddListener("chat", 0, function (player, message)
 {
-    if(message == "!vshmenu" || message == "/vshmenu")
+    if(message == "!vshmenu" || message == "/vshmenu" || message == "vshmenu")
     {
         OpenVSHMenuHUD(player);
     }
@@ -147,12 +147,10 @@ AddListener("tick_frame", 2, function ()
 {
     foreach (player in GetValidPlayers())
     {
-        if(IsBoss(player) || IsPlayerABot(player))
+        if (IsPlayerABot(player))
             continue;
 
         local buttons = GetPropInt(player, "m_nButtons");
-        if (!(player in last_press_menu_button))
-            last_press_menu_button[player] <- 0;
 
         if (buttons & IN_SCORE)
         {
@@ -160,9 +158,12 @@ AddListener("tick_frame", 2, function ()
             continue;
         }
 
-        if ((WasButtonDownLastFrame(player, IN_ATTACK3, buttons) || WasButtonDownLastFrame(player, IN_RELOAD, buttons)))
+        if (!(player in last_press_menu_button))
+            last_press_menu_button[player] <- 0;
+
+        if (WasButtonDownLastFrame(player, IN_ATTACK3, buttons))
         {
-            if(player in menu_index)
+            if (IsInVSHMenu(player))
             {
                 CloseVSHMenuHUD(player);
             }
@@ -174,15 +175,15 @@ AddListener("tick_frame", 2, function ()
                 last_press_menu_button[player] <- Time();
         }
 
-        if (player in menu_index)
+        if (IsInVSHMenu(player))
         {
             UpdateVSHMenuHUD(player);
         }
-        else if ((buttons & IN_ATTACK3 || buttons & IN_RELOAD) && last_press_menu_button[player] + 0.125 < Time())
+        else if (player.IsInspecting() && !IsBoss(player))
         {
             UpdateWeaponStatHUD(player);
         }
-        else
+        else if (!IsBoss(player))
         {
             EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
             EntFireByHandle(game_text_merc_hud, "AddOutput", "message ", 0, player, player);
@@ -197,7 +198,7 @@ AddListener("tick_frame", 2, function ()
 
 function OpenVSHMenuHUD(player)
 {
-    if(player in menu_index)
+    if(IsInVSHMenu(player))
         return;
 
     if(!(player in selected_option))
@@ -213,7 +214,7 @@ function OpenVSHMenuHUD(player)
 
 function CloseVSHMenuHUD(player)
 {
-    if(!(player in menu_index))
+    if(!IsInVSHMenu(player))
         return;
 
     delete menu_index[player];
@@ -238,6 +239,7 @@ function TickBossBar(boss)
 {
     if (boss.IsDead())
         return;
+
     if (bossBarTicker < 2)
     {
         bossBarTicker++;
@@ -250,6 +252,11 @@ function TickBossBar(boss)
     SetPropInt(pd_logic, "m_nBlueTargetPoints", barValue);
     SetPropInt(pd_logic, "m_nMaxPoints", boss.GetMaxHealth());
     SetPropInt(pd_logic, "m_nRedScore", GetAliveMercCount());
+}
+
+::IsInVSHMenu <- function(player)
+{
+    return player in menu_index;
 }
 
 function UpdateDamageHUD(player)
@@ -304,7 +311,7 @@ function UpdateVSHMenuHUD(player)
         PlaySoundForPlayer(player, "ui/buttonclick.wav");
     }
 
-    if (WasButtonDownLastFrame(player, IN_ATTACK2, buttons))
+    if (WasButtonDownLastFrame(player, IN_ATTACK2, buttons) || WasButtonDownLastFrame(player, IN_RELOAD, buttons))
     {
         if (menu_index[player] != 0)
         {

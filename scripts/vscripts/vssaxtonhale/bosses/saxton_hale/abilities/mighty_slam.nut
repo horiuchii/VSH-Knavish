@@ -30,6 +30,9 @@ class MightySlamTrait extends BossTrait
 
     function OnTickAlive(timeDelta)
     {
+        if (IsInVSHMenu(boss))
+            return;
+
         if (meter < 0)
         {
             meter += timeDelta;

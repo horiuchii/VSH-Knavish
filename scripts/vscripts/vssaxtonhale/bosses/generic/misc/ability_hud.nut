@@ -113,9 +113,9 @@ class AbilityHudTrait extends BossTrait
         if (!(player in hudAbilityInstances))
             return;
 
-        if (GetPropInt(player, "m_nButtons") & IN_SCORE)
+        if(IsInVSHMenu(player))
         {
-            player.SetScriptOverlayMaterial("");
+            //TODO: make boss game_text go away
             return;
         }
 
@@ -163,7 +163,8 @@ class AbilityHudTrait extends BossTrait
         EntFireByHandle(game_text_tip, "AddOutput", "message ", 0, boss, boss);
         EntFireByHandle(game_text_tip, "Display", "", 0, boss, boss);
 
-        player.SetScriptOverlayMaterial("");
+        if(!IsInVSHMenu(player))
+            player.SetScriptOverlayMaterial("");
     }
 
     function BigToSmallNumbers(input)

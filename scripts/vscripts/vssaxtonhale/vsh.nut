@@ -55,6 +55,7 @@ Include("/gamemode/scoreboard.nut");
 Include("/bosses/boss.nut");
 Include("/mercs/merc_traits.nut");
 Include("/shared/shared_traits.nut");
+Include("/bug_fixes/bug_fixes.nut")
 
 try { IncludeScript("vsh_addons/main.nut"); } catch(e) { }
 
