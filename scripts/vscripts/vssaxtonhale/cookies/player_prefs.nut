@@ -1,5 +1,3 @@
-PlayerCookies <- {}
-
 enum COOKIE {
     BecomeBoss
     Boss
@@ -7,51 +5,56 @@ enum COOKIE {
     CustomVO
 }
 
-DefaultPrefs <- {
-    [COOKIE.BecomeBoss] = 1,
-    [COOKIE.Boss] = "saxton_hale",
-    [COOKIE.Difficulty] = 0,
-    [COOKIE.CustomVO] = 1
-};
-
-function GetPref(player, cookie)
+class Cookies
 {
-    ValidatePlayerPrefs(player);
+    PlayerCookies = {}
 
-    return PlayerCookies[player.entindex()][cookie];
-}
-
-function SetPref(player, cookie, value)
-{
-    ValidatePlayerPrefs(player);
-
-    PlayerCookies[player.entindex()][cookie] <- value;
-    SetPersistentVar("player_preferences", PlayerCookies);
-    SavePlayerData(player);
-    return PlayerCookies[player.entindex()][cookie];
-}
-
-function ResetPrefs(player)
-{
-    PlayerCookies[player.entindex()] <- DefaultPrefs;
-    SetPersistentVar("player_preferences", PlayerCookies);
-}
-
-function ValidatePlayerPrefs(player)
-{
-    //there should NEVER be a case where a player's entindex doesnt exist in PlayerCookies, but my code sucks and im lazy
-    //if they dont exist, reset their cookies and attempt to load their save file
-    //TOO BAD!
-    if(!(player.entindex() in PlayerCookies))
+    function Get(player, cookie)
     {
-        ResetPrefs(player);
+        Validate(player);
 
-        if(!IsPlayerABot(player))
+        return PlayerCookies[player.entindex()][cookie];
+    }
+
+    function Set(player, cookie, value)
+    {
+        Validate(player);
+
+        PlayerCookies[player.entindex()][cookie] <- value;
+        SetPersistentVar("player_preferences", PlayerCookies);
+        SavePlayerData(player);
+        return PlayerCookies[player.entindex()][cookie];
+    }
+
+    function Reset(player)
+    {
+        PlayerCookies[player.entindex()] <- {
+            [COOKIE.BecomeBoss] = 1,
+            [COOKIE.Boss] = "saxton_hale",
+            [COOKIE.Difficulty] = 0,
+            [COOKIE.CustomVO] = 1
+        };
+
+        SetPersistentVar("player_preferences", PlayerCookies);
+    }
+
+    function Validate(player)
+    {
+        //there should NEVER be a case where a player's entindex doesnt exist in PlayerCookies, but my code sucks and im lazy
+        //if they dont exist, reset their cookies and attempt to load their save file
+        //TOO BAD!
+        if(!(player.entindex() in PlayerCookies))
         {
-            LoadPlayerData(player);
+            Reset(player);
+
+            if(!IsPlayerABot(player))
+            {
+                LoadPlayerData(player);
+            }
         }
     }
 }
+::Cookies <- Cookies();
 
 AddListener("new_round", -2, function()
 {
@@ -61,23 +64,23 @@ AddListener("new_round", -2, function()
 
     foreach(player in GetValidPlayers())
     {
-        ValidatePlayerPrefs(player);
+        Cookies.Validate(player);
     }
 });
 
-function SavePlayerData(player)
+::SavePlayerData <- function(player)
 {
     local save = "";
 
-	save += "become_boss," + GetPref(player, COOKIE.BecomeBoss).tointeger() + ";"
-    save += "boss," + GetPref(player, COOKIE.Boss).tostring() + ";"
-    save += "difficulty," + GetPref(player, COOKIE.Difficulty).tointeger() + ";"
-    save += "custom_vo," + GetPref(player, COOKIE.CustomVO).tointeger() + ";"
+	save += "become_boss," + Cookies.Get(player, COOKIE.BecomeBoss).tointeger() + ";"
+    save += "boss," + Cookies.Get(player, COOKIE.Boss).tostring() + ";"
+    save += "difficulty," + Cookies.Get(player, COOKIE.Difficulty).tointeger() + ";"
+    save += "custom_vo," + Cookies.Get(player, COOKIE.CustomVO).tointeger() + ";"
 
 	StringToFile("knavish_vsh_save/" + GetPlayerAccountID(player) + ".sav", save);
 }
 
-function LoadPlayerData(player)
+::LoadPlayerData <- function(player)
 {
     local save = FileToString("knavish_vsh_save/" + GetPlayerAccountID(player) + ".sav");
 
@@ -107,22 +110,22 @@ function LoadPlayerData(player)
                 {
                     case "become_boss":
                     {
-                        SetPref(player, COOKIE.BecomeBoss, value_buffer.tointeger());
+                        Cookies.Set(player, COOKIE.BecomeBoss, value_buffer.tointeger());
                         break;
                     }
                     case "boss":
                     {
-                        SetPref(player, COOKIE.Boss, value_buffer.tostring());
+                        Cookies.Set(player, COOKIE.Boss, value_buffer.tostring());
                         break;
                     }
                     case "difficulty":
                     {
-                        SetPref(player, COOKIE.Difficulty, value_buffer.tointeger());
+                        Cookies.Set(player, COOKIE.Difficulty, value_buffer.tointeger());
                         break;
                     }
                     case "custom_vo":
                     {
-                        SetPref(player, COOKIE.CustomVO, value_buffer.tointeger());
+                        Cookies.Set(player, COOKIE.CustomVO, value_buffer.tointeger());
                         break;
                     }
                 }

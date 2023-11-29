@@ -89,6 +89,15 @@ enum MINIGUN_STATE
     DRYFIRE = 4,
 }
 
+enum DIFFICULTY
+{
+    EASY = -1,
+    NORMAL = 0,
+    HARD = 1,
+    EXTREME = 2,
+    IMPOSSIBLE = 3,
+}
+
 ::MASK_SOLID_BRUSHONLY <- 16395;
 
 ::VSH_MESSAGE_PREFIX <- "\x01" + "\x07FFD700" + "[KNA-VSH] \x01";

@@ -90,7 +90,7 @@ function ProgressBossQueue(iterations = 0)
             local valid_players = [];
             foreach (i, player in GetValidPlayers())
             {
-                if(!!GetPref(player, COOKIE.BecomeBoss))
+                if(!!Cookies.Get(player, COOKIE.BecomeBoss))
                 {
                     valid_players.append(player)
                 }
@@ -126,7 +126,7 @@ AddListener("round_end", 1, function (winner)
 {
     foreach (player in GetValidMercs())
     {
-        if(!!!GetPref(player, COOKIE.BecomeBoss))
+        if(!!!Cookies.Get(player, COOKIE.BecomeBoss))
             continue;
 
         SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundPerformanceToPoints(player));
@@ -142,7 +142,7 @@ AddListener("round_end", 100, function (winner)
 
     foreach (player in GetValidMercs())
     {
-        if(!!!GetPref(player, COOKIE.BecomeBoss))
+        if(!!!Cookies.Get(player, COOKIE.BecomeBoss))
         {
             PrintToClient(player, VSH_MESSAGE_PREFIX + "You didn't gain any points due your prefrence to not become the boss.");
             continue;
@@ -178,7 +178,7 @@ AddListener("round_end", 100, function (winner)
         }
 
         if(!dealt_damage && !provided_healing)
-            message += "no damage or healing.";
+            message += "no damage or healing";
 
         message += ".\n";
 

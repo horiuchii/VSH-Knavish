@@ -27,7 +27,7 @@ class BraveJumpTrait extends BossTrait
     jumpStatus = BOSS_JUMP_STATUS.WALKING;
     voiceLinePlayed = 0;
 	meter = 0;
-	TRAIT_COOLDOWN = 2.5;
+	TRAIT_COOLDOWN = 2;
 
     function OnApply()
     {
@@ -47,6 +47,19 @@ class BraveJumpTrait extends BossTrait
                 meter = 0;
 			}
 		}
+
+        if(IsRoundSetup())
+        {
+            switch(Cookies.Get(player, COOKIE.Difficulty))
+            {
+                case DIFFICULTY.EASY: TRAIT_COOLDOWN = 0; break;
+                case DIFFICULTY.NORMAL: TRAIT_COOLDOWN = 2; break;
+                case DIFFICULTY.HARD: TRAIT_COOLDOWN = 3; break;
+                case DIFFICULTY.EXTREME: TRAIT_COOLDOWN = 4; break;
+                case DIFFICULTY.IMPOSSIBLE: TRAIT_COOLDOWN = null; break;
+                default: break;
+            }
+        }
 	}
 
     function OnDamageTaken(attacker, params)
@@ -60,7 +73,7 @@ class BraveJumpTrait extends BossTrait
 
     function OnFrameTickAlive()
     {
-        if (API_GetBool("freeze_boss_setup") && IsRoundSetup())
+        if (API_GetBool("freeze_boss_setup") && IsRoundSetup() || TRAIT_COOLDOWN == null)
             return;
 
         local buttons = GetPropInt(boss, "m_nButtons");
@@ -132,13 +145,19 @@ class BraveJumpTrait extends BossTrait
 
 	function MeterAsPercentage()
     {
+        if (TRAIT_COOLDOWN == null)
+            return 0;
+
         if (meter < 0)
             return (TRAIT_COOLDOWN + meter) * 90 / TRAIT_COOLDOWN;
-        return 200
+        return 200;
     }
 
     function MeterAsNumber()
     {
+        if (TRAIT_COOLDOWN == null)
+            return "x";
+
         local mapped = -meter+0.99;
         if (mapped <= 1)
             return "r";

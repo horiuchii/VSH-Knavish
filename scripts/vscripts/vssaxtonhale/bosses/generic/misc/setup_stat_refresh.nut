@@ -22,6 +22,16 @@
 ::RefreshBossSetup <- function(boss)
 {
     local maxHealth = CalcBossMaxHealth(GetValidPlayerCount() - 1);
+
+    switch(Cookies.Get(boss, COOKIE.Difficulty))
+    {
+        case DIFFICULTY.EASY: maxHealth += (maxHealth * 0.2); break;
+        case DIFFICULTY.HARD: maxHealth -= (maxHealth * 0.2); break;
+        case DIFFICULTY.EXTREME: maxHealth -= (maxHealth * 0.4); break;
+        case DIFFICULTY.IMPOSSIBLE: maxHealth -= (maxHealth * 0.6); break;
+        default: break;
+    }
+
     boss.SetHealth(maxHealth);
     boss.SetMaxHealth(maxHealth);
     boss.RemoveCustomAttribute("max health additive bonus");
@@ -41,7 +51,7 @@ class SetupStatRefreshTrait extends BossTrait
         }
     }
 
-	function OnTickAlive(timeDelta)
+    function OnTickAlive(timeDelta)
     {
         if (!IsRoundSetup())
             return;

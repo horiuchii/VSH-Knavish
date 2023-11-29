@@ -92,9 +92,21 @@ class MightySlamTrait extends BossTrait
         BossPlayViewModelAnim(boss, "vsh_slam_land");
         local weapon = boss.GetActiveWeapon();
         SetItemId(weapon, 444); //Mantreads
-        CreateAoE(boss.GetCenter(), 500, true,
+
+        local radius = 500;
+
+        switch(Cookies.Get(boss, COOKIE.Difficulty))
+        {
+            case DIFFICULTY.NORMAL: radius -= (radius * 0.2); break;
+            case DIFFICULTY.HARD: radius -= (radius * 0.4); break;
+            case DIFFICULTY.EXTREME: radius -= (radius * 0.6); break;
+            case DIFFICULTY.IMPOSSIBLE: radius -= (radius * 0.8); break;
+            default: break;
+        }
+
+        CreateAoE(boss.GetCenter(), radius, true,
             function (target, deltaVector, distance, InLOS, ZDiff) {
-                local damage = target.GetMaxHealth() * (1 - distance / 500);
+                local damage = target.GetMaxHealth() * (1 - distance / radius);
 
                 if(!InLOS)
                 {

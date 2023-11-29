@@ -15,6 +15,7 @@
 
 class AbilityHudTrait extends BossTrait
 {
+    in_vsh_menu = false;
     game_text_tip = null;
     game_text_charge = null;
     game_text_punch = null;
@@ -24,6 +25,7 @@ class AbilityHudTrait extends BossTrait
     //¹²³⁴⁵⁶⁷⁸⁹⁰
     big2small = {
         " ": " ", //" "
+        "x": " Χ "
         "r": "✔",
         "1": "₁",
         "2": "₂",
@@ -97,7 +99,7 @@ class AbilityHudTrait extends BossTrait
             fadeout = 0,
             fxtime = 0,
             holdtime = 9999,
-            message = "Hold 'Reload' Double Jump Hold 'Crouch'",
+            message = "",
             spawnflags = 0,
             x = 0.665,
             y = 0.955
@@ -115,9 +117,23 @@ class AbilityHudTrait extends BossTrait
 
         if(IsInVSHMenu(player))
         {
-            //TODO: make boss game_text go away
+            if(!in_vsh_menu)
+            {
+                EntFireByHandle(game_text_charge, "AddOutput", "message ", 0, boss, boss);
+                EntFireByHandle(game_text_charge, "Display", "", 0, boss, boss);
+                EntFireByHandle(game_text_punch, "AddOutput", "message ", 0, boss, boss);
+                EntFireByHandle(game_text_punch, "Display", "", 0, boss, boss);
+                EntFireByHandle(game_text_slam, "AddOutput", "message ", 0, boss, boss);
+                EntFireByHandle(game_text_slam, "Display", "", 0, boss, boss);
+
+                EntFireByHandle(game_text_tip, "AddOutput", "message ", 0, boss, boss);
+                EntFireByHandle(game_text_tip, "Display", "", 0, boss, boss);
+                in_vsh_menu = true;
+            }
             return;
         }
+
+        in_vsh_menu = false;
 
         local progressBarTexts = [];
         local overlay = "";
@@ -146,6 +162,7 @@ class AbilityHudTrait extends BossTrait
         EntFireByHandle(game_text_slam, "AddOutput", "message "+progressBarTexts[2], 0, boss, boss);
         EntFireByHandle(game_text_slam, "Display", "", 0, boss, boss);
 
+        EntFireByHandle(game_text_tip, "AddOutput", "message " + "Hold 'Reload' Double Jump Hold 'Crouch'", 0, boss, boss);
         EntFireByHandle(game_text_tip, "Display", "", 0, boss, boss);
 
         player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/" + overlay);
