@@ -1,11 +1,23 @@
-enum COOKIE {
-    BecomeBoss
-    Boss
-    Difficulty
-    CustomVO
+::CookieTable <- {
+    ["become_boss"] =
+    {
+        default_value = 1
+    },
+    ["boss"] =
+    {
+        default_value = "saxton_hale"
+    },
+    ["difficulty"] =
+    {
+        default_value = 0
+    },
+    ["custom_vo"] =
+    {
+        default_value = 1
+    }
 }
 
-class Cookies
+class CookiesManager
 {
     PlayerCookies = {}
 
@@ -21,21 +33,22 @@ class Cookies
         Validate(player);
 
         PlayerCookies[player.entindex()][cookie] <- value;
-        SetPersistentVar("player_preferences", PlayerCookies);
+        SetPersistentVar("player_cookies", PlayerCookies);
         SavePlayerData(player);
         return PlayerCookies[player.entindex()][cookie];
     }
 
     function Reset(player)
     {
-        PlayerCookies[player.entindex()] <- {
-            [COOKIE.BecomeBoss] = 1,
-            [COOKIE.Boss] = "saxton_hale",
-            [COOKIE.Difficulty] = 0,
-            [COOKIE.CustomVO] = 1
-        };
+        local default_cookies = {};
+        foreach (name, cookie in CookieTable)
+        {
+            default_cookies[name] <- cookie.default_value;
+        }
 
-        SetPersistentVar("player_preferences", PlayerCookies);
+        PlayerCookies[player.entindex()] <- default_cookies;
+
+        SetPersistentVar("player_cookies", PlayerCookies);
     }
 
     function Validate(player)
@@ -54,13 +67,13 @@ class Cookies
         }
     }
 }
-::Cookies <- Cookies();
+::Cookies <- CookiesManager();
 
 AddListener("new_round", -2, function()
 {
-    local preferences_to_load = GetPersistentVar("player_preferences", null);
-    if(preferences_to_load)
-        PlayerCookies <- preferences_to_load;
+    local cookies_to_load = GetPersistentVar("player_cookies", null);
+    if(cookies_to_load)
+        PlayerCookies <- cookies_to_load;
 
     foreach(player in GetValidPlayers())
     {
@@ -72,10 +85,19 @@ AddListener("new_round", -2, function()
 {
     local save = "";
 
-	save += "become_boss," + Cookies.Get(player, COOKIE.BecomeBoss).tointeger() + ";"
-    save += "boss," + Cookies.Get(player, COOKIE.Boss).tostring() + ";"
-    save += "difficulty," + Cookies.Get(player, COOKIE.Difficulty).tointeger() + ";"
-    save += "custom_vo," + Cookies.Get(player, COOKIE.CustomVO).tointeger() + ";"
+    foreach (name, cookie in CookieTable)
+    {
+        local cookie_value = Cookies.Get(player, name);
+
+        switch(type(cookie_value))
+        {
+            case "string": cookie_value = cookie_value.tostring(); break;
+            case "bool":
+            case "integer": cookie_value = cookie_value.tointeger(); break;
+        }
+
+        save += name + "," + cookie_value + "\n"
+    }
 
 	StringToFile("knavish_vsh_save/" + GetPlayerAccountID(player) + ".sav", save);
 }
@@ -104,30 +126,17 @@ AddListener("new_round", -2, function()
                 i += 1;
             }
 
-            if(save[i] == ';') //we've gotten to the end of the value
+            if(save[i] == '\n') //we've gotten to the end of the value
             {
-                switch(key_buffer)
+                if(key_buffer in CookieTable)
                 {
-                    case "become_boss":
+                    switch(type(CookieTable[key_buffer].default_value))
                     {
-                        Cookies.Set(player, COOKIE.BecomeBoss, value_buffer.tointeger());
-                        break;
+                        case "string": value_buffer = value_buffer.tostring(); break;
+                        case "integer": value_buffer = value_buffer.tointeger(); break;
                     }
-                    case "boss":
-                    {
-                        Cookies.Set(player, COOKIE.Boss, value_buffer.tostring());
-                        break;
-                    }
-                    case "difficulty":
-                    {
-                        Cookies.Set(player, COOKIE.Difficulty, value_buffer.tointeger());
-                        break;
-                    }
-                    case "custom_vo":
-                    {
-                        Cookies.Set(player, COOKIE.CustomVO, value_buffer.tointeger());
-                        break;
-                    }
+
+                    Cookies.Set(player, key_buffer, value_buffer);
                 }
 
                 //clear everything and start reading the next key
@@ -148,7 +157,7 @@ AddListener("new_round", -2, function()
     }
     catch(exception)
     {
-        PrintToClient(player, "\x07" + "FF0000" + "Your preferences failed to load. Please alert a server admin and give them the text below.");
+        PrintToClient(player, "\x07" + "FF0000" + "Your cookies failed to load. Please alert a server admin and provide the text below.");
         PrintToClient(player, "\x07" + "FFA500" + "Save: " + "tf/scriptdata/knavish_vsh_save/" + GetPlayerAccountID(player) + ".sav");
         PrintToClient(player, "\x07" + "FFA500" + "Error: " + exception + "\nIndex: " + i + "\nReading Key?: " + bReadingKey + "\nKey: " + key_buffer + "\nValue: " + value_buffer);
     }

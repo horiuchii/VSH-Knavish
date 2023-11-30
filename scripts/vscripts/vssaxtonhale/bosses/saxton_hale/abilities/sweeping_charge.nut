@@ -93,7 +93,7 @@ class SweepingChargeTrait extends BossTrait
         }
 
         local buttons = GetPropInt(boss, "m_nButtons");
-        if (buttons & IN_RELOAD)
+        if (boss.IsUsingActionSlot() || buttons & IN_RELOAD)
         {
             if (meter < 0 || boss.InCond(TF_COND_TAUNTING))
             {

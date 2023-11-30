@@ -83,6 +83,11 @@
         desc = "Crits from behind\n\n\n\n\n"
     },
 
+    ["crit_a_cola"] =
+    {
+        ids = [163]
+        desc = "Each attack full crits"
+    },
     ["mad_milk"] =
     {
         ids = [222, 1121]
@@ -522,7 +527,6 @@ foreach (key, weapon in WeaponTable)
 }
 
 ::CTFBot.GetAmmo <- CTFPlayer.GetAmmo;
-
 
 ::CTFPlayer.SetAmmo <- function(weapon, amount)
 {

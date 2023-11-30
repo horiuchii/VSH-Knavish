@@ -95,7 +95,7 @@ class MightySlamTrait extends BossTrait
 
         local radius = 500;
 
-        switch(Cookies.Get(boss, COOKIE.Difficulty))
+        switch(Cookies.Get(boss, "difficulty"))
         {
             case DIFFICULTY.NORMAL: radius -= (radius * 0.2); break;
             case DIFFICULTY.HARD: radius -= (radius * 0.4); break;

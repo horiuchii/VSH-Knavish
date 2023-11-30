@@ -1,15 +1,27 @@
 ::MenuItems <- {}
 
+::menu_options <- {}
+
 enum MENU {
     Main
     BossDifficulty
+    Stats
 }
 
 class MenuItem
 {
     title = ""
+    menu = MENU.Main
     pref = null
     description = ""
+
+    function constructor()
+    {
+        if(!(menu in menu_options))
+            menu_options[menu] <- []
+
+        menu_options[menu].push(this);
+    }
 
     function OnSelected(player)
     {
@@ -22,6 +34,7 @@ enum MENU_ITEMS {
     BossDifficulty
     BossChoose
     MercVO
+    Stats
 
     Easy
     Normal
@@ -33,12 +46,12 @@ enum MENU_ITEMS {
 //Toggle Boss
 MenuItems[MENU_ITEMS.BecomeBoss] <- (class extends MenuItem {
     title = "Toggle Become Boss"
-    pref = COOKIE.BecomeBoss
+    pref = "become_boss"
     description = "Toggle the ability to gain queue points.\nTurning off will remove any existing points."
 
     function OnSelected(player)
     {
-        local can_be_boss = Cookies.Set(player, COOKIE.BecomeBoss, !!!Cookies.Get(player, COOKIE.BecomeBoss).tointeger());
+        local can_be_boss = Cookies.Set(player, "become_boss", !!!Cookies.Get(player, "become_boss").tointeger());
         local message = "";
 
         if(can_be_boss)
@@ -71,20 +84,20 @@ MenuItems[MENU_ITEMS.ResetQueue] <- (class extends MenuItem {
 //Open Difficulty Menu
 MenuItems[MENU_ITEMS.BossDifficulty] <- (class extends MenuItem {
     title = "Set Boss Difficulty"
-    pref = COOKIE.Difficulty
+    pref = "difficulty"
     description = "Set the difficulty for a more\nengaging experience as the boss."
 
     function OnSelected(player)
     {
         menu_index[player] <- MENU.BossDifficulty;
-        selected_option[player] <- Cookies.Get(player, COOKIE.Difficulty) + 1;
+        selected_option[player] <- Cookies.Get(player, "difficulty") + 1;
     }
 })();
 
 //Open Boss Menu
 MenuItems[MENU_ITEMS.BossChoose] <- (class extends MenuItem {
     title = "Set Preferred Boss"
-    pref = COOKIE.Boss
+    pref = "boss"
     description = "Choose who you would like to play as when\nchosen as the boss. (More coming soon)"
 
     function OnSelected(player)
@@ -96,12 +109,12 @@ MenuItems[MENU_ITEMS.BossChoose] <- (class extends MenuItem {
 //Toggle Merc VO
 MenuItems[MENU_ITEMS.MercVO] <- (class extends MenuItem {
     title = "Toggle Merc Voicelines"
-    pref = COOKIE.CustomVO
+    pref = "custom_vo"
     description = "Toggle hearing merc voicelines by James McGuinn.\nWill not prevent others from hearing yours."
 
     function OnSelected(player)
     {
-        local can_hear_vo = Cookies.Set(player, COOKIE.CustomVO, !!!Cookies.Get(player, COOKIE.CustomVO).tointeger());
+        local can_hear_vo = Cookies.Set(player, "custom_vo", !!!Cookies.Get(player, "custom_vo").tointeger());
         local message = "";
 
         if(can_hear_vo)
@@ -110,6 +123,18 @@ MenuItems[MENU_ITEMS.MercVO] <- (class extends MenuItem {
             message = "You can no longer hear James McGuinn merc VO."
 
         PrintToClient(player, VSH_MESSAGE_PREFIX + message);
+    }
+})();
+
+//View VSH Stats
+MenuItems[MENU_ITEMS.Stats] <- (class extends MenuItem {
+    title = "View Stats"
+    description = "\nView your lifetime Boss and Mercenary stats.\n"
+
+    function OnSelected(player)
+    {
+        menu_index[player] <- MENU.Stats;
+        selected_option[player] <- 0;
     }
 })();
 
@@ -133,7 +158,7 @@ function SetBossDifficulty(player, difficulty)
     }
 
     PrintToClient(player, VSH_MESSAGE_PREFIX + message);
-    Cookies.Set(player, COOKIE.Difficulty, difficulty);
+    Cookies.Set(player, "difficulty", difficulty);
     menu_index[player] <- MENU.Main;
     selected_option[player] <- 2;
 }
@@ -141,6 +166,7 @@ function SetBossDifficulty(player, difficulty)
 //Boss Difficulty - Easy
 MenuItems[MENU_ITEMS.Easy] <- (class extends MenuItem {
     title = "Easy"
+    menu = MENU.BossDifficulty
     description = "+25% More Health\nNo Jump Cooldown\nRegular Slam Radius"
 
     function OnSelected(player)
@@ -152,6 +178,7 @@ MenuItems[MENU_ITEMS.Easy] <- (class extends MenuItem {
 //Boss Difficulty - Normal
 MenuItems[MENU_ITEMS.Normal] <- (class extends MenuItem {
     title = "Normal"
+    menu = MENU.BossDifficulty
     description = "Standard Health\n2s Jump Cooldown\n-20% Slam Radius"
 
     function OnSelected(player)
@@ -163,6 +190,7 @@ MenuItems[MENU_ITEMS.Normal] <- (class extends MenuItem {
 //Boss Difficulty - Hard
 MenuItems[MENU_ITEMS.Hard] <- (class extends MenuItem {
     title = "Hard"
+    menu = MENU.BossDifficulty
     description = "-20% Less Health\n3s Jump Cooldown\n-40% Slam Radius"
 
     function OnSelected(player)
@@ -174,6 +202,7 @@ MenuItems[MENU_ITEMS.Hard] <- (class extends MenuItem {
 //Boss Difficulty - Extreme
 MenuItems[MENU_ITEMS.Extreme] <- (class extends MenuItem {
     title = "Extreme"
+    menu = MENU.BossDifficulty
     description = "-40% Less Health\n4s Jump Cooldown\n-60% Slam Radius"
 
     function OnSelected(player)
@@ -185,6 +214,7 @@ MenuItems[MENU_ITEMS.Extreme] <- (class extends MenuItem {
 //Boss Difficulty - Impossible
 MenuItems[MENU_ITEMS.Impossible] <- (class extends MenuItem {
     title = "Impossible"
+    menu = MENU.BossDifficulty
     description = "-60% Less Health\nNo Double Jump\n-80% Slam Radius"
 
     function OnSelected(player)
@@ -192,20 +222,3 @@ MenuItems[MENU_ITEMS.Impossible] <- (class extends MenuItem {
         SetBossDifficulty(player, 3);
     }
 })();
-
-::menu_options <- [
-    menu_0 <- [
-        MenuItems[MENU_ITEMS.BecomeBoss]
-        MenuItems[MENU_ITEMS.ResetQueue]
-        MenuItems[MENU_ITEMS.BossDifficulty]
-        MenuItems[MENU_ITEMS.BossChoose]
-        MenuItems[MENU_ITEMS.MercVO]
-    ]
-    menu_1 <- [
-        MenuItems[MENU_ITEMS.Easy]
-        MenuItems[MENU_ITEMS.Normal]
-        MenuItems[MENU_ITEMS.Hard]
-        MenuItems[MENU_ITEMS.Extreme]
-        MenuItems[MENU_ITEMS.Impossible]
-    ]
-]

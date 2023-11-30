@@ -223,9 +223,9 @@ function UpdateVSHMenuHUD(player)
 
     if(option_setting != null)
     {
-        if(option_setting == COOKIE.Difficulty)
+        if(option_setting == "difficulty")
         {
-            option_setting = Cookies.Get(player, COOKIE.Difficulty);
+            option_setting = Cookies.Get(player, "difficulty");
             switch(option_setting)
             {
                 case DIFFICULTY.EASY: option_setting = "[EASY]\n"; break;

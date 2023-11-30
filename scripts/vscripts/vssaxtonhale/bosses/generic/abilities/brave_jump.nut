@@ -50,7 +50,7 @@ class BraveJumpTrait extends BossTrait
 
         if(IsRoundSetup())
         {
-            switch(Cookies.Get(player, COOKIE.Difficulty))
+            switch(Cookies.Get(player, "difficulty"))
             {
                 case DIFFICULTY.EASY: TRAIT_COOLDOWN = 0; break;
                 case DIFFICULTY.NORMAL: TRAIT_COOLDOWN = 2; break;

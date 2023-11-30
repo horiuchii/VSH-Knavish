@@ -90,7 +90,7 @@ function ProgressBossQueue(iterations = 0)
             local valid_players = [];
             foreach (i, player in GetValidPlayers())
             {
-                if(!!Cookies.Get(player, COOKIE.BecomeBoss))
+                if(!!Cookies.Get(player, "become_boss"))
                 {
                     valid_players.append(player)
                 }
@@ -126,7 +126,7 @@ AddListener("round_end", 1, function (winner)
 {
     foreach (player in GetValidMercs())
     {
-        if(!!!Cookies.Get(player, COOKIE.BecomeBoss))
+        if(!!!Cookies.Get(player, "become_boss"))
             continue;
 
         SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundPerformanceToPoints(player));
@@ -142,7 +142,7 @@ AddListener("round_end", 100, function (winner)
 
     foreach (player in GetValidMercs())
     {
-        if(!!!Cookies.Get(player, COOKIE.BecomeBoss))
+        if(!!!Cookies.Get(player, "become_boss"))
         {
             PrintToClient(player, VSH_MESSAGE_PREFIX + "You didn't gain any points due your prefrence to not become the boss.");
             continue;
@@ -182,7 +182,7 @@ AddListener("round_end", 100, function (winner)
 
         message += ".\n";
 
-        message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 point(s)."
+        message += "\x01You're now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss with \x07FFD700" + GetQueuePoints(player) + "\x01 points."
         PrintToClient(player, message);
     }
 });

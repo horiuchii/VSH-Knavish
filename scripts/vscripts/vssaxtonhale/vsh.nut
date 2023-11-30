@@ -31,7 +31,7 @@ Include("/playertypes/player_type.nut");
 Include("/vsh_api.nut");
 
 // Order doesn't matter
-Include("/cookies/player_prefs.nut");
+Include("/cookies/player_cookies.nut");
 
 Include("/util/entities.nut");
 Include("/util/netprops.nut");
