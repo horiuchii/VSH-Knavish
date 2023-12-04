@@ -18,7 +18,7 @@ class AbilityHudTrait extends BossTrait
     in_vsh_menu = false;
     game_text_tip = null;
     game_text_charge = null;
-    game_text_punch = null;
+    game_text_jump = null;
     game_text_slam = null;
 
     //₁₂₃₄₅₆₇₈₉₀
@@ -57,7 +57,7 @@ class AbilityHudTrait extends BossTrait
             y = 0.91
         });
 
-        game_text_punch = SpawnEntityFromTable("game_text",
+        game_text_jump = SpawnEntityFromTable("game_text",
         {
             color = "255 255 255",
             color2 = "0 0 0",
@@ -127,11 +127,8 @@ class AbilityHudTrait extends BossTrait
             {
                 EntFireByHandle(game_text_charge, "AddOutput", "message ", 0, boss, boss);
                 EntFireByHandle(game_text_charge, "Display", "", 0, boss, boss);
-                EntFireByHandle(game_text_punch, "AddOutput", "message ", 0, boss, boss);
-                EntFireByHandle(game_text_punch, "Display", "", 0, boss, boss);
                 EntFireByHandle(game_text_slam, "AddOutput", "message ", 0, boss, boss);
                 EntFireByHandle(game_text_slam, "Display", "", 0, boss, boss);
-
                 EntFireByHandle(game_text_tip, "AddOutput", "message ", 0, boss, boss);
                 EntFireByHandle(game_text_tip, "Display", "", 0, boss, boss);
                 in_vsh_menu = true;
@@ -162,8 +159,8 @@ class AbilityHudTrait extends BossTrait
         EntFireByHandle(game_text_charge, "AddOutput", "message "+progressBarTexts[0], 0, boss, boss);
         EntFireByHandle(game_text_charge, "Display", "", 0, boss, boss);
 
-        EntFireByHandle(game_text_punch, "AddOutput", "message "+progressBarTexts[1], 0, boss, boss);
-        EntFireByHandle(game_text_punch, "Display", "", 0, boss, boss);
+        EntFireByHandle(game_text_jump, "AddOutput", "message "+progressBarTexts[1], 0, boss, boss);
+        EntFireByHandle(game_text_jump, "Display", "", 0, boss, boss);
 
         EntFireByHandle(game_text_slam, "AddOutput", "message "+progressBarTexts[2], 0, boss, boss);
         EntFireByHandle(game_text_slam, "Display", "", 0, boss, boss);
@@ -178,8 +175,8 @@ class AbilityHudTrait extends BossTrait
     {
         EntFireByHandle(game_text_charge, "AddOutput", "message ", 0, boss, boss);
         EntFireByHandle(game_text_charge, "Display", "", 0, boss, boss);
-        EntFireByHandle(game_text_punch, "AddOutput", "message ", 0, boss, boss);
-        EntFireByHandle(game_text_punch, "Display", "", 0, boss, boss);
+        EntFireByHandle(game_text_jump, "AddOutput", "message ", 0, boss, boss);
+        EntFireByHandle(game_text_jump, "Display", "", 0, boss, boss);
         EntFireByHandle(game_text_slam, "AddOutput", "message ", 0, boss, boss);
         EntFireByHandle(game_text_slam, "Display", "", 0, boss, boss);
 

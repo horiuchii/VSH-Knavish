@@ -35,6 +35,7 @@ enum MENU_ITEMS {
     BossChoose
     MercVO
     Stats
+    Cosmetic
 
     Easy
     Normal
@@ -127,8 +128,9 @@ MenuItems[MENU_ITEMS.MercVO] <- (class extends MenuItem {
 })();
 
 //View VSH Stats
+/*
 MenuItems[MENU_ITEMS.Stats] <- (class extends MenuItem {
-    title = "View Stats"
+    title = "View Performance Report"
     description = "\nView your lifetime Boss and Mercenary stats.\n"
 
     function OnSelected(player)
@@ -137,6 +139,20 @@ MenuItems[MENU_ITEMS.Stats] <- (class extends MenuItem {
         selected_option[player] <- 0;
     }
 })();
+*/
+
+//Equip Boss Cosmetics
+/*
+MenuItems[MENU_ITEMS.Cosmetic] <- (class extends MenuItem {
+    title = "Equip Boss Cosmetics"
+    description = "\nChoose which cosmetic trail you would\nlike have equipped on your boss."
+
+    function OnSelected(player)
+    {
+        PrintToClient(player, VSH_MESSAGE_PREFIX + "Coming Soon!");
+    }
+})();
+*/
 
 function SetBossDifficulty(player, difficulty)
 {
@@ -167,7 +183,7 @@ function SetBossDifficulty(player, difficulty)
 MenuItems[MENU_ITEMS.Easy] <- (class extends MenuItem {
     title = "Easy"
     menu = MENU.BossDifficulty
-    description = "+25% More Health\nNo Jump Cooldown\nRegular Slam Radius"
+    description = "+25% More Health\nNo Jump Cooldown\nRegular Slam Damage"
 
     function OnSelected(player)
     {
@@ -179,7 +195,7 @@ MenuItems[MENU_ITEMS.Easy] <- (class extends MenuItem {
 MenuItems[MENU_ITEMS.Normal] <- (class extends MenuItem {
     title = "Normal"
     menu = MENU.BossDifficulty
-    description = "Standard Health\n2s Jump Cooldown\n-20% Slam Radius"
+    description = "Standard Health\n2s Jump Cooldown\n-20% Slam Damage"
 
     function OnSelected(player)
     {
@@ -191,7 +207,7 @@ MenuItems[MENU_ITEMS.Normal] <- (class extends MenuItem {
 MenuItems[MENU_ITEMS.Hard] <- (class extends MenuItem {
     title = "Hard"
     menu = MENU.BossDifficulty
-    description = "-20% Less Health\n3s Jump Cooldown\n-40% Slam Radius"
+    description = "-20% Less Health\n3s Jump Cooldown\n-40% Slam Damage"
 
     function OnSelected(player)
     {
@@ -203,7 +219,7 @@ MenuItems[MENU_ITEMS.Hard] <- (class extends MenuItem {
 MenuItems[MENU_ITEMS.Extreme] <- (class extends MenuItem {
     title = "Extreme"
     menu = MENU.BossDifficulty
-    description = "-40% Less Health\n4s Jump Cooldown\n-60% Slam Radius"
+    description = "-40% Less Health\n4s Jump Cooldown\n-60% Slam Damage"
 
     function OnSelected(player)
     {
@@ -215,7 +231,7 @@ MenuItems[MENU_ITEMS.Extreme] <- (class extends MenuItem {
 MenuItems[MENU_ITEMS.Impossible] <- (class extends MenuItem {
     title = "Impossible"
     menu = MENU.BossDifficulty
-    description = "-60% Less Health\nNo Double Jump\n-80% Slam Radius"
+    description = "-60% Less Health\nNo Double Jump\n-80% Slam Damage"
 
     function OnSelected(player)
     {

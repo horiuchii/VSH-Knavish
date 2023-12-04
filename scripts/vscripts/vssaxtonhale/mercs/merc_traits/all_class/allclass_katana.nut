@@ -23,7 +23,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
     {
         if (WeaponIs(params.weapon, "half_zatoichi"))
         {
-            local newHealth = player.GetHealth() + player.GetMaxHealth() / 2.0;
+            local newHealth = player.GetHealth() + (player.GetMaxHealth() * 0.45);
             player.SetHealth(clampCeiling(newHealth, player.GetMaxOverheal()));
 			SetPropInt(params.weapon, "m_bIsBloody", 1);
 			AddPropInt(player, "m_Shared.m_iKillCountSinceLastDeploy", 1);

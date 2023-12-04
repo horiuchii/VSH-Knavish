@@ -29,7 +29,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
         if (IsBoss(params.attacker)
             && GetPropEntity(player, "m_hActiveWeapon") == player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE))
         {
-            params.damage *= 0.5;
+            params.damage *= 0.7;
         }
     }
 });

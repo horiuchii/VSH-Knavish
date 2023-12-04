@@ -45,7 +45,7 @@
     ["half_zatoichi"] =
     {
         ids = [357]
-        desc = "Heal 50% of health on hit\n\n\n\n\n"
+        desc = "Heal 45% of health on hit\n\n\n\n\n"
     },
     ["reserve_shooter"] =
     {
@@ -142,7 +142,7 @@
     ["equalizer"] =
     {
         ids = [128]
-        desc = "+100% holster speed bonus\n+50% damage resist while active\n\n\n\n"
+        desc = "+100% holster speed bonus\n+30% damage resist while active\n\n\n\n"
     },
     ["market_gardener"] =
     {

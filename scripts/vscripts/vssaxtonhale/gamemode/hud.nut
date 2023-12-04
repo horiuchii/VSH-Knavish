@@ -107,6 +107,7 @@ function OpenVSHMenuHUD(player)
     EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
     EntFireByHandle(env_hudhint_boss, "HideHudHint", "", 0, player, player);
     PlaySoundForPlayer(player, "ui/cyoa_map_open.wav");
+    GenerateVSHMenuHUDText(player);
 
     if(!player.IsAlive())
         player.SetOrigin(player.GetOrigin() + Vector(0,0,64))
@@ -155,12 +156,14 @@ function UpdateVSHMenuHUD(player)
 
         selected_option[player] <- new_loc;
         PlaySoundForPlayer(player, "ui/cyoa_node_absent.wav");
+        GenerateVSHMenuHUDText(player);
     }
 
     if (player.WasButtonJustPressed(IN_ATTACK))
     {
         menu_options[menu_index[player]][selected_option[player]].OnSelected.acall([this, player]);
         PlaySoundForPlayer(player, "ui/buttonclick.wav");
+        GenerateVSHMenuHUDText(player);
     }
 
     if (player.WasButtonJustPressed(IN_ATTACK2))
@@ -176,14 +179,18 @@ function UpdateVSHMenuHUD(player)
             selected_option[player] <- option_to_select;
             menu_index[player] <- MENU.Main;
             PlaySoundForPlayer(player, "ui/buttonclick.wav");
-            return;
+            GenerateVSHMenuHUDText(player);
         }
-
-        CloseVSHMenuHUD(player);
-        return;
     }
 
-    //display menu options
+    player.AddFlag(FL_ATCONTROLS);
+    SetPropFloat(player, "m_flNextAttack", 999999);
+    player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/" + "vsh_menu" + menu_index[player].tostring());
+    SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_WEAPONSELECTION | HIDEHUD_HEALTH | HIDEHUD_MISCSTATUS | HIDEHUD_CROSSHAIR);
+}
+
+function GenerateVSHMenuHUDText(player)
+{
     local message = "\n\n\n\n\n";
     local menu_size = menu_options[menu_index[player]].len();
     local option_count = 2;
@@ -239,11 +246,6 @@ function UpdateVSHMenuHUD(player)
     EntFireByHandle(game_text_merc_hud, "AddOutput", "x -1", 0, player, player);
     EntFireByHandle(game_text_merc_hud, "AddOutput", "message " + message, 0, player, player);
     EntFireByHandle(game_text_merc_hud, "Display", "", -1, player, player);
-
-    player.AddFlag(FL_ATCONTROLS);
-    SetPropFloat(player, "m_flNextAttack", 999999);
-    player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/" + "vsh_menu" + menu_index[player].tostring());
-    SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_WEAPONSELECTION | HIDEHUD_HEALTH | HIDEHUD_MISCSTATUS | HIDEHUD_CROSSHAIR);
 }
 
 function TickBossBar(boss)
