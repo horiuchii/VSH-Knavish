@@ -27,9 +27,6 @@ AddListener("setup_start", 1, function ()
 
     foreach (player in GetValidMercs())
     {
-        if (!(player in playerType))
-            playerType[player] <- [];
-
         playerType[player] = Mercenary();
         player.SwitchTeam(TF_TEAM_MERCS);
         player.ForceRegenerateAndRespawn();
@@ -37,9 +34,6 @@ AddListener("setup_start", 1, function ()
 
     foreach (player in GetBossPlayers())
     {
-        if (!(player in playerType))
-            playerType[player] <- [];
-
         player.SwitchTeam(TF_TEAM_BOSS);
         player.ForceRegenerateAndRespawn();
         playerType[player].ApplyTrait(player);

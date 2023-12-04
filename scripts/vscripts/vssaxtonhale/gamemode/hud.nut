@@ -22,18 +22,9 @@ game_text_merc_hud <- SpawnEntityFromTable("game_text",
     x = 0.481,
     y = 0.788
 });
-env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "HOLD <INSPECT> TO VIEW WEAPON STATS\nDOUBLE TAP <MOUSE 3> OR CHAT /vshmenu TO OPEN VSH MENU"});
-env_hudhint_boss <- SpawnEntityFromTable("env_hudhint", {message = "DOUBLE TAP <MOUSE 3> OR CHAT /vshmenu TO OPEN VSH MENU"});
+env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "%+inspect% HOLD TO VIEW WEAPON STATS%+attack3% DOUBLE TAP OR CHAT /vshmenu TO OPEN VSH MENU"});
+env_hudhint_boss <- SpawnEntityFromTable("env_hudhint", {message = "%+attack3% DOUBLE TAP OR CHAT /vshmenu TO OPEN VSH MENU"});
 bossBarTicker <- 0;
-
-player_last_buttons <- {};
-function WasButtonDownLastFrame (player, button_query, current_buttons)
-{
-    if(!(player in player_last_buttons))
-        player_last_buttons[player] <- 0;
-
-    return !(player_last_buttons[player] & button_query) && current_buttons & button_query;
-}
 
 DOUBLE_PRESS_MENU_THRESHOLD <- 0.25;
 last_press_menu_button <- {};
@@ -77,10 +68,7 @@ AddListener("tick_frame", 2, function ()
             continue;
         }
 
-        if (!(player in last_press_menu_button))
-            last_press_menu_button[player] <- 0;
-
-        if (WasButtonDownLastFrame(player, IN_ATTACK3, buttons))
+        if (player.WasButtonJustPressed(IN_ATTACK3))
         {
             if (IsInVSHMenu(player))
                 CloseVSHMenuHUD(player);
@@ -102,8 +90,6 @@ AddListener("tick_frame", 2, function ()
             player.SetScriptOverlayMaterial(null);
             UpdateDamageHUD(player);
         }
-
-        player_last_buttons[player] <- buttons;
     }
 });
 
@@ -116,9 +102,6 @@ function OpenVSHMenuHUD(player)
 {
     if(IsInVSHMenu(player))
         return;
-
-    if(!(player in selected_option))
-        selected_option[player] <- 0;
 
     menu_index[player] <- MENU.Main;
     EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
@@ -161,10 +144,10 @@ function UpdateVSHMenuHUD(player)
     }
 
     local buttons = GetPropInt(player, "m_nButtons");
-    if (WasButtonDownLastFrame(player, IN_FORWARD, buttons) || WasButtonDownLastFrame(player, IN_BACK, buttons))
+    if (player.WasButtonJustPressed(IN_FORWARD) || player.WasButtonJustPressed(IN_BACK))
     {
         local length = menu_options[menu_index[player]].len() - 1;
-        local new_loc = (selected_option[player]) + (WasButtonDownLastFrame(player, IN_FORWARD, buttons) ? -1 : 1);
+        local new_loc = (selected_option[player]) + (player.WasButtonJustPressed(IN_FORWARD) ? -1 : 1);
         if (new_loc < 0)
             new_loc = length;
         else if (new_loc > length)
@@ -174,13 +157,13 @@ function UpdateVSHMenuHUD(player)
         PlaySoundForPlayer(player, "ui/cyoa_node_absent.wav");
     }
 
-    if (WasButtonDownLastFrame(player, IN_ATTACK, buttons))
+    if (player.WasButtonJustPressed(IN_ATTACK))
     {
         menu_options[menu_index[player]][selected_option[player]].OnSelected.acall([this, player]);
         PlaySoundForPlayer(player, "ui/buttonclick.wav");
     }
 
-    if (WasButtonDownLastFrame(player, IN_ATTACK2, buttons))
+    if (player.WasButtonJustPressed(IN_ATTACK2))
     {
         if (menu_index[player] != MENU.Main)
         {

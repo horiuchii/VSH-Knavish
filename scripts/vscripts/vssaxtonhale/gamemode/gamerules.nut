@@ -153,7 +153,8 @@ function SpawnHelperEntities()
     team_round_timer.ValidateScriptScope();
     team_round_timer.GetScriptScope().Tick <- function()
     {
-        vsh_vscript.FireListeners("tick_frame");
+        if (isRoundPostSpawn)
+            vsh_vscript.FireListeners("tick_frame");
         return -1;
     }
     AddThinkToEnt(team_round_timer, "Tick")

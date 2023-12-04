@@ -11,16 +11,23 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
+::isRoundPostSpawn <- false;
+
 function OnPostSpawn()
 {
     RecachePlayers();
     PrecacheGenericSoundScripts();
     PrecacheVoiceLineSoundScripts();
+    foreach (player in GetValidClients())
+    {
+        InitPlayerVariables(player);
+    }
 
     FireListeners("new_round");
 
     if (IsValidRoundPreStart())
         FireListeners("setup_start");
+    isRoundPostSpawn = true;
 }
 
 function Tick()
@@ -194,10 +201,10 @@ function OnGameEvent_player_disconnect(params)
     FireListeners("disconnect", player, params);
 }
 
-function OnGameEvent_player_connect(params)
+function OnGameEvent_player_activate(params)
 {
     local player = GetPlayerFromParams(params);
     if (!IsValidClient(player))
         return;
-    FireListeners("connect", player, params);
+    FireListeners("connect", player);
 }

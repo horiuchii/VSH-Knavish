@@ -11,6 +11,8 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
+::lastButtons <- {}
+
 ::CTFPlayer.IsAlive <- function()
 {
     return GetPropInt(this, "m_lifeState") == LIFE_STATE.ALIVE;
@@ -124,7 +126,7 @@
     if (!(key in params))
         return null;
     local player = GetPlayerFromUserID(params[key]);
-    if (IsValidPlayer(player))
+    if (IsValidClient(player))
         return player;
     return null;
 }
@@ -147,7 +149,14 @@
 
 ::GetPlayerAccountID <- function(player)
 {
-    return split(GetPropString(player, "m_szNetworkIDString"), ":")[2].tointeger();
+    try
+    {
+        return split(GetPropString(player, "m_szNetworkIDString"), ":")[2].tointeger();
+    }
+    catch (exception)
+    {
+        return null;
+    }
 }
 
 ::PrintToClient <- function(player, message)
@@ -175,3 +184,53 @@
         }
     }
 }
+
+::CTFPlayer.GetButtons <- function()
+{
+    return GetPropInt(this, "m_nButtons");
+}
+
+::CTFPlayer.GetLastButtons <- function()
+{
+    return lastButtons[this];
+}
+
+::CTFPlayer.IsHoldingButton <- function(button)
+{
+    return lastButtons[this] & button && GetButtons() & button;
+}
+
+::CTFPlayer.WasButtonJustPressed <- function(button)
+{
+    return !(lastButtons[this] & button) && GetButtons() & button;
+}
+
+::InitPlayerVariables <- function(player)
+{
+    // Traits
+    playerType[player] <- Mercenary();
+    characterTraits[player] <- [];
+
+    // Netprops
+    lastButtons[player] <- 0;
+
+    // Cookies
+    Cookies.CreateCache(player);
+
+    // Menu
+    last_press_menu_button[player] <- 0;
+    selected_option[player] <- 0;
+}
+
+AddListener("connect", 0, function (player)
+{
+    InitPlayerVariables(player);
+});
+
+AddListener("tick_frame", 9999, function ()
+{
+    foreach (player, buttons in lastButtons)
+    {
+        lastButtons[player] = player.GetButtons();
+    }
+});

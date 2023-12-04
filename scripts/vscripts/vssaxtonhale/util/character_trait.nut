@@ -35,8 +35,6 @@ class CharacterTrait
     {
         this.player = player; // For when TryApply is skipped
 
-        if (!(player in characterTraits))
-            characterTraits[player] <- [];
         characterTraits[player].push(this);
 
         OnApply();

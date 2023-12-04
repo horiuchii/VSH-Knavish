@@ -144,7 +144,7 @@ AddListener("round_end", 100, function (winner)
     {
         if(!!!Cookies.Get(player, "become_boss"))
         {
-            PrintToClient(player, VSH_MESSAGE_PREFIX + "You didn't gain any points due your prefrence to not become the boss.");
+            PrintToClient(player, KNA_VSH + "You didn't gain any points due your preference to not become the boss.");
             continue;
         }
 
@@ -157,7 +157,7 @@ AddListener("round_end", 100, function (winner)
             }
             queue_pos = queueboard.len() + 1;
         }
-        local message = VSH_MESSAGE_PREFIX;
+        local message = KNA_VSH;
         local points = ConvertRoundPerformanceToPoints(player);
         message += "\x01You gained \x07FFD700" + points + "\x01 ";
         message += (points == 1 ? "point" : "points");

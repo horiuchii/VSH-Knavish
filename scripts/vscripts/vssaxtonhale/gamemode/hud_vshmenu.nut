@@ -59,7 +59,7 @@ MenuItems[MENU_ITEMS.BecomeBoss] <- (class extends MenuItem {
         else
             message = "You can no longer be the boss. Queue points have been reset."
 
-        PrintToClient(player, VSH_MESSAGE_PREFIX + message);
+        PrintToClient(player, KNA_VSH + message);
     }
 })();
 
@@ -72,12 +72,12 @@ MenuItems[MENU_ITEMS.ResetQueue] <- (class extends MenuItem {
     {
         if(IsBoss(player))
         {
-            PrintToClient(player, VSH_MESSAGE_PREFIX + "You can't reset your queue points as a boss!");
+            PrintToClient(player, KNA_VSH + "You can't reset your queue points as a boss!");
             return;
         }
 
         ResetQueuePoints(player);
-        PrintToClient(player, VSH_MESSAGE_PREFIX + "Your queue points have been reset.");
+        PrintToClient(player, KNA_VSH + "Your queue points have been reset.");
     }
 })();
 
@@ -102,7 +102,7 @@ MenuItems[MENU_ITEMS.BossChoose] <- (class extends MenuItem {
 
     function OnSelected(player)
     {
-        PrintToClient(player, VSH_MESSAGE_PREFIX + "Coming Soon!");
+        PrintToClient(player, KNA_VSH + "Coming Soon!");
     }
 })();
 
@@ -122,7 +122,7 @@ MenuItems[MENU_ITEMS.MercVO] <- (class extends MenuItem {
         else
             message = "You can no longer hear James McGuinn merc VO."
 
-        PrintToClient(player, VSH_MESSAGE_PREFIX + message);
+        PrintToClient(player, KNA_VSH + message);
     }
 })();
 
@@ -142,7 +142,7 @@ function SetBossDifficulty(player, difficulty)
 {
     if(IsBoss(player) && !IsRoundSetup())
     {
-        PrintToClient(player, VSH_MESSAGE_PREFIX + "You can't change boss difficulty as a boss mid-round!");
+        PrintToClient(player, KNA_VSH + "You can't change boss difficulty as a boss mid-round!");
         return;
     }
 
@@ -157,7 +157,7 @@ function SetBossDifficulty(player, difficulty)
         case 3: message += "\x077D4071" + "Impossible"; break;
     }
 
-    PrintToClient(player, VSH_MESSAGE_PREFIX + message);
+    PrintToClient(player, KNA_VSH + message);
     Cookies.Set(player, "difficulty", difficulty);
     menu_index[player] <- MENU.Main;
     selected_option[player] <- 2;
