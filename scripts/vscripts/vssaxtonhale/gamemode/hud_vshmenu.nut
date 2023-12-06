@@ -137,7 +137,7 @@ MenuItems[MENU_ITEMS.Stats] <- (class extends MenuItem {
 
     function OnSelected(player)
     {
-        PrintToClient(player, VSH_MESSAGE_PREFIX + "Coming Soon!");
+        PrintToClient(player, KNA_VSH + "Coming Soon!");
         return;
         menu_index[player] <- MENU.Stats;
         selected_option[player] <- 0;
@@ -151,7 +151,7 @@ MenuItems[MENU_ITEMS.Achievement] <- (class extends MenuItem {
 
     function OnSelected(player)
     {
-        PrintToClient(player, VSH_MESSAGE_PREFIX + "Coming Soon!");
+        PrintToClient(player, KNA_VSH + "Coming Soon!");
         return;
     }
 })();
@@ -164,7 +164,7 @@ MenuItems[MENU_ITEMS.Cosmetic] <- (class extends MenuItem {
 
     function OnSelected(player)
     {
-        PrintToClient(player, VSH_MESSAGE_PREFIX + "Coming Soon!");
+        PrintToClient(player, KNA_VSH + "Coming Soon!");
     }
 })();
 */
