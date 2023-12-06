@@ -73,6 +73,44 @@ function PlaySoundForAll(soundScript)
     return true;
 }
 
+::EmitPlayerVO2 <- function(source, soundPath)
+{
+    if (source == null)
+        return false;
+
+    local sound = GetCurrentCharacterName(source)+"."+soundPath;
+    local vec3_offset = Vector(999999, 999999, 999999);
+    local vec3_origin = Vector();
+    local deaf_clients = [];
+
+    foreach (potential_target in GetValidClients())
+    {
+        if (!!!Cookies.Get(potential_target, "custom_vo"))
+        {
+            SetPropVector(potential_target, "m_vecViewOffset", vec3_offset);
+            deaf_clients.append(potential_target);
+        }
+    }
+
+    EmitSoundEx(
+    {
+        sound_name = sound,
+        filter_type = RECIPIENT_FILTER_PAS_ATTENUATION
+        volume = 1,
+        flags =  1,
+        sound_level = 80,
+        entity = source,
+        speaker_entity = source
+    });
+
+    foreach (client in deaf_clients)
+    {
+        SetPropVector(client, "m_vecViewOffset", vec3_origin);
+    }
+
+    return true;
+}
+
 ::EmitPlayerVODelayed <- function(player, soundPath, delay)
 {
     RunWithDelay("if (IsValidPlayer(activator) && activator.IsAlive()) EmitPlayerVO(activator,`"+soundPath+"`)", player, delay);

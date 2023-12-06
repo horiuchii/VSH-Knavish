@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-totalHealthKits <- 0;
+::totalHealthKits <- 0;
 
 mercTraitsLibrary.push(class extends MercenaryTrait
 {
@@ -34,7 +34,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
         healthKit.SetTeam(TF_TEAM_MERC);
         healthKit.SetMoveType(MOVETYPE_FLYGRAVITY, MOVECOLLIDE_FLY_BOUNCE);
         healthKit.SetAbsOrigin(victim.GetCenter());
-        healthKit.SetVelocity(Vector(RandomFloat(-50, 50), RandomFloat(-50, 50), 250));
+        healthKit.SetAbsVelocity(Vector(RandomFloat(-50, 50), RandomFloat(-50, 50), 250));
         RunWithDelay2(this, 30, function(healthKit)
         {
             totalHealthKits--;

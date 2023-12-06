@@ -51,7 +51,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
         if (CanReceivePassiveMinicrits(active) && player.GetPlayerClass() != TF_CLASS_ENGINEER)
         {
-            player.AddCondEx(TF_COND_ENERGY_BUFF, 0.2, player);
+            player.AddCondEx(TF_COND_OFFENSEBUFF, 0.2, player);
         }
     }
 

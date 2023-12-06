@@ -205,6 +205,8 @@
     return !(lastButtons[this] & button) && GetButtons() & button;
 }
 
+::CTFBot.GetButtons <- CTFPlayer.GetButtons;
+
 ::InitPlayerVariables <- function(player)
 {
     // Traits

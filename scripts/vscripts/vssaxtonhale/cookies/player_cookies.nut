@@ -51,7 +51,7 @@ class CookiesManager
     {
         Reset(player);
 
-        if(!GetPlayerAccountID(player))
+        if(GetPlayerAccountID(player))
         {
             LoadPlayerData(player);
         }
