@@ -35,6 +35,7 @@ enum MENU_ITEMS {
     BossChoose
     MercVO
     Stats
+    Achievement
     Cosmetic
 
     Easy
@@ -108,6 +109,7 @@ MenuItems[MENU_ITEMS.BossChoose] <- (class extends MenuItem {
 })();
 
 //Toggle Merc VO
+/*
 MenuItems[MENU_ITEMS.MercVO] <- (class extends MenuItem {
     title = "Toggle Merc Voicelines"
     pref = "custom_vo"
@@ -126,20 +128,33 @@ MenuItems[MENU_ITEMS.MercVO] <- (class extends MenuItem {
         PrintToClient(player, KNA_VSH + message);
     }
 })();
+*/
 
 //View VSH Stats
-/*
 MenuItems[MENU_ITEMS.Stats] <- (class extends MenuItem {
     title = "View Performance Report"
     description = "\nView your lifetime Boss and Mercenary stats.\n"
 
     function OnSelected(player)
     {
+        PrintToClient(player, VSH_MESSAGE_PREFIX + "Coming Soon!");
+        return;
         menu_index[player] <- MENU.Stats;
         selected_option[player] <- 0;
     }
 })();
-*/
+
+//View VSH Achievements
+MenuItems[MENU_ITEMS.Achievement] <- (class extends MenuItem {
+    title = "View Achievements"
+    description = "\nComing Soon!\n"
+
+    function OnSelected(player)
+    {
+        PrintToClient(player, VSH_MESSAGE_PREFIX + "Coming Soon!");
+        return;
+    }
+})();
 
 //Equip Boss Cosmetics
 /*
@@ -195,7 +210,7 @@ MenuItems[MENU_ITEMS.Easy] <- (class extends MenuItem {
 MenuItems[MENU_ITEMS.Normal] <- (class extends MenuItem {
     title = "Normal"
     menu = MENU.BossDifficulty
-    description = "Standard Health\n2s Jump Cooldown\n-20% Slam Damage"
+    description = "Standard Health\n2.5s Jump Cooldown\n-20% Slam Damage"
 
     function OnSelected(player)
     {

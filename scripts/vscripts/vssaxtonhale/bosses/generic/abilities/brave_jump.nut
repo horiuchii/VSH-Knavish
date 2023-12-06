@@ -53,7 +53,7 @@ class BraveJumpTrait extends BossTrait
             switch(Cookies.Get(player, "difficulty"))
             {
                 case DIFFICULTY.EASY: TRAIT_COOLDOWN = 0; break;
-                case DIFFICULTY.NORMAL: TRAIT_COOLDOWN = 2; break;
+                case DIFFICULTY.NORMAL: TRAIT_COOLDOWN = 2.5; break;
                 case DIFFICULTY.HARD: TRAIT_COOLDOWN = 3; break;
                 case DIFFICULTY.EXTREME: TRAIT_COOLDOWN = 4; break;
                 case DIFFICULTY.IMPOSSIBLE: TRAIT_COOLDOWN = null; break;
