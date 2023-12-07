@@ -15,6 +15,15 @@
 
 function OnPostSpawn()
 {
+    for (local i = 1; i <= MAX_PLAYERS; i++)
+    {
+        local player = PlayerInstanceFromIndex(i);
+        if (player != null)
+        {
+            playerType[player] <- Mercenary();
+        }
+    }
+
     RecachePlayers();
     PrecacheGenericSoundScripts();
     PrecacheVoiceLineSoundScripts();

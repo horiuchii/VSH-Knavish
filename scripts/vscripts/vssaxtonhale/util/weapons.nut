@@ -92,7 +92,17 @@
     {
         ids = [222, 1121]
     },
+    ["pbpp"] =
+    {
+        ids = [773]
+        desc = "No fall damage while active\n\n\n\n\n"
+    },
 
+    ["atomizer"] =
+    {
+        ids = [450]
+        desc = "Removed deploy time increase\n\n\n\n\n"
+    },
     ["candy_cane"] =
     {
         ids = [317]
@@ -330,6 +340,11 @@
         desc = "+2% ÜberCharge added on hit\n+10% faster move speed while active\n\n\n\n"
     },
 
+    ["kritzkreig"] =
+    {
+        ids = [35]
+        desc = "+30% Übercharge rate\n\n\n\n\n"
+    },
     ["quick_fix"] =
     {
         ids = [411]

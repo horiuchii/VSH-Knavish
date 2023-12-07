@@ -18,20 +18,19 @@ mercTraitsLibrary.push(class extends MercenaryTrait
         return player.GetPlayerClass() == TF_CLASS_MEDIC;
     }
 
-    /*function OnDamageDealt(victim, params)
-    {
-        if (params.damage_type & DMG_CLUB)
-        {
-            local melee = player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
-            if (WeaponIs(melee, "ubersaw") || WeaponIs(melee, "ubersaw_xmas"))
-                AddPropFloat(player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY), "m_flChargeLevel", 0.25);
-        }
-    }*/
-
     function OnApply()
     {
         local medigun = player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY);
         if (medigun != null)
-            medigun.AddAttribute("ubercharge rate bonus", 2, -1);
+        {
+            if (WeaponIs(medigun, "kritzkreig"))
+            {
+                medigun.AddAttribute("ubercharge rate bonus", 2.3, -1);
+            }
+            else
+            {
+                medigun.AddAttribute("ubercharge rate bonus", 2, -1);
+            }
+        }
     }
 });

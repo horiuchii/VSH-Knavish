@@ -36,9 +36,6 @@
                 validPlayersL.push(player);
 
                 local isAlive = player.IsAlive();
-                if (!(player in playerType))
-                    playerType[player] <- Mercenary();
-
                 local isMerc = playerType[player] instanceof Mercenary;
                 local isBoss = playerType[player] instanceof Boss;
 

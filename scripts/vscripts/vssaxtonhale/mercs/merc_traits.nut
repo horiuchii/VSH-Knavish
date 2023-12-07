@@ -41,6 +41,7 @@ IncludeTrait(TRAIT.ALL, "goomba.nut");
 IncludeTrait(TRAIT.ALL, "crit_buffs.nut");
 
 //Scout
+IncludeTrait(TRAIT.SINGLE, "scout_atomizer.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_candy_cane.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_stronger_fan.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_bfb_decay.nut");
@@ -48,6 +49,7 @@ IncludeTrait(TRAIT.SINGLE, "scout_critacola_fullcrit.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_sunonastick.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_backscatter.nut");
 IncludeTrait(TRAIT.SINGLE, "scout_shortstop.nut");
+IncludeTrait(TRAIT.SINGLE, "scout_pbpp.nut");
 
 //Soldier
 IncludeTrait(TRAIT.SINGLE, "soldier_jumper_ammo.nut");

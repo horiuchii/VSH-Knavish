@@ -16,12 +16,12 @@ mercTraitsLibrary.push(class extends MercenaryTrait
     function CanApply()
     {
 		local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-        return player.GetPlayerClass() == TF_CLASS_MEDIC 
-			&& WeaponIs(primary, "xbow") || WeaponIs(primary, "xbow_xmas");
-    }
-	
+		return player.GetPlayerClass() == TF_CLASS_MEDIC &&
+			WeaponIs(primary, "xbow") || WeaponIs(primary, "xbow_xmas");
+	}
+
 	function OnApply()
     {
 		player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY).AddAttribute("add uber charge on hit", 0.100001, -1);
-    }
+	}
 });
