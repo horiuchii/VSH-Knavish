@@ -119,7 +119,10 @@ function CloseVSHMenuHUD(player)
         return;
 
     delete menu_index[player];
-    player.RemoveFlag(FL_ATCONTROLS);
+
+    if(!IsBoss(player) && (IsRoundSetup() && API_GetBool("freeze_boss_setup")))
+        player.RemoveFlag(FL_ATCONTROLS);
+
     player.SetScriptOverlayMaterial(null);
     SetPropFloat(player, "m_flNextAttack", Time() + 0.5);
     PlaySoundForPlayer(player, "ui/cyoa_map_close.wav");
@@ -145,6 +148,7 @@ function UpdateVSHMenuHUD(player)
     }
 
     local buttons = GetPropInt(player, "m_nButtons");
+    // Navigate Menu
     if (player.WasButtonJustPressed(IN_FORWARD) || player.WasButtonJustPressed(IN_BACK))
     {
         local length = menu_options[menu_index[player]].len() - 1;
@@ -159,6 +163,7 @@ function UpdateVSHMenuHUD(player)
         GenerateVSHMenuHUDText(player);
     }
 
+    // Select Menu Item
     if (player.WasButtonJustPressed(IN_ATTACK))
     {
         menu_options[menu_index[player]][selected_option[player]].OnSelected.acall([this, player]);
@@ -166,6 +171,7 @@ function UpdateVSHMenuHUD(player)
         GenerateVSHMenuHUDText(player);
     }
 
+    // Return To Previous Menu
     if (player.WasButtonJustPressed(IN_ATTACK2))
     {
         if (menu_index[player] != MENU.Main)
