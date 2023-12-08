@@ -196,7 +196,6 @@ function UpdateVSHMenuHUD(player)
 
     player.AddFlag(FL_ATCONTROLS);
     SetPropFloat(player, "m_flNextAttack", 999999);
-    //printl("vshhud/vsh_menu_" + menus[menu_index[player]].overlay)
     player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "vshhud/vsh_menu_" + menus[menu_index[player]].overlay);
     SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_WEAPONSELECTION | HIDEHUD_HEALTH | HIDEHUD_MISCSTATUS | HIDEHUD_CROSSHAIR);
 }
@@ -226,7 +225,6 @@ function GenerateVSHMenuHUDText(player)
         message += "\n"
     }
 
-    printl(menus[menu_index[player]])
     local description = menus[menu_index[player]].items[selected_option[player]].GenerateDesc(player)
 
     message += "\n" + description + "\n\n\n\n\n\n";
