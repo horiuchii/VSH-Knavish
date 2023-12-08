@@ -28,7 +28,7 @@ bossBarTicker <- 0;
 
 DOUBLE_PRESS_MENU_THRESHOLD <- 0.25;
 last_press_menu_button <- {};
-selected_option <- {};
+::selected_option <- {};
 ::menu_index <- {};
 
 AddListener("spawn", 0, function (player, params)
@@ -183,7 +183,7 @@ function UpdateVSHMenuHUD(player)
     // Select Menu Item
     if (player.WasButtonJustPressed(IN_ATTACK))
     {
-        menus[menu_index[player]].items[selected_option[player]].OnSelected.acall([this, player]);
+        menus[menu_index[player]].items[selected_option[player]].OnSelected(player);
         PlaySoundForPlayer(player, "ui/buttonclick.wav");
         GenerateVSHMenuHUDText(player);
     }
@@ -226,7 +226,8 @@ function GenerateVSHMenuHUDText(player)
         message += "\n"
     }
 
-    local description = menus[menu_index[player]].items[selected_option[player]].GenerateDesc.acall([this, player])
+    printl(menus[menu_index[player]])
+    local description = menus[menu_index[player]].items[selected_option[player]].GenerateDesc(player)
 
     message += "\n" + description + "\n\n\n\n\n\n";
 

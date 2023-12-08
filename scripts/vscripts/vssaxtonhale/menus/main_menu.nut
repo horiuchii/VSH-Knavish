@@ -13,24 +13,13 @@ enum MAINMENU_ITEMS {
     Achievement
 }
 
-function MakeGenericCookieString(player, cookie)
-{
-    local option_setting = Cookies.Get(player, cookie);
-    if(type(option_setting) == "integer" || type(option_setting) == "bool")
-        option_setting = option_setting ? "[ON]" : "[OFF]";
-    else
-        option_setting = "[" + option_setting + "]";
-
-    return option_setting + "\n";
-}
-
 //Toggle Boss
 menus[MENU.MainMenu].items[MAINMENU_ITEMS.BecomeBoss] <- (class extends MenuItem {
     title = "Toggle Become Boss"
 
     function GenerateDesc(player)
     {
-        return MakeGenericCookieString(player, "become_boss") + "Toggle the ability to gain queue points.\nTurning off will remove any existing points.";
+        return Cookies.MakeGenericCookieString(player, "become_boss") + "Toggle the ability to gain queue points.\nTurning off will remove any existing points.";
     }
 
     function OnSelected(player)
@@ -101,7 +90,7 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossChoose] <- (class extends MenuItem
 
     function GenerateDesc(player)
     {
-        return MakeGenericCookieString(player, "boss") + "Choose who you would like to play as when\nchosen as the boss. (More coming soon)";
+        return Cookies.MakeGenericCookieString(player, "boss") + "Choose who you would like to play as when\nchosen as the boss. (More coming soon)";
     }
 
     function OnSelected(player)

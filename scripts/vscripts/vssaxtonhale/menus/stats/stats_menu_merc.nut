@@ -1,7 +1,7 @@
 menus[MENU.StatsMerc] <- (class extends Menu
 {
-    items = {};
-    overlay = "stats_merc";
+    items = {}
+    overlay = "stats_merc"
     parent_menu = MENU.Stats
     parent_menuitem = STATS_ITEMS.Merc
 })();
@@ -18,7 +18,7 @@ enum STATSMERC_ITEMS {
     Spy
 }
 
-enum STATSMERCSUBCLASS_ITEMS {
+enum MERCSTATS_STATITEMS {
     AliveTime
     TotalDamage
     TotalHealing
@@ -27,7 +27,7 @@ enum STATSMERCSUBCLASS_ITEMS {
     WallclimbCount
 }
 
-::some_arr <-
+::merc_stats_enum <-
 [
     MENU.StatsMercScout
     MENU.StatsMercSoldier
@@ -52,24 +52,21 @@ enum STATSMERCSUBCLASS_ITEMS {
     "Spy"
 ]
 
-class Test extends MenuItem
+foreach (i, value in merc_stats_enum)
 {
-    index = 0
-}
-
-foreach (i, value in some_arr)
-{
-    menus[MENU.StatsMerc].items[i] <- (class extends Test {
+    menus[MENU.StatsMerc].items[i] <- (class extends MenuItem
+    {
+        class_id = i
         title = TF_CLASS_NAMES_PROPER[i]
 
         function GenerateDesc(player)
         {
-            return "\nView your stats for " + TF_CLASS_NAMES_PROPER[selected_option[player]] + ".\n";
+            return "\nView your stats for " + title + ".\n";
         }
 
         function OnSelected(player)
         {
-            menu_index[player] <- MENU.StatsMercScout + selected_option[player];
+            menu_index[player] <- merc_stats_enum[class_id];
             selected_option[player] <- 0;
         }
     })();
@@ -78,11 +75,12 @@ foreach (i, value in some_arr)
     {
         items = {};
         overlay = "stats_merc_" + TF_CLASS_NAMES[i + 1];
-        parent_menu = MENU.StatsMerc
-        parent_menuitem = i
+        parent_menu = MENU.StatsMerc;
+        parent_menuitem = i;
     })();
 
-    menus[value].items[STATSMERCSUBCLASS_ITEMS.AliveTime] <- (class extends MenuItem {
+    menus[value].items[MERCSTATS_STATITEMS.AliveTime] <- (class extends MenuItem
+    {
         title = "Time Alive"
 
         function GenerateDesc(player)
