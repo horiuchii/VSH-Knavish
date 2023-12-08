@@ -17,7 +17,7 @@ game_text_merc_hud <- SpawnEntityFromTable("game_text",
     channel = 1,
     fadein = 0,
     fadeout = 0,
-    holdtime = 250,
+    holdtime = 500,
     message = "",
     x = 0.481,
     y = 0.788
@@ -103,7 +103,7 @@ function OpenVSHMenuHUD(player)
     if(IsInVSHMenu(player))
         return;
 
-    menu_index[player] <- MENU.Main;
+    menu_index[player] <- MENU.MainMenu;
     EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
     EntFireByHandle(env_hudhint_boss, "HideHudHint", "", 0, player, player);
     PlaySoundForPlayer(player, "ui/cyoa_map_open.wav");
@@ -120,7 +120,7 @@ function CloseVSHMenuHUD(player)
 
     delete menu_index[player];
 
-    if(!IsBoss(player) && (IsRoundSetup() && API_GetBool("freeze_boss_setup")))
+    if(!IsBoss(player) || (IsBoss(player) && !IsRoundSetup() && API_GetBool("freeze_boss_setup")))
         player.RemoveFlag(FL_ATCONTROLS);
 
     player.SetScriptOverlayMaterial(null);
@@ -139,6 +139,23 @@ function CloseVSHMenuHUD(player)
     EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
 }
 
+::GoUpVSHMenuDir <- function(player, playsound = true)
+{
+    if (menu_index[player] != MENU.MainMenu)
+    {
+        if(menus[menu_index[player]].parent_menuitem != null)
+            selected_option[player] <- menus[menu_index[player]].parent_menuitem;
+
+        if(menus[menu_index[player]].parent_menu != null)
+            menu_index[player] <- menus[menu_index[player]].parent_menu;
+
+        if(playsound)
+            PlaySoundForPlayer(player, "ui/buttonclick.wav");
+
+        GenerateVSHMenuHUDText(player);
+    }
+}
+
 function UpdateVSHMenuHUD(player)
 {
     if(!player.IsAlive())
@@ -151,7 +168,7 @@ function UpdateVSHMenuHUD(player)
     // Navigate Menu
     if (player.WasButtonJustPressed(IN_FORWARD) || player.WasButtonJustPressed(IN_BACK))
     {
-        local length = menu_options[menu_index[player]].len() - 1;
+        local length = menus[menu_index[player]].items.len() - 1;
         local new_loc = (selected_option[player]) + (player.WasButtonJustPressed(IN_FORWARD) ? -1 : 1);
         if (new_loc < 0)
             new_loc = length;
@@ -166,7 +183,7 @@ function UpdateVSHMenuHUD(player)
     // Select Menu Item
     if (player.WasButtonJustPressed(IN_ATTACK))
     {
-        menu_options[menu_index[player]][selected_option[player]].OnSelected.acall([this, player]);
+        menus[menu_index[player]].items[selected_option[player]].OnSelected.acall([this, player]);
         PlaySoundForPlayer(player, "ui/buttonclick.wav");
         GenerateVSHMenuHUDText(player);
     }
@@ -174,31 +191,20 @@ function UpdateVSHMenuHUD(player)
     // Return To Previous Menu
     if (player.WasButtonJustPressed(IN_ATTACK2))
     {
-        if (menu_index[player] != MENU.Main)
-        {
-            local option_to_select = 0;
-            switch(menu_index[player])
-            {
-                case MENU.BossDifficulty: option_to_select = MENU_ITEMS.BossDifficulty; break;
-                default: break;
-            }
-            selected_option[player] <- option_to_select;
-            menu_index[player] <- MENU.Main;
-            PlaySoundForPlayer(player, "ui/buttonclick.wav");
-            GenerateVSHMenuHUDText(player);
-        }
+        GoUpVSHMenuDir(player);
     }
 
     player.AddFlag(FL_ATCONTROLS);
     SetPropFloat(player, "m_flNextAttack", 999999);
-    player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/" + "vsh_menu" + menu_index[player].tostring());
+    //printl("vshhud/vsh_menu_" + menus[menu_index[player]].overlay)
+    player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "vshhud/vsh_menu_" + menus[menu_index[player]].overlay);
     SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_WEAPONSELECTION | HIDEHUD_HEALTH | HIDEHUD_MISCSTATUS | HIDEHUD_CROSSHAIR);
 }
 
 function GenerateVSHMenuHUDText(player)
 {
     local message = "\n\n\n\n\n";
-    local menu_size = menu_options[menu_index[player]].len();
+    local menu_size = menus[menu_index[player]].items.len();
     local option_count = 2;
     for(local i = selected_option[player] - option_count; i < selected_option[player] + (option_count + 1); i++)
     {
@@ -210,42 +216,19 @@ function GenerateVSHMenuHUDText(player)
         if(index > menu_size - 1)
             index = index - menu_size;
 
-        message += menu_options[menu_index[player]][index].title
+        if(index < 0 || index > menu_size - 1)
+        {
+            message += "----\n";
+            continue;
+        }
+
+        message += menus[menu_index[player]].items[index].title
         message += "\n"
     }
 
-    //display current setting if not null, this code fucking reeks
-    local option_setting = menu_options[menu_index[player]][selected_option[player]].pref
+    local description = menus[menu_index[player]].items[selected_option[player]].GenerateDesc.acall([this, player])
 
-    if(option_setting != null)
-    {
-        if(option_setting == "difficulty")
-        {
-            option_setting = Cookies.Get(player, "difficulty");
-            switch(option_setting)
-            {
-                case DIFFICULTY.EASY: option_setting = "[EASY]\n"; break;
-                case DIFFICULTY.NORMAL: option_setting = "[NORMAL]\n"; break;
-                case DIFFICULTY.HARD: option_setting = "[HARD]\n"; break;
-                case DIFFICULTY.EXTREME: option_setting = "[EXTREME]\n"; break;
-                case DIFFICULTY.IMPOSSIBLE: option_setting = "[IMPOSSIBLE]\n"; break;
-            }
-        }
-        else
-        {
-            option_setting = Cookies.Get(player, option_setting);
-            if(type(option_setting) == "integer" || type(option_setting) == "bool")
-                option_setting = option_setting ? "[ON]\n" : "[OFF]\n";
-            else
-                option_setting = "[" + option_setting + "]\n";
-        }
-    }
-    else
-        option_setting = ""
-
-    local description = menu_options[menu_index[player]][selected_option[player]].description
-
-    message += "\n" + option_setting + description + "\n\n\n\n\n\n";
+    message += "\n" + description + "\n\n\n\n\n\n";
 
     EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
     EntFireByHandle(game_text_merc_hud, "AddOutput", "y -1", 0, player, player);

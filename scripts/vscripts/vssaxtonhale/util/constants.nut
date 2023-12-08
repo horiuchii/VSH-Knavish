@@ -48,14 +48,14 @@ foreach (k, v in NetProps.getclass())
 ::TF_CLASS_NAMES <- [
     "generic",
     "scout",
-    "sniper",
     "soldier",
-    "demo",
-    "medic",
-    "heavy",
     "pyro",
-    "spy",
-    "engineer"
+    "demo",
+    "heavy",
+    "engineer",
+    "medic",
+    "sniper",
+    "spy"
 ];
 
 enum TF_DEATHFLAG

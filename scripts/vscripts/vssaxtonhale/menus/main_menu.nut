@@ -1,6 +1,7 @@
 menus[MENU.MainMenu] <- (class extends Menu
 {
-
+    items = {};
+    overlay = "main_menu";
 })();
 
 enum MAINMENU_ITEMS {
@@ -12,11 +13,25 @@ enum MAINMENU_ITEMS {
     Achievement
 }
 
+function MakeGenericCookieString(player, cookie)
+{
+    local option_setting = Cookies.Get(player, cookie);
+    if(type(option_setting) == "integer" || type(option_setting) == "bool")
+        option_setting = option_setting ? "[ON]" : "[OFF]";
+    else
+        option_setting = "[" + option_setting + "]";
+
+    return option_setting + "\n";
+}
+
 //Toggle Boss
 menus[MENU.MainMenu].items[MAINMENU_ITEMS.BecomeBoss] <- (class extends MenuItem {
     title = "Toggle Become Boss"
-    pref = "become_boss"
-    description = "Toggle the ability to gain queue points.\nTurning off will remove any existing points."
+
+    function GenerateDesc(player)
+    {
+        return MakeGenericCookieString(player, "become_boss") + "Toggle the ability to gain queue points.\nTurning off will remove any existing points.";
+    }
 
     function OnSelected(player)
     {
@@ -35,7 +50,11 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.BecomeBoss] <- (class extends MenuItem
 //Reset Queue
 menus[MENU.MainMenu].items[MAINMENU_ITEMS.ResetQueue] <- (class extends MenuItem {
     title = "Reset Queue Points"
-    description = "\nResets your position in\nthe queue to become boss."
+
+    function GenerateDesc(player)
+    {
+        return "\nResets your position in\nthe queue to become boss.";
+    }
 
     function OnSelected(player)
     {
@@ -53,8 +72,21 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.ResetQueue] <- (class extends MenuItem
 //Open Difficulty Menu
 menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossDifficulty] <- (class extends MenuItem {
     title = "Set Boss Difficulty"
-    pref = "difficulty"
-    description = "Set the difficulty for a more\nengaging experience as the boss."
+
+    function GenerateDesc(player)
+    {
+        local option_setting = Cookies.Get(player, "difficulty");
+        switch(option_setting)
+        {
+            case DIFFICULTY.EASY: option_setting = "[EASY]"; break;
+            case DIFFICULTY.NORMAL: option_setting = "[NORMAL]"; break;
+            case DIFFICULTY.HARD: option_setting = "[HARD]"; break;
+            case DIFFICULTY.EXTREME: option_setting = "[EXTREME]"; break;
+            case DIFFICULTY.IMPOSSIBLE: option_setting = "[IMPOSSIBLE]"; break;
+        }
+
+        return option_setting + "\nSet the difficulty for a more\nengaging experience as the boss.";
+    }
 
     function OnSelected(player)
     {
@@ -66,8 +98,11 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossDifficulty] <- (class extends Menu
 //Open Boss Menu
 menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossChoose] <- (class extends MenuItem {
     title = "Set Preferred Boss"
-    pref = "boss"
-    description = "Choose who you would like to play as when\nchosen as the boss. (More coming soon)"
+
+    function GenerateDesc(player)
+    {
+        return MakeGenericCookieString(player, "boss") + "Choose who you would like to play as when\nchosen as the boss. (More coming soon)";
+    }
 
     function OnSelected(player)
     {
@@ -78,12 +113,14 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossChoose] <- (class extends MenuItem
 //View VSH Stats
 menus[MENU.MainMenu].items[MAINMENU_ITEMS.Stats] <- (class extends MenuItem {
     title = "View Performance Report"
-    description = "\nView your lifetime Boss and Mercenary stats.\n"
+
+    function GenerateDesc(player)
+    {
+        return "\nView your lifetime Boss and Mercenary stats.\n";
+    }
 
     function OnSelected(player)
     {
-        PrintToClient(player, KNA_VSH + "Coming Soon!");
-        return;
         menu_index[player] <- MENU.Stats;
         selected_option[player] <- 0;
     }
@@ -92,11 +129,14 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.Stats] <- (class extends MenuItem {
 //View VSH Achievements
 menus[MENU.MainMenu].items[MAINMENU_ITEMS.Achievement] <- (class extends MenuItem {
     title = "View Achievements"
-    description = "\nComing Soon!\n"
+
+    function GenerateDesc(player)
+    {
+        return "\nComing Soon!\n";
+    }
 
     function OnSelected(player)
     {
         PrintToClient(player, KNA_VSH + "Coming Soon!");
-        return;
     }
 })();

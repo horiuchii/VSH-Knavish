@@ -1,9 +1,22 @@
-::menus <- []
+::menus <- {}
 
 enum MENU {
     MainMenu
     BossDifficulty
     Stats
+    StatsGeneral
+    StatsMerc
+    StatsMercScout
+    StatsMercSoldier
+    StatsMercPyro
+    StatsMercDemo
+    StatsMercHeavy
+    StatsMercEngi
+    StatsMercMedic
+    StatsMercSniper
+    StatsMercSpy
+    StatsBoss
+    StatsBossSaxton
 }
 
 class Menu
@@ -16,19 +29,14 @@ class Menu
 class MenuItem
 {
     title = ""
-    menu = MENU.MainMenu
-    pref = null
-    description = ""
+    overlay = ""
 
-    function constructor()
-    {
-        if(!(menu in menu_options))
-            menu_options[menu] <- []
+    function GenerateDesc(player){}
 
-        menu_options[menu].push(this);
-    }
-
-    function OnSelected(player)
-    {
-    }
+    function OnSelected(player){}
 }
+
+Include("/menus/main_menu.nut");
+Include("/menus/bossdifficulty_menu.nut");
+Include("/menus/stats/stats_menu.nut");
+Include("/menus/stats/stats_menu_merc.nut");

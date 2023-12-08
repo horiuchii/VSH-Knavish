@@ -43,11 +43,12 @@ Include("/scriptsounds/soundcache_utils.nut");
 Include("/scriptsounds/scriptsound_utils.nut");
 Include("/scriptsounds/voiceline_traits.nut");
 
+Include("/menus/menus.nut");
+
 Include("/gamemode/boss_queue.nut");
 Include("/gamemode/forced_arena.nut");
 Include("/gamemode/gamerules.nut");
 Include("/gamemode/game_events.nut");
-Include("/gamemode/hud_vshmenu.nut");
 Include("/gamemode/hud.nut");
 Include("/gamemode/round_logic.nut");
 Include("/gamemode/scoreboard.nut");
