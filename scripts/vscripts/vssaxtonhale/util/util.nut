@@ -112,6 +112,37 @@
     return value;
 }
 
+::FormatTime <- function(input_time)
+{
+    local Hrs = (input_time / 3600);
+    local Min = ((input_time - (Hrs * 3600)) / 60).tointeger();
+    local Sec = input_time - (Hrs * 3600) - (Min * 60).tointeger();
+
+    if(Hrs < 10) {Hrs = "0" + Hrs;}
+    if(Min < 10) {Min = "0" + Min;}
+    if(Sec < 10) {Sec = "0" + Sec;}
+
+    return (Hrs + "h " + Min + "m " + Sec + "s").tostring();
+}
+
+::AddCommasToNumber <- function(number)
+{
+    local number_string = number.tostring();
+    local number_length = number_string.len();
+    local num_commas = (number_length - 1) / 3;
+
+    local result = "";
+    for (local i = 0; i < number_length; ++i)
+    {
+        result += number_string[i].tochar();
+
+        if((number_length - i - 1) % 3 == 0 && i != number_length - 1)
+            result += ",";
+    }
+
+    return result;
+}
+
 ::SetPersistentVar <- function(name, value)
 {
     local persistentVars = tf_gamerules.GetScriptScope();

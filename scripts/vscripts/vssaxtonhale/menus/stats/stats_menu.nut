@@ -22,6 +22,7 @@ menus[MENU.Stats].items[STATS_ITEMS.General] <- (class extends MenuItem {
 
     function OnSelected(player)
     {
+        return;
         menu_index[player] <- MENU.StatsGeneral;
         selected_option[player] <- 0;
     }
@@ -52,6 +53,7 @@ menus[MENU.Stats].items[STATS_ITEMS.Boss] <- (class extends MenuItem {
 
     function OnSelected(player)
     {
+        return;
         menu_index[player] <- MENU.StatsBoss;
         selected_option[player] <- 0;
     }

@@ -25,7 +25,11 @@ mercTraitsLibrary.push(class extends CharacterTrait
         {
             local glowTrait = GetTraitByClass(victim, GlowTrait);
             if (glowTrait != null)
-                glowTrait.SetGlowTime(clamp(GetPropFloat(params.weapon, "m_flChargedDamage") / 30 + 1.0, 3, 6));
+            {
+                local glow_length = clamp(GetPropFloat(params.weapon, "m_flChargedDamage") / 30 + 1.0, 3, 6);
+                glowTrait.SetGlowTime(glow_length);
+                FireListeners("hitmans_glow", player, victim, glow_length);
+            }
         }
     }
 });

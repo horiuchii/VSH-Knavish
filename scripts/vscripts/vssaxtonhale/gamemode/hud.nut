@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-game_text_merc_hud <- SpawnEntityFromTable("game_text",
+::game_text_merc_hud <- SpawnEntityFromTable("game_text",
 {
     color = "236 227 203",
     channel = 1,
@@ -120,7 +120,7 @@ function CloseVSHMenuHUD(player)
 
     delete menu_index[player];
 
-    if(!IsBoss(player) || (IsBoss(player) && !IsRoundSetup() && API_GetBool("freeze_boss_setup")))
+    if(!IsBoss(player) || !(IsRoundSetup() && API_GetBool("freeze_boss_setup")))
         player.RemoveFlag(FL_ATCONTROLS);
 
     player.SetScriptOverlayMaterial(null);
@@ -200,7 +200,7 @@ function UpdateVSHMenuHUD(player)
     SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_WEAPONSELECTION | HIDEHUD_HEALTH | HIDEHUD_MISCSTATUS | HIDEHUD_CROSSHAIR);
 }
 
-function GenerateVSHMenuHUDText(player)
+::GenerateVSHMenuHUDText <- function(player)
 {
     local message = "\n\n\n\n\n";
     local menu_size = menus[menu_index[player]].items.len();

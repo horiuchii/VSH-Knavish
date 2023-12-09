@@ -74,6 +74,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
             EmitSoundOn("Player.Spy_Shield_Break", victim);
             EmitSoundOn("Player.Spy_Shield_Break", victim);
+            FireListeners("backstab", player);
             if (victim.GetHealth() > params.damage * 2.5)
                 PlayAnnouncerVO(victim, "stabbed");
         }

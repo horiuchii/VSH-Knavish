@@ -14,7 +14,7 @@
 ::VSH_API_DEF_VALUES <- {
     boss_scale = 1.2,
     round_time = 240,
-    stalemate_time = 180,
+    stalemate_time = 120,
     jump_force = 700,
     health_factor = 40,
     setup_length = 16,

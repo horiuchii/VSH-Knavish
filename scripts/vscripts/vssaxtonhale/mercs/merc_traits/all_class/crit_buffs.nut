@@ -48,11 +48,6 @@ mercTraitsLibrary.push(class extends MercenaryTrait
                 player.AddCondEx(TF_COND_OFFENSEBUFF, 0.2, player);
             }
         }
-
-        if (CanReceivePassiveMinicrits(active) && player.GetPlayerClass() != TF_CLASS_ENGINEER)
-        {
-            player.AddCondEx(TF_COND_OFFENSEBUFF, 0.2, player);
-        }
     }
 
     function IsDowngradedWeapon(active)
@@ -60,14 +55,6 @@ mercTraitsLibrary.push(class extends MercenaryTrait
         return WeaponIs(active, "bushwaka")
             || WeaponIs(active, "sunonastick")
             || WeaponIs(active, "axtinguisher");
-    }
-
-    function CanReceivePassiveMinicrits(active)
-    {
-        local classname = active.GetClassname();
-        return classname == "tf_weapon_pistol"
-            || classname == "tf_weapon_pistol_scout"
-            || classname == "tf_weapon_handgun_scout_secondary";
     }
 
     function CanReceivePassiveCrits(player, active, isMelee)

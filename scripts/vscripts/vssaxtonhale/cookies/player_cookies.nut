@@ -1,3 +1,5 @@
+::PlayerBannedSaving <- {}
+
 ::CookieTable <- {
     ["become_boss"] =
     {
@@ -17,20 +19,98 @@
     }
 }
 
+//stat cookies
+::allclass_stats <- [
+    "lifetime"
+    "damage"
+    "bosskills"
+    "wallclimbs"
+    "bossgoomba"
+]
+
+::specificclass_stats <- {
+    ["Scout"] = [
+        "healing"
+        "moonshots"
+    ],
+    ["Soldier"] = [
+        "healing"
+    ],
+    ["Pyro"] = [],
+    ["Demoman"] = [],
+    ["Heavy"] = [
+        "healing"
+    ],
+    ["Engineer"] = [
+        "healing"
+    ],
+    ["Medic"] = [
+        "healing"
+    ],
+    ["Sniper"] = [
+        "headshots"
+        "glowtime"
+    ],
+    ["Spy"] = [
+        "backstabs"
+    ]
+}
+
+foreach(class_name, cookie_array in specificclass_stats)
+{
+    foreach(cookie in cookie_array)
+    {
+        CookieTable[class_name + "_" + cookie] <- {default_value = 0};
+        CookieTable["total_" + cookie] <- {default_value = 0};
+    }
+}
+
+foreach(stat_name in allclass_stats)
+{
+    CookieTable["total_" + stat_name] <- {default_value = 0};
+}
+
+foreach (i, value in TFClass.names_proper)
+{
+    foreach(stat_name in allclass_stats)
+    {
+        CookieTable[value + "_" + stat_name] <- {default_value = 0};
+    }
+}
+
 class CookiesManager
 {
     PlayerCookies = {}
+    loaded_cookies = false;
 
     function Get(player, cookie)
     {
         return PlayerCookies[player.entindex()][cookie];
     }
 
-    function Set(player, cookie, value)
+    function Set(player, cookie, value, save = true)
     {
         PlayerCookies[player.entindex()][cookie] <- value;
-        SetPersistentVar("player_cookies", PlayerCookies);
-        SavePlayerData(player);
+
+        if(save)
+        {
+            SetPersistentVar("player_cookies", PlayerCookies);
+            SavePlayerData(player);
+        }
+
+        return PlayerCookies[player.entindex()][cookie];
+    }
+
+    function Add(player, cookie, value, save = true)
+    {
+        PlayerCookies[player.entindex()][cookie] <- PlayerCookies[player.entindex()][cookie] + value;
+
+        if(save)
+        {
+            SetPersistentVar("player_cookies", PlayerCookies);
+            SavePlayerData(player);
+        }
+
         return PlayerCookies[player.entindex()][cookie];
     }
 
@@ -51,14 +131,35 @@ class CookiesManager
     {
         Reset(player);
 
-        if(GetPlayerAccountID(player))
+        if(!GetPlayerAccountID(player))
         {
-            LoadPlayerData(player);
+            PlayerBannedSaving[GetPlayerUserID(player)] <- true;
+            PrintToClient(player, KNA_VSH + "Something went wrong when trying to get your cookies. Rejoining may fix.");
+            return;
         }
+
+        if(!loaded_cookies) LoadPersistentCookies();
+
+        LoadPlayerData(player)
+    }
+
+    function LoadPersistentCookies()
+    {
+        local cookies_to_load = GetPersistentVar("player_cookies", null);
+        if(cookies_to_load)
+            PlayerCookies = cookies_to_load;
+
+        loaded_cookies = true;
     }
 
     function SavePlayerData(player)
     {
+        if(GetPlayerUserID(player) in PlayerBannedSaving)
+        {
+            PrintToClient(player, KNA_VSH + "Refusing to save your cookies due to a previous error. Rejoining may fix.");
+            return;
+        }
+
         local save = "";
 
         foreach (name, cookie in CookieTable)
@@ -80,62 +181,44 @@ class CookiesManager
 
     function LoadPlayerData(player)
     {
+        if(GetPlayerUserID(player) in PlayerBannedSaving)
+        {
+            PrintToClient(player, KNA_VSH + "Refusing to load your cookies due to a previous error. Rejoining may fix.");
+            return;
+        }
+
         local save = FileToString("knavish_vsh_save/" + GetPlayerAccountID(player) + ".sav");
 
         if(save == null)
-            return;
-
-        local save_length = save.len();
-
-        local i = 0;
-        local bReadingKey = true;
-        local key_buffer = "";
-        local value_buffer = "";
+            return false;
 
         try
         {
-            while(i < save_length)
+            local split_save = split(save, "\n", true);
+            foreach (save_entry in split_save)
             {
-                if(save[i] == ',') //we've got our key
+                local entry_array = split(save_entry, ",");
+                local key_buffer = entry_array[0];
+                local value_buffer = entry_array[1];
+                if(key_buffer in CookieTable)
                 {
-                    bReadingKey = false;
-                    i += 1;
-                }
-
-                if(save[i] == '\n') //we've gotten to the end of the value
-                {
-                    if(key_buffer in CookieTable)
+                    switch(type(CookieTable[key_buffer].default_value))
                     {
-                        switch(type(CookieTable[key_buffer].default_value))
-                        {
-                            case "string": value_buffer = value_buffer.tostring(); break;
-                            case "integer": value_buffer = value_buffer.tointeger(); break;
-                        }
-
-                        Cookies.Set(player, key_buffer, value_buffer);
+                        case "string": value_buffer = value_buffer.tostring(); break;
+                        case "integer": value_buffer = value_buffer.tointeger(); break;
                     }
-
-                    //clear everything and start reading the next key
-                    key_buffer = "";
-                    value_buffer = "";
-                    i += 1;
-                    bReadingKey = true;
-                    continue;
+                    Cookies.Set(player, key_buffer, value_buffer, false);
                 }
-
-                if(bReadingKey)
-                    key_buffer += save[i].tochar();
-                else
-                    value_buffer += save[i].tochar();
-
-                i += 1;
             }
+
+            SetPersistentVar("player_cookies", PlayerCookies);
+            return true;
         }
         catch(exception)
         {
             PrintToClient(player, "\x07" + "FF0000" + "Your cookies failed to load. Please alert a server admin and provide the text below.");
             PrintToClient(player, "\x07" + "FFA500" + "Save: " + "tf/scriptdata/knavish_vsh_save/" + GetPlayerAccountID(player) + ".sav");
-            PrintToClient(player, "\x07" + "FFA500" + "Error: " + exception + "\nIndex: " + i + "\nReading Key?: " + bReadingKey + "\nKey: " + key_buffer + "\nValue: " + value_buffer);
+            PrintToClient(player, "\x07" + "FFA500" + "Error: " + exception);
         }
     }
 
@@ -151,10 +234,3 @@ class CookiesManager
     }
 }
 ::Cookies <- CookiesManager();
-
-AddListener("new_round", -2, function()
-{
-    local cookies_to_load = GetPersistentVar("player_cookies", null);
-    if(cookies_to_load)
-        PlayerCookies <- cookies_to_load;
-});

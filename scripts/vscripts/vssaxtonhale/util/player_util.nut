@@ -123,6 +123,11 @@
     return null;
 }
 
+::GetPlayerUserID <- function(player)
+{
+    return GetPropIntArray(Entities.FindByClassname(null, "tf_player_manager"), "m_iUserID", player.entindex());
+}
+
 ::PlaySoundForAll <- function(soundScript)
 {
     for (local i = 1; i <= MAX_PLAYERS; i++)

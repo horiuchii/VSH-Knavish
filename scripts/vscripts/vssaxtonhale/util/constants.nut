@@ -45,19 +45,6 @@ foreach (k, v in NetProps.getclass())
 ::TF_CLASS_HEAVY <- TF_CLASS_HEAVYWEAPONS;
 ::MAX_PLAYERS <- MaxClients().tointeger();
 
-::TF_CLASS_NAMES <- [
-    "generic",
-    "scout",
-    "soldier",
-    "pyro",
-    "demo",
-    "heavy",
-    "engineer",
-    "medic",
-    "sniper",
-    "spy"
-];
-
 enum TF_DEATHFLAG
 {
     KILLER_DOMINATION = 1,

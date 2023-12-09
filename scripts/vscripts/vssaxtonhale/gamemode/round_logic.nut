@@ -12,7 +12,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-isRoundOver <- false;
+::isRoundOver <- false;
 ::isRoundSetup <- true;
 hasStalemateTimerBegun <- false;
 
@@ -191,7 +191,7 @@ function EndRound(winner)
             local player = leaderboard[2][0]
             event_data.player_3 <- ent_index
             event_data.player_3_damage <- leaderboard[2][1]
-            event_data.player_3_lifetime <- GetDeathTime(player)
+            event_data.player_3_lifetime <- GetLifetime(player)
             event_data.player_3_healing <- GetRoundHealing(player)
             event_data.player_3_kills <- GetRoundKills(player)
         }
@@ -201,7 +201,7 @@ function EndRound(winner)
             local player = leaderboard[1][0]
             event_data.player_2 <- ent_index
             event_data.player_2_damage <- leaderboard[1][1]
-            event_data.player_2_lifetime <- GetDeathTime(player)
+            event_data.player_2_lifetime <- GetLifetime(player)
             event_data.player_2_healing <- GetRoundHealing(player)
             event_data.player_2_kills <- GetRoundKills(player)
         }
@@ -211,7 +211,7 @@ function EndRound(winner)
             local player = leaderboard[0][0]
             event_data.player_1 <- leaderboard[0][0].entindex()
             event_data.player_1_damage <- leaderboard[0][1]
-            event_data.player_1_lifetime <- GetDeathTime(player)
+            event_data.player_1_lifetime <- GetLifetime(player)
             event_data.player_1_healing <- GetRoundHealing(player)
             event_data.player_1_kills <- GetRoundKills(player)
         }
@@ -248,7 +248,7 @@ function IsValidRoundPreStart()
     return isRoundSetup;
 }
 
-function IsRoundOver()
+::IsRoundOver <- function()
 {
     return isRoundOver;
 }

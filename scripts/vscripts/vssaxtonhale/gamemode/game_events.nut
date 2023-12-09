@@ -217,3 +217,14 @@ function OnGameEvent_player_activate(params)
         return;
     FireListeners("connect", player);
 }
+
+function OnGameEvent_player_stunned(params)
+{
+    local attacker = GetPlayerFromParams(params, "stunner");
+    if (!IsValidClient(attacker))
+        return;
+    local victim = GetPlayerFromParams(params, "victim");
+    if (!IsValidClient(victim))
+        return;
+    FireListeners("player_stunned", attacker, victim, params.big_stun);
+}

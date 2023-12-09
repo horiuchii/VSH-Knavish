@@ -21,7 +21,7 @@
     }
     else
     {
-        local className = TF_CLASS_NAMES[player.GetPlayerClass()];
+        local className = TFClass.names[player.GetPlayerClass()];
         if (className != null)
             return className;
     }

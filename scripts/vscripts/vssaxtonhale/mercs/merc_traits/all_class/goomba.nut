@@ -43,6 +43,8 @@ mercTraitsLibrary.push(class extends MercenaryTrait
                 velocity.z = bounceHeight;
                 SetPropVector(player, "m_vecAbsVelocity", velocity);
             });
+
+            FireListeners("goomba", player);
         }
 
         lastFallVelocity = GetPropFloat(player, "m_Local.m_flFallVelocity");

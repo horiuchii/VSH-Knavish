@@ -14,7 +14,7 @@ enum BOSSDIFFICULTY_ITEMS {
     Impossible
 }
 
-function SetBossDifficulty(player, difficulty)
+::SetBossDifficulty <- function(player, difficulty)
 {
     if(IsBoss(player) && !IsRoundSetup())
     {

@@ -25,6 +25,7 @@ Include("/give_tf_weapon/_master.nut");
 // These must be included first and in order!
 Include("/util/constants.nut");
 Include("/util/listeners.nut");
+Include("/util/tfclass_util.nut")
 Include("/util/player_util.nut");
 Include("/util/character_trait.nut");
 Include("/playertypes/player_type.nut");
@@ -32,6 +33,7 @@ Include("/vsh_api.nut");
 
 // Order doesn't matter
 Include("/cookies/player_cookies.nut");
+Include("/cookies/stat_tracking.nut");
 
 Include("/util/entities.nut");
 Include("/util/netprops.nut");

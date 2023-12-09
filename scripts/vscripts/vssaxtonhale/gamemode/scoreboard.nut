@@ -93,7 +93,7 @@ AddListener("death", 5, function (attacker, player, params)
     SetPlayerDeathTime(player);
 })
 
-function GetDeathTime(player)
+function GetLifetime(player)
 {
     if (player.IsAlive())
     {
