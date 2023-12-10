@@ -1,77 +1,124 @@
-menus[MENU.StatsMerc] <- (class extends Menu
+menus[MENU.StatsMerc] <- class extends Menu
 {
     items = {}
     overlay = "stats_merc"
     parent_menu = MENU.Stats
     parent_menuitem = STATS_ITEMS.Merc
-})();
+}();
 
-enum STATSMERC_ITEMS {
-    Scout
-    Soldier
-    Pyro
-    Demo
-    Heavy
-    Engi
-    Medic
-    Sniper
-    Spy
-}
-
-::specificstat_classes <- {
-    ["backstabs"] = (class extends MenuItem
+::GeneralStatTemplates <-
+{
+    ["lifetime"] = class extends MenuItem
     {
-        title = "Boss Backstabs"
-        class_id = null
+        title = "Time Alive"
+        tfclass_id = null
 
         function GenerateDesc(player)
         {
-            return "As " + TFClass.names_proper[class_id] + ", you've backstabbed the\nboss a total of " + AddCommasToNumber(Cookies.Get(player, TFClass.names_proper[class_id] + "_backstabs")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've been alive for\na total of " + FormatTime(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_lifetime")) + "\n";
         }
-    }),
-    ["headshots"] = (class extends MenuItem
+    },
+    ["damage"] = class extends MenuItem
     {
-        title = "Boss Headshots"
-        class_id = null
+        title = "Damage Dealt"
+        tfclass_id = null
 
         function GenerateDesc(player)
         {
-            return "As " + TFClass.names_proper[class_id] + ", you've headshot the\nboss a total of " + AddCommasToNumber(Cookies.Get(player, TFClass.names_proper[class_id] + "_headshots")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've dealt a total\nof " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_damage")) + " damage to the boss.\n";
         }
-    }),
-    ["glowtime"] = (class extends MenuItem
+    }
+};
+
+::SpecificTFClassStatTemplates <-
+{
+    ["backstabs"] = class extends MenuItem
     {
-        title = "Time Outlined Boss"
-        class_id = null
+        title = "Backstabs"
+        tfclass_id = null
 
         function GenerateDesc(player)
         {
-            return "As " + TFClass.names_proper[class_id] + ", you've highlighted the\nboss for " + FormatTime(Cookies.Get(player, TFClass.names_proper[class_id] + "_glowtime")) + "\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've backstabbed the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_backstabs")) + " times.\n";
         }
-    }),
-    ["moonshots"] = (class extends MenuItem
+    },
+    ["headshots"] = class extends MenuItem
     {
-        title = "Boss Moonshots"
-        class_id = null
+        title = "Headshots"
+        tfclass_id = null
 
         function GenerateDesc(player)
         {
-            return "As " + TFClass.names_proper[class_id] + ", you've moon shot\nthe boss " + AddCommasToNumber(Cookies.Get(player, TFClass.names_proper[class_id] + "_moonshots")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've headshot the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_headshots")) + " times.\n";
         }
-    }),
-    ["healing"] = (class extends MenuItem
+    },
+    ["glowtime"] = class extends MenuItem
+    {
+        title = "Boss Glow Time"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've highlighted the\nboss for " + FormatTime(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_glowtime")) + "\n";
+        }
+    },
+    ["moonshots"] = class extends MenuItem
+    {
+        title = "Moonshots"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've moon shot\nthe boss " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_moonshots")) + " times.\n";
+        }
+    },
+    ["healing"] = class extends MenuItem
     {
         title = "Healing Granted"
-        class_id = null
+        tfclass_id = null
 
         function GenerateDesc(player)
         {
-            return "As " + TFClass.names_proper[class_id] + ", you've healed your\nteam for a total of " + AddCommasToNumber(Cookies.Get(player, TFClass.names_proper[class_id] + "_healing")) + " health.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've healed your\nteam for a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_healing")) + " health.\n";
         }
-    })
-}
+    }
+};
 
-::merc_stats_enum <-
+::MiscStatTemplates <-
+{
+    ["bosskills"] = class extends MenuItem
+    {
+        title = "Final Blows"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've dealt a killing\nblow on the boss " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_bosskills")) + " times.\n";
+        }
+    },
+    ["bossgoomba"] = class extends MenuItem
+    {
+        title = "Total Stomps"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've stomped the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_bossgoomba")) + " times.\n";
+        }
+    },
+    ["wallclimbs"] = class extends MenuItem
+    {
+        title = "Total Wall Climbs"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've performed a\nwall climb a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_wallclimbs")) + " times.\n";
+        }
+    }
+};
+
+::MercStatMenus <-
 [
     MENU.StatsMercScout
     MENU.StatsMercSoldier
@@ -84,12 +131,12 @@ enum STATSMERC_ITEMS {
     MENU.StatsMercSpy
 ];
 
-foreach (i, value in merc_stats_enum)
+foreach (i, value in MercStatMenus)
 {
-    menus[MENU.StatsMerc].items[i] <- (class extends MenuItem
+    menus[MENU.StatsMerc].items[i] <- class extends MenuItem
     {
-        class_id = i
-        title = TFClass.names_proper[i]
+        tfclass_id = i
+        title = TFClassUtil.ProperNames[i]
 
         function GenerateDesc(player)
         {
@@ -98,79 +145,37 @@ foreach (i, value in merc_stats_enum)
 
         function OnSelected(player)
         {
-            menu_index[player] <- merc_stats_enum[class_id];
+            menu_index[player] <- MercStatMenus[tfclass_id];
             selected_option[player] <- 0;
         }
-    })();
+    }();
 
-    menus[value] <- (class extends Menu
+    menus[value] <- class extends Menu
     {
         items = {};
-        overlay = "stats_merc_" + TFClass.names_proper[i];
+        overlay = "stats_merc_" + TFClassUtil.ProperNames[i];
         parent_menu = MENU.StatsMerc;
         parent_menuitem = i;
-    })();
+    }();
 
-    menus[value].items[menus[value].items.len()] <- (class extends MenuItem
-    {
-        title = "Time Alive"
-        class_id = i
-
-        function GenerateDesc(player)
-        {
-            return "As " + TFClass.names_proper[class_id] + ", you've been alive for\na total of " + FormatTime(Cookies.Get(player, TFClass.names_proper[class_id] + "_lifetime")) + "\n";
-        }
-    })();
-
-    menus[value].items[menus[value].items.len()] <- (class extends MenuItem
-    {
-        title = "Damage Dealt"
-        class_id = i
-
-        function GenerateDesc(player)
-        {
-            return "As " + TFClass.names_proper[class_id] + ", you've dealt a total\nof " + AddCommasToNumber(Cookies.Get(player, TFClass.names_proper[class_id] + "_damage")) + " damage to the boss.\n";
-        }
-    })();
-
-    //add class specific stats here
-    foreach(cookie in specificclass_stats[TFClass.names_proper[i]])
+    foreach(stat in Cookies.GeneralStats)
     {
         local insert_index = menus[value].items.len();
-        menus[value].items[insert_index] <- specificstat_classes[cookie]();
-        menus[value].items[insert_index].class_id = i;
+        menus[value].items[insert_index] <- GeneralStatTemplates[stat]();
+        menus[value].items[insert_index].tfclass_id = i;
     }
 
-    menus[value].items[menus[value].items.len()] <- (class extends MenuItem
+    foreach(stat in Cookies.SpecificTFClassStats[TFClassUtil.ProperNames[i]])
     {
-        title = "Boss Killing Blows"
-        class_id = i
+        local insert_index = menus[value].items.len();
+        menus[value].items[insert_index] <- SpecificTFClassStatTemplates[stat]();
+        menus[value].items[insert_index].tfclass_id = i;
+    }
 
-        function GenerateDesc(player)
-        {
-            return "As " + TFClass.names_proper[class_id] + ", you've dealt a killing\nblow on the boss " + AddCommasToNumber(Cookies.Get(player, TFClass.names_proper[class_id] + "_bosskills")) + " times.\n";
-        }
-    })();
-
-    menus[value].items[menus[value].items.len()] <- (class extends MenuItem
+    foreach(stat in Cookies.MiscStats)
     {
-        title = "Total Boss Stomps"
-        class_id = i
-
-        function GenerateDesc(player)
-        {
-            return "As " + TFClass.names_proper[class_id] + ", you've stomped the\nboss a total of " + AddCommasToNumber(Cookies.Get(player, TFClass.names_proper[class_id] + "_bossgoomba")) + " times.\n";
-        }
-    })();
-
-    menus[value].items[menus[value].items.len()] <- (class extends MenuItem
-    {
-        title = "Total Wall Climbs"
-        class_id = i
-
-        function GenerateDesc(player)
-        {
-            return "As " + TFClass.names_proper[class_id] + ", you've performed a\nwall climb a total of " + AddCommasToNumber(Cookies.Get(player, TFClass.names_proper[class_id] + "_wallclimbs")) + " times.\n";
-        }
-    })();
+        local insert_index = menus[value].items.len();
+        menus[value].items[insert_index] <- MiscStatTemplates[stat]();
+        menus[value].items[insert_index].tfclass_id = i;
+    }
 }

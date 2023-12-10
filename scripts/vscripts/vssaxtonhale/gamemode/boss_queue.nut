@@ -29,7 +29,7 @@
 
 ::QueuePoints <- {}
 
-function ResetQueuePoints(player)
+::ResetQueuePoints <- function(player)
 {
     if (player in QueuePoints)
         delete QueuePoints[player];
@@ -90,7 +90,7 @@ function ProgressBossQueue(iterations = 0)
             local valid_players = [];
             foreach (i, player in GetValidPlayers())
             {
-                if(!!Cookies.Get(player, "become_boss"))
+                if(!!CookieUtil.Get(player, "become_boss"))
                 {
                     valid_players.append(player)
                 }
@@ -126,7 +126,7 @@ AddListener("round_end", 1, function (winner)
 {
     foreach (player in GetValidMercs())
     {
-        if(!!!Cookies.Get(player, "become_boss"))
+        if(!!!CookieUtil.Get(player, "become_boss"))
             continue;
 
         SetQueuePoints(player, GetQueuePoints(player) + ConvertRoundPerformanceToPoints(player));
@@ -142,7 +142,7 @@ AddListener("round_end", 100, function (winner)
 
     foreach (player in GetValidMercs())
     {
-        if(!!!Cookies.Get(player, "become_boss"))
+        if(!!!CookieUtil.Get(player, "become_boss"))
         {
             PrintToClient(player, KNA_VSH + "You didn't gain any points due your preference to not become the boss.");
             continue;

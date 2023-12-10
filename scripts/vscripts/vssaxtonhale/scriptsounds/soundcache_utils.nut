@@ -20,7 +20,7 @@ function PrecacheVoiceLineSoundScripts()
             PrecacheScriptSound(name + "." + sound);
         }
 
-        foreach (name in TFClass.names)
+        foreach (name in TFClassUtil.CacheNames)
         {
             PrecacheScriptSound(name + "." + sound);
         }

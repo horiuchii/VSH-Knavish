@@ -1,130 +1,162 @@
-::PlayerBannedSaving <- {}
+class Cookies
+{
+    PlayerData = {}
+    PlayerBannedSaving = {}
+    loaded_cookies = false
 
-::CookieTable <- {
-    ["become_boss"] =
+    Table =
     {
-        default_value = 1
-    },
-    ["boss"] =
-    {
-        default_value = "saxton_hale"
-    },
-    ["difficulty"] =
-    {
-        default_value = 0
-    },
-    ["custom_vo"] =
-    {
-        default_value = 1
+        ["become_boss"] =
+        {
+            default_value = 1
+        },
+        ["boss"] =
+        {
+            default_value = "saxton_hale"
+        },
+        ["difficulty"] =
+        {
+            default_value = 0
+        },
+        ["custom_vo"] =
+        {
+            default_value = 1
+        }
     }
-}
 
-//stat cookies
-::allclass_stats <- [
-    "lifetime"
-    "damage"
-    "bosskills"
-    "wallclimbs"
-    "bossgoomba"
-]
-
-::specificclass_stats <- {
-    ["Scout"] = [
-        "healing"
-        "moonshots"
-    ],
-    ["Soldier"] = [
-        "healing"
-    ],
-    ["Pyro"] = [],
-    ["Demoman"] = [],
-    ["Heavy"] = [
-        "healing"
-    ],
-    ["Engineer"] = [
-        "healing"
-    ],
-    ["Medic"] = [
-        "healing"
-    ],
-    ["Sniper"] = [
-        "headshots"
-        "glowtime"
-    ],
-    ["Spy"] = [
-        "backstabs"
+    GeneralStats =
+    [
+        "lifetime"
+        "damage"
     ]
-}
 
-foreach(class_name, cookie_array in specificclass_stats)
-{
-    foreach(cookie in cookie_array)
+    SpecificTFClassStats =
     {
-        CookieTable[class_name + "_" + cookie] <- {default_value = 0};
-        CookieTable["total_" + cookie] <- {default_value = 0};
+        ["Scout"] =
+        [
+            "healing"
+            "moonshots"
+        ],
+        ["Soldier"] =
+        [
+            "healing"
+        ],
+        ["Pyro"] = [],
+        ["Demoman"] = [],
+        ["Heavy"] =
+        [
+            "healing"
+        ],
+        ["Engineer"] =
+        [
+            "healing"
+        ],
+        ["Medic"] =
+        [
+            "healing"
+        ],
+        ["Sniper"] =
+        [
+            "headshots"
+            "glowtime"
+        ],
+        ["Spy"] =
+        [
+            "backstabs"
+        ]
+    }
+
+    MiscStats =
+    [
+        "bosskills"
+        "wallclimbs"
+        "bossgoomba"
+    ]
+
+    function constructor()
+    {
+        foreach(stat_name in GeneralStats)
+        {
+            Table["total_" + stat_name] <- {default_value = 0};
+        }
+
+        foreach(stat_name in MiscStats)
+        {
+            Table["total_" + stat_name] <- {default_value = 0};
+        }
+
+        foreach (i, tfclass_name in TFClassUtil.ProperNames)
+        {
+            foreach(stat_name in GeneralStats)
+            {
+                Table[tfclass_name + "_" + stat_name] <- {default_value = 0};
+            }
+        }
+
+        foreach(tfclass_name, cookie_array in SpecificTFClassStats)
+        {
+            foreach(cookie in cookie_array)
+            {
+                Table[tfclass_name + "_" + cookie] <- {default_value = 0};
+                Table["total_" + cookie] <- {default_value = 0};
+            }
+        }
+
+        foreach (i, tfclass_name in TFClassUtil.ProperNames)
+        {
+            foreach(stat_name in MiscStats)
+            {
+                Table[tfclass_name + "_" + stat_name] <- {default_value = 0};
+            }
+        }
     }
 }
+::Cookies <- Cookies();
 
-foreach(stat_name in allclass_stats)
+class CookieUtil
 {
-    CookieTable["total_" + stat_name] <- {default_value = 0};
-}
-
-foreach (i, value in TFClass.names_proper)
-{
-    foreach(stat_name in allclass_stats)
-    {
-        CookieTable[value + "_" + stat_name] <- {default_value = 0};
-    }
-}
-
-class CookiesManager
-{
-    PlayerCookies = {}
-    loaded_cookies = false;
-
     function Get(player, cookie)
     {
-        return PlayerCookies[player.entindex()][cookie];
+        return Cookies.PlayerData[player.entindex()][cookie];
     }
 
     function Set(player, cookie, value, save = true)
     {
-        PlayerCookies[player.entindex()][cookie] <- value;
+        Cookies.PlayerData[player.entindex()][cookie] <- value;
 
         if(save)
         {
-            SetPersistentVar("player_cookies", PlayerCookies);
+            SetPersistentVar("player_cookies", Cookies.PlayerData);
             SavePlayerData(player);
         }
 
-        return PlayerCookies[player.entindex()][cookie];
+        return Cookies.PlayerData[player.entindex()][cookie];
     }
 
     function Add(player, cookie, value, save = true)
     {
-        PlayerCookies[player.entindex()][cookie] <- PlayerCookies[player.entindex()][cookie] + value;
+        Cookies.PlayerData[player.entindex()][cookie] <- Cookies.PlayerData[player.entindex()][cookie] + value;
 
         if(save)
         {
-            SetPersistentVar("player_cookies", PlayerCookies);
+            SetPersistentVar("player_cookies", Cookies.PlayerData);
             SavePlayerData(player);
         }
 
-        return PlayerCookies[player.entindex()][cookie];
+        return Cookies.PlayerData[player.entindex()][cookie];
     }
 
     function Reset(player)
     {
         local default_cookies = {};
-        foreach (name, cookie in CookieTable)
+        foreach (name, cookie in Cookies.Table)
         {
             default_cookies[name] <- cookie.default_value;
         }
 
-        PlayerCookies[player.entindex()] <- default_cookies;
+        Cookies.PlayerData[player.entindex()] <- default_cookies;
 
-        SetPersistentVar("player_cookies", PlayerCookies);
+        SetPersistentVar("player_cookies", Cookies.PlayerData);
     }
 
     function CreateCache(player)
@@ -133,12 +165,15 @@ class CookiesManager
 
         if(!GetPlayerAccountID(player))
         {
-            PlayerBannedSaving[GetPlayerUserID(player)] <- true;
+            Cookies.PlayerBannedSaving[GetPlayerUserID(player)] <- true;
             PrintToClient(player, KNA_VSH + "Something went wrong when trying to get your cookies. Rejoining may fix.");
             return;
         }
 
-        if(!loaded_cookies) LoadPersistentCookies();
+        if(!Cookies.loaded_cookies)
+        {
+            LoadPersistentCookies();
+        }
 
         LoadPlayerData(player)
     }
@@ -147,14 +182,14 @@ class CookiesManager
     {
         local cookies_to_load = GetPersistentVar("player_cookies", null);
         if(cookies_to_load)
-            PlayerCookies = cookies_to_load;
+            Cookies.PlayerData = cookies_to_load;
 
-        loaded_cookies = true;
+        Cookies.loaded_cookies = true;
     }
 
     function SavePlayerData(player)
     {
-        if(GetPlayerUserID(player) in PlayerBannedSaving)
+        if(GetPlayerUserID(player) in Cookies.PlayerBannedSaving)
         {
             PrintToClient(player, KNA_VSH + "Refusing to save your cookies due to a previous error. Rejoining may fix.");
             return;
@@ -162,9 +197,9 @@ class CookiesManager
 
         local save = "";
 
-        foreach (name, cookie in CookieTable)
+        foreach (name, cookie in Cookies.Table)
         {
-            local cookie_value = Cookies.Get(player, name);
+            local cookie_value = CookieUtil.Get(player, name);
 
             switch(type(cookie_value))
             {
@@ -181,7 +216,7 @@ class CookiesManager
 
     function LoadPlayerData(player)
     {
-        if(GetPlayerUserID(player) in PlayerBannedSaving)
+        if(GetPlayerUserID(player) in Cookies.PlayerBannedSaving)
         {
             PrintToClient(player, KNA_VSH + "Refusing to load your cookies due to a previous error. Rejoining may fix.");
             return;
@@ -200,18 +235,18 @@ class CookiesManager
                 local entry_array = split(save_entry, ",");
                 local key_buffer = entry_array[0];
                 local value_buffer = entry_array[1];
-                if(key_buffer in CookieTable)
+                if(key_buffer in Cookies.Table)
                 {
-                    switch(type(CookieTable[key_buffer].default_value))
+                    switch(type(Cookies.Table[key_buffer].default_value))
                     {
                         case "string": value_buffer = value_buffer.tostring(); break;
                         case "integer": value_buffer = value_buffer.tointeger(); break;
                     }
-                    Cookies.Set(player, key_buffer, value_buffer, false);
+                    CookieUtil.Set(player, key_buffer, value_buffer, false);
                 }
             }
 
-            SetPersistentVar("player_cookies", PlayerCookies);
+            SetPersistentVar("player_cookies", Cookies.PlayerData);
             return true;
         }
         catch(exception)
@@ -233,4 +268,4 @@ class CookiesManager
         return option_setting + "\n";
     }
 }
-::Cookies <- CookiesManager();
+::CookieUtil <- CookieUtil();

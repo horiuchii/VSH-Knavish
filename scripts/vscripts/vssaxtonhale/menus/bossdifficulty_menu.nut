@@ -1,12 +1,13 @@
-menus[MENU.BossDifficulty] <- (class extends Menu
+menus[MENU.BossDifficulty] <- class extends Menu
 {
     items = {};
     overlay = "boss_difficulty";
     parent_menu = MENU.MainMenu
     parent_menuitem = MAINMENU_ITEMS.BossDifficulty
-})();
+}();
 
-enum BOSSDIFFICULTY_ITEMS {
+enum BOSSDIFFICULTY_ITEMS
+{
     Easy
     Normal
     Hard
@@ -34,12 +35,12 @@ enum BOSSDIFFICULTY_ITEMS {
     }
 
     PrintToClient(player, KNA_VSH + message);
-    Cookies.Set(player, "difficulty", difficulty);
+    CookieUtil.Set(player, "difficulty", difficulty);
     GoUpVSHMenuDir(player, false);
 }
 
 //Boss Difficulty - Easy
-menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Easy] <- (class extends MenuItem {
+menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Easy] <- class extends MenuItem {
     title = "Easy"
 
     function GenerateDesc(player)
@@ -51,10 +52,10 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Easy] <- (class extends Me
     {
         SetBossDifficulty(player, -1);
     }
-})();
+}();
 
 //Boss Difficulty - Normal
-menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Normal] <- (class extends MenuItem {
+menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Normal] <- class extends MenuItem {
     title = "Normal"
 
     function GenerateDesc(player)
@@ -66,10 +67,10 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Normal] <- (class extends 
     {
         SetBossDifficulty(player, 0);
     }
-})();
+}();
 
 //Boss Difficulty - Hard
-menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Hard] <- (class extends MenuItem {
+menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Hard] <- class extends MenuItem {
     title = "Hard"
 
     function GenerateDesc(player)
@@ -81,10 +82,10 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Hard] <- (class extends Me
     {
         SetBossDifficulty(player, 1);
     }
-})();
+}();
 
 //Boss Difficulty - Extreme
-menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Extreme] <- (class extends MenuItem {
+menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Extreme] <- class extends MenuItem {
     title = "Extreme"
 
     function GenerateDesc(player)
@@ -96,10 +97,10 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Extreme] <- (class extends
     {
         SetBossDifficulty(player, 2);
     }
-})();
+}();
 
 //Boss Difficulty - Impossible
-menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Impossible] <- (class extends MenuItem {
+menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Impossible] <- class extends MenuItem {
     title = "Impossible"
 
     function GenerateDesc(player)
@@ -111,4 +112,4 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Impossible] <- (class exte
     {
         SetBossDifficulty(player, 3);
     }
-})();
+}();

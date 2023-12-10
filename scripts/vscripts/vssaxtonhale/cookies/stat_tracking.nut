@@ -1,4 +1,5 @@
-::TrackedStats <- {
+::TrackedStats <-
+{
     ["wallclimb"] = {},
     ["goomba"] = {},
     ["bosskills"] = {},
@@ -21,7 +22,7 @@
     if(!(player in TrackedStats[stat]))
         TrackedStats[stat][player] <- 0;
 
-    TrackedStats[stat][player] <- TrackedStats[stat][player] + amount;
+    TrackedStats[stat][player] += amount;
 }
 
 AddListener("wall_climb", 0, function (player, hits, quickFixLink)
@@ -106,43 +107,42 @@ AddListener("round_end", 100, function (winner)
     {
         if(!IsBoss(player))
         {
-            local class_cookieid = TFClass.GetProperClassName(player.GetPlayerClass());
+            local tfclass_name = TFClassUtil.GetProperClassName(player.GetPlayerClass());
 
-            if(class_cookieid == null)
+            if(tfclass_name == null)
                 continue;
 
-            Cookies.Add(player, class_cookieid + "_lifetime", GetLifetime(player).tointeger(), false)
-            Cookies.Add(player, class_cookieid + "_damage", GetRoundDamage(player), false)
-            Cookies.Add(player, class_cookieid + "_bosskills", GetTrackedStat(player, "bosskills"), false)
-            Cookies.Add(player, class_cookieid + "_wallclimbs", GetTrackedStat(player, "wallclimb"), false)
-            Cookies.Add(player, class_cookieid + "_bossgoomba", GetTrackedStat(player, "goomba"), false)
+            CookieUtil.Add(player, tfclass_name + "_lifetime", GetLifetime(player).tointeger(), false)
+            CookieUtil.Add(player, tfclass_name + "_damage", GetRoundDamage(player), false)
+            CookieUtil.Add(player, tfclass_name + "_bosskills", GetTrackedStat(player, "bosskills"), false)
+            CookieUtil.Add(player, tfclass_name + "_wallclimbs", GetTrackedStat(player, "wallclimb"), false)
+            CookieUtil.Add(player, tfclass_name + "_bossgoomba", GetTrackedStat(player, "goomba"), false)
 
             //todo save only for specific classes
-            foreach(cookie in specificclass_stats[class_cookieid])
+            foreach(stat in Cookies.SpecificTFClassStats[tfclass_name])
             {
-                switch(cookie)
+                switch(stat)
                 {
-                    case "healing": Cookies.Add(player, class_cookieid + "_healing", GetRoundHealing(player), false); break;
-                    case "backstabs": Cookies.Add(player, class_cookieid + "_backstabs", GetTrackedStat(player, "backstabs"), false); break;
-                    case "headshots": Cookies.Add(player, class_cookieid + "_headshots", GetTrackedStat(player, "headshots"), false); break;
-                    case "glowtime": Cookies.Add(player, class_cookieid + "_glowtime", GetTrackedStat(player, "glowtime"), false); break;
-                    case "moonshots": Cookies.Add(player, class_cookieid + "_moonshots", GetTrackedStat(player, "moonshots"), false); break;
+                    case "healing": CookieUtil.Add(player, tfclass_name + "_healing", GetRoundHealing(player), false); break;
+                    case "backstabs": CookieUtil.Add(player, tfclass_name + "_backstabs", GetTrackedStat(player, "backstabs"), false); break;
+                    case "headshots": CookieUtil.Add(player, tfclass_name + "_headshots", GetTrackedStat(player, "headshots"), false); break;
+                    case "glowtime": CookieUtil.Add(player, tfclass_name + "_glowtime", GetTrackedStat(player, "glowtime"), false); break;
+                    case "moonshots": CookieUtil.Add(player, tfclass_name + "_moonshots", GetTrackedStat(player, "moonshots"), false); break;
                 }
             }
 
-            Cookies.Add(player, "total_lifetime", GetLifetime(player).tointeger(), false)
-            Cookies.Add(player, "total_damage", GetRoundDamage(player), false)
-            Cookies.Add(player, "total_healing", GetRoundHealing(player), false)
-            Cookies.Add(player, "total_bosskills", GetTrackedStat(player, "bosskills"), false)
-            Cookies.Add(player, "total_wallclimbs", GetTrackedStat(player, "wallclimb"), false)
-            Cookies.Add(player, "total_bossgoomba", GetTrackedStat(player, "goomba"), false)
-            Cookies.Add(player, "total_backstabs", GetTrackedStat(player, "backstabs"), false)
-            Cookies.Add(player, "total_headshots", GetTrackedStat(player, "headshots"), false)
-            Cookies.Add(player, "total_glowtime", GetTrackedStat(player, "glowtime"), false)
-            Cookies.Add(player, "total_moonshots", GetTrackedStat(player, "moonshots"), false)
+            CookieUtil.Add(player, "total_lifetime", GetLifetime(player).tointeger(), false)
+            CookieUtil.Add(player, "total_damage", GetRoundDamage(player), false)
+            CookieUtil.Add(player, "total_healing", GetRoundHealing(player), false)
+            CookieUtil.Add(player, "total_bosskills", GetTrackedStat(player, "bosskills"), false)
+            CookieUtil.Add(player, "total_wallclimbs", GetTrackedStat(player, "wallclimb"), false)
+            CookieUtil.Add(player, "total_bossgoomba", GetTrackedStat(player, "goomba"), false)
+            CookieUtil.Add(player, "total_backstabs", GetTrackedStat(player, "backstabs"), false)
+            CookieUtil.Add(player, "total_headshots", GetTrackedStat(player, "headshots"), false)
+            CookieUtil.Add(player, "total_glowtime", GetTrackedStat(player, "glowtime"), false)
+            CookieUtil.Add(player, "total_moonshots", GetTrackedStat(player, "moonshots"), false)
 
-
-            Cookies.SavePlayerData(player);
+            CookieUtil.SavePlayerData(player);
         }
     }
 });

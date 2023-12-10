@@ -21,12 +21,12 @@
     }
     else
     {
-        local className = TFClass.names[player.GetPlayerClass()];
+        local className = TFClassUtil.GetClassCacheString(player.GetPlayerClass());
         if (className != null)
             return className;
     }
 
-    return "generic";
+    return TFClassUtil.CacheNames[0];
 }
 
 ::MedicsAtStart <- function()
@@ -85,7 +85,7 @@ function PlaySoundForAll(soundScript)
 
     foreach (potential_target in GetValidClients())
     {
-        if (!!!Cookies.Get(potential_target, "custom_vo"))
+        if (!!!CookieUtil.Get(potential_target, "custom_vo"))
         {
             SetPropVector(potential_target, "m_vecViewOffset", vec3_offset);
             deaf_clients.append(potential_target);

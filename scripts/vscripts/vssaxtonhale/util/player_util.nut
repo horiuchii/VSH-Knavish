@@ -214,7 +214,7 @@
     lastButtons[player] <- 0;
 
     // Cookies
-    Cookies.CreateCache(player);
+    CookieUtil.CreateCache(player);
 
     // Menu
     last_press_menu_button[player] <- 0;

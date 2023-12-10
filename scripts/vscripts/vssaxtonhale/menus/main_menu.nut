@@ -1,10 +1,11 @@
-menus[MENU.MainMenu] <- (class extends Menu
+menus[MENU.MainMenu] <- class extends Menu
 {
     items = {};
     overlay = "main_menu";
-})();
+}();
 
-enum MAINMENU_ITEMS {
+enum MAINMENU_ITEMS
+{
     BecomeBoss
     ResetQueue
     BossDifficulty
@@ -14,17 +15,18 @@ enum MAINMENU_ITEMS {
 }
 
 //Toggle Boss
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.BecomeBoss] <- (class extends MenuItem {
+menus[MENU.MainMenu].items[MAINMENU_ITEMS.BecomeBoss] <- class extends MenuItem
+{
     title = "Toggle Become Boss"
 
     function GenerateDesc(player)
     {
-        return Cookies.MakeGenericCookieString(player, "become_boss") + "Toggle the ability to gain queue points.\nTurning off will remove any existing points.";
+        return CookieUtil.MakeGenericCookieString(player, "become_boss") + "Toggle the ability to gain queue points.\nTurning off will remove any existing points.";
     }
 
     function OnSelected(player)
     {
-        local can_be_boss = Cookies.Set(player, "become_boss", !!!Cookies.Get(player, "become_boss").tointeger());
+        local can_be_boss = CookieUtil.Set(player, "become_boss", !!!CookieUtil.Get(player, "become_boss").tointeger());
         local message = "";
 
         if(can_be_boss)
@@ -34,10 +36,11 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.BecomeBoss] <- (class extends MenuItem
 
         PrintToClient(player, KNA_VSH + message);
     }
-})();
+}();
 
 //Reset Queue
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.ResetQueue] <- (class extends MenuItem {
+menus[MENU.MainMenu].items[MAINMENU_ITEMS.ResetQueue] <- class extends MenuItem
+{
     title = "Reset Queue Points"
 
     function GenerateDesc(player)
@@ -56,15 +59,16 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.ResetQueue] <- (class extends MenuItem
         ResetQueuePoints(player);
         PrintToClient(player, KNA_VSH + "Your queue points have been reset.");
     }
-})();
+}();
 
 //Open Difficulty Menu
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossDifficulty] <- (class extends MenuItem {
+menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossDifficulty] <- class extends MenuItem
+{
     title = "Set Boss Difficulty"
 
     function GenerateDesc(player)
     {
-        local option_setting = Cookies.Get(player, "difficulty");
+        local option_setting = CookieUtil.Get(player, "difficulty");
         switch(option_setting)
         {
             case DIFFICULTY.EASY: option_setting = "[EASY]"; break;
@@ -80,27 +84,29 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossDifficulty] <- (class extends Menu
     function OnSelected(player)
     {
         menu_index[player] <- MENU.BossDifficulty;
-        selected_option[player] <- Cookies.Get(player, "difficulty") + 1;
+        selected_option[player] <- CookieUtil.Get(player, "difficulty") + 1;
     }
-})();
+}();
 
 //Open Boss Menu
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossChoose] <- (class extends MenuItem {
+menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossChoose] <- class extends MenuItem
+{
     title = "Set Preferred Boss"
 
     function GenerateDesc(player)
     {
-        return Cookies.MakeGenericCookieString(player, "boss") + "Choose who you would like to play as when\nchosen as the boss. (More coming soon)";
+        return CookieUtil.MakeGenericCookieString(player, "boss") + "Choose who you would like to play as when\nchosen as the boss. (More coming soon)";
     }
 
     function OnSelected(player)
     {
         PrintToClient(player, KNA_VSH + "Coming Soon!");
     }
-})();
+}();
 
 //View VSH Stats
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.Stats] <- (class extends MenuItem {
+menus[MENU.MainMenu].items[MAINMENU_ITEMS.Stats] <- class extends MenuItem
+{
     title = "View Performance Report"
 
     function GenerateDesc(player)
@@ -113,10 +119,11 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.Stats] <- (class extends MenuItem {
         menu_index[player] <- MENU.Stats;
         selected_option[player] <- 0;
     }
-})();
+}();
 
 //View VSH Achievements
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.Achievement] <- (class extends MenuItem {
+menus[MENU.MainMenu].items[MAINMENU_ITEMS.Achievement] <- class extends MenuItem
+{
     title = "View Achievements"
 
     function GenerateDesc(player)
@@ -128,4 +135,4 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.Achievement] <- (class extends MenuIte
     {
         PrintToClient(player, KNA_VSH + "Coming Soon!");
     }
-})();
+}();

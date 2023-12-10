@@ -99,7 +99,7 @@ class MightySlamTrait extends BossTrait
             function (target, deltaVector, distance, InLOS, ZDiff) {
                 local damage = target.GetMaxHealth() * (1 - distance / radius);
 
-                switch(Cookies.Get(boss, "difficulty"))
+                switch(CookieUtil.Get(boss, "difficulty"))
                 {
                     case DIFFICULTY.NORMAL: damage -= (damage * 0.2); break;
                     case DIFFICULTY.HARD: damage -= (damage * 0.4); break;

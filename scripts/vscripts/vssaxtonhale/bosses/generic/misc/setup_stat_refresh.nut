@@ -23,7 +23,7 @@
 {
     local maxHealth = CalcBossMaxHealth(GetValidPlayerCount() - 1);
 
-    switch(Cookies.Get(boss, "difficulty"))
+    switch(CookieUtil.Get(boss, "difficulty"))
     {
         case DIFFICULTY.EASY: maxHealth += (maxHealth * 0.2); break;
         case DIFFICULTY.HARD: maxHealth -= (maxHealth * 0.2); break;
