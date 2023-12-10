@@ -21,12 +21,12 @@
     }
     else
     {
-        local className = TFClassUtil.GetClassCacheString(player.GetPlayerClass());
+        local className = TFClassUtil.GetCacheString(player.GetPlayerClass());
         if (className != null)
             return className;
     }
 
-    return TFClassUtil.CacheNames[0];
+    return null;
 }
 
 ::MedicsAtStart <- function()

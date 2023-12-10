@@ -15,7 +15,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've been alive for\na total of " + FormatTime(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_lifetime")) + "\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've been alive for\na total of " + FormatTime(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_lifetime")) + "\n";
         }
     },
     ["damage"] = class extends MenuItem
@@ -25,7 +25,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've dealt a total\nof " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_damage")) + " damage to the boss.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've dealt a total\nof " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_damage")) + " damage to the boss.\n";
         }
     }
 };
@@ -39,7 +39,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've backstabbed the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_backstabs")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've backstabbed the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_backstabs")) + " times.\n";
         }
     },
     ["headshots"] = class extends MenuItem
@@ -49,7 +49,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've headshot the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_headshots")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've headshot the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_headshots")) + " times.\n";
         }
     },
     ["glowtime"] = class extends MenuItem
@@ -59,7 +59,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've highlighted the\nboss for " + FormatTime(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_glowtime")) + "\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've highlighted the\nboss for " + FormatTime(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_glowtime")) + "\n";
         }
     },
     ["moonshots"] = class extends MenuItem
@@ -69,7 +69,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've moon shot\nthe boss " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_moonshots")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've moon shot\nthe boss " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_moonshots")) + " times.\n";
         }
     },
     ["healing"] = class extends MenuItem
@@ -79,7 +79,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've healed your\nteam for a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_healing")) + " health.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've healed your\nteam for a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_healing")) + " health.\n";
         }
     }
 };
@@ -93,7 +93,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've dealt a killing\nblow on the boss " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_bosskills")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've dealt a killing\nblow on the boss " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_bosskills")) + " times.\n";
         }
     },
     ["bossgoomba"] = class extends MenuItem
@@ -103,7 +103,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've stomped the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_bossgoomba")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've stomped the\nboss a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_bossgoomba")) + " times.\n";
         }
     },
     ["wallclimbs"] = class extends MenuItem
@@ -113,7 +113,7 @@ menus[MENU.StatsMerc] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've performed a\nwall climb a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.ProperNames[tfclass_id] + "_wallclimbs")) + " times.\n";
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've performed a\nwall climb a total of " + AddCommasToNumber(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_wallclimbs")) + " times.\n";
         }
     }
 };
@@ -153,7 +153,7 @@ foreach (i, value in MercStatMenus)
     menus[value] <- class extends Menu
     {
         items = {};
-        overlay = "stats_merc_" + TFClassUtil.ProperNames[i];
+        overlay = "stats_merc_" + TFClassUtil.CacheNames[i];
         parent_menu = MENU.StatsMerc;
         parent_menuitem = i;
     }();
@@ -165,7 +165,7 @@ foreach (i, value in MercStatMenus)
         menus[value].items[insert_index].tfclass_id = i;
     }
 
-    foreach(stat in Cookies.SpecificTFClassStats[TFClassUtil.ProperNames[i]])
+    foreach(stat in Cookies.SpecificTFClassStats[TFClassUtil.CacheNames[i]])
     {
         local insert_index = menus[value].items.len();
         menus[value].items[insert_index] <- SpecificTFClassStatTemplates[stat]();

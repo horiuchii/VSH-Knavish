@@ -32,35 +32,35 @@ class Cookies
 
     SpecificTFClassStats =
     {
-        ["Scout"] =
+        ["scout"] =
         [
             "healing"
             "moonshots"
         ],
-        ["Soldier"] =
+        ["soldier"] =
         [
             "healing"
         ],
-        ["Pyro"] = [],
-        ["Demoman"] = [],
-        ["Heavy"] =
+        ["pyro"] = [],
+        ["demo"] = [],
+        ["heavy"] =
         [
             "healing"
         ],
-        ["Engineer"] =
+        ["engineer"] =
         [
             "healing"
         ],
-        ["Medic"] =
+        ["medic"] =
         [
             "healing"
         ],
-        ["Sniper"] =
+        ["sniper"] =
         [
             "headshots"
             "glowtime"
         ],
-        ["Spy"] =
+        ["spy"] =
         [
             "backstabs"
         ]
@@ -85,7 +85,7 @@ class Cookies
             Table["total_" + stat_name] <- {default_value = 0};
         }
 
-        foreach (i, tfclass_name in TFClassUtil.ProperNames)
+        foreach (i, tfclass_name in TFClassUtil.CacheNames)
         {
             foreach(stat_name in GeneralStats)
             {
@@ -102,7 +102,7 @@ class Cookies
             }
         }
 
-        foreach (i, tfclass_name in TFClassUtil.ProperNames)
+        foreach (i, tfclass_name in TFClassUtil.CacheNames)
         {
             foreach(stat_name in MiscStats)
             {

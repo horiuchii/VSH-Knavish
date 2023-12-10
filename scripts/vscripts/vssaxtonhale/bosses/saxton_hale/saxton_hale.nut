@@ -26,11 +26,11 @@ class SaxtonHale extends Boss
     color = "255 230 0";
     tfclass = TF_CLASS_HEAVY;
 
-    function OnApply0Delay()
+    function OnCreationPre()
     {
         player.SetPlayerClass(TF_CLASS_HEAVY);
         player.Regenerate(true);
-        base.OnApply0Delay();
+        base.OnCreationPre();
         CreateBoss();
     }
 

@@ -27,10 +27,10 @@ class Boss extends PlayerType
     {
         boss = player;
         player.ForceRespawn();
-        RunWithDelay2(this, 0, OnApply0Delay);
+        RunWithDelay2(this, 0, OnCreationPre);
     }
 
-    function OnApply0Delay()
+    function OnCreationPre()
     {
         foreach (traitClass in traitLibrary[name])
             traitClass().ApplyTrait(player);

@@ -81,7 +81,6 @@ AddListener("hitmans_glow", 0, function (attacker, victim, length)
         return;
 
     AddToTrackedStat(attacker, "glowtime", length.tointeger());
-    printl("adding " + length.tointeger() + " glow")
 });
 
 AddListener("player_stunned", 0, function (attacker, victim, big_stun)
@@ -107,7 +106,7 @@ AddListener("round_end", 100, function (winner)
     {
         if(!IsBoss(player))
         {
-            local tfclass_name = TFClassUtil.GetProperClassName(player.GetPlayerClass());
+            local tfclass_name = TFClassUtil.GetCacheString(player.GetPlayerClass());
 
             if(tfclass_name == null)
                 continue;

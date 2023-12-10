@@ -40,8 +40,7 @@ class KillVoiceLine extends BossVoiceLine
 
 AddListener("death", 10, function (attacker, victim, params)
 {
-    if (params.crit_type > 0
-        || Time() - bossKillLinesLastPlayed < (GetAliveMercCount() > 20 ? 8 : 5)
+    if (Time() - bossKillLinesLastPlayed < (GetAliveMercCount() > 20 ? 8 : 5)
         || GetAliveMercCount() == 1
         || IsBoss(victim)
         || bossKillLinesEnabled.find(attacker) == null
