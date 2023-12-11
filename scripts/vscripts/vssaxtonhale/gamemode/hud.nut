@@ -253,6 +253,15 @@ function TickBossBar(boss)
     if (boss.IsDead())
         return;
 
+    if(IsRoundSetup())
+    {
+        SetPropInt(pd_logic, "m_nBlueScore", 0);
+        SetPropInt(pd_logic, "m_nBlueTargetPoints", 0);
+        SetPropInt(pd_logic, "m_nMaxPoints", 0);
+        SetPropInt(pd_logic, "m_nRedScore", GetAliveMercCount());
+        return;
+    }
+
     if (bossBarTicker < 2)
     {
         bossBarTicker++;
