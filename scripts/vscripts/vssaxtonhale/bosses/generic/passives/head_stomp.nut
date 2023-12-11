@@ -37,7 +37,7 @@ class HeadStompTrait extends BossTrait
                     Vector(0,0,0),
                     boss.GetOrigin(),
                     195,
-                    1);
+                    DMG_CRUSH);
                 SetItemId(weapon, 5);
 
                 EmitAmbientSoundOn("Weapon_Mantreads.Impact", 8, 1, 100, victim);

@@ -73,26 +73,42 @@ class Cookies
         "bossgoomba"
     ]
 
+    BossStats =
+    [
+        "bosslifetime"
+        "merckills"
+        "headstomps"
+    ]
+
+    SpecificBossStats =
+    {
+        ["saxton_hale"] =
+        [
+            "slamkills"
+            "chargekills"
+            "bravejumpcount"
+        ]
+    }
+
     function constructor()
     {
-        foreach(stat_name in GeneralStats)
-        {
-            Table["total_" + stat_name] <- {default_value = 0};
-        }
-
-        foreach(stat_name in MiscStats)
-        {
-            Table["total_" + stat_name] <- {default_value = 0};
-        }
-
-        foreach (i, tfclass_name in TFClassUtil.CacheNames)
+        // Create Total and Per Class Cookies for General and Misc Stats
+        foreach (tfclass_name in TFClassUtil.CacheNames)
         {
             foreach(stat_name in GeneralStats)
             {
                 Table[tfclass_name + "_" + stat_name] <- {default_value = 0};
+                Table["total_" + stat_name] <- {default_value = 0};
+            }
+
+            foreach(stat_name in MiscStats)
+            {
+                Table[tfclass_name + "_" + stat_name] <- {default_value = 0};
+                Table["total_" + stat_name] <- {default_value = 0};
             }
         }
 
+        // Create Total and Per Class Cookies for Specific Stats
         foreach(tfclass_name, cookie_array in SpecificTFClassStats)
         {
             foreach(cookie in cookie_array)
@@ -102,11 +118,23 @@ class Cookies
             }
         }
 
-        foreach (i, tfclass_name in TFClassUtil.CacheNames)
+        // Create Total and Per Boss Cookies for General Boss Stats
+        foreach(bossname, bossclass in bossLibrary)
         {
-            foreach(stat_name in MiscStats)
+            foreach(stat_name in BossStats)
             {
-                Table[tfclass_name + "_" + stat_name] <- {default_value = 0};
+                Table[bossname + "_" + stat_name] <- {default_value = 0};
+                Table["total_" + stat_name] <- {default_value = 0};
+            }
+        }
+
+        // Create Total and Per Boss Cookies for Specific Stats
+        foreach(bossname, cookie_array in SpecificBossStats)
+        {
+            foreach(cookie in cookie_array)
+            {
+                Table[bossname + "_" + cookie] <- {default_value = 0};
+                Table["total_" + cookie] <- {default_value = 0};
             }
         }
     }

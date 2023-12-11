@@ -1,12 +1,19 @@
 ::TrackedStats <-
 {
+    //merc
     ["wallclimb"] = {},
     ["goomba"] = {},
     ["bosskills"] = {},
     ["backstabs"] = {},
     ["headshots"] = {},
     ["glowtime"] = {},
-    ["moonshots"] = {}
+    ["moonshots"] = {},
+    //boss
+    ["bravejump"] = {},
+    ["merckills"] = {},
+    ["chargekills"] = {},
+    ["slamkills"] = {},
+    ["stompkills"] = {}
 };
 
 ::GetTrackedStat <- function(player, stat)
@@ -43,10 +50,10 @@ AddListener("goomba", 0, function (player)
 
 AddListener("death", 0, function (attacker, victim, params)
 {
-    if(!IsBoss(victim))
-        return;
-
-    AddToTrackedStat(attacker, "bosskills");
+    if(IsBoss(victim) && IsMerc(attacker))
+        AddToTrackedStat(attacker, "bosskills");
+    else if(IsMerc(victim) && IsBoss(attacker))
+        AddToTrackedStat(attacker, "merckills");
 });
 
 AddListener("backstab", 0, function (player)
@@ -67,6 +74,22 @@ AddListener("damage_hook", 0, function (attacker, victim, params)
 
     if(attacker.GetPlayerClass() == TF_CLASS_SNIPER && params.damage_custom == TF_DMG_CUSTOM_HEADSHOT)
         AddToTrackedStat(attacker, "headshots");
+
+    //check if special boss ability attack killed here
+    if((IsMerc(victim) && IsBoss(attacker)))
+    {
+        //boss head stomp
+        if((params.damage_type & DMG_CRUSH) && params.damage >= victim.GetHealth())
+            AddToTrackedStat(attacker, "stompkills");
+
+        //saxton sweeping charge
+        if((params.damage_type & DMG_BURN) && params.damage >= victim.GetHealth())
+            AddToTrackedStat(attacker, "chargekills");
+
+        //saxton slam
+        if((params.damage_type & DMG_BLAST) && params.damage >= victim.GetHealth())
+            AddToTrackedStat(attacker, "slamkills");
+    }
 });
 
 AddListener("hitmans_glow", 0, function (attacker, victim, length)
@@ -97,6 +120,14 @@ AddListener("player_stunned", 0, function (attacker, victim, big_stun)
     AddToTrackedStat(attacker, "moonshots");
 });
 
+AddListener("bravejump", 0, function (boss)
+{
+    if(IsRoundSetup() || IsRoundOver())
+        return;
+
+    AddToTrackedStat(boss, "bravejump");
+});
+
 AddListener("round_end", 100, function (winner)
 {
     if(Convars.GetInt("sv_cheats") == 1 && IsDedicatedServer())
@@ -117,7 +148,6 @@ AddListener("round_end", 100, function (winner)
             CookieUtil.Add(player, tfclass_name + "_wallclimbs", GetTrackedStat(player, "wallclimb"), false)
             CookieUtil.Add(player, tfclass_name + "_bossgoomba", GetTrackedStat(player, "goomba"), false)
 
-            //todo save only for specific classes
             foreach(stat in Cookies.SpecificTFClassStats[tfclass_name])
             {
                 switch(stat)
@@ -142,6 +172,40 @@ AddListener("round_end", 100, function (winner)
             CookieUtil.Add(player, "total_moonshots", GetTrackedStat(player, "moonshots"), false)
 
             CookieUtil.SavePlayerData(player);
+        }
+        else //boss stats
+        {
+            local boss_name = playerType[player].name
+            CookieUtil.Add(player, boss_name + "_bosslifetime", GetLifetime(player).tointeger(), false)
+            CookieUtil.Add(player, boss_name + "_merckills", GetTrackedStat(player, "merckills"), false)
+            CookieUtil.Add(player, boss_name + "_headstomps", GetTrackedStat(player, "stompkills"), false)
+
+            foreach(stat in Cookies.SpecificBossStats[boss_name])
+            {
+                switch(stat)
+                {
+                    case "slamkills": CookieUtil.Add(player, boss_name + "_slamkills", GetTrackedStat(player, "slamkills"), false); break;
+                    case "chargekills": CookieUtil.Add(player, boss_name + "_chargekills", GetTrackedStat(player, "chargekills"), false); break;
+                    case "bravejumpcount": CookieUtil.Add(player, boss_name + "_bravejumpcount", GetTrackedStat(player, "bravejump"), false); break;
+                }
+            }
+
+            CookieUtil.Add(player, "total_bosslifetime", GetLifetime(player).tointeger(), false)
+            CookieUtil.Add(player, "total_merckills", GetTrackedStat(player, "merckills"), false)
+            CookieUtil.Add(player, "total_headstomps", GetTrackedStat(player, "stompkills"), false)
+
+            CookieUtil.SavePlayerData(player);
+        }
+    }
+});
+
+AddListener("setup_end", 0, function()
+{
+    foreach (stat in TrackedStats)
+    {
+        foreach(player in stat)
+        {
+            delete TrackedStats[stat][player]
         }
     }
 });

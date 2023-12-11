@@ -32,7 +32,6 @@ Include("/playertypes/player_type.nut");
 Include("/vsh_api.nut");
 
 // Order doesn't matter
-Include("/cookies/player_cookies.nut");
 Include("/cookies/stat_tracking.nut");
 
 Include("/util/entities.nut");
@@ -45,8 +44,6 @@ Include("/scriptsounds/soundcache_utils.nut");
 Include("/scriptsounds/scriptsound_utils.nut");
 Include("/scriptsounds/voiceline_traits.nut");
 
-Include("/menus/menus.nut");
-
 Include("/gamemode/boss_queue.nut");
 Include("/gamemode/forced_arena.nut");
 Include("/gamemode/gamerules.nut");
@@ -55,11 +52,13 @@ Include("/gamemode/hud.nut");
 Include("/gamemode/round_logic.nut");
 Include("/gamemode/scoreboard.nut");
 
-// These must be included last
+// These must be included last and in order!
 Include("/bosses/boss.nut");
 Include("/mercs/merc_traits.nut");
 Include("/shared/shared_traits.nut");
-Include("/bug_fixes/bug_fixes.nut")
+Include("/bug_fixes/bug_fixes.nut");
+Include("/cookies/player_cookies.nut");
+Include("/menus/menus.nut");
 
 try { IncludeScript("vsh_addons/main.nut"); } catch(e) { }
 

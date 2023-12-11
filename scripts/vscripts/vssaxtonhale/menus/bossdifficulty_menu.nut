@@ -36,7 +36,6 @@ enum BOSSDIFFICULTY_ITEMS
 
     PrintToClient(player, KNA_VSH + message);
     CookieUtil.Set(player, "difficulty", difficulty);
-    GoUpVSHMenuDir(player, false);
 }
 
 //Boss Difficulty - Easy

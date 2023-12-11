@@ -39,4 +39,6 @@ class MenuItem
 Include("/menus/main_menu.nut");
 Include("/menus/bossdifficulty_menu.nut");
 Include("/menus/stats/stats_menu.nut");
+Include("/menus/stats/stats_menu_general.nut");
 Include("/menus/stats/stats_menu_merc.nut");
+Include("/menus/stats/stats_menu_boss.nut");

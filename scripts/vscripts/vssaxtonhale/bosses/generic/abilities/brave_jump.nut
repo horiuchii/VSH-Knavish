@@ -141,6 +141,7 @@ class BraveJumpTrait extends BossTrait
 
         SetPropEntity(boss, "m_hGroundEntity", null);
         boss.SetAbsVelocity(currentVelocity + newVelocity);
+        FireListeners("bravejump", boss)
     }
 
 	function MeterAsPercentage()

@@ -23,6 +23,7 @@ PrecacheModel(saxton_viewmodel_path);
 class SaxtonHale extends Boss
 {
     name = "saxton_hale";
+    name_proper = "Saxton Hale";
     color = "255 230 0";
     tfclass = TF_CLASS_HEAVY;
 
