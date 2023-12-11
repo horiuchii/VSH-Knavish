@@ -32,7 +32,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
         local groundEntity = GetPropEntity(player, "m_hGroundEntity");
         if (IsBoss(groundEntity) && lastFallVelocity > requiredFallVelocity)
         {
-            groundEntity.TakeDamageEx(player, player, player.GetActiveWeapon(), Vector(0,0,0), Vector(0,0,0), groundEntity.GetHealth() * damagePercent + baseDamage, DMG_CRUSH | DMG_PREVENT_PHYSICS_FORCE);
+            groundEntity.TakeDamageEx(player, player, null, Vector(0,0,0), Vector(0,0,0), groundEntity.GetHealth() * damagePercent + baseDamage, DMG_CRUSH | DMG_PREVENT_PHYSICS_FORCE);
             local particleOrigin = Vector(groundEntity.GetOrigin().x, groundEntity.GetOrigin().y, player.GetOrigin().z);
             DispatchParticleEffect("mini_fireworks", particleOrigin, Vector(-90.0, 0.0, 0.0));
             EmitAmbientSoundOn("weapons/mantreads.wav", 1.0, 75, 100, groundEntity);

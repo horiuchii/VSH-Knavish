@@ -18,6 +18,22 @@ menus[MENU.StatsBoss] <- class extends Menu
             return "As " + bossLibrary[boss_id].name_proper + ", you've been alive for\na total of " + FormatTime(CookieUtil.Get(player, boss_id + "_bosslifetime")) + "\n";
         }
     },
+    ["victory"] = class extends MenuItem
+    {
+        title = "Victories"
+        boss_id = null
+
+        function GenerateDesc(player)
+        {
+            local message = bossLibrary[boss_id].name_proper + " Victories\n";
+            message += "Easy " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_easy"));
+            message += " | Normal " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_normal"));
+            message += " | Hard " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_hard") + "\n");
+            message += "Extreme " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_extreme"));
+            message += " | Impossible " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_impossible"));
+            return message;
+        }
+    },
     ["merckills"] = class extends MenuItem
     {
         title = "Merc Kills"
@@ -25,7 +41,7 @@ menus[MENU.StatsBoss] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + bossLibrary[boss_id].name_proper + ", you've killed a total\nof " + AddCommasToNumber(CookieUtil.Get(player, boss_id + "_merckills")) + " mercenaries.\n";
+            return "As " + bossLibrary[boss_id].name_proper + ", you've killed a total\nof " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_merckills")) + " mercenaries.\n";
         }
     },
     ["headstomps"] = class extends MenuItem
@@ -35,7 +51,7 @@ menus[MENU.StatsBoss] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + bossLibrary[boss_id].name_proper + ", you've killed a total\nof " + AddCommasToNumber(CookieUtil.Get(player, boss_id + "_headstomps")) + " mercenaries with a head stomp.\n";
+            return "As " + bossLibrary[boss_id].name_proper + ", you've killed a total\nof " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_headstomps")) + " mercenaries with a head stomp.\n";
         }
     }
 };
@@ -49,7 +65,7 @@ menus[MENU.StatsBoss] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + bossLibrary[boss_id].name_proper + ", you've killed a total\nof " + AddCommasToNumber(CookieUtil.Get(player, boss_id + "_slamkills")) + " mercenaries with slam.\n";
+            return "As " + bossLibrary[boss_id].name_proper + ", you've killed a total\nof " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_slamkills")) + " mercenaries with slam.\n";
         }
     },
     ["chargekills"] = class extends MenuItem
@@ -59,7 +75,7 @@ menus[MENU.StatsBoss] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + bossLibrary[boss_id].name_proper + ", you've killed a total\nof " + AddCommasToNumber(CookieUtil.Get(player, boss_id + "_chargekills")) + " mercenaries with sweeping charge.\n";
+            return "As " + bossLibrary[boss_id].name_proper + ", you've killed a total\nof " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_chargekills")) + " mercenaries with sweeping charge.\n";
         }
     },
     ["bravejumpcount"] = class extends MenuItem
@@ -69,7 +85,7 @@ menus[MENU.StatsBoss] <- class extends Menu
 
         function GenerateDesc(player)
         {
-            return "As " + bossLibrary[boss_id].name_proper + ", you've brave jumped\na total of " + AddCommasToNumber(CookieUtil.Get(player, boss_id + "_bravejumpcount")) + " times.\n";
+            return "As " + bossLibrary[boss_id].name_proper + ", you've brave jumped\na total of " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_bravejumpcount")) + " times.\n";
         }
     }
 };
@@ -111,6 +127,14 @@ foreach (i, value in BossStatMenus)
     foreach(stat in Cookies.BossStats)
     {
         local insert_index = menus[value].items.len();
+
+        if(insert_index == 1)
+        {
+            menus[value].items[insert_index] <- GeneralBossStatTemplates["victory"]();
+            menus[value].items[insert_index].boss_id = i;
+            insert_index++;
+        }
+
         menus[value].items[insert_index] <- GeneralBossStatTemplates[stat]();
         menus[value].items[insert_index].boss_id = i;
     }

@@ -23,24 +23,15 @@ enum BOSSDIFFICULTY_ITEMS
         return;
     }
 
-    local message = "Boss difficulty has been set to: ";
+    local message = "Boss difficulty has been set to: " + DifficultyColor[difficulty];
 
-    switch(difficulty)
-    {
-        case -1: message += "\x075885A2" + "Easy"; break;
-        case 0: message += "\x07729E42" + "Normal"; break;
-        case 1: message += "\x07B8383B" + "Hard"; break;
-        case 2: message += "\x07B71111" + "Extreme"; break;
-        case 3: message += "\x077D4071" + "Impossible"; break;
-    }
-
-    PrintToClient(player, KNA_VSH + message);
+    PrintToClient(player, KNA_VSH + message + DifficultyName[difficulty]);
     CookieUtil.Set(player, "difficulty", difficulty);
 }
 
 //Boss Difficulty - Easy
 menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Easy] <- class extends MenuItem {
-    title = "Easy"
+    title = DifficultyName[DIFFICULTY.EASY]
 
     function GenerateDesc(player)
     {
@@ -49,13 +40,13 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Easy] <- class extends Men
 
     function OnSelected(player)
     {
-        SetBossDifficulty(player, -1);
+        SetBossDifficulty(player, DIFFICULTY.EASY);
     }
 }();
 
 //Boss Difficulty - Normal
 menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Normal] <- class extends MenuItem {
-    title = "Normal"
+    title = DifficultyName[DIFFICULTY.NORMAL]
 
     function GenerateDesc(player)
     {
@@ -64,13 +55,13 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Normal] <- class extends M
 
     function OnSelected(player)
     {
-        SetBossDifficulty(player, 0);
+        SetBossDifficulty(player, DIFFICULTY.NORMAL);
     }
 }();
 
 //Boss Difficulty - Hard
 menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Hard] <- class extends MenuItem {
-    title = "Hard"
+    title = DifficultyName[DIFFICULTY.HARD]
 
     function GenerateDesc(player)
     {
@@ -79,13 +70,13 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Hard] <- class extends Men
 
     function OnSelected(player)
     {
-        SetBossDifficulty(player, 1);
+        SetBossDifficulty(player, DIFFICULTY.HARD);
     }
 }();
 
 //Boss Difficulty - Extreme
 menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Extreme] <- class extends MenuItem {
-    title = "Extreme"
+    title = DifficultyName[DIFFICULTY.EXTREME]
 
     function GenerateDesc(player)
     {
@@ -94,13 +85,13 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Extreme] <- class extends 
 
     function OnSelected(player)
     {
-        SetBossDifficulty(player, 2);
+        SetBossDifficulty(player, DIFFICULTY.EXTREME);
     }
 }();
 
 //Boss Difficulty - Impossible
 menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Impossible] <- class extends MenuItem {
-    title = "Impossible"
+    title = DifficultyName[DIFFICULTY.IMPOSSIBLE]
 
     function GenerateDesc(player)
     {
@@ -109,6 +100,6 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Impossible] <- class exten
 
     function OnSelected(player)
     {
-        SetBossDifficulty(player, 3);
+        SetBossDifficulty(player, DIFFICULTY.IMPOSSIBLE);
     }
 }();

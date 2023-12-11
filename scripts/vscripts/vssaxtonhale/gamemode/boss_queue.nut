@@ -140,6 +140,27 @@ AddListener("round_end", 100, function (winner)
     local queue_pos = 0;
     local queueboard = GetQueuePointsSorted();
 
+    if(isRoundBailout)
+    {
+        foreach (player in GetValidMercs())
+        {
+            if(!!CookieUtil.Get(player, "become_boss"))
+            {
+                foreach (i, position in queueboard)
+                {
+                    if (position[0] == player)
+                    {
+                        queue_pos = i + 1;
+                        break;
+                    }
+                    queue_pos = queueboard.len() + 1;
+                    PrintToClient(player, KNA_VSH + "The boss has bailed out, you are now \x07FFD700" + addSuffix(queue_pos) + "\x01 in line to become the boss.");
+                }
+            }
+        }
+        return;
+    }
+
     foreach (player in GetValidMercs())
     {
         if(!!!CookieUtil.Get(player, "become_boss"))

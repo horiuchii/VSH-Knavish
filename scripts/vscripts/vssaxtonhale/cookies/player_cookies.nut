@@ -16,7 +16,7 @@ class Cookies
         },
         ["difficulty"] =
         {
-            default_value = 0
+            default_value = DIFFICULTY.NORMAL
         },
         ["custom_vo"] =
         {
@@ -135,6 +135,16 @@ class Cookies
             {
                 Table[bossname + "_" + cookie] <- {default_value = 0};
                 Table["total_" + cookie] <- {default_value = 0};
+            }
+        }
+
+        // Create Difficulty Win Cookies for each boss and total
+        foreach(difficulty in DifficultyInternalName)
+        {
+            Table["total_victory_" + difficulty] <- {default_value = 0};
+            foreach(bossname, bossclass in bossLibrary)
+            {
+                Table[bossname + "_victory_" + difficulty] <- {default_value = 0};
             }
         }
     }
@@ -289,7 +299,7 @@ class CookieUtil
     {
         local option_setting = Get(player, cookie);
         if(type(option_setting) == "integer" || type(option_setting) == "bool")
-            option_setting = option_setting ? "[ON]" : "[OFF]";
+            option_setting = option_setting ? "[On]" : "[Off]";
         else
             option_setting = "[" + option_setting + "]";
 

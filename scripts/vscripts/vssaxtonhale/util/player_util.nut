@@ -219,6 +219,7 @@
     // Menu
     last_press_menu_button[player] <- 0;
     selected_option[player] <- 0;
+    selected_mainmenu_option[player] <- 0;
 }
 
 AddListener("connect", 0, function (player)

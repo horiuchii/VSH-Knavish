@@ -75,6 +75,9 @@ player_death_time <- {};
 
 function GetTimeSinceRoundStarted()
 {
+    if(isRoundBailout)
+        return 0;
+
     return Time() - round_start_time;
 }
 
@@ -97,12 +100,12 @@ function GetLifetime(player)
 {
     if (player.IsAlive())
     {
-        local time_alive = GetTimeSinceRoundStarted()
+        local time_alive = GetTimeSinceRoundStarted();
         return time_alive <= 0 ? 0 : time_alive;
     }
     else
     {
-        local time_alive = GetPlayerDeathTime(player) - round_start_time
+        local time_alive = GetPlayerDeathTime(player) - round_start_time;
         return time_alive <= 0 ? 0 : time_alive;
     }
 }

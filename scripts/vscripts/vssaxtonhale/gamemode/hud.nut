@@ -22,6 +22,7 @@
     x = 0.481,
     y = 0.788
 });
+
 env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "%+inspect% HOLD TO VIEW WEAPON STATS%+attack3% DOUBLE TAP OR CHAT /vshmenu TO OPEN VSH MENU"});
 env_hudhint_boss <- SpawnEntityFromTable("env_hudhint", {message = "%+attack3% DOUBLE TAP OR CHAT /vshmenu TO OPEN VSH MENU"});
 bossBarTicker <- 0;
@@ -29,6 +30,7 @@ bossBarTicker <- 0;
 DOUBLE_PRESS_MENU_THRESHOLD <- 0.25;
 last_press_menu_button <- {};
 ::selected_option <- {};
+::selected_mainmenu_option <- {};
 ::menu_index <- {};
 
 AddListener("spawn", 0, function (player, params)
@@ -118,6 +120,8 @@ function CloseVSHMenuHUD(player)
     if(!IsInVSHMenu(player))
         return;
 
+    selected_option[player] = selected_mainmenu_option[player];
+
     delete menu_index[player];
 
     if(!IsBoss(player) || !(IsRoundSetup() && API_GetBool("freeze_boss_setup")))
@@ -176,6 +180,10 @@ function UpdateVSHMenuHUD(player)
             new_loc = 0;
 
         selected_option[player] <- new_loc;
+
+        if(menu_index[player] == MENU.MainMenu)
+            selected_mainmenu_option[player] <- new_loc;
+
         PlaySoundForPlayer(player, "ui/cyoa_node_absent.wav");
         GenerateVSHMenuHUDText(player);
     }
@@ -209,15 +217,19 @@ function UpdateVSHMenuHUD(player)
     {
         local index = i;
 
-        if(index < 0)
-            index = menu_size + index;
-
-        if(index > menu_size - 1)
-            index = index - menu_size;
-
+        if(index == -1)
+        {
+            message += "▲\n";
+            continue;
+        }
+        if(index == menu_size)
+        {
+            message += "▼\n";
+            continue;
+        }
         if(index < 0 || index > menu_size - 1)
         {
-            message += "----\n";
+            message += "\n"
             continue;
         }
 

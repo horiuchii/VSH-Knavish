@@ -68,23 +68,15 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossDifficulty] <- class extends MenuI
 
     function GenerateDesc(player)
     {
-        local option_setting = CookieUtil.Get(player, "difficulty");
-        switch(option_setting)
-        {
-            case DIFFICULTY.EASY: option_setting = "[EASY]"; break;
-            case DIFFICULTY.NORMAL: option_setting = "[NORMAL]"; break;
-            case DIFFICULTY.HARD: option_setting = "[HARD]"; break;
-            case DIFFICULTY.EXTREME: option_setting = "[EXTREME]"; break;
-            case DIFFICULTY.IMPOSSIBLE: option_setting = "[IMPOSSIBLE]"; break;
-        }
+        local option_setting = DifficultyName[CookieUtil.Get(player, "difficulty")];
 
-        return option_setting + "\nSet the difficulty for a more\nengaging experience as the boss.";
+        return "[" + option_setting + "]\nSet the difficulty for a more\nengaging experience as the boss.";
     }
 
     function OnSelected(player)
     {
         menu_index[player] <- MENU.BossDifficulty;
-        selected_option[player] <- CookieUtil.Get(player, "difficulty") + 1;
+        selected_option[player] <- CookieUtil.Get(player, "difficulty");
     }
 }();
 
@@ -95,7 +87,7 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossChoose] <- class extends MenuItem
 
     function GenerateDesc(player)
     {
-        return CookieUtil.MakeGenericCookieString(player, "boss") + "Choose who you would like to play as when\nchosen as the boss. (More coming soon)";
+        return "[" + bossLibrary[CookieUtil.Get(player, "boss")].name_proper + "]\nChoose who you would like to play as when\nchosen as the boss. (More coming soon)";
     }
 
     function OnSelected(player)

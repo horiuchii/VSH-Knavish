@@ -78,12 +78,39 @@ enum MINIGUN_STATE
 
 enum DIFFICULTY
 {
-    EASY = -1,
-    NORMAL = 0,
-    HARD = 1,
-    EXTREME = 2,
-    IMPOSSIBLE = 3,
+    EASY = 0,
+    NORMAL = 1,
+    HARD = 2,
+    EXTREME = 3,
+    IMPOSSIBLE = 4,
 }
+
+::DifficultyInternalName <-
+[
+    "easy"
+    "normal"
+    "hard"
+    "extreme"
+    "impossible"
+]
+
+::DifficultyName <-
+[
+    "Easy"
+    "Normal"
+    "Hard"
+    "Extreme"
+    "Impossible"
+]
+
+::DifficultyColor <-
+[
+    "5885A2"
+    "729E42"
+    "B8383B"
+    "B71111"
+    "7D4071"
+]
 
 ::MASK_SOLID_BRUSHONLY <- 16395;
 

@@ -130,6 +130,9 @@ AddListener("bravejump", 0, function (boss)
 
 AddListener("round_end", 100, function (winner)
 {
+    if(isRoundBailout)
+        return;
+
     if(Convars.GetInt("sv_cheats") == 1 && IsDedicatedServer())
         return;
 
@@ -179,6 +182,12 @@ AddListener("round_end", 100, function (winner)
             CookieUtil.Add(player, boss_name + "_bosslifetime", GetLifetime(player).tointeger(), false)
             CookieUtil.Add(player, boss_name + "_merckills", GetTrackedStat(player, "merckills"), false)
             CookieUtil.Add(player, boss_name + "_headstomps", GetTrackedStat(player, "stompkills"), false)
+
+            if(winner == TF_TEAM_BOSS)
+            {
+                CookieUtil.Add(player, boss_name + "_victory_" + DifficultyInternalName[CookieUtil.Get(player, "difficulty")], 1, false);
+                CookieUtil.Add(player, "total_victory_" + DifficultyInternalName[CookieUtil.Get(player, "difficulty")], 1, false);
+            }
 
             foreach(stat in Cookies.SpecificBossStats[boss_name])
             {

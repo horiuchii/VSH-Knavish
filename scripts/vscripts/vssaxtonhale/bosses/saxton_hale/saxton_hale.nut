@@ -25,6 +25,7 @@ class SaxtonHale extends Boss
     name = "saxton_hale";
     name_proper = "Saxton Hale";
     color = "255 230 0";
+    color_text = "FAE600"
     tfclass = TF_CLASS_HEAVY;
 
     function OnCreationPre()

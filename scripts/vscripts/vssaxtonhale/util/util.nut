@@ -125,7 +125,7 @@
     return (Hrs + "h " + Min + "m " + Sec + "s").tostring();
 }
 
-::AddCommasToNumber <- function(number)
+::AddCommaSeperator <- function(number)
 {
     local number_string = number.tostring();
     local number_length = number_string.len();

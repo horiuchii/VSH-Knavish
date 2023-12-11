@@ -15,6 +15,7 @@
 ::isRoundOver <- false;
 ::isRoundSetup <- true;
 hasStalemateTimerBegun <- false;
+::isRoundBailout <- false;
 
 AddListener("setup_start", 1, function ()
 {
@@ -53,6 +54,10 @@ AddListener("setup_end", 0, function()
     SetPropInt(tf_gamerules, "m_nHudType", 2);
 
     SetConvarValue("tf_rd_points_per_approach", "10");
+
+    local boss = GetBossPlayers()[0];
+    local difficulty = CookieUtil.Get(boss, "difficulty");
+    PrintToClient(null, KNA_VSH + boss.NetName() + " became " + "\x07" + playerType[boss].color_text + playerType[boss].name_proper + "\x01 on \x07" + DifficultyColor[difficulty] + DifficultyName[difficulty] + "\x01 difficulty.")
 });
 
 AddListener("death", 2, function (attacker, victim, params)
@@ -101,6 +106,7 @@ AddListener("tick_always", 8, function(timeDelta)
         if (!IsAnyBossAlive())
         {
             SetConvarValue("mp_bonusroundtime", 5);
+            isRoundBailout <- true;
             EndRound(TF_TEAM_UNASSIGNED);
         }
         return;
