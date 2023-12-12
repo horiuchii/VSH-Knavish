@@ -125,6 +125,27 @@
     return (Hrs + "h " + Min + "m " + Sec + "s").tostring();
 }
 
+::RGBToHex <- function(rgb)
+{
+    return format("%02X%02X%02X", rgb[0], rgb[1], rgb[2]);
+}
+
+::RGBAToHex <- function(rgba)
+{
+    return format("%02X%02X%02X%02X", rgba[0], rgba[1], rgba[2], rgba[3]);
+}
+
+::StringToIntArray <- function(str)
+{
+    local arr = split(str, " ");
+    foreach (e, v in arr)
+    {
+        arr[e] = v.tointeger();
+    }
+
+    return arr;
+}
+
 ::AddCommaSeperator <- function(number)
 {
     local number_string = number.tostring();

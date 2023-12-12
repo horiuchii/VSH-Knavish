@@ -30,7 +30,7 @@ class MightySlamTrait extends BossTrait
 
     function OnTickAlive(timeDelta)
     {
-        if (IsInVSHMenu(boss))
+        if (!player.Get().CanUseAbilities())
             return;
 
         if (meter < 0)
@@ -43,8 +43,11 @@ class MightySlamTrait extends BossTrait
                 meter = 0;
             }
         }
+
         if (!boss.IsOnGround() && (boss.GetFlags() & FL_DUCKING))
+        {
             Weightdown();
+        }
         else if (inUse && !(boss.GetFlags() & FL_DUCKING))
         {
             inUse = false;
@@ -70,6 +73,7 @@ class MightySlamTrait extends BossTrait
         local fraction = TraceLine(origin, origin + Vector(0, 0, -150), null);
         if (fraction < 1)
             return;
+
         inUse = true;
         boss.SetGravity(3);
         lastFrameDownVelocity = boss.GetAbsVelocity().z;
@@ -96,7 +100,8 @@ class MightySlamTrait extends BossTrait
         local radius = 500;
 
         CreateAoE(boss.GetCenter(), radius, true,
-            function (target, deltaVector, distance, InLOS, ZDiff) {
+            function (target, deltaVector, distance, InLOS, ZDiff)
+            {
                 local damage = target.GetMaxHealth() * (1 - distance / radius);
 
                 switch(CookieUtil.Get(boss, "difficulty"))
@@ -118,8 +123,10 @@ class MightySlamTrait extends BossTrait
 
                 if (!target.IsPlayer())
                     damage *= 2;
+
                 if (damage <= 30 && target.GetHealth() <= 30)
                     return; // We don't want to have people on low health die because Hale just Slammed a mile away.
+
                 target.TakeDamageEx(
                     bossLocal,
                     bossLocal,
@@ -129,7 +136,8 @@ class MightySlamTrait extends BossTrait
                     damage,
                     DMG_BLAST);
             }
-            function (target, deltaVector, distance, InLOS, ZDiff) {
+            function (target, deltaVector, distance, InLOS, ZDiff)
+            {
                 local pushForce = distance < 100 ? 1 : 100 / distance;
 
                 if(!InLOS)

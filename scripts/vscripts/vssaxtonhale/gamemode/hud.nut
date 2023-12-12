@@ -62,7 +62,7 @@ AddListener("tick_frame", 2, function ()
         if (IsPlayerABot(player))
             continue;
 
-        local buttons = GetPropInt(player, "m_nButtons");
+        local buttons = player.GetButtons();
 
         if (buttons & IN_SCORE)
         {
@@ -168,7 +168,7 @@ function UpdateVSHMenuHUD(player)
         SetPropEntity(player, "m_hObserverTarget", player);
     }
 
-    local buttons = GetPropInt(player, "m_nButtons");
+    local buttons = player.GetButtons();
     // Navigate Menu
     if (player.WasButtonJustPressed(IN_FORWARD) || player.WasButtonJustPressed(IN_BACK))
     {

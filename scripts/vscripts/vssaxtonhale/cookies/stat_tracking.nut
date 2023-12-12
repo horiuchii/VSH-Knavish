@@ -145,11 +145,11 @@ AddListener("round_end", 100, function (winner)
             if(tfclass_name == null)
                 continue;
 
-            CookieUtil.Add(player, tfclass_name + "_lifetime", GetLifetime(player).tointeger(), false)
-            CookieUtil.Add(player, tfclass_name + "_damage", GetRoundDamage(player), false)
-            CookieUtil.Add(player, tfclass_name + "_bosskills", GetTrackedStat(player, "bosskills"), false)
-            CookieUtil.Add(player, tfclass_name + "_wallclimbs", GetTrackedStat(player, "wallclimb"), false)
-            CookieUtil.Add(player, tfclass_name + "_bossgoomba", GetTrackedStat(player, "goomba"), false)
+            CookieUtil.Add(player, tfclass_name + "_lifetime", GetLifetime(player).tointeger(), false);
+            CookieUtil.Add(player, tfclass_name + "_damage", GetRoundDamage(player), false);
+            CookieUtil.Add(player, tfclass_name + "_bosskills", GetTrackedStat(player, "bosskills"), false);
+            CookieUtil.Add(player, tfclass_name + "_wallclimbs", GetTrackedStat(player, "wallclimb"), false);
+            CookieUtil.Add(player, tfclass_name + "_bossgoomba", GetTrackedStat(player, "goomba"), false);
 
             foreach(stat in Cookies.SpecificTFClassStats[tfclass_name])
             {
@@ -163,25 +163,25 @@ AddListener("round_end", 100, function (winner)
                 }
             }
 
-            CookieUtil.Add(player, "total_lifetime", GetLifetime(player).tointeger(), false)
-            CookieUtil.Add(player, "total_damage", GetRoundDamage(player), false)
-            CookieUtil.Add(player, "total_healing", GetRoundHealing(player), false)
-            CookieUtil.Add(player, "total_bosskills", GetTrackedStat(player, "bosskills"), false)
-            CookieUtil.Add(player, "total_wallclimbs", GetTrackedStat(player, "wallclimb"), false)
-            CookieUtil.Add(player, "total_bossgoomba", GetTrackedStat(player, "goomba"), false)
-            CookieUtil.Add(player, "total_backstabs", GetTrackedStat(player, "backstabs"), false)
-            CookieUtil.Add(player, "total_headshots", GetTrackedStat(player, "headshots"), false)
-            CookieUtil.Add(player, "total_glowtime", GetTrackedStat(player, "glowtime"), false)
-            CookieUtil.Add(player, "total_moonshots", GetTrackedStat(player, "moonshots"), false)
+            CookieUtil.Add(player, "total_lifetime", GetLifetime(player).tointeger(), false);
+            CookieUtil.Add(player, "total_damage", GetRoundDamage(player), false);
+            CookieUtil.Add(player, "total_healing", GetRoundHealing(player), false);
+            CookieUtil.Add(player, "total_bosskills", GetTrackedStat(player, "bosskills"), false);
+            CookieUtil.Add(player, "total_wallclimbs", GetTrackedStat(player, "wallclimb"), false);
+            CookieUtil.Add(player, "total_bossgoomba", GetTrackedStat(player, "goomba"), false);
+            CookieUtil.Add(player, "total_backstabs", GetTrackedStat(player, "backstabs"), false);
+            CookieUtil.Add(player, "total_headshots", GetTrackedStat(player, "headshots"), false);
+            CookieUtil.Add(player, "total_glowtime", GetTrackedStat(player, "glowtime"), false);
+            CookieUtil.Add(player, "total_moonshots", GetTrackedStat(player, "moonshots"), false);
 
             CookieUtil.SavePlayerData(player);
         }
         else //boss stats
         {
-            local boss_name = playerType[player].name
-            CookieUtil.Add(player, boss_name + "_bosslifetime", GetLifetime(player).tointeger(), false)
-            CookieUtil.Add(player, boss_name + "_merckills", GetTrackedStat(player, "merckills"), false)
-            CookieUtil.Add(player, boss_name + "_headstomps", GetTrackedStat(player, "stompkills"), false)
+            local boss_name = player.Get().name;
+            CookieUtil.Add(player, boss_name + "_bosslifetime", GetLifetime(player).tointeger(), false);
+            CookieUtil.Add(player, boss_name + "_merckills", GetTrackedStat(player, "merckills"), false);
+            CookieUtil.Add(player, boss_name + "_headstomps", GetTrackedStat(player, "stompkills"), false);
 
             if(winner == TF_TEAM_BOSS)
             {
@@ -199,9 +199,9 @@ AddListener("round_end", 100, function (winner)
                 }
             }
 
-            CookieUtil.Add(player, "total_bosslifetime", GetLifetime(player).tointeger(), false)
-            CookieUtil.Add(player, "total_merckills", GetTrackedStat(player, "merckills"), false)
-            CookieUtil.Add(player, "total_headstomps", GetTrackedStat(player, "stompkills"), false)
+            CookieUtil.Add(player, "total_bosslifetime", GetLifetime(player).tointeger(), false);
+            CookieUtil.Add(player, "total_merckills", GetTrackedStat(player, "merckills"), false);
+            CookieUtil.Add(player, "total_headstomps", GetTrackedStat(player, "stompkills"), false);
 
             CookieUtil.SavePlayerData(player);
         }
@@ -214,7 +214,7 @@ AddListener("setup_end", 0, function()
     {
         foreach(player in stat)
         {
-            delete TrackedStats[stat][player]
+            delete TrackedStats[stat][player];
         }
     }
 });

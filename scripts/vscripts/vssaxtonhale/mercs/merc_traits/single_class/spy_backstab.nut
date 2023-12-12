@@ -88,9 +88,7 @@ function CalcStabDamage(victim)
 
 function GetPerPlayerDamageQuota(victim)
 {
-    if (!(victim in playerType))
-        return 0;
-    return startMercCount > 0 ? playerType[victim].startingHealth / startMercCount : 500;
+    return startMercCount > 0 ? victim.Get().startingHealth / startMercCount : 500;
 }
 
 function YERDisguise(player)

@@ -31,7 +31,7 @@ mercTraitsLibrary.push(class extends CustomVoiceLine
             counter -= timeDelta * 0.2;
         foreach (boss in GetAliveBossPlayers())
         {
-            if (boss.InCond(TF_COND_KNOCKED_INTO_AIR) && (GetPropInt(player, "m_nButtons") & IN_ATTACK2))
+            if (boss.InCond(TF_COND_KNOCKED_INTO_AIR) && (player.GetButtons() & IN_ATTACK2))
             {
                 if (Time() > lastAirblast + 0.2)
                     counter+=1;

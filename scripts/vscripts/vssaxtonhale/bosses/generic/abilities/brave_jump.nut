@@ -73,10 +73,13 @@ class BraveJumpTrait extends BossTrait
 
     function OnFrameTickAlive()
     {
+        if (!player.Get().CanUseAbilities())
+            return;
+
         if (API_GetBool("freeze_boss_setup") && IsRoundSetup() || TRAIT_COOLDOWN == null)
             return;
 
-        local buttons = GetPropInt(boss, "m_nButtons");
+        local buttons = boss.GetButtons();
 
         if (!boss.IsOnGround())
         {
@@ -98,6 +101,7 @@ class BraveJumpTrait extends BossTrait
     {
 	    if (meter != 0)
             return false;
+
         meter = -TRAIT_COOLDOWN;
 
 	    if (!IsRoundSetup() && Time() - voiceLinePlayed > 1.5)
@@ -108,7 +112,7 @@ class BraveJumpTrait extends BossTrait
 
         jumpStatus = BOSS_JUMP_STATUS.DOUBLE_JUMPED;
 
-        local buttons = GetPropInt(boss, "m_nButtons");
+        local buttons = boss.GetButtons();
         local eyeAngles = boss.EyeAngles();
         local forward = eyeAngles.Forward();
         forward.z = 0;

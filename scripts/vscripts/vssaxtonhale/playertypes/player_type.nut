@@ -1,9 +1,20 @@
 ::playerType <- {};
 
+CTFPlayer.Get <- function() { return playerType[this] };
+CTFBot.Get <- CTFPlayer.Get;
+
+CTFPlayer.Set <- function(type) { playerType[this] = type };
+CTFBot.Set <- CTFPlayer.Set;
+
 class PlayerType extends CharacterTrait
 {
     name = null;
     color = "0 0 0";
+
+    function GetHexColor()
+    {
+        return RGBToHex(StringToIntArray(color));
+    }
 }
 
 class Mercenary extends PlayerType
@@ -26,16 +37,21 @@ class Boss extends PlayerType
     function OnApply()
     {
         boss = player;
-        player.ForceRespawn();
+        boss.ForceRespawn();
         RunWithDelay2(this, 0, OnCreationPre);
     }
 
     function OnCreationPre()
     {
         foreach (traitClass in traitLibrary[name])
-            traitClass().ApplyTrait(player);
+            traitClass().ApplyTrait(boss);
 
-        ClearPlayerItems(player); //Clear items in case a trait regenerates them
+        ClearPlayerItems(boss); //Clear items in case a trait regenerates them
+    }
+
+    function CanUseAbilities()
+    {
+        return !(IsInVSHMenu(boss) || (IsRoundOver() && GetWinningTeam() != TF_TEAM_BOSS));
     }
 }
 

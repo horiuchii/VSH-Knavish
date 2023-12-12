@@ -102,8 +102,6 @@ AddListener("spawn", -1, function (player, params)
 {
     DiscardTraits(player);
     characterTraits[player] <- [];
-    if (!(player in playerType))
-        playerType[player] <- Mercenary();
 
     foreach (mercTrait in mercTraitsLibrary)
     {

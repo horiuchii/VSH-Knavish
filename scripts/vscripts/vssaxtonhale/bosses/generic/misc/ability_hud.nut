@@ -115,7 +115,7 @@ class AbilityHudTrait extends BossTrait
         if (!(player in hudAbilityInstances))
             return;
 
-        if (GetPropInt(player, "m_nButtons") & IN_SCORE)
+        if (player.GetButtons() & IN_SCORE)
         {
             player.SetScriptOverlayMaterial(null);
             return;

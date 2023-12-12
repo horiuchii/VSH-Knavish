@@ -28,7 +28,7 @@ AddListener("setup_start", 1, function ()
 
     foreach (player in GetValidMercs())
     {
-        playerType[player] = Mercenary();
+        player.Set(Mercenary());
         player.SwitchTeam(TF_TEAM_MERCS);
         player.ForceRegenerateAndRespawn();
     }
@@ -37,7 +37,7 @@ AddListener("setup_start", 1, function ()
     {
         player.SwitchTeam(TF_TEAM_BOSS);
         player.ForceRegenerateAndRespawn();
-        playerType[player].ApplyTrait(player);
+        player.Get().ApplyTrait(player);
     }
 });
 
@@ -57,7 +57,7 @@ AddListener("setup_end", 0, function()
 
     local boss = GetBossPlayers()[0];
     local difficulty = CookieUtil.Get(boss, "difficulty");
-    PrintToClient(null, KNA_VSH + boss.NetName() + " became " + "\x07" + playerType[boss].color_text + playerType[boss].name_proper + "\x01 on \x07" + DifficultyColor[difficulty] + DifficultyName[difficulty] + "\x01 difficulty.")
+    PrintToClient(null, KNA_VSH + boss.NetName() + " became " + "\x07" + boss.Get().GetHexColor() + boss.Get().name_proper + "\x01 on \x07" + DifficultyColor[difficulty] + DifficultyName[difficulty] + "\x01 difficulty.")
 });
 
 AddListener("death", 2, function (attacker, victim, params)

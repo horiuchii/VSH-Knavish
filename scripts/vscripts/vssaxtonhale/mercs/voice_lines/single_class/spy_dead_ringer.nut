@@ -35,7 +35,7 @@ mercTraitsLibrary.push(class extends CustomVoiceLine
 
     function OnTickAlive(inverval)
     {
-        if (!(GetPropInt(player, "m_nButtons") & IN_ATTACK2))
+        if (!(player.GetButtons() & IN_ATTACK2))
             return;
         local cloak = player.GetSpyCloakMeter();
         local isDR = WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.INVIS_WATCH), "dead_ringer");
