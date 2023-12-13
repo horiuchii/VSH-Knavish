@@ -35,6 +35,14 @@ last_press_menu_button <- {};
 
 AddListener("spawn", 0, function (player, params)
 {
+    PrecacheSound("misc/null.wav")
+    EmitSoundEx({
+        sound_name = "misc/null.wav"
+        channel = -1
+        entity = player
+        filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
+    })
+
     RunWithDelay2(this, 1.0, function () {
         if(IsBoss(player))
             EntFireByHandle(env_hudhint_boss, "ShowHudHint", "", 0, player, player);
@@ -100,6 +108,18 @@ AddListener("tick_frame", 2, function ()
     return player in menu_index;
 }
 
+::cyoaMusic <- [
+    "drunkenpipebomb"
+    "fasterthanaspeedingbullet"
+    "intruderalert"
+    "medic"
+    "moregun"
+    "moregun2"
+    "playingwithdanger"
+    "rightbehindyou"
+    "teamfortress2"
+]
+
 function OpenVSHMenuHUD(player)
 {
     if(IsInVSHMenu(player))
@@ -109,6 +129,19 @@ function OpenVSHMenuHUD(player)
     EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
     EntFireByHandle(env_hudhint_boss, "HideHudHint", "", 0, player, player);
     PlaySoundForPlayer(player, "ui/cyoa_map_open.wav");
+
+    if(!!CookieUtil.Get(player, "menu_music"))
+    {
+        local music = "ui/cyoa_music" + cyoaMusic[RandomInt(0, cyoaMusic.len() - 1)] + "_tv.mp3";
+        PrecacheSound(music);
+        EmitSoundEx({
+            sound_name = music
+            channel = -1
+            entity = player
+            filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
+        });
+    }
+
     GenerateVSHMenuHUDText(player);
 
     if(!player.IsAlive())
@@ -137,6 +170,14 @@ function CloseVSHMenuHUD(player)
     }
     else
         SetPropInt(player, "m_Local.m_iHideHUD", 0);
+
+    PrecacheSound("misc/null.wav")
+    EmitSoundEx({
+        sound_name = "misc/null.wav"
+        channel = -1
+        entity = player
+        filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
+    })
 
     EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
     EntFireByHandle(game_text_merc_hud, "AddOutput", "message ", 0, player, player);

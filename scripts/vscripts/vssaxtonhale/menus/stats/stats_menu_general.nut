@@ -98,6 +98,6 @@ menus[MENU.StatsGeneral].items[menus[MENU.StatsGeneral].items.len()] <- (class e
 
     function GenerateDesc(player)
     {
-        return "As a Boss, you've killed \na total of " + AddCommaSeperator(CookieUtil.Get(player, "total_merckills")) + " mercenaries with a head stomp.\n";
+        return "As a Boss, you've killed \na total of " + AddCommaSeperator(CookieUtil.Get(player, "total_headstomps")) + " mercenaries with a head stomp.\n";
     }
 })();

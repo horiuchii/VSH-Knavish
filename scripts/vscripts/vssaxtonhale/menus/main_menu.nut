@@ -6,37 +6,11 @@ menus[MENU.MainMenu] <- class extends Menu
 
 enum MAINMENU_ITEMS
 {
-    BecomeBoss
     ResetQueue
-    BossDifficulty
-    BossChoose
+    Settings
     Stats
     Achievement
 }
-
-//Toggle Boss
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.BecomeBoss] <- class extends MenuItem
-{
-    title = "Toggle Become Boss"
-
-    function GenerateDesc(player)
-    {
-        return CookieUtil.MakeGenericCookieString(player, "become_boss") + "Toggle the ability to gain queue points.\nTurning off will remove any existing points.";
-    }
-
-    function OnSelected(player)
-    {
-        local can_be_boss = CookieUtil.Set(player, "become_boss", !!!CookieUtil.Get(player, "become_boss").tointeger());
-        local message = "";
-
-        if(can_be_boss)
-            message = "You can now be the boss."
-        else
-            message = "You can no longer be the boss. Queue points have been reset."
-
-        PrintToClient(player, KNA_VSH + message);
-    }
-}();
 
 //Reset Queue
 menus[MENU.MainMenu].items[MAINMENU_ITEMS.ResetQueue] <- class extends MenuItem
@@ -61,38 +35,20 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.ResetQueue] <- class extends MenuItem
     }
 }();
 
-//Open Difficulty Menu
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossDifficulty] <- class extends MenuItem
+//View VSH Settings
+menus[MENU.MainMenu].items[MAINMENU_ITEMS.Settings] <- class extends MenuItem
 {
-    title = "Set Boss Difficulty"
+    title = "Toggle Settings"
 
     function GenerateDesc(player)
     {
-        local option_setting = DifficultyName[CookieUtil.Get(player, "difficulty")];
-
-        return "[" + option_setting + "]\nSet the difficulty for a more\nengaging experience as the boss.";
+        return "\nToggle various settings to fine tune your expierence.\n";
     }
 
     function OnSelected(player)
     {
-        menu_index[player] <- MENU.BossDifficulty;
-        selected_option[player] <- CookieUtil.Get(player, "difficulty");
-    }
-}();
-
-//Open Boss Menu
-menus[MENU.MainMenu].items[MAINMENU_ITEMS.BossChoose] <- class extends MenuItem
-{
-    title = "Set Preferred Boss"
-
-    function GenerateDesc(player)
-    {
-        return "[" + bossLibrary[CookieUtil.Get(player, "boss")].name_proper + "]\nChoose who you would like to play as when\nchosen as the boss. (More coming soon)";
-    }
-
-    function OnSelected(player)
-    {
-        PrintToClient(player, KNA_VSH + "Coming Soon!");
+        menu_index[player] <- MENU.Settings;
+        selected_option[player] <- 0;
     }
 }();
 

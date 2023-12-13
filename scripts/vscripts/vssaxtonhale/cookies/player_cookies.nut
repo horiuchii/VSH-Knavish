@@ -21,6 +21,10 @@ class Cookies
         ["custom_vo"] =
         {
             default_value = 1
+        },
+        ["menu_music"] =
+        {
+            default_value = 1
         }
     }
 
