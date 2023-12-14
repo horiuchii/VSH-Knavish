@@ -217,9 +217,13 @@
     CookieUtil.CreateCache(player);
 
     // Menu
-    last_press_menu_button[player] <- 0;
-    selected_option[player] <- 0;
-    selected_mainmenu_option[player] <- 0;
+    MenuHUD.last_press_menu_button[player] <- 0;
+    MenuHUD.selected_option[player] <- 0;
+    MenuHUD.selected_mainmenu_option[player] <- 0;
+
+    // HUDs
+    HUDIdentifiers[player] <- [];
+    HUDTable[player] <- {};
 }
 
 AddListener("connect", 0, function (player)

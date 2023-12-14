@@ -122,11 +122,14 @@ class AbilityHudTrait extends BossTrait
             local percentage = ability.MeterAsPercentage();
             local progressBarText = BigToSmallNumbers(ability.MeterAsNumber())+" ";
             local i = 13;
+
             for(; i < clampCeiling(100, percentage); i+=13)
                 progressBarText += "▰";
             for(; i <= 100; i+=13)
                 progressBarText += "▱";
+
             progressBarTexts.push(progressBarText);
+
             if (percentage >= 100)
                 overlay += "on_";
             else

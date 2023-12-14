@@ -14,17 +14,17 @@
 //
 // DAMAGE
 //
-damage <- {};
+::damage_score <- {};
 boss_damage <- 0; //set up for duo-boss in future
 
 function GetRoundDamage(player)
 {
-    return player in damage ? damage[player] : 0;
+    return player in damage_score ? damage_score[player] : 0;
 }
 
 function SetRoundDamage(player, damageValue)
 {
-    damage[player] <- damageValue;
+    damage_score[player] <- damageValue;
 }
 
 AddListener("player_hurt", 5, function (attacker, victim, params)
@@ -55,7 +55,7 @@ function GetDamageBoardSorted()
     }
 
     local damageAsArray = []
-    foreach(player, dmg in damage)
+    foreach(player, dmg in damage_score)
         damageAsArray.push([player, dmg]);
     damageAsArray.sort(@(it, that) that[1] - it[1]);
     return damageAsArray;

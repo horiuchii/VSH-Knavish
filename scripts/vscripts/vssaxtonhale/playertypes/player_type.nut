@@ -11,6 +11,11 @@ class PlayerType extends CharacterTrait
     name = null;
     color = "0 0 0";
 
+    function InitHUDs()
+    {
+        return;
+    }
+
     function GetHexColor()
     {
         return RGBToHex(StringToIntArray(color));
@@ -20,6 +25,11 @@ class PlayerType extends CharacterTrait
 class Mercenary extends PlayerType
 {
     color = TF_TEAM_MERCS == TF_TEAM_RED ? "255 0 0" : "0 0 255";
+
+    function InitHUDs()
+    {
+
+    }
 }
 
 class Special extends PlayerType

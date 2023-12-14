@@ -63,11 +63,9 @@
     aliveMercs = aliveMercsL;
     validBosses = validBossesL;
 };
+
 AddListener("tick_frame", -9999, RecachePlayers);
-AddListener("tick_always", -9999, function(tickDelta)
-{
-    RecachePlayers();
-});
+
 AddListener("disconnect", -9999, function(player, params)
 {
     RecachePlayers();

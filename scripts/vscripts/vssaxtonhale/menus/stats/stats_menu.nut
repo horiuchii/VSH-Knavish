@@ -24,8 +24,8 @@ menus[MENU.Stats].items[STATS_ITEMS.General] <- class extends MenuItem
 
     function OnSelected(player)
     {
-        menu_index[player] <- MENU.StatsGeneral;
-        selected_option[player] <- 0;
+        MenuHUD.menu_index[player] <- MENU.StatsGeneral;
+        MenuHUD.selected_option[player] <- 0;
     }
 }();
 
@@ -40,8 +40,8 @@ menus[MENU.Stats].items[STATS_ITEMS.Merc] <- class extends MenuItem
 
     function OnSelected(player)
     {
-        menu_index[player] <- MENU.StatsMerc;
-        selected_option[player] <- 0;
+        MenuHUD.menu_index[player] <- MENU.StatsMerc;
+        MenuHUD.selected_option[player] <- 0;
     }
 }();
 
@@ -56,7 +56,7 @@ menus[MENU.Stats].items[STATS_ITEMS.Boss] <- class extends MenuItem
 
     function OnSelected(player)
     {
-        menu_index[player] <- MENU.StatsBoss;
-        selected_option[player] <- 0;
+        MenuHUD.menu_index[player] <- MENU.StatsBoss;
+        MenuHUD.selected_option[player] <- 0;
     }
 }();

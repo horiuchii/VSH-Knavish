@@ -15,6 +15,7 @@
 ::saxton_aura_model_path <- "models/player/items/vsh_effect_body_aura.mdl"
 ::saxton_viewmodel_path <- "models/weapons/c_models/c_saxton_arms.mdl"
 ::saxton_viewmodel_index <- GetModelIndex("models/weapons/c_models/c_saxton_arms.mdl")
+::saxton_hud <- UniqueString();
 
 PrecacheModel(saxton_model_path);
 PrecacheModel(saxton_aura_model_path);

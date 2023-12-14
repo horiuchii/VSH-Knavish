@@ -28,8 +28,8 @@ menus[MENU.Settings].items[SETTINGS_ITEMS.BossDifficulty] <- class extends MenuI
 
     function OnSelected(player)
     {
-        menu_index[player] <- MENU.BossDifficulty;
-        selected_option[player] <- CookieUtil.Get(player, "difficulty");
+        MenuHUD.menu_index[player] <- MENU.BossDifficulty;
+        MenuHUD.selected_option[player] <- CookieUtil.Get(player, "difficulty");
     }
 }();
 
@@ -114,7 +114,7 @@ menus[MENU.Settings].items[SETTINGS_ITEMS.PDAMusic] <- class extends MenuItem
         if(is_music_on)
         {
             message = "Turned menu music on.";
-            local music = "ui/cyoa_music" + cyoaMusic[RandomInt(0, cyoaMusic.len() - 1)] + "_tv.mp3";
+            local music = "ui/cyoa_music" + MenuHUD.cyoaMusic[RandomInt(0, MenuHUD.cyoaMusic.len() - 1)] + "_tv.mp3";
             PrecacheSound(music);
             EmitSoundEx({
                 sound_name = music

@@ -47,8 +47,8 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.Settings] <- class extends MenuItem
 
     function OnSelected(player)
     {
-        menu_index[player] <- MENU.Settings;
-        selected_option[player] <- 0;
+        MenuHUD.menu_index[player] <- MENU.Settings;
+        MenuHUD.selected_option[player] <- 0;
     }
 }();
 
@@ -64,8 +64,8 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.Stats] <- class extends MenuItem
 
     function OnSelected(player)
     {
-        menu_index[player] <- MENU.Stats;
-        selected_option[player] <- 0;
+        MenuHUD.menu_index[player] <- MENU.Stats;
+        MenuHUD.selected_option[player] <- 0;
     }
 }();
 

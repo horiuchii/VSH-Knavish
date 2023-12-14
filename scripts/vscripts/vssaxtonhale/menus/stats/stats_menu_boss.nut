@@ -111,8 +111,8 @@ foreach (i, value in BossStatMenus)
 
         function OnSelected(player)
         {
-            menu_index[player] <- BossStatMenus[boss_id];
-            selected_option[player] <- 0;
+            MenuHUD.menu_index[player] <- BossStatMenus[boss_id];
+            MenuHUD.selected_option[player] <- 0;
         }
     }();
 

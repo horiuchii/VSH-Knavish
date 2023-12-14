@@ -133,7 +133,7 @@ AddListener("tick_only_valid", 2, function (timeDelta)
                 catch(e) { throw e; }
 });
 
-AddListener("tick_frame", 2, function ()
+AddListener("tick_frame", 0, function ()
 {
     if (!IsValidRound())
         return;

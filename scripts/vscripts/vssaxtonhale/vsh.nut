@@ -48,9 +48,11 @@ Include("/gamemode/boss_queue.nut");
 Include("/gamemode/forced_arena.nut");
 Include("/gamemode/gamerules.nut");
 Include("/gamemode/game_events.nut");
-Include("/gamemode/hud.nut");
 Include("/gamemode/round_logic.nut");
 Include("/gamemode/scoreboard.nut");
+
+Include("/huds/hud.nut");
+Include("/huds/menu_hud.nut");
 
 // These must be included last and in order!
 Include("/bosses/boss.nut");
