@@ -77,3 +77,13 @@ function AssignBoss(bossPlayer)
     if (main_viewmodel.GetSequence() != sequenceId)
         main_viewmodel.SetSequence(sequenceId)
 }
+
+::PreventAttack <- function(boss, length)
+{
+    boss.AddCustomAttribute("no_attack", 1, length);
+    local PreventNoAttackTrait = GetTraitByClass(boss, PreventNoAttackDamage);
+    if (PreventNoAttackTrait != null)
+    {
+        PreventNoAttackTrait.damage_cooldown_end = Time() + length;
+    }
+}

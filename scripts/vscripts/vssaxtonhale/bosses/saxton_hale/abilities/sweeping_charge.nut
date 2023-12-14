@@ -139,7 +139,7 @@ class SweepingChargeTrait extends BossTrait
         }
 
         boss.SetAbsVelocity(Vector(0,0,0));
-        boss.AddCustomAttribute("no_attack", 1, 0.5);
+        PreventAttack(boss, 0.5);
         boss.AddCustomAttribute("move speed penalty", 0.25, 0.5);
 
         if (!boss.InCond(TF_COND_AIMING))
@@ -175,7 +175,7 @@ class SweepingChargeTrait extends BossTrait
 
         boss.AddCondEx(TF_COND_SHIELD_CHARGE, 100.0, null);
         boss.AddCondEx(TF_COND_KNOCKED_INTO_AIR, chargeDuration, null);
-        boss.AddCustomAttribute("no_attack", 1, chargeDuration);
+        PreventAttack(boss, chargeDuration + 0.5);
         EmitPlayerVO(boss, "dash_"+voiceRNG);
         EmitSoundOn("vsh_sfx.hale_dash", boss);
         RunWithDelay2(this, chargeDuration, Finish);
@@ -194,7 +194,7 @@ class SweepingChargeTrait extends BossTrait
         isCurrentlyDashing = false;
         boss.SetGravity(1);
         EntFireByHandle(triggerCatapult, "Disable", "", 0, boss, boss)
-        boss.AddCustomAttribute("no_attack", 1, 0.5);
+        PreventAttack(boss, 0.5);
     }
 
     function TickDash()

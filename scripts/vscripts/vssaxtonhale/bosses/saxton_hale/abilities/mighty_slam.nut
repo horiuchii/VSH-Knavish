@@ -73,7 +73,7 @@ class MightySlamTrait extends BossTrait
         if (meter >= 0)
         {
             BossPlayViewModelAnim(boss, "vsh_slam_fall");
-            boss.AddCustomAttribute("no_attack", 1, 0.25);
+            PreventAttack(boss, 0.25);
             SetItemId(boss.GetActiveWeapon(), 264); //Frying Pan
         }
     }
