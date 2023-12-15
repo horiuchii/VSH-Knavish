@@ -230,6 +230,9 @@ AddListener("round_end", 100, function (winner)
         }
         else //boss stats
         {
+            if(CookieUtil.Get(player, "difficulty") == DIFFICULTY.EASY)
+                continue;
+
             local boss_name = player.Get().name;
             CookieUtil.Add(player, boss_name + "_bosslifetime", GetLifetime(player).tointeger(), false);
             CookieUtil.Add(player, boss_name + "_merckills", GetTrackedStat(player, "merckills"), false);

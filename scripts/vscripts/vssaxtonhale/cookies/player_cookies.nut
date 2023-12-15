@@ -151,8 +151,11 @@ class Cookies
         }
 
         // Create Difficulty Win Cookies for each boss and total
-        foreach(difficulty in DifficultyInternalName)
+        foreach(i, difficulty in DifficultyInternalName)
         {
+            if(i == DIFFICULTY.EASY)
+                continue;
+
             Table["total_victory_" + difficulty] <- {default_value = 0};
             foreach(bossname, bossclass in bossLibrary)
             {

@@ -26,11 +26,10 @@ menus[MENU.StatsBoss] <- class extends Menu
         function GenerateDesc(player)
         {
             local message = bossLibrary[boss_id].name_proper + " Victories\n";
-            message += "Easy " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_easy"));
-            message += " | Normal " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_normal"));
-            message += " | Hard " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_hard") + "\n");
-            message += "Extreme " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_extreme"));
-            message += " | Impossible " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_impossible"));
+            message += "Normal " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_normal"));
+            message += " | Hard " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_hard"));
+            message += " | Extreme " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_extreme") + "\n");
+            message += "Impossible " + AddCommaSeperator(CookieUtil.Get(player, boss_id + "_victory_impossible"));
             return message;
         }
     },

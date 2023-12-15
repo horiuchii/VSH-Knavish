@@ -35,7 +35,7 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Easy] <- class extends Men
 
     function GenerateDesc(player)
     {
-        return title + " Modifiers\nHealth (+20%) | Jump Cooldown (0s)\n";
+        return title + " Modifiers\nHealth (+20%) | Jump Cooldown (0s)\nNo Saved Stats";
     }
 
     function OnSelected(player)
