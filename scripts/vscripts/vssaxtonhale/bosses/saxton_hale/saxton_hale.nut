@@ -55,19 +55,19 @@ class SaxtonHale extends Boss
         boss.SetModelScale(API_GetFloat("boss_scale"), 0);
         boss.GiveWeapon("Hale's Own Fists");
 
-        boss.AddCustomAttribute("move speed bonus", 1.8, -1);
-        boss.AddCustomAttribute("cancel falling damage", 1, -1);
-        boss.AddCustomAttribute("voice pitch scale", 0, -1);
-        boss.AddCustomAttribute("melee range multiplier", 1.2, -1);
-        boss.AddCustomAttribute("damage bonus", 3, -1);
-        boss.AddCustomAttribute("melee bounds multiplier", 1.1, -1);
-        boss.AddCustomAttribute("crit mod disabled hidden", 0, -1);
-        boss.AddCustomAttribute("increase player capture value", 2, -1);
-        boss.AddCustomAttribute("cannot pick up intelligence", 1, -1);
-        boss.AddCustomAttribute("patient overheal penalty", 1, -1);
-        boss.AddCustomAttribute("health from packs decreased", 0, -1);
-        boss.AddCustomAttribute("damage force reduction", 0.75, -1);
-        boss.AddCustomAttribute("dmg taken from crit reduced", 0.75, -1);
+        player.AddCustomAttribute("move speed bonus", 1.8, -1);
+        player.AddCustomAttribute("cancel falling damage", 1, -1);
+        player.AddCustomAttribute("voice pitch scale", 0, -1);
+        //player.AddCustomAttribute("melee range multiplier", 1.2, -1);
+        player.AddCustomAttribute("damage bonus", 3, -1);
+        player.AddCustomAttribute("melee bounds multiplier", 1.1, -1);
+        player.AddCustomAttribute("crit mod disabled hidden", 0, -1);
+        player.AddCustomAttribute("increase player capture value", 2, -1);
+        player.AddCustomAttribute("cannot pick up intelligence", 1, -1);
+        player.AddCustomAttribute("patient overheal penalty", 1, -1);
+        player.AddCustomAttribute("health from packs decreased", 0, -1);
+        player.AddCustomAttribute("damage force reduction", 0.75, -1);
+        player.AddCustomAttribute("dmg taken from crit reduced", 0.75, -1);
 
         boss.AddCond(TF_COND_CANNOT_SWITCH_FROM_MELEE);
 

@@ -8,6 +8,7 @@ enum MAINMENU_ITEMS
 {
     ResetQueue
     Settings
+    Changes
     Stats
     Achievement
 }
@@ -19,7 +20,7 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.ResetQueue] <- class extends MenuItem
 
     function GenerateDesc(player)
     {
-        return "\nResets your position in\nthe queue to become boss.";
+        return "\nRemoves all of your existing queue points\nand your position in the queue to become boss.";
     }
 
     function OnSelected(player)
@@ -42,13 +43,30 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.Settings] <- class extends MenuItem
 
     function GenerateDesc(player)
     {
-        return "\nToggle various settings to fine tune your experience.\n";
+        return "\nToggle various settings to\nfine tune your experience.";
     }
 
     function OnSelected(player)
     {
         MenuHUD.menu_index[player] <- MENU.Settings;
         MenuHUD.selected_option[player] <- 0;
+    }
+}();
+
+//View VSH Changes
+menus[MENU.MainMenu].items[MAINMENU_ITEMS.Changes] <- class extends MenuItem
+{
+    title = "View VSH Rebalances"
+
+    function GenerateDesc(player)
+    {
+        return "\nView every difference from vanilla VSH.\n";
+    }
+
+    function OnSelected(player)
+    {
+        menu_index[player] <- MENU.Changes;
+        selected_option[player] <- 0;
     }
 }();
 

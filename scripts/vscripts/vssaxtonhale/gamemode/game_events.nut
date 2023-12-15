@@ -225,3 +225,24 @@ function OnGameEvent_player_stunned(params)
         return;
     FireListeners("player_stunned", attacker, victim, params.big_stun);
 }
+
+function OnGameEvent_player_chargedeployed(params)
+{
+    local player = GetPlayerFromParams(params);
+    if (!IsValidClient(player))
+        return;
+
+    FireListeners("player_uber", player);
+}
+
+function OnGameEvent_object_deflected(params)
+{
+    local airblaster = GetPlayerFromParams(params);
+    if (!IsValidClient(airblaster))
+        return;
+    local victim = GetPlayerFromParams(params, "ownerid");
+    if (!IsValidClient(victim))
+        return;
+
+    FireListeners("player_airblast", airblaster, victim);
+}

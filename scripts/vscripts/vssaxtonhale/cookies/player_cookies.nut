@@ -45,7 +45,10 @@ class Cookies
         [
             "healing"
         ],
-        ["pyro"] = [],
+        ["pyro"] =
+        [
+            "airblast"
+        ],
         ["demo"] = [],
         ["heavy"] =
         [
@@ -54,10 +57,15 @@ class Cookies
         ["engineer"] =
         [
             "healing"
+            //"sentrydamage"
         ],
         ["medic"] =
         [
             "healing"
+            "ubers_stock"
+            "ubers_kritz"
+            "ubers_quickfix"
+            "ubers_vacc"
         ],
         ["sniper"] =
         [

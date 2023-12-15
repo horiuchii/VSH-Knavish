@@ -8,6 +8,12 @@
     ["headshots"] = {},
     ["glowtime"] = {},
     ["moonshots"] = {},
+    ["airblast"] = {},
+    //["sentrydamage"] = {},
+    ["uber_stock"] = {},
+    ["uber_kritz"] = {},
+    ["uber_quickfix"] = {},
+    ["uber_vacc"] = {},
     //boss
     ["bravejump"] = {},
     ["merckills"] = {},
@@ -128,6 +134,40 @@ AddListener("bravejump", 0, function (boss)
     AddToTrackedStat(boss, "bravejump");
 });
 
+AddListener("player_airblast", 0, function (airblaster, victim)
+{
+    if(IsRoundSetup() || IsRoundOver())
+        return;
+
+    AddToTrackedStat(airblaster, "airblast");
+});
+
+AddListener("player_uber", 0, function (player)
+{
+    if(IsRoundSetup() || IsRoundOver())
+        return;
+
+    //get uber type
+    local medigun = player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY);
+    if(WeaponIs(medigun, "kritzkreig"))
+    {
+        AddToTrackedStat(player, "uber_kritz");
+    }
+    else if(WeaponIs(medigun, "quick_fix"))
+    {
+        AddToTrackedStat(player, "uber_quickfix");
+    }
+    else if(WeaponIs(medigun, "vaccinator"))
+    {
+        AddToTrackedStat(player, "uber_vacc");
+    }
+    else
+    {
+        AddToTrackedStat(player, "uber_stock");
+    }
+
+});
+
 AddListener("round_end", 100, function (winner)
 {
     if(isRoundBailout)
@@ -160,6 +200,12 @@ AddListener("round_end", 100, function (winner)
                     case "headshots": CookieUtil.Add(player, tfclass_name + "_headshots", GetTrackedStat(player, "headshots"), false); break;
                     case "glowtime": CookieUtil.Add(player, tfclass_name + "_glowtime", GetTrackedStat(player, "glowtime"), false); break;
                     case "moonshots": CookieUtil.Add(player, tfclass_name + "_moonshots", GetTrackedStat(player, "moonshots"), false); break;
+                    case "airblast": CookieUtil.Add(player, tfclass_name + "_airblast", GetTrackedStat(player, "airblast"), false); break;
+                    //case "sentrydamage": CookieUtil.Add(player, tfclass_name + "_sentrydamage", GetTrackedStat(player, "sentrydamage"), false); break;
+                    case "ubers_stock": CookieUtil.Add(player, tfclass_name + "_ubers_stock", GetTrackedStat(player, "uber_stock"), false); break;
+                    case "ubers_quickfix": CookieUtil.Add(player, tfclass_name + "_ubers_quickfix", GetTrackedStat(player, "uber_quickfix"), false); break;
+                    case "ubers_kritz": CookieUtil.Add(player, tfclass_name + "_ubers_kritz", GetTrackedStat(player, "uber_kritz"), false); break;
+                    case "ubers_vacc": CookieUtil.Add(player, tfclass_name + "_ubers_vacc", GetTrackedStat(player, "uber_vacc"), false); break;
                 }
             }
 
@@ -173,6 +219,12 @@ AddListener("round_end", 100, function (winner)
             CookieUtil.Add(player, "total_headshots", GetTrackedStat(player, "headshots"), false);
             CookieUtil.Add(player, "total_glowtime", GetTrackedStat(player, "glowtime"), false);
             CookieUtil.Add(player, "total_moonshots", GetTrackedStat(player, "moonshots"), false);
+            CookieUtil.Add(player, "total_airblast", GetTrackedStat(player, "airblast"), false);
+            //CookieUtil.Add(player, "total_sentrydamage", GetTrackedStat(player, "sentrydamage"), false);
+            CookieUtil.Add(player, "total_ubers_stock", GetTrackedStat(player, "uber_stock"), false);
+            CookieUtil.Add(player, "total_ubers_quickfix", GetTrackedStat(player, "uber_quickfix"), false);
+            CookieUtil.Add(player, "total_ubers_kritz", GetTrackedStat(player, "uber_kritz"), false);
+            CookieUtil.Add(player, "total_ubers_vacc", GetTrackedStat(player, "uber_vacc"), false);
 
             CookieUtil.SavePlayerData(player);
         }

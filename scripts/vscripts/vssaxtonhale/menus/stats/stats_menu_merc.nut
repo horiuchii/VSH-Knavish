@@ -32,6 +32,16 @@ menus[MENU.StatsMerc] <- class extends Menu
 
 ::SpecificTFClassStatTemplates <-
 {
+    ["sentrydamage"] = class extends MenuItem
+    {
+        title = "Sentry Damage"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've dealt a total\nof " + AddCommaSeperator(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_sentrydamage")) + " damage to the boss with a sentry gun.\n";
+        }
+    },
     ["backstabs"] = class extends MenuItem
     {
         title = "Backstabs"
@@ -72,6 +82,16 @@ menus[MENU.StatsMerc] <- class extends Menu
             return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've moon shot\nthe boss " + AddCommaSeperator(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_moonshots")) + " times.\n";
         }
     },
+    ["airblast"] = class extends MenuItem
+    {
+        title = "Airblasts"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've airblasted\nthe boss " + AddCommaSeperator(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_airblast")) + " times.\n";
+        }
+    },
     ["healing"] = class extends MenuItem
     {
         title = "Healing Granted"
@@ -80,6 +100,46 @@ menus[MENU.StatsMerc] <- class extends Menu
         function GenerateDesc(player)
         {
             return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've healed your\nteam for a total of " + AddCommaSeperator(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_healing")) + " health.\n";
+        }
+    },
+    ["ubers_stock"] = class extends MenuItem
+    {
+        title = "Stock Übers Popped"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've popped a total\nof " + AddCommaSeperator(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_ubers_stock")) + " Übercharges.\n";
+        }
+    },
+    ["ubers_kritz"] = class extends MenuItem
+    {
+        title = "Kritz Übers Popped"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've popped a total\nof " + AddCommaSeperator(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_ubers_kritz")) + " Kritzkrieg Übercharges.\n";
+        }
+    },
+    ["ubers_quickfix"] = class extends MenuItem
+    {
+        title = "Quick-Fix Übers Popped"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've popped a total\nof " + AddCommaSeperator(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_ubers_quickfix")) + " Quick-Fix Übercharges.\n";
+        }
+    },
+    ["ubers_vacc"] = class extends MenuItem
+    {
+        title = "Vaccinator Übers Popped"
+        tfclass_id = null
+
+        function GenerateDesc(player)
+        {
+            return "As " + TFClassUtil.ProperNames[tfclass_id] + ", you've popped a total\nof " + AddCommaSeperator(CookieUtil.Get(player, TFClassUtil.CacheNames[tfclass_id] + "_ubers_vacc")) + " Vaccinator Übercharges.\n";
         }
     }
 };

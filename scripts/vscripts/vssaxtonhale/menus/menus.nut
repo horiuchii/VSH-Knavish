@@ -4,6 +4,16 @@ enum MENU {
     MainMenu
     BossDifficulty
     Settings
+    Changes
+    ChangesScout
+    ChangesSoldier
+    ChangesPyro
+    ChangesDemo
+    ChangesHeavy
+    ChangesEngi
+    ChangesMedic
+    ChangesSniper
+    ChangesSpy
     Stats
     StatsGeneral
     StatsMerc
@@ -41,6 +51,8 @@ Include("/menus/main_menu.nut");
 
 Include("/menus/settings_menu.nut");
 Include("/menus/bossdifficulty_menu.nut");
+
+Include("/menus/changes_menu.nut");
 
 Include("/menus/stats/stats_menu.nut");
 Include("/menus/stats/stats_menu_general.nut");
