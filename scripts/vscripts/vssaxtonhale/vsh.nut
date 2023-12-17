@@ -28,6 +28,7 @@ Include("/util/listeners.nut");
 Include("/util/tfclass_util.nut")
 Include("/util/player_util.nut");
 Include("/util/character_trait.nut");
+Include("/util/trace_filter.nut");
 Include("/playertypes/player_type.nut");
 Include("/vsh_api.nut");
 

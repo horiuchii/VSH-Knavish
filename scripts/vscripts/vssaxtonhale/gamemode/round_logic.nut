@@ -167,8 +167,11 @@ function EndRound(winner)
 
     RunWithDelay2(this, -1, function()
     {
-        SendGlobalGameEvent("teamplay_game_over", {});
+        SendGlobalGameEvent("teamplay_round_start", {});
+    })
 
+    RunWithDelay2(this, -1, function()
+    {
         local leaderboard = GetDamageBoardSorted();
 
         local merc_score = 0

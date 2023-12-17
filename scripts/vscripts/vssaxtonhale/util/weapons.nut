@@ -222,6 +222,18 @@
         desc = "-25% vertical airblast scale\n+25% damage bonus\n"
     },
 
+    ["detonator"] =
+    {
+        ids = [351]
+        name = "Detonator"
+        desc = "+100% self damage force\n\n"
+    },
+    ["manmelter"] =
+    {
+        ids = [595]
+        name = "Manmelter"
+        desc = "+50% projectile speed\n+50% faster firing speed\n"
+    },
     ["thermal_thruster"] =
     {
         ids = [1179]
@@ -241,7 +253,7 @@
     {
         ids = [214]
         name = "Powerjack"
-        desc = "+75 health on hit, overheals\n\n"
+        desc = "No damage vulnerability\n+75 health on hit, overheals\n"
     },
     ["back_scratcher"] =
     {

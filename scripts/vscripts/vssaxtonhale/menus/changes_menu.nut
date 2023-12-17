@@ -66,7 +66,7 @@ menus[MENU.Changes] <- class extends Menu
 ::ClassWeapons <- [
     ["force_a_nature", "shortstop", "baby_face_blaster", "backscatter", "crit_a_cola", "pbpp", "atomizer", "candy_cane", "sunonastick", "fan_o_war"],
     ["direct_hit", "rocket_jumper", "cowmangler", "airstrike", "base_jumper", "reserve_shooter", "equalizer", "market_gardener", "escape_plan", "half_zatoichi"],
-    ["flamethrower_generic", "degreaser", "reserve_shooter", "axtinguisher", "powerjack", "back_scratcher"],
+    ["flamethrower_generic", "degreaser", "detonator", "manmelter", "reserve_shooter", "axtinguisher", "powerjack", "back_scratcher"],
     ["any_demo_boots", "base_jumper", "scottish_resistance", "any_demo_shield", "eyelander", "claidheamhmor", "half_zatoichi"],
     ["natascha", "kgb", "gru", "warriors_spirit"],
     ["engie_generic"],

@@ -65,6 +65,8 @@ IncludeTrait(TRAIT.SINGLE, "pyro_back_scratcher.nut");
 IncludeTrait(TRAIT.SINGLE, "pyro_degreaser.nut");
 IncludeTrait(TRAIT.SINGLE, "pyro_powerjack.nut");
 IncludeTrait(TRAIT.SINGLE, "pyro_axtinguisher.nut");
+IncludeTrait(TRAIT.SINGLE, "pyro_detonator.nut");
+IncludeTrait(TRAIT.SINGLE, "pyro_manmelter.nut");
 
 //Demoman
 IncludeTrait(TRAIT.SINGLE, "demo_shield.nut");

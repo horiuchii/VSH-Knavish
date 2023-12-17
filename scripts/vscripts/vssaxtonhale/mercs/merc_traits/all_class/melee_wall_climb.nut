@@ -107,14 +107,21 @@ AddListener("tick_always", 0, function (timeDelta)
         }
 }
 
+::LastActiveWeapon <- {};
+
 ::CheckMeleeSmack <- function()
 {
 	local player = self.GetOwner();
+
 	// when melee smacks, m_iNextMeleeCrit is 0
 	if (GetPropInt(player, "m_Shared.m_iNextMeleeCrit") == 0)
 	{
+        // checking last weapon will prevent shit where switching from banner to melee will cause the fake wall climb
+        if(!(player in LastActiveWeapon))
+            LastActiveWeapon[player] <- player.GetActiveWeapon();
+
 		// when switching away from melee, m_iNextMeleeCrit will also be 0 so check for that case
-		if (player.GetActiveWeapon() == self)
+		if (player.GetActiveWeapon() == self && LastActiveWeapon[player] == self)
 		{
             local docheck = player in justWallClimbed ? justWallClimbed[player] : false;
 
@@ -126,8 +133,8 @@ AddListener("tick_always", 0, function (timeDelta)
             }
 
             local eyepos = player.EyePosition();
-
             local bounds_scale = GetBoundsMultiplier(self);
+            local hit_enemy = false;
 
             traceTable <-
             {
@@ -135,10 +142,22 @@ AddListener("tick_always", 0, function (timeDelta)
                 end = eyepos + (player.EyeAngles().Forward() * GetSwingLength(self))
                 hullmin = Vector(-18,-18,-18) * bounds_scale
                 hullmax = Vector(18,18,18) * bounds_scale
-                mask = MASK_SOLID_BRUSHONLY
+                mask = (CONTENTS_SOLID|CONTENTS_MONSTER|CONTENTS_HITBOX)
+                filter = function(entity)
+                {
+                    if(IsValidPlayer(entity) && entity.GetTeam() != player.GetTeam())
+                    {
+                        hit_enemy = true;
+                        return TRACE_STOP;
+                    }
+
+                    return TRACE_CONTINUE;
+                }
             }
 
-            if(TraceHull(traceTable) && !traceTable.hit)
+            TraceHullFilter(traceTable);
+
+            if(!traceTable.hit || hit_enemy)
             {
                 // continue smack detection
 		        SetPropInt(player, "m_Shared.m_iNextMeleeCrit", -2);
@@ -150,6 +169,7 @@ AddListener("tick_always", 0, function (timeDelta)
 
 		// continue smack detection
 		SetPropInt(player, "m_Shared.m_iNextMeleeCrit", -2);
+        LastActiveWeapon[player] <- player.GetActiveWeapon();
 	}
 
 	return -1;
