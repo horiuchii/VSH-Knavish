@@ -27,7 +27,7 @@ class SaxtonHale extends Boss
     name_proper = "Saxton Hale";
     color = "255 230 0";
     tfclass = TF_CLASS_HEAVY;
-
+    //abilities = [MightySlam, BraveJump, SweepingCharge];
     function OnCreationPre()
     {
         player.SetPlayerClass(TF_CLASS_HEAVY);

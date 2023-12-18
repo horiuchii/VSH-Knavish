@@ -20,17 +20,13 @@ function OnPostSpawn()
         local player = PlayerInstanceFromIndex(i);
         if (player != null)
         {
-            playerType[player] <- Mercenary();
+            InitPlayerVariables(player);
         }
     }
 
     RecachePlayers();
     PrecacheGenericSoundScripts();
     PrecacheVoiceLineSoundScripts();
-    foreach (player in GetValidClients())
-    {
-        InitPlayerVariables(player);
-    }
 
     FireListeners("new_round");
 

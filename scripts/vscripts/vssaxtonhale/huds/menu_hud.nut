@@ -5,7 +5,8 @@ class MenuHUD
     selected_option = {};
     selected_mainmenu_option = {};
     menu_index = {};
-    MenuHUDID = UniqueString();
+    HUDID = UniqueString();
+    HUDPriority = 100;
 
     cyoaMusic =
     [
@@ -20,22 +21,46 @@ class MenuHUD
         "teamfortress2"
     ];
 
-    function CreateHUD()
+    function AddMenuHUD(player)
     {
-        local MenuHUD = HUDObject();
-        MenuHUD.id = MenuHUDID;
-        MenuHUD.enabled = false;
-        MenuHUD.scriptoverlay = "";
-        MenuHUD.priority = 10;
-        MenuHUD.channels = { main_channel = HUDChannelObject() };
-        return MenuHUD;
+        HUD.Add(player, CreateIdentifier(), CreateHUDObject());
+    }
+
+    function CreateIdentifier()
+    {
+        return HUDIdentifier(HUDID, HUDPriority);
+    }
+
+    function CreateHUDObject()
+    {
+        return HUDObject(
+            [
+                class extends HUDChannel
+                {
+                    function Update()
+                    {
+                        MenuHUD.UpdateVSHMenuHUD(player, params);
+                    }
+
+                    function OnEnabled()
+                    {
+                        MenuHUD.OpenVSHMenuHUD(player, params);
+                    }
+
+                    function OnDisabled()
+                    {
+                        MenuHUD.CloseVSHMenuHUD(player, params);
+                    }
+                }(-1, -1, "255 255 255", 500, 0, 0)
+            ]
+        );
     }
 
     function OnPlayerChat(player, message)
     {
-        if(message == "!vshmenu" || message == "/vshmenu" || message == "vshmenu")
+        if((message == "!vshmenu" || message == "/vshmenu" || message == "vshmenu") && !IsInVSHMenu(player))
         {
-            OpenVSHMenuHUD(player);
+            HUDTable[player][HUDID].Enable();
         }
     }
 
@@ -57,61 +82,59 @@ class MenuHUD
             if (player.WasButtonJustPressed(IN_ATTACK3))
             {
                 if (IsInVSHMenu(player))
-                    CloseVSHMenuHUD(player);
+                {
+                    HUDTable[player][HUDID].Disable();
+                }
                 else if (Time() - last_press_menu_button[player] < DOUBLE_PRESS_MENU_THRESHOLD)
-                    OpenVSHMenuHUD(player);
+                {
+                    HUDTable[player][HUDID].Enable();
+                }
                 else
+                {
                     last_press_menu_button[player] <- Time();
+                }
             }
 
-            if (IsInVSHMenu(player))
-                UpdateVSHMenuHUD(player);
-            else if (player.IsInspecting() && !IsBoss(player))
-                UpdateWeaponStatHUD(player);
-            else if (!IsBoss(player))
+            //else if (player.IsInspecting() && !IsBoss(player))
+            //    UpdateWeaponStatHUD(player);
+            /*else if (!IsBoss(player))
             {
                 EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
                 EntFireByHandle(game_text_merc_hud, "AddOutput", "message ", 0, player, player);
                 EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
                 player.SetScriptOverlayMaterial(null);
                 UpdateDamageHUD(player);
-            }
+            }*/
         }
     }
 
-    function OpenVSHMenuHUD(player)
+    function OpenVSHMenuHUD(player, params)
     {
-        if(IsInVSHMenu(player))
-            return;
-
         MenuHUD.menu_index[player] <- MENU.MainMenu;
         EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
         EntFireByHandle(env_hudhint_boss, "HideHudHint", "", 0, player, player);
         PlaySoundForPlayer(player, "ui/cyoa_map_open.wav");
+        GenerateVSHMenuHUDText(player, params);
 
         if(!!CookieUtil.Get(player, "menu_music"))
         {
             local music = "ui/cyoa_music" + cyoaMusic[RandomInt(0, cyoaMusic.len() - 1)] + "_tv.mp3";
             PrecacheSound(music);
-            EmitSoundEx({
+            EmitSoundEx(
+            {
                 sound_name = music
-                channel = -1
+                channel = CHAN_MUSIC
                 entity = player
                 filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
             });
         }
 
-        GenerateVSHMenuHUDText(player);
-
         if(!player.IsAlive())
             player.SetOrigin(player.GetOrigin() + Vector(0,0,64))
     }
 
-    function CloseVSHMenuHUD(player)
+    function CloseVSHMenuHUD(player, params)
     {
-        if(!IsInVSHMenu(player))
-            return;
-
         selected_option[player] = selected_mainmenu_option[player];
 
         delete MenuHUD.menu_index[player];
@@ -128,22 +151,20 @@ class MenuHUD
             SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_HEALTH);
         }
         else
+        {
             SetPropInt(player, "m_Local.m_iHideHUD", 0);
+        }
 
         PrecacheSound("misc/null.wav");
         EmitSoundEx({
             sound_name = "misc/null.wav"
-            channel = -1
+            channel = CHAN_MUSIC
             entity = player
             filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
         });
-
-        EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
-        EntFireByHandle(game_text_merc_hud, "AddOutput", "message ", 0, player, player);
-        EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
     }
 
-    function UpdateVSHMenuHUD(player)
+    function UpdateVSHMenuHUD(player, params)
     {
         if(!player.IsAlive())
         {
@@ -168,7 +189,7 @@ class MenuHUD
                 selected_mainmenu_option[player] <- new_loc;
 
             PlaySoundForPlayer(player, "ui/cyoa_node_absent.wav");
-            GenerateVSHMenuHUDText(player);
+            GenerateVSHMenuHUDText(player, params);
         }
 
         // Select Menu Item
@@ -176,13 +197,13 @@ class MenuHUD
         {
             menus[MenuHUD.menu_index[player]].items[selected_option[player]].OnSelected(player);
             PlaySoundForPlayer(player, "ui/buttonclick.wav");
-            GenerateVSHMenuHUDText(player);
+            GenerateVSHMenuHUDText(player, params);
         }
 
         // Return To Previous Menu
         if (player.WasButtonJustPressed(IN_ATTACK2))
         {
-            GoUpVSHMenuDir(player);
+            GoUpVSHMenuDir(player, params);
         }
 
         player.AddFlag(FL_ATCONTROLS);
@@ -191,7 +212,7 @@ class MenuHUD
         SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_WEAPONSELECTION | HIDEHUD_HEALTH | HIDEHUD_MISCSTATUS | HIDEHUD_CROSSHAIR);
     }
 
-    function GoUpVSHMenuDir(player, playsound = true)
+    function GoUpVSHMenuDir(player, params, playsound = true)
     {
         if (MenuHUD.menu_index[player] != MENU.MainMenu)
         {
@@ -204,11 +225,11 @@ class MenuHUD
             if(playsound)
                 PlaySoundForPlayer(player, "ui/buttonclick.wav");
 
-            GenerateVSHMenuHUDText(player);
+            GenerateVSHMenuHUDText(player, params);
         }
     }
 
-    function GenerateVSHMenuHUDText(player)
+    function GenerateVSHMenuHUDText(player, params)
     {
         local message = "\n\n\n\n\n";
         local menu_size = menus[MenuHUD.menu_index[player]].items.len();
@@ -229,37 +250,23 @@ class MenuHUD
             }
             if(index < 0 || index > menu_size - 1)
             {
-                message += "\n"
+                message += "\n";
                 continue;
             }
 
-            message += menus[MenuHUD.menu_index[player]].items[index].title
-            message += "\n"
+            message += menus[MenuHUD.menu_index[player]].items[index].title;
+            message += "\n";
         }
 
-        local description = menus[MenuHUD.menu_index[player]].items[selected_option[player]].GenerateDesc(player)
+        local description = menus[MenuHUD.menu_index[player]].items[selected_option[player]].GenerateDesc(player);
 
         message += "\n" + description + "\n\n\n\n\n\n";
-
-        EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
-        EntFireByHandle(game_text_merc_hud, "AddOutput", "y -1", 0, player, player);
-        EntFireByHandle(game_text_merc_hud, "AddOutput", "x -1", 0, player, player);
-        EntFireByHandle(game_text_merc_hud, "AddOutput", "message " + message, 0, player, player);
-        EntFireByHandle(game_text_merc_hud, "Display", "", -1, player, player);
+        params.message = message;
+        HUDTable[player][HUDID].channels[params.channel].SetGameTextParams();
+        EntFireByHandle(hud_text, "Display", "", -1, player, player);
     }
 }
 ::MenuHUD <- MenuHUD();
-
-AddListener("spawn", 0, function (player, params)
-{
-    PrecacheSound("misc/null.wav")
-    EmitSoundEx({
-        sound_name = "misc/null.wav"
-        channel = -1
-        entity = player
-        filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
-    });
-});
 
 AddListener("chat", 0, function (player, message)
 {

@@ -206,9 +206,7 @@
 
 ::InitPlayerVariables <- function(player)
 {
-    // Traits
-    playerType[player] <- Mercenary();
-    characterTraits[player] <- [];
+    printl("\n\nINIT" + player + "\n\n");
 
     // Netprops
     lastButtons[player] <- 0;
@@ -224,6 +222,10 @@
     // HUDs
     HUDIdentifiers[player] <- [];
     HUDTable[player] <- {};
+
+    // Traits
+    player.Set(Mercenary);
+    characterTraits[player] <- [];
 }
 
 AddListener("connect", 0, function (player)

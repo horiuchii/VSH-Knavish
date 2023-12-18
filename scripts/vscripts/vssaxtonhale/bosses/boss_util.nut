@@ -23,7 +23,7 @@ function RegisterBoss(name, bossClass)
 
 function AssignBoss(bossClass, bossPlayer)
 {
-    bossPlayer.Set(bossLibrary[bossClass]());
+    bossPlayer.Set(bossLibrary[bossClass]);
 }
 
 ::IsAnyBossValid <- function()

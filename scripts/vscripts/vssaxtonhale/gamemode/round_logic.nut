@@ -28,7 +28,7 @@ AddListener("setup_start", 1, function ()
 
     foreach (player in GetValidMercs())
     {
-        player.Set(Mercenary());
+        player.Set(Mercenary);
         player.SwitchTeam(TF_TEAM_MERCS);
         player.ForceRegenerateAndRespawn();
     }
@@ -71,6 +71,15 @@ AddListener("death", 2, function (attacker, victim, params)
 
 AddListener("spawn", 10, function(player, params)
 {
+    // Stop music played in this channel
+    PrecacheSound("misc/null.wav")
+    EmitSoundEx({
+        sound_name = "misc/null.wav"
+        channel = CHAN_MUSIC
+        entity = player
+        filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
+    });
+
     if (IsInWaitingForPlayers() || !IsRoundSetup())
         return;
 

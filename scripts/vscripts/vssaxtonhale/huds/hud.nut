@@ -15,26 +15,52 @@
 ::HUDTable <- {};
 ::hud_text <- SpawnEntityFromTable("game_text", {});
 
-class HUDObjectIdentifier
+class HUD
 {
-    id = ""
-    priority = 0
+    function Add(player, identifier, hud)
+    {
+        printl("\n\nADD " + player + "\n\n");
+        local size = HUDIdentifiers[player].len();
+        local i = 0;
+        for (; i < size; i++)
+        {
+            if (HUDIdentifiers[player][i].priority < identifier.priority)
+            {
+                break;
+            }
+        }
+
+        HUDIdentifiers[player].insert(i, identifier);
+        HUDTable[player][identifier.id] <- hud;
+        foreach (index, channel in HUDTable[player][identifier.id].channels)
+        {
+            channel.player = player;
+            channel.params.channel = index;
+        }
+    }
 }
+::HUD <- HUD();
 
-class HUDObject
+class HUDIdentifier
 {
     id = ""
     priority = 0
-	scriptoverlay = ""
-    enabled = false
-	channels = {}
 
-    function constructor(_id, _priority, _scriptoverlay = "", _enabled = false, _channels = {})
+    function constructor(_id, _priority)
     {
         id = _id;
         priority = _priority;
-        scriptoverlay = _scriptoverlay;
-        enabled = _enabled;
+    }
+}
+::HUDIdentifier <- HUDIdentifier;
+
+class HUDObject
+{
+    enabled = false
+	channels = []
+
+    function constructor(_channels = {})
+    {
         channels = _channels;
     }
 
@@ -45,76 +71,81 @@ class HUDObject
             return;
         }
 
-        foreach (channel in channels)
+        foreach (index, channel in channels)
         {
+            channel.params.channel = index;
             channel.Update();
         }
 	}
 
     function Enable()
     {
-        enable = true;
-        foreach (channel in channels)
+        enabled = true;
+        foreach (index, channel in channels)
         {
-            channel.OnHudEnabled();
+            channel.params.channel = index;
+            channel.OnEnabled();
         }
     }
 
     function Disable()
     {
-        enable = false;
-        foreach (channel in channels)
+        enabled = false;
+        foreach (index, channel in channels)
         {
-            channel.OnHudDisabled();
+            channel.params.channel = index;
+            channel.OnDisabled();
+            EntFireByHandle(hud_text, "AddOutput", "channel " + index, -1, null, null);
+            EntFireByHandle(hud_text, "AddOutput", "message ", -1, null, null);
+            EntFireByHandle(hud_text, "Display", "", -1, channel.player, channel.player);
         }
     }
 }
+::HUDObject <- HUDObject;
 
-class HUDChannelObject
+class HUDChannel
 {
     player = null;
-    channel = 0
-    x = 0
-    y = 0
-    color = "255 255 255"
-    holdtime = 0
-    fadein = 0
-    fadeout = 0
-    message = ""
-
-    function constructor(_player, _channel = 0, _x = 0, _y = 0, _color = "255 255 255", _holdtime = 0, _fadein = 0, _fadeout = 0)
+    params =
     {
-        player = _player;
-        channel = _channel;
-        x = _x;
-        y = _y;
-        color = _color;
-        fadein = _fadein;
-        fadeout = _fadeout;
-        holdtime = _holdtime;
-        message = _message;
+        x = 0
+        y = 0
+        channel = 0
+        color = "255 255 255"
+        holdtime = 0
+        fadein = 0
+        fadeout = 0
+        message = ""
+    }
+
+    function constructor(_x = 0, _y = 0, _color = "255 255 255", _holdtime = 0, _fadein = 0, _fadeout = 0)
+    {
+        params.x = _x;
+        params.y = _y;
+        params.color = _color;
+        params.fadein = _fadein;
+        params.fadeout = _fadeout;
+        params.holdtime = _holdtime;
     }
 
     function SetGameTextParams()
     {
-        EntFireByHandle(hud_text, "AddOutput", "channel " + channel, -1, null, null);
-        EntFireByHandle(hud_text, "AddOutput", "x " + x, -1, null, null);
-        EntFireByHandle(hud_text, "AddOutput", "y " + y, -1, null, null);
-        EntFireByHandle(hud_text, "AddOutput", "color " + color, -1, null, null);
-        EntFireByHandle(hud_text, "AddOutput", "fadein " + fadein, -1, null, null);
-        EntFireByHandle(hud_text, "AddOutput", "fadeout " + fadeout, -1, null, null);
-        EntFireByHandle(hud_text, "AddOutput", "holdtime " + holdtime, -1, null, null);
-        EntFireByHandle(hud_text, "AddOutput", "message " + message, -1, null, null);
+        printl(params.message);
+        EntFireByHandle(hud_text, "AddOutput", "channel " + params.channel, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "x " + params.x, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "y " + params.y, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "color " + params.color, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "fadein " + params.fadein, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "fadeout " + params.fadeout, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "holdtime " + params.holdtime, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "message " + params.message, -1, null, null);
     }
 
     function Update() { return; }
     function OnEnabled() { return; }
     function OnDisabled() { return; }
-    function Draw()
-    {
-        EntFireByHandle(hud_text, "Display", "", -1, player, player);
-    }
 }
+::HUDChannel <- HUDChannel;
 
 ::game_text_merc_hud <- SpawnEntityFromTable("game_text",
 {
@@ -136,28 +167,30 @@ AddListener("tick_frame", 2, function ()
 {
     foreach (player in GetValidClients())
     {
-        foreach (hud in HUDIdentifiers[player])
+        if (IsPlayerABot(player))
+            continue;
+
+        foreach (identifier in HUDIdentifiers[player])
         {
-            //hud.UpdateChannels();
+            if (HUDTable[player][identifier.id].enabled)
+            {
+                HUDTable[player][identifier.id].UpdateChannels();
+                break;
+            }
         }
     }
 });
 
 AddListener("spawn", 0, function (player, params)
 {
-    HUDIdentifiers[player].clear();
-    HUDTable[player].clear();
-
-    InitMenuHUD(player);
-    player.Get().InitHUDs();
-
     RunWithDelay2(this, 1.0, function ()
     {
         EntFireByHandle(IsBoss(player) ? env_hudhint_boss : env_hudhint, "ShowHudHint", "", 0, player, player);
     })
 });
 
-AddListener("tick_only_valid", 2, function (deltaTime) {
+AddListener("tick_only_valid", 2, function (deltaTime)
+{
     TickBossBar(GetBossPlayers()[0]); //todo not built for duo-bosses
 })
 

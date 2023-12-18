@@ -45,6 +45,9 @@ foreach (k, v in NetProps.getclass())
 ::TF_CLASS_HEAVY <- TF_CLASS_HEAVYWEAPONS;
 ::MAX_PLAYERS <- MaxClients().tointeger();
 
+::CHAN_REPLACE <- -1;
+::CHAN_MUSIC <- CHAN_REPLACE;
+
 enum TF_DEATHFLAG
 {
     KILLER_DOMINATION = 1,

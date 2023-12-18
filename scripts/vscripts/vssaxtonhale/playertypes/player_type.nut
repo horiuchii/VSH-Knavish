@@ -3,7 +3,14 @@
 CTFPlayer.Get <- function() { return playerType[this] };
 CTFBot.Get <- CTFPlayer.Get;
 
-CTFPlayer.Set <- function(type) { playerType[this] = type };
+CTFPlayer.Set <- function(type)
+{
+    if (!(this in playerType))
+        playerType[this] <- {};
+
+    playerType[this] = (type)(this);
+    playerType[this].player = this;
+};
 CTFBot.Set <- CTFPlayer.Set;
 
 class PlayerType extends CharacterTrait
@@ -11,9 +18,17 @@ class PlayerType extends CharacterTrait
     name = null;
     color = "0 0 0";
 
+    function constructor(player)
+    {
+        this.player = player;
+        InitHUDs();
+    }
+
     function InitHUDs()
     {
-        return;
+        HUDIdentifiers[player].clear();
+        HUDTable[player].clear();
+        MenuHUD.AddMenuHUD(player);
     }
 
     function GetHexColor()
@@ -25,12 +40,8 @@ class PlayerType extends CharacterTrait
 class Mercenary extends PlayerType
 {
     color = TF_TEAM_MERCS == TF_TEAM_RED ? "255 0 0" : "0 0 255";
-
-    function InitHUDs()
-    {
-
-    }
 }
+::Mercenary <- Mercenary;
 
 class Special extends PlayerType
 {

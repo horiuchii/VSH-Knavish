@@ -118,7 +118,7 @@ menus[MENU.Settings].items[SETTINGS_ITEMS.PDAMusic] <- class extends MenuItem
             PrecacheSound(music);
             EmitSoundEx({
                 sound_name = music
-                channel = -1
+                channel = CHAN_MUSIC
                 entity = player
                 filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
             });
@@ -129,7 +129,7 @@ menus[MENU.Settings].items[SETTINGS_ITEMS.PDAMusic] <- class extends MenuItem
             PrecacheSound("misc/null.wav")
             EmitSoundEx({
                 sound_name = "misc/null.wav"
-                channel = -1
+                channel = CHAN_MUSIC
                 entity = player
                 filter_type = RECIPIENT_FILTER_SINGLE_PLAYER
             })

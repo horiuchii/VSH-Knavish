@@ -102,14 +102,6 @@ class AbilityHudTrait extends BossTrait
 
         if(IsInVSHMenu(player))
         {
-            if(!in_vsh_menu)
-            {
-                EntFireByHandle(game_text_charge, "AddOutput", "message ", 0, boss, boss);
-                EntFireByHandle(game_text_charge, "Display", "", 0, boss, boss);
-                EntFireByHandle(game_text_slam, "AddOutput", "message ", 0, boss, boss);
-                EntFireByHandle(game_text_slam, "Display", "", 0, boss, boss);
-                in_vsh_menu = true;
-            }
             return;
         }
 
