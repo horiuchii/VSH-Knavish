@@ -21,7 +21,7 @@ class MenuHUD
         "teamfortress2"
     ];
 
-    function AddMenuHUD(player)
+    function AddHUD(player)
     {
         HUD.Add(player, CreateIdentifier(), CreateHUDObject());
     }
@@ -45,13 +45,15 @@ class MenuHUD
                     function OnEnabled()
                     {
                         MenuHUD.OpenVSHMenuHUD(player, params);
+                        base.OnEnabled();
                     }
 
                     function OnDisabled()
                     {
                         MenuHUD.CloseVSHMenuHUD(player, params);
+                        base.OnDisabled();
                     }
-                }(-1, -1, "255 255 255", 500, 0, 0)
+                }(-1, -1, "255 255 255", 250, 0, 0)
             ]
         );
     }
@@ -94,17 +96,6 @@ class MenuHUD
                     last_press_menu_button[player] <- Time();
                 }
             }
-
-            //else if (player.IsInspecting() && !IsBoss(player))
-            //    UpdateWeaponStatHUD(player);
-            /*else if (!IsBoss(player))
-            {
-                EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
-                EntFireByHandle(game_text_merc_hud, "AddOutput", "message ", 0, player, player);
-                EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
-                player.SetScriptOverlayMaterial(null);
-                UpdateDamageHUD(player);
-            }*/
         }
     }
 
@@ -179,9 +170,13 @@ class MenuHUD
             local length = menus[MenuHUD.menu_index[player]].items.len() - 1;
             local new_loc = (selected_option[player]) + (player.WasButtonJustPressed(IN_FORWARD) ? -1 : 1);
             if (new_loc < 0)
+            {
                 new_loc = length;
+            }
             else if (new_loc > length)
+            {
                 new_loc = 0;
+            }
 
             selected_option[player] <- new_loc;
 
@@ -262,8 +257,8 @@ class MenuHUD
 
         message += "\n" + description + "\n\n\n\n\n\n";
         params.message = message;
-        HUDTable[player][HUDID].channels[params.channel].SetGameTextParams();
-        EntFireByHandle(hud_text, "Display", "", -1, player, player);
+        params.scope.SetGameTextParams();
+        params.scope.Display();
     }
 }
 ::MenuHUD <- MenuHUD();
@@ -277,11 +272,6 @@ AddListener("tick_frame", 2, function ()
 {
     MenuHUD.OnFrameTick();
 });
-
-::InitMenuHUD <- function(player)
-{
-
-}
 
 ::IsInVSHMenu <- function(player)
 {

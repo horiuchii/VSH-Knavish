@@ -80,9 +80,6 @@ class SweepingChargeTrait extends BossTrait
 
     function OnFrameTickAlive()
     {
-        if (!player.Get().CanUseAbilities())
-            return;
-
         if (API_GetBool("freeze_boss_setup") && IsRoundSetup())
             return;
 
@@ -93,7 +90,7 @@ class SweepingChargeTrait extends BossTrait
         }
 
         local buttons = boss.GetButtons();
-        if (boss.IsUsingActionSlot() || buttons & IN_RELOAD)
+        if (player.Get().CanUseAbilities() && (boss.IsUsingActionSlot() || buttons & IN_RELOAD))
         {
             if (meter < 0 || boss.InCond(TF_COND_TAUNTING))
             {

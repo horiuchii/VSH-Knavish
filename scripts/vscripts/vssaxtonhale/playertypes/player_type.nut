@@ -28,7 +28,8 @@ class PlayerType extends CharacterTrait
     {
         HUDIdentifiers[player].clear();
         HUDTable[player].clear();
-        MenuHUD.AddMenuHUD(player);
+        MenuHUD.AddHUD(player);
+        InspectHUD.AddHUD(player);
     }
 
     function GetHexColor()
@@ -40,6 +41,13 @@ class PlayerType extends CharacterTrait
 class Mercenary extends PlayerType
 {
     color = TF_TEAM_MERCS == TF_TEAM_RED ? "255 0 0" : "0 0 255";
+
+    function InitHUDs()
+    {
+        base.InitHUDs();
+        MercenaryHUD.AddHUD(player);
+        HUDTable[player][MercenaryHUD.HUDID].Enable();
+    }
 }
 ::Mercenary <- Mercenary;
 

@@ -13,13 +13,21 @@
 
 ::HUDIdentifiers <- {};
 ::HUDTable <- {};
-::hud_text <- SpawnEntityFromTable("game_text", {});
+::hud_text <- SpawnEntityFromTable("game_text",
+{
+    x = -1
+    y = -1
+    color = "255 255 255"
+    holdtime = 500
+    fadein = 0
+    fadeout = 0
+    message = " "
+});
 
 class HUD
 {
     function Add(player, identifier, hud)
     {
-        printl("\n\nADD " + player + "\n\n");
         local size = HUDIdentifiers[player].len();
         local i = 0;
         for (; i < size; i++)
@@ -32,6 +40,7 @@ class HUD
 
         HUDIdentifiers[player].insert(i, identifier);
         HUDTable[player][identifier.id] <- hud;
+        HUDTable[player][identifier.id].player = player;
         foreach (index, channel in HUDTable[player][identifier.id].channels)
         {
             channel.player = player;
@@ -56,6 +65,7 @@ class HUDIdentifier
 
 class HUDObject
 {
+    player = null
     enabled = false
 	channels = []
 
@@ -71,15 +81,26 @@ class HUDObject
             return;
         }
 
+        local i = 0;
         foreach (index, channel in channels)
         {
             channel.params.channel = index;
             channel.Update();
+            i++;
+        }
+
+        for (; i < 2; i++)
+        {
+            EntFireByHandle(hud_text, "AddOutput", "channel " + i, -1, null, null);
+            EntFireByHandle(hud_text, "AddOutput", "message " + " ", -1, null, null);
+            EntFireByHandle(hud_text, "Display", "", -1, player, player);
         }
 	}
 
     function Enable()
     {
+        ClearChannels();
+
         enabled = true;
         foreach (index, channel in channels)
         {
@@ -95,9 +116,27 @@ class HUDObject
         {
             channel.params.channel = index;
             channel.OnDisabled();
-            EntFireByHandle(hud_text, "AddOutput", "channel " + index, -1, null, null);
-            EntFireByHandle(hud_text, "AddOutput", "message ", -1, null, null);
-            EntFireByHandle(hud_text, "Display", "", -1, channel.player, channel.player);
+        }
+
+        // Enable last HUD
+        foreach (identifier in HUDIdentifiers[player])
+        {
+            if (HUDTable[player][identifier.id].enabled)
+            {
+                HUDTable[player][identifier.id].Enable();
+                break;
+            }
+        }
+    }
+
+    function ClearChannels()
+    {
+        player.SetScriptOverlayMaterial(null);
+        for(local i = 0; i < 2; i++)
+        {
+            EntFireByHandle(hud_text, "AddOutput", "channel " + i, -1, null, null);
+            EntFireByHandle(hud_text, "AddOutput", "message " + " ", -1, null, null);
+            EntFireByHandle(hud_text, "Display", "", -1, player, player);
         }
     }
 }
@@ -106,20 +145,23 @@ class HUDObject
 class HUDChannel
 {
     player = null;
-    params =
-    {
-        x = 0
-        y = 0
-        channel = 0
-        color = "255 255 255"
-        holdtime = 0
-        fadein = 0
-        fadeout = 0
-        message = ""
-    }
+    params = null;
 
     function constructor(_x = 0, _y = 0, _color = "255 255 255", _holdtime = 0, _fadein = 0, _fadeout = 0)
     {
+        params = {
+            scope = null
+            x = 0
+            y = 0
+            channel = 0
+            color = "255 255 255"
+            holdtime = 500
+            fadein = 0
+            fadeout = 0
+            message = ""
+        }
+
+        params.scope = this;
         params.x = _x;
         params.y = _y;
         params.color = _color;
@@ -130,7 +172,6 @@ class HUDChannel
 
     function SetGameTextParams()
     {
-        printl(params.message);
         EntFireByHandle(hud_text, "AddOutput", "channel " + params.channel, -1, null, null);
         EntFireByHandle(hud_text, "AddOutput", "x " + params.x, -1, null, null);
         EntFireByHandle(hud_text, "AddOutput", "y " + params.y, -1, null, null);
@@ -141,23 +182,37 @@ class HUDChannel
         EntFireByHandle(hud_text, "AddOutput", "message " + params.message, -1, null, null);
     }
 
-    function Update() { return; }
-    function OnEnabled() { return; }
-    function OnDisabled() { return; }
+    function Update()
+    {
+        Display();
+    }
+    function OnEnabled()
+    {
+        Display();
+    }
+    function OnDisabled()
+    {
+        Clear();
+    }
+    function Clear()
+    {
+        EntFireByHandle(hud_text, "AddOutput", "channel " + params.channel, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "x -1", -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "y -1", -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "color 255 255 255", -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "fadein 0", -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "fadeout 0", -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "holdtime 500", -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "message ", -1, null, null);
+        EntFireByHandle(hud_text, "Display", "", -1, player, player);
+    }
+    function Display()
+    {
+        SetGameTextParams();
+        EntFireByHandle(hud_text, "Display", params.message, -1, player, player);
+    }
 }
 ::HUDChannel <- HUDChannel;
-
-::game_text_merc_hud <- SpawnEntityFromTable("game_text",
-{
-    color = "236 227 203",
-    channel = 1,
-    fadein = 0,
-    fadeout = 0,
-    holdtime = 500,
-    message = "",
-    x = 0.481,
-    y = 0.788
-});
 
 ::env_hudhint <- SpawnEntityFromTable("env_hudhint", {message = "%+inspect% HOLD TO VIEW WEAPON STATS%+attack3% DOUBLE TAP OR CHAT /vshmenu TO OPEN VSH MENU"});
 ::env_hudhint_boss <- SpawnEntityFromTable("env_hudhint", {message = "%+attack3% DOUBLE TAP OR CHAT /vshmenu TO OPEN VSH MENU"});
@@ -183,6 +238,7 @@ AddListener("tick_frame", 2, function ()
 
 AddListener("spawn", 0, function (player, params)
 {
+    player.SetScriptOverlayMaterial(null);
     RunWithDelay2(this, 1.0, function ()
     {
         EntFireByHandle(IsBoss(player) ? env_hudhint_boss : env_hudhint, "ShowHudHint", "", 0, player, player);
@@ -220,55 +276,4 @@ AddListener("tick_only_valid", 2, function (deltaTime)
     SetPropInt(pd_logic, "m_nBlueTargetPoints", barValue);
     SetPropInt(pd_logic, "m_nMaxPoints", boss.GetMaxHealth());
     SetPropInt(pd_logic, "m_nRedScore", GetAliveMercCount());
-}
-
-::UpdateDamageHUD <- function(player)
-{
-    local number = floor(player in damage_score ? damage_score[player] : 0);
-    local offset = number < 10 ? 0.498 : number < 100 ? 0.493 : number < 1000 ? 0.491 : 0.487;
-
-    EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 0", 0, player, player);
-    EntFireByHandle(game_text_merc_hud, "AddOutput", "message " + number, 0, player, player);
-    EntFireByHandle(game_text_merc_hud, "AddOutput", "y 0.788", 0, player, player);
-    EntFireByHandle(game_text_merc_hud, "AddOutput", "x " + offset, 0, player, player);
-    EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
-}
-
-::UpdateWeaponStatHUD <- function(player)
-{
-    EntFireByHandle(env_hudhint, "HideHudHint", "", 0, player, player);
-    //display weapon stats
-    local weapon_primary = "";
-    if (player.GetPlayerClass() == TF_CLASS_DEMOMAN && player.HasWearable("any_demo_boots"))
-        weapon_primary = GetWeaponDescription("booties");
-    else
-        weapon_primary = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY)))
-
-    local weapon_secondary = "";
-    if (player.GetPlayerClass() == TF_CLASS_SNIPER
-        && player.HasWearable("any_sniper_backpack"))
-    {
-        local wearable = player.GetWearable("any_sniper_backpack");
-        weapon_secondary = GetWeaponDescription(GetWeaponName(wearable));
-    }
-    else if (player.GetPlayerClass() == TF_CLASS_DEMOMAN
-        && player.HasWearable("any_demo_shield"))
-    {
-        local wearable = player.GetWearable("any_demo_shield");
-        weapon_secondary = GetWeaponDescription(GetWeaponName(wearable));
-    }
-    else if (player.GetPlayerClass() == TF_CLASS_SPY)
-        weapon_secondary = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.INVIS_WATCH)));
-    else
-        weapon_secondary = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY)));
-
-    local weapon_melee = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE)));
-
-    player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/weapon_info");
-
-    EntFireByHandle(game_text_merc_hud, "AddOutput", "channel 1", 0, player, player);
-    EntFireByHandle(game_text_merc_hud, "AddOutput", "message " + weapon_primary + weapon_secondary + weapon_melee, 0, player, player);
-    EntFireByHandle(game_text_merc_hud, "AddOutput", "y 0.295", 0, player, player);
-    EntFireByHandle(game_text_merc_hud, "AddOutput", "x 0.71", 0, player, player);
-    EntFireByHandle(game_text_merc_hud, "Display", "", 0, player, player);
 }

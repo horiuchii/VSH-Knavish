@@ -14,17 +14,16 @@
 //
 // DAMAGE
 //
-::damage_score <- {};
 boss_damage <- 0; //set up for duo-boss in future
 
 function GetRoundDamage(player)
 {
-    return player in damage_score ? damage_score[player] : 0;
+    return player in MercenaryStats.TotalDamage ? MercenaryStats.TotalDamage[player] : 0;
 }
 
 function SetRoundDamage(player, damageValue)
 {
-    damage_score[player] <- damageValue;
+    MercenaryStats.TotalDamage[player] <- damageValue;
 }
 
 AddListener("player_hurt", 5, function (attacker, victim, params)
@@ -44,6 +43,7 @@ AddListener("player_hurt", 5, function (attacker, victim, params)
 
     if (!IsValidBoss(victim))
         return;
+
     SetRoundDamage(attacker, GetRoundDamage(attacker) + damage);
 });
 
@@ -54,9 +54,12 @@ function GetDamageBoardSorted()
         return that[1] - it[1];
     }
 
-    local damageAsArray = []
-    foreach(player, dmg in damage_score)
-        damageAsArray.push([player, dmg]);
+    local damageAsArray = [];
+    foreach (player in GetValidMercs())
+    {
+        damageAsArray.push([player, GetRoundDamage(player)]);
+    }
+
     damageAsArray.sort(@(it, that) that[1] - it[1]);
     return damageAsArray;
 }

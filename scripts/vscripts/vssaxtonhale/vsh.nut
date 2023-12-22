@@ -53,10 +53,13 @@ Include("/gamemode/scoreboard.nut");
 
 Include("/huds/hud.nut");
 Include("/huds/menu_hud.nut");
+Include("/huds/merc_hud.nut");
+Include("/huds/inspect_hud.nut");
 
 // These must be included last and in order!
 Include("/bosses/boss.nut");
 Include("/mercs/merc_traits.nut");
+Include("/mercs/merc_stats.nut");
 Include("/shared/shared_traits.nut");
 Include("/bug_fixes/bug_fixes.nut");
 Include("/cookies/player_cookies.nut");

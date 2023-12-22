@@ -206,7 +206,8 @@
 
 ::InitPlayerVariables <- function(player)
 {
-    printl("\n\nINIT" + player + "\n\n");
+    // Stats
+    MercenaryStats.TotalDamage[player] <- 0;
 
     // Netprops
     lastButtons[player] <- 0;
@@ -220,8 +221,16 @@
     MenuHUD.selected_mainmenu_option[player] <- 0;
 
     // HUDs
+    player.SetScriptOverlayMaterial(null);
     HUDIdentifiers[player] <- [];
     HUDTable[player] <- {};
+    for (local i = 0; i < 6; i++)
+    {
+        EntFireByHandle(hud_text, "AddOutput", "holdtime 500", -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "channel " + i, -1, null, null);
+        EntFireByHandle(hud_text, "AddOutput", "message ", -1, null, null);
+        EntFireByHandle(hud_text, "Display", "", -1, player, player);
+    }
 
     // Traits
     player.Set(Mercenary);
