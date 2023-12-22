@@ -145,7 +145,7 @@ AddListener("tick_always", 0, function (timeDelta)
                 mask = (CONTENTS_SOLID|CONTENTS_MONSTER|CONTENTS_HITBOX)
                 filter = function(entity)
                 {
-                    if(IsValidPlayer(entity) && entity.GetTeam() != player.GetTeam())
+                    if(IsValidBuilding(entity) || (IsValidPlayer(entity) && entity.GetTeam() != player.GetTeam()))
                     {
                         hit_enemy = true;
                         return TRACE_STOP;
