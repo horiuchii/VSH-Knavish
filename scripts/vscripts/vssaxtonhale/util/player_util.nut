@@ -237,6 +237,9 @@
     characterTraits[player] <- [];
     characterTraitsTable[player] <- {};
     player.Set(Mercenary);
+
+    //Misc
+    EntFireByHandle(player, "Color", "255 255 255", -1, player, player);
 }
 
 AddListener("connect", 0, function (player)

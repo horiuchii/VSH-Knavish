@@ -62,6 +62,7 @@ class Boss extends PlayerType
     traits = null;
     startingHealth = 0;
     trait_team = TF_TEAM_BOSS;
+    HUDID = null;
 
     function OnApply()
     {
@@ -84,7 +85,8 @@ class Boss extends PlayerType
 
     function OnDeath(attacker, params)
     {
-        HUDTable[boss][BossHUD.HUDID].Disable();
+        local victim = GetPlayerFromUserID(params.userid);
+        HUD.Get(boss, victim.Get().HUDID).Disable();
     }
 }
 

@@ -20,14 +20,14 @@ class BossHUD
         "0": "₀",
     };
 
-    function AddHUD(player, channels)
+    function AddHUD(player, boss_hud_id, channels)
     {
-        HUD.Add(player, CreateIdentifier(), HUDObject(channels));
+        HUD.Add(player, CreateIdentifier(boss_hud_id), HUDObject());
     }
 
-    function CreateIdentifier()
+    function CreateIdentifier(boss_hud_id)
     {
-        return HUDIdentifier(HUDID, HUDPriority);
+        return HUDIdentifier(boss_hud_id, HUDPriority);
     }
 
     function OnTickAlive(timeDelta)

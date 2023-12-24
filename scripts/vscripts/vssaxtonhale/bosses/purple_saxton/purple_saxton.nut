@@ -20,11 +20,11 @@ PrecacheModel(saxton_model_path);
 PrecacheModel(saxton_aura_model_path);
 PrecacheModel(saxton_viewmodel_path);
 
-class SaxtonHale extends Boss
+class PurpleSaxton extends Boss
 {
-    name = "saxton_hale";
-    name_proper = "Saxton Hale";
-    color = "255 230 0";
+    name = "purple_saxton";
+    name_proper = "Purple Saxton";
+    color = "102 51 153";
     tfclass = TF_CLASS_HEAVY;
     HUDID = UniqueString();
 
@@ -71,6 +71,9 @@ class SaxtonHale extends Boss
 
         boss.AddCond(TF_COND_CANNOT_SWITCH_FROM_MELEE);
 
+        SetPropInt(boss, "m_nRenderMode", Constants.ERenderMode.kRenderTransColor);
+        EntFireByHandle(boss, "Color", color, -1, boss, boss);
+
         BossHUD.AddHUD(player, HUDID,
             [
                 BossHUDChannel(SweepingChargeTrait, 0.648, 0.92, "255 255 255"),
@@ -83,7 +86,7 @@ class SaxtonHale extends Boss
     }
 }
 
-RegisterBoss(SaxtonHale.name, SaxtonHale);
+RegisterBoss(PurpleSaxton.name, PurpleSaxton);
 
 Include("/bosses/saxton_hale/abilities/sweeping_charge.nut");
 Include("/bosses/saxton_hale/abilities/mighty_slam.nut");
@@ -91,50 +94,26 @@ Include("/bosses/saxton_hale/misc/colored_arms.nut");
 Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
 Include("/bosses/saxton_hale/misc/no_crit.nut")
 
-AddBossTrait(SaxtonHale.name, SweepingChargeTrait);
-AddBossTrait(SaxtonHale.name, BraveJumpTrait);
-AddBossTrait(SaxtonHale.name, MightySlamTrait);
+AddBossTrait(PurpleSaxton.name, SweepingChargeTrait);
+AddBossTrait(PurpleSaxton.name, BraveJumpTrait);
+AddBossTrait(PurpleSaxton.name, MightySlamTrait);
 
-AddBossTrait(SaxtonHale.name, FreezeSetupTrait);
-AddBossTrait(SaxtonHale.name, DeathCleanupTrait);
-AddBossTrait(SaxtonHale.name, MovespeedTrait);
-AddBossTrait(SaxtonHale.name, ScreenShakeTrait);
-AddBossTrait(SaxtonHale.name, SetupStatRefreshTrait);
-AddBossTrait(SaxtonHale.name, TauntHandlerTrait);
-AddBossTrait(SaxtonHale.name, PreventNoAttackDamageClass);
-AddBossTrait(SaxtonHale.name, DebuffResistanceTrait);
-AddBossTrait(SaxtonHale.name, HeadStompTrait);
-AddBossTrait(SaxtonHale.name, ReceivedDamageScalingTrait);
-AddBossTrait(SaxtonHale.name, StunBreakoutTrait);
-AddBossTrait(SaxtonHale.name, BuildingDamageRescaleTrait);
-AddBossTrait(SaxtonHale.name, SpawnProtectionTrait);
-AddBossTrait(SaxtonHale.name, NoGibFixTrait);
-AddBossTrait(SaxtonHale.name, PreventBossCritTrait);
+AddBossTrait(PurpleSaxton.name, FreezeSetupTrait);
+AddBossTrait(PurpleSaxton.name, DeathCleanupTrait);
+AddBossTrait(PurpleSaxton.name, MovespeedTrait);
+AddBossTrait(PurpleSaxton.name, ScreenShakeTrait);
+AddBossTrait(PurpleSaxton.name, SetupStatRefreshTrait);
+AddBossTrait(PurpleSaxton.name, TauntHandlerTrait);
+AddBossTrait(PurpleSaxton.name, PreventNoAttackDamageClass);
+AddBossTrait(PurpleSaxton.name, DebuffResistanceTrait);
+AddBossTrait(PurpleSaxton.name, HeadStompTrait);
+AddBossTrait(PurpleSaxton.name, ReceivedDamageScalingTrait);
+AddBossTrait(PurpleSaxton.name, StunBreakoutTrait);
+AddBossTrait(PurpleSaxton.name, BuildingDamageRescaleTrait);
+AddBossTrait(PurpleSaxton.name, SpawnProtectionTrait);
+AddBossTrait(PurpleSaxton.name, NoGibFixTrait);
+AddBossTrait(PurpleSaxton.name, PreventBossCritTrait);
 
-AddBossTrait(SaxtonHale.name, JaratedVoiceLine);
-AddBossTrait(SaxtonHale.name, LastMannHidingVoiceLine);
-AddBossTrait(SaxtonHale.name, KillVoiceLine);
-
-RegisterCustomWeapon(
-    "Hale's Own Fists",
-    "Fists",
-    null,
-    Defaults,
-    function (table, player) {
-        table.worldModel = "models/empty.mdl";
-        table.viewModel = saxton_viewmodel_path;
-        table.classArms = saxton_viewmodel_path;
-    },
-    function (weapon, player)
-    {
-        if (player.ValidateScriptScope())
-            player.GetScriptScope()["hide_base_arms"] <- true;
-
-        weapon.AddAttribute("kill eater", casti2f(9001), -1);
-
-        local isModelFlipped = false;
-        try { isModelFlipped = Convars.GetClientConvarValue("cl_flipviewmodels", player.entindex()).tointeger() > 0; }
-        catch(ignored) { }
-        SetPropInt(weapon, "m_bFlipViewModel", isModelFlipped ? 1 : 0);
-    }
-);
+AddBossTrait(PurpleSaxton.name, JaratedVoiceLine);
+AddBossTrait(PurpleSaxton.name, LastMannHidingVoiceLine);
+AddBossTrait(PurpleSaxton.name, KillVoiceLine);
