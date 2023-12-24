@@ -29,13 +29,6 @@ class BraveJumpTrait extends BossTrait
 	meter = 0;
 	TRAIT_COOLDOWN = 2;
 
-    function OnApply()
-    {
-        if (!(player in hudAbilityInstances))
-            hudAbilityInstances[player] <- [];
-        hudAbilityInstances[player].push(this);
-    }
-
 	function OnTickAlive(timeDelta)
     {
         if (meter < 0)
@@ -148,3 +141,4 @@ class BraveJumpTrait extends BossTrait
         FireListeners("bravejump", boss)
     }
 };
+::BraveJumpTrait <- BraveJumpTrait;

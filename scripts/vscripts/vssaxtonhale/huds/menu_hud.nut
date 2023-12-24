@@ -53,7 +53,7 @@ class MenuHUD
                         MenuHUD.CloseVSHMenuHUD(player, params);
                         base.OnDisabled();
                     }
-                }(-1, -1, "255 255 255", 250, 0, 0)
+                }(-1, -1, "255 255 255")
             ]
         );
     }

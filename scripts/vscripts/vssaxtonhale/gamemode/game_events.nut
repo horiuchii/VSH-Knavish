@@ -172,6 +172,7 @@ function FinishSetup()
         boss.RemoveCond(TF_COND_TAUNTING);
         DiscardTraits(boss);
         characterTraits[boss] <- [];
+        characterTraitsTable[boss] <- {};
         hudAbilityInstances[boss] <- [];
         boss.ForceRespawn();
         RefreshBossSetup(boss);

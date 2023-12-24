@@ -21,13 +21,6 @@ class MightySlamTrait extends BossTrait
     lastFrameDownVelocity = 0;
 	TRAIT_COOLDOWN = 15;
 
-    function OnApply()
-    {
-        if (!(player in hudAbilityInstances))
-            hudAbilityInstances[player] <- [];
-        hudAbilityInstances[player].push(this);
-    }
-
     function OnTickAlive(timeDelta)
     {
         if (!player.Get().CanUseAbilities())
@@ -158,3 +151,4 @@ class MightySlamTrait extends BossTrait
         ScreenShake(boss.GetCenter(), 10, 2.5, 1, 1000, 0, true);
     }
 };
+::MightySlamTrait <- MightySlamTrait;

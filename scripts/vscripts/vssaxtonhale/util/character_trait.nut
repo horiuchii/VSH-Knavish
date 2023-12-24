@@ -12,6 +12,7 @@
 //=========================================================================
 
 ::characterTraits <- {};
+::characterTraitsTable <- {};
 ::emptyTickAlive <- null;
 
 class CharacterTrait
@@ -36,6 +37,7 @@ class CharacterTrait
         this.player = player; // For when TryApply is skipped
 
         characterTraits[player].push(this);
+        characterTraitsTable[player][this.getclass()] <- this;
 
         OnApply();
         return this;
@@ -89,19 +91,14 @@ class CharacterTrait
 
 ::GetTraitByClass <- function(player, traitClass)
 {
-    foreach (trait in characterTraits[player])
-    {
-        if (trait instanceof traitClass)
-            return trait;
-    }
-
-    return null;
+    return traitClass in characterTraitsTable[player] ? characterTraitsTable[player][traitClass] : null;
 }
 
 AddListener("spawn", -1, function (player, params)
 {
     DiscardTraits(player);
     characterTraits[player] <- [];
+    characterTraitsTable[player] <- {};
 
     foreach (mercTrait in mercTraitsLibrary)
     {

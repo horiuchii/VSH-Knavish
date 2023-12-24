@@ -235,6 +235,7 @@
     // Traits
     player.Set(Mercenary);
     characterTraits[player] <- [];
+    characterTraitsTable[player] <- {};
 }
 
 AddListener("connect", 0, function (player)

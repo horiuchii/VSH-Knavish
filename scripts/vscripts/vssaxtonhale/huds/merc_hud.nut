@@ -36,7 +36,7 @@ class MercenaryHUD
                 MercenaryHUD.UpdateDamageHUD(player, params);
                 Display();
             }
-        }(0.498, 0.788, "236 227 203", 500, 0, 0);
+        }(0.498, 0.788, "236 227 203");
     }
 
     function UpdateDamageHUD(player, params)

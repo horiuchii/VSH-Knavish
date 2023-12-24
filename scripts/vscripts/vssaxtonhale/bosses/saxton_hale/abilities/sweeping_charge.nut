@@ -41,10 +41,6 @@ class SweepingChargeTrait extends BossTrait
 
     function OnApply()
     {
-        if (!(player in hudAbilityInstances))
-            hudAbilityInstances[player] <- [];
-        hudAbilityInstances[player].push(this);
-
         triggerCatapult = SpawnEntityFromTable("trigger_catapult", {
             origin = "0 0 0",
             spawnflags = 1,
@@ -252,3 +248,4 @@ class SweepingChargeTrait extends BossTrait
             params.damage *= 0.5;
     }
 };
+::SweepingChargeTrait <- SweepingChargeTrait;

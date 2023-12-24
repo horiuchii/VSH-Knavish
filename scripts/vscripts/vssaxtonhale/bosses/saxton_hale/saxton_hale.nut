@@ -27,7 +27,7 @@ class SaxtonHale extends Boss
     name_proper = "Saxton Hale";
     color = "255 230 0";
     tfclass = TF_CLASS_HEAVY;
-    //abilities = [MightySlam, BraveJump, SweepingCharge];
+
     function OnCreationPre()
     {
         player.SetPlayerClass(TF_CLASS_HEAVY);
@@ -69,6 +69,16 @@ class SaxtonHale extends Boss
         player.AddCustomAttribute("dmg taken from crit reduced", 0.75, -1);
 
         player.AddCond(TF_COND_CANNOT_SWITCH_FROM_MELEE);
+
+        BossHUD.AddHUD(player,
+            [
+                BossHUDChannel(SweepingChargeTrait, 0.648, 0.92, "255 255 255"),
+                BossHUDChannel(BraveJumpTrait, 0.768, 0.92, "255 255 255"),
+                BossHUDChannel(MightySlamTrait, 0.893, 0.92, "255 255 255")
+            ]
+        );
+
+        HUDTable[player][BossHUD.HUDID].Enable();
     }
 }
 RegisterBoss("saxton_hale", SaxtonHale);
@@ -78,8 +88,6 @@ Include("/bosses/saxton_hale/abilities/mighty_slam.nut");
 Include("/bosses/saxton_hale/misc/colored_arms.nut");
 Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
 Include("/bosses/saxton_hale/misc/no_crit.nut")
-
-AddBossTrait("saxton_hale", AbilityHudTrait);
 
 AddBossTrait("saxton_hale", SweepingChargeTrait);
 AddBossTrait("saxton_hale", BraveJumpTrait);

@@ -123,7 +123,7 @@ class HUDObject
 
     function Disable()
     {
-        // Only fire Disable if the highest priority HUD is this one
+        // Only Disable if thisis the highest priority HUD
         foreach (identifier in HUDIdentifiers[player])
         {
             if (HUDTable[player][identifier.id].enabled)
@@ -173,7 +173,7 @@ class HUDChannel
     player = null;
     params = null;
 
-    function constructor(_x = 0, _y = 0, _color = "255 255 255", _holdtime = 0, _fadein = 0, _fadeout = 0)
+    function constructor(_x = 0, _y = 0, _color = "255 255 255")
     {
         params = {
             scope = null
@@ -191,9 +191,9 @@ class HUDChannel
         params.x = _x;
         params.y = _y;
         params.color = _color;
-        params.fadein = _fadein;
-        params.fadeout = _fadeout;
-        params.holdtime = _holdtime;
+        params.fadein = 0;
+        params.fadeout = 0;
+        params.holdtime = 500;
     }
 
     function SetGameTextParams()

@@ -36,7 +36,7 @@ class InspectHUD
             {
                 return;
             }
-        }(0.71, 0.295, "255 255 255", 500, 0, 0);
+        }(0.71, 0.295, "255 255 255");
     }
 
     function OnFrameTick()
