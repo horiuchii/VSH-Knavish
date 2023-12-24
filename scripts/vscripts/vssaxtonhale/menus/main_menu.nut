@@ -65,8 +65,8 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.Changes] <- class extends MenuItem
 
     function OnSelected(player)
     {
-        menu_index[player] <- MENU.Changes;
-        selected_option[player] <- 0;
+        MenuHUD.menu_index[player] <- MENU.Changes;
+        MenuHUD.selected_option[player] <- 0;
     }
 }();
 

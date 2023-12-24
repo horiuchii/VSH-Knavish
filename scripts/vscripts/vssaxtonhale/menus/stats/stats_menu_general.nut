@@ -84,7 +84,7 @@ menus[MENU.StatsGeneral].items[menus[MENU.StatsGeneral].items.len()] <- (class e
 })();
 
 menus[MENU.StatsGeneral].items[menus[MENU.StatsGeneral].items.len()] <- (class extends MenuItem {
-    title = "Merc Kills"
+    title = "Mercs Killed"
 
     function GenerateDesc(player)
     {
@@ -93,7 +93,7 @@ menus[MENU.StatsGeneral].items[menus[MENU.StatsGeneral].items.len()] <- (class e
 })();
 
 menus[MENU.StatsGeneral].items[menus[MENU.StatsGeneral].items.len()] <- (class extends MenuItem {
-    title = "Merc Head Stomps"
+    title = "Headstomp Kills"
 
     function GenerateDesc(player)
     {

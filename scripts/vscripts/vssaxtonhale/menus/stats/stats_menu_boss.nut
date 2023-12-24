@@ -35,7 +35,7 @@ menus[MENU.StatsBoss] <- class extends Menu
     },
     ["merckills"] = class extends MenuItem
     {
-        title = "Merc Kills"
+        title = "Mercs Killed"
         boss_id = null
 
         function GenerateDesc(player)
@@ -45,7 +45,7 @@ menus[MENU.StatsBoss] <- class extends Menu
     },
     ["headstomps"] = class extends MenuItem
     {
-        title = "Head Stomp Kills"
+        title = "Headstomp Kills"
         boss_id = null
 
         function GenerateDesc(player)

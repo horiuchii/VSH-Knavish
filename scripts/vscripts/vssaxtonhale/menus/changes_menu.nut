@@ -89,8 +89,8 @@ foreach (i, value in MercChangesMenus)
 
         function OnSelected(player)
         {
-            menu_index[player] <- MercChangesMenus[tfclass_id];
-            selected_option[player] <- 0;
+            MenuHUD.menu_index[player] <- MercChangesMenus[tfclass_id];
+            MenuHUD.selected_option[player] <- 0;
         }
     }();
 
