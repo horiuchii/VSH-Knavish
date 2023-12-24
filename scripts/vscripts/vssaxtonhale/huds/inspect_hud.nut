@@ -15,12 +15,15 @@ class InspectHUD
 
     function CreateHUDObject()
     {
-        return HUDObject(
-            [
-                MercenaryHUD.CreateDamageChannel(),
-                CreateWeaponStatsChannel()
-            ]
-        );
+        return class extends HUDObject
+        {
+            function Enable()
+            {
+                HUD.Get(player, InspectHUD.HUDID).overlay = API_GetString("ability_hud_folder") + "/weapon_info";
+                base.Enable();
+            }
+        }
+        ([MercenaryHUD.CreateDamageChannel(), CreateWeaponStatsChannel()]);
     }
 
     function CreateWeaponStatsChannel()
@@ -46,13 +49,13 @@ class InspectHUD
             if (!IsMerc(player))
                 continue;
 
-            if (player.IsInspecting() && !HUDTable[player][HUDID].enabled)
+            if (player.IsInspecting() && !HUD.Get(player, HUDID).enabled)
             {
-                HUDTable[player][HUDID].Enable();
+                HUD.Get(player, HUDID).Enable();
             }
-            else if (!player.IsInspecting() && HUDTable[player][HUDID].enabled)
+            else if (!player.IsInspecting() && HUD.Get(player, HUDID).enabled)
             {
-                HUDTable[player][HUDID].Disable();
+                HUD.Get(player, HUDID).Disable();
             }
         }
     }
@@ -87,7 +90,6 @@ class InspectHUD
 
         local weapon_melee = GetWeaponDescription(GetWeaponName(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE)));
 
-        player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/weapon_info");
         params.message = weapon_primary + weapon_secondary + weapon_melee;
     }
 }

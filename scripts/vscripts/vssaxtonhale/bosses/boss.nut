@@ -12,6 +12,7 @@
 //=========================================================================
 
 ::bossLibrary <- {};
+::bossList <- [];
 ::traitLibrary <- {};
 ::validBosses <- [];
 
@@ -20,7 +21,7 @@ class BossTrait extends CharacterTrait
     boss = null;
     trait_team = TF_TEAM_BOSS;
 
-    // NEVER override ApplyTrait() past this point
+    // DO NOT OVERRIDE
     function ApplyTrait(player)
     {
         boss = player;

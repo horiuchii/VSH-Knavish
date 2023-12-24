@@ -62,7 +62,7 @@ class MenuHUD
     {
         if((message == "!vshmenu" || message == "/vshmenu" || message == "vshmenu") && !IsInVSHMenu(player))
         {
-            HUDTable[player][HUDID].Enable();
+            HUD.Get(player, HUDID).Enable();
         }
     }
 
@@ -77,7 +77,7 @@ class MenuHUD
 
             if (buttons & IN_SCORE)
             {
-                player.SetScriptOverlayMaterial(null);
+                HUD.Get(player, HUDID).overlay = null;
                 continue;
             }
 
@@ -85,11 +85,11 @@ class MenuHUD
             {
                 if (IsInVSHMenu(player))
                 {
-                    HUDTable[player][HUDID].Disable();
+                    HUD.Get(player, HUDID).Disable();
                 }
                 else if (Time() - last_press_menu_button[player] < DOUBLE_PRESS_MENU_THRESHOLD)
                 {
-                    HUDTable[player][HUDID].Enable();
+                    HUD.Get(player, HUDID).Enable();
                 }
                 else
                 {
@@ -203,7 +203,7 @@ class MenuHUD
 
         player.AddFlag(FL_ATCONTROLS);
         SetPropFloat(player, "m_flNextAttack", 999999);
-        player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "vshhud/vsh_menu_" + menus[MenuHUD.menu_index[player]].overlay);
+        HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "vshhud/vsh_menu_" + menus[MenuHUD.menu_index[player]].overlay;
         SetPropInt(player, "m_Local.m_iHideHUD", HIDEHUD_WEAPONSELECTION | HIDEHUD_HEALTH | HIDEHUD_MISCSTATUS | HIDEHUD_CROSSHAIR);
     }
 

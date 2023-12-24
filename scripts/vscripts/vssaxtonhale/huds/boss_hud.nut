@@ -34,17 +34,26 @@ class BossHUD
     {
         foreach (player in GetBossPlayers())
         {
-            if (!HUDTable[player][HUDID].enabled)
+            if (!player.IsAlive())
+                continue;
+
+            if (!(HUDID in HUDTable[player]))
+                continue;
+
+            if (!HUD.Get(player, HUDID).enabled)
+                continue;
+
+            if (HUD.GetActive(player) != HUDID)
                 continue;
 
             if (player.GetButtons() & IN_SCORE)
             {
-                player.SetScriptOverlayMaterial(null);
+                HUD.Get(player, HUDID).overlay = null;
                 continue;
             }
 
             local overlay = "";
-            foreach (channel in HUDTable[player][HUDID].channels)
+            foreach (channel in HUD.Get(player, HUDID).channels)
             {
                 local cooldown = characterTraitsTable[player][channel.ability_class].TRAIT_COOLDOWN;
                 local meter = characterTraitsTable[player][channel.ability_class].meter;
@@ -67,7 +76,7 @@ class BossHUD
                 channel.params.message = progressBarText;
             }
 
-            player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/" + overlay);
+            HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
         }
     }
 

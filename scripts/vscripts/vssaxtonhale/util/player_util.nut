@@ -224,6 +224,7 @@
     player.SetScriptOverlayMaterial(null);
     HUDIdentifiers[player] <- [];
     HUDTable[player] <- {};
+    HUDActive[player] <- {};
     for (local i = 0; i < 6; i++)
     {
         EntFireByHandle(hud_text, "AddOutput", "holdtime 500", -1, null, null);
@@ -233,9 +234,9 @@
     }
 
     // Traits
-    player.Set(Mercenary);
     characterTraits[player] <- [];
     characterTraitsTable[player] <- {};
+    player.Set(Mercenary);
 }
 
 AddListener("connect", 0, function (player)

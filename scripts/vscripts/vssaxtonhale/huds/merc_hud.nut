@@ -47,5 +47,3 @@ class MercenaryHUD
     }
 }
 ::MercenaryHUD <- MercenaryHUD();
-
-::Done <- false;

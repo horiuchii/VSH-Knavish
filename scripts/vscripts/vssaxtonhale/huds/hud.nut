@@ -13,6 +13,7 @@
 
 ::HUDIdentifiers <- {};
 ::HUDTable <- {};
+::HUDActive <- {};
 ::hud_text <- SpawnEntityFromTable("game_text",
 {
     x = -1
@@ -26,10 +27,26 @@
 
 class HUD
 {
+    function Get(player, hud_id)
+    {
+        return HUDTable[player][hud_id];
+    }
+
+    function GetActive(player)
+    {
+        return HUDActive[player];
+    }
+
+    function SetActive(player, hud_id)
+    {
+        HUDActive[player] = hud_id;
+    }
+
     function Add(player, identifier, hud, enable = false)
     {
         local size = HUDIdentifiers[player].len();
         local i = 0;
+
         for (; i < size; i++)
         {
             if (HUDIdentifiers[player][i].priority < identifier.priority)
@@ -41,6 +58,7 @@ class HUD
         HUDIdentifiers[player].insert(i, identifier);
         HUDTable[player][identifier.id] <- hud;
         HUDTable[player][identifier.id].player = player;
+
         foreach (index, channel in HUDTable[player][identifier.id].channels)
         {
             channel.player = player;
@@ -73,10 +91,16 @@ class HUDObject
     player = null
     enabled = false
 	channels = []
+    overlay = ""
 
     function constructor(_channels = {})
     {
         channels = _channels;
+    }
+
+    function UpdateOverlay()
+    {
+        player.SetScriptOverlayMaterial(overlay);
     }
 
 	function UpdateChannels()
@@ -104,9 +128,10 @@ class HUDObject
         // Only fire Enable if the highest priority HUD is this one
         foreach (identifier in HUDIdentifiers[player])
         {
-            if (HUDTable[player][identifier.id].enabled)
+            if (HUD.Get(player, identifier.id).enabled)
             {
-                if (HUDTable[player][identifier.id] == this)
+                HUD.SetActive(player, identifier.id);
+                if (HUD.Get(player, identifier.id) == this)
                 {
                     ClearChannels();
                     foreach (index, channel in channels)
@@ -126,9 +151,9 @@ class HUDObject
         // Only Disable if thisis the highest priority HUD
         foreach (identifier in HUDIdentifiers[player])
         {
-            if (HUDTable[player][identifier.id].enabled)
+            if (HUD.Get(player, identifier.id).enabled)
             {
-                if (HUDTable[player][identifier.id] == this)
+                if (HUD.Get(player, identifier.id) == this)
                 {
                     ClearChannels();
                     foreach (index, channel in channels)
@@ -142,9 +167,9 @@ class HUDObject
                     // Enable the next enabled HUD in identifiers
                     foreach (identifier in HUDIdentifiers[player])
                     {
-                        if (HUDTable[player][identifier.id].enabled)
+                        if (HUD.Get(player, identifier.id).enabled)
                         {
-                            HUDTable[player][identifier.id].Enable();
+                            HUD.Get(player, identifier.id).Enable();
                             break;
                         }
                     }
@@ -253,9 +278,10 @@ AddListener("tick_frame", 2, function ()
 
         foreach (identifier in HUDIdentifiers[player])
         {
-            if (HUDTable[player][identifier.id].enabled)
+            if (HUD.Get(player, identifier.id).enabled)
             {
-                HUDTable[player][identifier.id].UpdateChannels();
+                HUD.Get(player, identifier.id).UpdateChannels();
+                HUD.Get(player, identifier.id).UpdateOverlay();
                 break;
             }
         }

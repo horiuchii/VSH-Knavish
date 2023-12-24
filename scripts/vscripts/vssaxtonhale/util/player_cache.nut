@@ -108,10 +108,10 @@ AddListener("disconnect", -9999, function(player, params)
 
 ::IsMerc <- function(player)
 {
-    return IsValidPlayer(player) && !IsValidBoss(player);
+    return player.Get() instanceof Mercenary;
 }
 
 ::IsMercValidAndAlive <- function(player)
 {
-    return IsValidPlayer(player) && !IsValidBoss(player) && player.IsAlive();
+    return player.Get() instanceof Mercenary && player.IsAlive();
 }

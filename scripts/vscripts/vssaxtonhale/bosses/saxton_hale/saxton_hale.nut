@@ -28,47 +28,48 @@ class SaxtonHale extends Boss
     color = "255 230 0";
     tfclass = TF_CLASS_HEAVY;
 
-    function OnCreationPre()
+    function OnApply()
     {
-        player.SetPlayerClass(TF_CLASS_HEAVY);
-        player.Regenerate(true);
-        base.OnCreationPre();
+        base.OnApply();
+        boss.SetPlayerClass(TF_CLASS_HEAVY);
+        boss.Regenerate(true);
+        ApplyTraits();
         CreateBoss();
     }
 
     function CreateBoss()
     {
-        SetPropInt(player, "m_bForcedSkin", 1);
-        SetPropInt(player, "m_nForcedSkin", 0);
+        SetPropInt(boss, "m_bForcedSkin", 1);
+        SetPropInt(boss, "m_nForcedSkin", 0);
 
-        player.SetCustomModelWithClassAnimations(saxton_model_path);
-        vsh_vscript.Hale_SetRedArm(player, false);
-        vsh_vscript.Hale_SetBlueArm(player, false);
+        boss.SetCustomModelWithClassAnimations(saxton_model_path);
+        vsh_vscript.Hale_SetRedArm(boss, false);
+        vsh_vscript.Hale_SetBlueArm(boss, false);
         RunWithDelay2(this, 0.1, function() {
-            vsh_vscript.Hale_SetRedArm(player, false);
-            vsh_vscript.Hale_SetBlueArm(player, false);
-            player.CreateCustomWearable(null, saxton_aura_model_path);
-            player.GiveWeapon("Hale's Own Fists");
+            vsh_vscript.Hale_SetRedArm(boss, false);
+            vsh_vscript.Hale_SetBlueArm(boss, false);
+            boss.CreateCustomWearable(null, saxton_aura_model_path);
+            boss.GiveWeapon("Hale's Own Fists");
         });
 
-        player.SetModelScale(API_GetFloat("boss_scale"), 0);
-        player.GiveWeapon("Hale's Own Fists");
+        boss.SetModelScale(API_GetFloat("boss_scale"), 0);
+        boss.GiveWeapon("Hale's Own Fists");
 
-        player.AddCustomAttribute("move speed bonus", 1.8, -1);
-        player.AddCustomAttribute("cancel falling damage", 1, -1);
-        player.AddCustomAttribute("voice pitch scale", 0, -1);
-        player.AddCustomAttribute("melee range multiplier", 1.2, -1);
-        player.AddCustomAttribute("damage bonus", 3, -1);
-        player.AddCustomAttribute("melee bounds multiplier", 1.1, -1);
-        player.AddCustomAttribute("crit mod disabled hidden", 0, -1);
-        player.AddCustomAttribute("increase player capture value", 2, -1);
-        player.AddCustomAttribute("cannot pick up intelligence", 1, -1);
-        player.AddCustomAttribute("patient overheal penalty", 1, -1);
-        player.AddCustomAttribute("health from packs decreased", 0, -1);
-        player.AddCustomAttribute("damage force reduction", 0.75, -1);
-        player.AddCustomAttribute("dmg taken from crit reduced", 0.75, -1);
+        boss.AddCustomAttribute("move speed bonus", 1.8, -1);
+        boss.AddCustomAttribute("cancel falling damage", 1, -1);
+        boss.AddCustomAttribute("voice pitch scale", 0, -1);
+        boss.AddCustomAttribute("melee range multiplier", 1.2, -1);
+        boss.AddCustomAttribute("damage bonus", 3, -1);
+        boss.AddCustomAttribute("melee bounds multiplier", 1.1, -1);
+        boss.AddCustomAttribute("crit mod disabled hidden", 0, -1);
+        boss.AddCustomAttribute("increase player capture value", 2, -1);
+        boss.AddCustomAttribute("cannot pick up intelligence", 1, -1);
+        boss.AddCustomAttribute("patient overheal penalty", 1, -1);
+        boss.AddCustomAttribute("health from packs decreased", 0, -1);
+        boss.AddCustomAttribute("damage force reduction", 0.75, -1);
+        boss.AddCustomAttribute("dmg taken from crit reduced", 0.75, -1);
 
-        player.AddCond(TF_COND_CANNOT_SWITCH_FROM_MELEE);
+        boss.AddCond(TF_COND_CANNOT_SWITCH_FROM_MELEE);
 
         BossHUD.AddHUD(player,
             [
@@ -78,9 +79,11 @@ class SaxtonHale extends Boss
             ]
         );
 
-        HUDTable[player][BossHUD.HUDID].Enable();
+
+        HUD.Get(player, BossHUD.HUDID).Enable();
     }
 }
+
 RegisterBoss("saxton_hale", SaxtonHale);
 
 Include("/bosses/saxton_hale/abilities/sweeping_charge.nut");

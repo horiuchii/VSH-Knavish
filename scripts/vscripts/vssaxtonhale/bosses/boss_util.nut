@@ -19,19 +19,17 @@
 function RegisterBoss(name, bossClass)
 {
     bossLibrary[name] <- bossClass;
+    bossList.push(bossClass);
 }
 
-function AssignBoss(bossClass, bossPlayer)
+function AssignBoss(bossPlayer)
 {
-    bossPlayer.Set(bossLibrary[bossClass]);
+    bossPlayer.Set(Boss);
 }
 
 ::IsAnyBossValid <- function()
 {
-    foreach (player in validBosses)
-        if (IsValidPlayer(player))
-            return true;
-    return false;
+    return GetBossPlayers().len() > 0;
 }
 
 ::IsAnyBossAlive <- function()

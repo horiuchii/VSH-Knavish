@@ -164,7 +164,10 @@ function OnGameEvent_rps_taunt_event(params)
 
 function FinishSetup()
 {
-    //todo Hale-specific check to fix Class-Restricted Duels bug.
+    // TODO: I don't know why we should bother allowing duels.
+    // Just end the round if hale is force respawned, which will happen once
+    // a duel is accepted if the class locked duel isn't the boss's class ~ Brad
+    // TODO: Hale-specific check to fix Class-Restricted Duels bug.
     local boss = GetRandomBossPlayer();
     if (boss != null && boss.GetPlayerClass() != TF_CLASS_HEAVY && !IsRoundOver())
     {
@@ -173,7 +176,6 @@ function FinishSetup()
         DiscardTraits(boss);
         characterTraits[boss] <- [];
         characterTraitsTable[boss] <- {};
-        hudAbilityInstances[boss] <- [];
         boss.ForceRespawn();
         RefreshBossSetup(boss);
         boss.Get().ApplyTrait(boss);
@@ -186,6 +188,7 @@ function FinishSetup()
             EndRound(TF_TEAM_UNASSIGNED);
         }, boss)
     }
+
     FireListeners("setup_end");
     isRoundSetup = false;
 }
@@ -209,10 +212,7 @@ function OnGameEvent_player_disconnect(params)
 
 function OnGameEvent_player_activate(params)
 {
-    local player = GetPlayerFromParams(params);
-    if (!IsValidClient(player))
-        return;
-    FireListeners("connect", player);
+    FireListeners("connect", GetPlayerFromParams(params));
 }
 
 function OnGameEvent_player_stunned(params)

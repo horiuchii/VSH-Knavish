@@ -63,7 +63,7 @@ class CharacterTrait
             case TF_TEAM_ANY: return true;
             case TF_TEAM_MERCS:
                 {
-                    return !IsBoss(player);
+                    return IsMerc(player);
                 }
             case TF_TEAM_BOSS:
                 {
@@ -100,14 +100,17 @@ AddListener("spawn", -1, function (player, params)
     characterTraits[player] <- [];
     characterTraitsTable[player] <- {};
 
-    foreach (mercTrait in mercTraitsLibrary)
+    if (player.Get() instanceof Mercenary)
     {
-        try
+        foreach (mercTrait in mercTraitsLibrary)
         {
-            local newTrait = mercTrait();
-            newTrait.TryApply.call(newTrait, player);
+            try
+            {
+                local newTrait = mercTrait();
+                newTrait.TryApply.call(newTrait, player);
+            }
+            catch(e) { throw e; }
         }
-        catch(e) { throw e; }
     }
 
     foreach (sharedTrait in sharedTraitLibrary)
@@ -124,21 +127,22 @@ AddListener("spawn", -1, function (player, params)
 AddListener("tick_only_valid", 2, function (timeDelta)
 {
     foreach (player in GetValidPlayers())
-        if (player in characterTraits)
-            foreach (characterTrait in characterTraits[player])
-                try { characterTrait.DoTick.call(characterTrait, timeDelta); }
-                catch(e) { throw e; }
+    {
+        CallCharacterTraitListener(player, "DoTick", timeDelta);
+    }
 });
 
 AddListener("tick_frame", 0, function ()
 {
     if (!IsValidRound())
+    {
         return;
+    }
+
     foreach (player in GetValidPlayers())
-        if (player in characterTraits)
-            foreach (characterTrait in characterTraits[player])
-                try { characterTrait.DoFrameTick.call(characterTrait); }
-                catch(e) { throw e; }
+    {
+        CallCharacterTraitListener(player, "DoFrameTick");
+    }
 });
 
 AddListener("disconnect", 2, function (player, params)
@@ -148,45 +152,53 @@ AddListener("disconnect", 2, function (player, params)
 
 function DiscardTraits(player)
 {
-    if (player in characterTraits)
-    {
-        foreach (characterTrait in characterTraits[player])
-            try { characterTrait.OnDiscard.call(characterTrait); }
-            catch(e) { throw e; }
-        delete characterTraits[player];
-    }
+    CallCharacterTraitListener(player, "OnDiscard");
+    delete characterTraits[player];
+    delete characterTraitsTable[player];
 }
 
 AddListener("death", 2, function (attacker, victim, params)
 {
-    if (attacker in characterTraits && IsValidPlayer(attacker))
-        foreach (characterTrait in characterTraits[attacker])
-            try { characterTrait.OnKill.call(characterTrait, victim, params); }
-            catch(e) { throw e; }
+    if (IsValidPlayer(attacker))
+    {
+        CallCharacterTraitListener(attacker, "OnKill", victim, params);
+    }
 
-    if (victim in characterTraits)
-        foreach (characterTrait in characterTraits[victim])
-            try { characterTrait.OnDeath.call(characterTrait, attacker, params); }
-            catch(e) { throw e; }
+    CallCharacterTraitListener(victim, "OnDeath", attacker, params);
 });
 
 AddListener("damage_hook", 0, function (attacker, victim, params)
 {
-    if (attacker in characterTraits && IsValidPlayer(attacker))
-        foreach (characterTrait in characterTraits[attacker])
-            try { characterTrait.OnDamageDealt.call(characterTrait, victim, params); }
-            catch(e) { throw e; }
+    if (IsValidPlayer(attacker))
+    {
+        CallCharacterTraitListener(attacker, "OnDamageDealt", victim, params);
+    }
 
-    if (victim in characterTraits && victim.IsPlayer())
-        foreach (characterTrait in characterTraits[victim])
-            try { characterTrait.OnDamageTaken.call(characterTrait, attacker, params); }
-            catch(e) { throw e; }
+    if (victim.IsPlayer())
+    {
+        CallCharacterTraitListener(victim, "OnDamageTaken", attacker, params);
+    }
 });
 
 AddListener("player_hurt", 0, function (attacker, victim, params)
 {
-    if (attacker in characterTraits)
-        foreach (characterTrait in characterTraits[attacker])
-            try { characterTrait.OnHurtDealtEvent.call(characterTrait, victim, params); }
-            catch(e) { throw e; }
+    CallCharacterTraitListener(attacker, "OnHurtDealtEvent", victim, params);
 });
+
+function CallCharacterTraitListener(player, func_name, ...)
+{
+    foreach (characterTrait in characterTraits[player])
+    {
+        local array = [characterTrait];
+        foreach (i, val in vargv)
+        {
+            array.append(val);
+        }
+
+        try
+        {
+            characterTrait.rawget(func_name).acall(array);
+        }
+        catch(e) { throw e; }
+    }
+}

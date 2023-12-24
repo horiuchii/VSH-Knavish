@@ -8,8 +8,9 @@ CTFPlayer.Set <- function(type)
     if (!(this in playerType))
         playerType[this] <- {};
 
-    playerType[this] = (type)(this);
-    playerType[this].player = this;
+    local typeObject = (type)(this);
+    playerType[this] = typeObject;
+    typeObject.ApplyTrait(this);
 };
 CTFBot.Set <- CTFPlayer.Set;
 
@@ -65,11 +66,10 @@ class Boss extends PlayerType
     function OnApply()
     {
         boss = player;
-        boss.ForceRespawn();
-        RunWithDelay2(this, 0, OnCreationPre);
     }
 
-    function OnCreationPre()
+    // DO NOT OVERRIDE
+    function ApplyTraits()
     {
         foreach (traitClass in traitLibrary[name])
             traitClass().ApplyTrait(boss);
@@ -80,6 +80,11 @@ class Boss extends PlayerType
     function CanUseAbilities()
     {
         return !(IsInVSHMenu(boss) || (IsRoundOver() && GetWinningTeam() != TF_TEAM_BOSS));
+    }
+
+    function OnDeath(attacker, params)
+    {
+        HUDTable[boss][BossHUD.HUDID].Disable();
     }
 }
 
