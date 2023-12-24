@@ -99,31 +99,57 @@ class HUDObject
 
     function Enable()
     {
-        ClearChannels();
-
         enabled = true;
-        foreach (index, channel in channels)
+
+        // Only fire Enable if the highest priority HUD is this one
+        foreach (identifier in HUDIdentifiers[player])
         {
-            channel.params.channel = index;
-            channel.OnEnabled();
+            if (HUDTable[player][identifier.id].enabled)
+            {
+                if (HUDTable[player][identifier.id] == this)
+                {
+                    ClearChannels();
+                    foreach (index, channel in channels)
+                    {
+                        channel.params.channel = index;
+                        channel.OnEnabled();
+                    }
+                }
+
+                break;
+            }
         }
     }
 
     function Disable()
     {
-        enabled = false;
-        foreach (index, channel in channels)
-        {
-            channel.params.channel = index;
-            channel.OnDisabled();
-        }
-
-        // Enable last HUD
+        // Only fire Disable if the highest priority HUD is this one
         foreach (identifier in HUDIdentifiers[player])
         {
             if (HUDTable[player][identifier.id].enabled)
             {
-                HUDTable[player][identifier.id].Enable();
+                if (HUDTable[player][identifier.id] == this)
+                {
+                    ClearChannels();
+                    foreach (index, channel in channels)
+                    {
+                        channel.params.channel = index;
+                        channel.OnDisabled();
+                    }
+
+                    enabled = false;
+
+                    // Enable the next enabled HUD in identifiers
+                    foreach (identifier in HUDIdentifiers[player])
+                    {
+                        if (HUDTable[player][identifier.id].enabled)
+                        {
+                            HUDTable[player][identifier.id].Enable();
+                            break;
+                        }
+                    }
+                }
+
                 break;
             }
         }

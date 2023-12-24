@@ -29,13 +29,12 @@ class InspectHUD
         {
             function OnEnabled()
             {
-
-                //base.OnEnabled();
+                InspectHUD.UpdateWeaponStatHUD(player, params);
+                base.OnEnabled();
             }
             function Update()
             {
-                InspectHUD.UpdateWeaponStatHUD(player, params);
-                base.Update();
+                return;
             }
         }(0.71, 0.295, "255 255 255", 500, 0, 0);
     }
@@ -90,7 +89,6 @@ class InspectHUD
 
         player.SetScriptOverlayMaterial(API_GetString("ability_hud_folder") + "/weapon_info");
         params.message = weapon_primary + weapon_secondary + weapon_melee;
-        printl("Displaying Inspect On Channel " + params.channel);
     }
 }
 ::InspectHUD <- InspectHUD();
