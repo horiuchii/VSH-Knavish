@@ -60,7 +60,7 @@ class SaxtonHale extends Boss
         player.AddCustomAttribute("voice pitch scale", 0, -1);
         //player.AddCustomAttribute("melee range multiplier", 1.2, -1);
         player.AddCustomAttribute("damage bonus", 3, -1);
-        player.AddCustomAttribute("melee bounds multiplier", 1.1, -1);
+        //player.AddCustomAttribute("melee bounds multiplier", 1.1, -1);
         player.AddCustomAttribute("crit mod disabled hidden", 0, -1);
         player.AddCustomAttribute("increase player capture value", 2, -1);
         player.AddCustomAttribute("cannot pick up intelligence", 1, -1);
@@ -78,7 +78,6 @@ class SaxtonHale extends Boss
                 BossHUDChannel(MightySlamTrait, 0.893, 0.92, "255 255 255")
             ]
         );
-
 
         HUD.Get(player, BossHUD.HUDID).Enable();
     }
