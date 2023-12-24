@@ -26,7 +26,7 @@
 
 class HUD
 {
-    function Add(player, identifier, hud)
+    function Add(player, identifier, hud, enable = false)
     {
         local size = HUDIdentifiers[player].len();
         local i = 0;
@@ -45,6 +45,11 @@ class HUD
         {
             channel.player = player;
             channel.params.channel = index;
+        }
+
+        if (enable)
+        {
+            HUDTable[player][identifier.id].Enable();
         }
     }
 }
@@ -76,11 +81,6 @@ class HUDObject
 
 	function UpdateChannels()
 	{
-        if (!enabled)
-        {
-            return;
-        }
-
         local i = 0;
         foreach (index, channel in channels)
         {

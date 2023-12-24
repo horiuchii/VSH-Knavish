@@ -15,7 +15,6 @@
 
 class AbilityHudTrait extends BossTrait
 {
-    in_vsh_menu = false;
     game_text_charge = null;
     game_text_jump = null;
     game_text_slam = null;
@@ -105,19 +104,19 @@ class AbilityHudTrait extends BossTrait
             return;
         }
 
-        in_vsh_menu = false;
-
         local progressBarTexts = [];
         local overlay = "";
         foreach(ability in hudAbilityInstances[player])
         {
-            local percentage = ability.MeterAsPercentage();
-            local progressBarText = BigToSmallNumbers(ability.MeterAsNumber())+" ";
-            local i = 13;
+            local percentage = MeterAsPercentage(ability.TRAIT_COOLDOWN, ability.meter);
+            local progressBarText = BigToSmallNumbers(MeterAsNumber(ability.TRAIT_COOLDOWN, ability.meter))+" ";
+            local i = 1;
+            local max_bars = 7;
+            local bars = percentage * 0.01 * max_bars;
 
-            for(; i < clampCeiling(100, percentage); i+=13)
+            for(; i <= bars; i++)
                 progressBarText += "▰";
-            for(; i <= 100; i+=13)
+            for(; i <= max_bars; i++)
                 progressBarText += "▱";
 
             progressBarTexts.push(progressBarText);
@@ -159,5 +158,28 @@ class AbilityHudTrait extends BossTrait
         foreach (char in input)
             result += big2small[char.tochar()];
         return result;
+    }
+
+    function MeterAsPercentage(cooldown, meter)
+    {
+        if (cooldown == null)
+            return;
+
+        return meter < 0 ? (cooldown + meter) * 100 / cooldown : 100;
+    }
+
+    function MeterAsNumber(cooldown, meter)
+    {
+        if (cooldown == null)
+            return "x";
+
+        local rounded = abs(ceil(-meter));
+
+        if (meter == 0)
+            return "r";
+        if (rounded < 10)
+            return format(" %d", rounded);
+        else
+            return format("%d", rounded);
     }
 };

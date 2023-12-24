@@ -35,6 +35,7 @@ class SweepingChargeTrait extends BossTrait
     voiceTime = 0;
     voiceRNG = "a";
     bashedByHale = [];
+    windUpChargeTime = 0;
     midAirWindUpOverload = 0;
     triggerCatapult = null;
 
@@ -105,16 +106,15 @@ class SweepingChargeTrait extends BossTrait
 
             WindUp();
         }
-        else if (meter >= 0.01)
+        else if (windUpChargeTime >= 0.01)
             Perform();
     }
 
     function WindUp()
     {
-        meter += 0.01;
-        if (meter >= 1.0)
+        windUpChargeTime += 0.01;
+        if (windUpChargeTime >= 1.0)
         {
-            meter = 1.0;
             if (!boss.IsOnGround())
             {
                 midAirWindUpOverload += 0.01;
@@ -127,9 +127,12 @@ class SweepingChargeTrait extends BossTrait
             else
                 midAirWindUpOverload = 0;
         }
+
         if (!boss.IsOnGround())
             SetItemId(boss.GetActiveWeapon(), 42); //Sandvich
+
         BossPlayViewModelAnim(boss, "vsh_dash_windup");
+
         if (Time() > voiceTime)
         {
             voiceRNG = ["a","b","c"][RandomInt(0,2)];
@@ -138,9 +141,11 @@ class SweepingChargeTrait extends BossTrait
             EmitSoundOn("vsh_sfx.hale_charge", boss);
             vsh_vscript.Hale_SetBlueArm(boss, true);
         }
+
         boss.SetAbsVelocity(Vector(0,0,0));
         boss.AddCustomAttribute("no_attack", 1, 0.5);
         boss.AddCustomAttribute("move speed penalty", 0.25, 0.5);
+
         if (!boss.InCond(TF_COND_AIMING))
             boss.AddCond(TF_COND_AIMING);
     }
@@ -161,7 +166,8 @@ class SweepingChargeTrait extends BossTrait
 
         BossPlayViewModelAnim(boss, "vsh_dash_loop");
 
-        local chargeDuration = meter / 1.66 + 0.4;
+        local chargeDuration = clampCeiling(1.0, windUpChargeTime) / 1.66 + 0.4;
+        windUpChargeTime = 0;
 
         local forward = boss.EyeAngles();
         local pitch = boss.IsOnGround() ? forward.Pitch() - 10 : forward.Pitch();
@@ -171,7 +177,7 @@ class SweepingChargeTrait extends BossTrait
         voiceTime = 0;
         midAirWindUpOverload = 0;
 
-        boss.AddCondEx(TF_COND_SHIELD_CHARGE, chargeDuration, null);
+        boss.AddCondEx(TF_COND_SHIELD_CHARGE, 100.0, null);
         boss.AddCondEx(TF_COND_KNOCKED_INTO_AIR, chargeDuration, null);
         boss.AddCustomAttribute("no_attack", 1, chargeDuration);
         EmitPlayerVO(boss, "dash_"+voiceRNG);
@@ -186,6 +192,7 @@ class SweepingChargeTrait extends BossTrait
     {
         vsh_vscript.Hale_SetBlueArm(boss, false);
         BossPlayViewModelAnim(boss, "vsh_dash_end");
+        boss.RemoveCond(TF_COND_SHIELD_CHARGE);
         boss.AddCondEx(TF_COND_GRAPPLINGHOOK_LATCHED, 0.1, boss);
         meter = -TRAIT_COOLDOWN;
         isCurrentlyDashing = false;
@@ -243,23 +250,5 @@ class SweepingChargeTrait extends BossTrait
     {
         if (meter > 0.1)
             params.damage *= 0.5;
-    }
-
-    function MeterAsPercentage()
-    {
-        if (meter < 0)
-            return (TRAIT_COOLDOWN + meter) * 90 / TRAIT_COOLDOWN;
-        return isCurrentlyDashing ? 200 : 100;
-    }
-
-    function MeterAsNumber()
-    {
-        local mapped = -meter+0.99;
-        if (mapped <= 1)
-            return "r";
-        if (mapped < 10)
-            return format(" %d", mapped);
-        else
-            return format("%d", mapped);
     }
 };

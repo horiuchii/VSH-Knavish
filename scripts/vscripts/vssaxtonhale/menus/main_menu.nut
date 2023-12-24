@@ -42,7 +42,7 @@ menus[MENU.MainMenu].items[MAINMENU_ITEMS.Settings] <- class extends MenuItem
 
     function GenerateDesc(player)
     {
-        return "\nToggle various settings to fine tune your expierence.\n";
+        return "\nToggle various settings to fine tune your experience.\n";
     }
 
     function OnSelected(player)

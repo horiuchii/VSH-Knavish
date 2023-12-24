@@ -157,22 +157,4 @@ class MightySlamTrait extends BossTrait
         SetItemId(weapon, 5);
         ScreenShake(boss.GetCenter(), 10, 2.5, 1, 1000, 0, true);
     }
-
-    function MeterAsPercentage()
-    {
-        if (meter < 0)
-            return (TRAIT_COOLDOWN + meter) * 90 / TRAIT_COOLDOWN;
-        return inUse ? 200 : 100
-    }
-
-    function MeterAsNumber()
-    {
-        local mapped = -meter+0.99;
-        if (mapped <= 1)
-            return "r";
-        if (mapped < 10)
-            return format(" %d", mapped);
-        else
-            return format("%d", mapped);
-    }
 };

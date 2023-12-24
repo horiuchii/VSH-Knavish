@@ -3,9 +3,9 @@ class MercenaryHUD
     HUDPriority = 1;
     HUDID = UniqueString();
 
-    function AddHUD(player)
+    function AddHUD(player, enable = false)
     {
-        HUD.Add(player, CreateIdentifier(), CreateHUDObject());
+        HUD.Add(player, CreateIdentifier(), CreateHUDObject(), enable);
     }
 
     function CreateIdentifier()

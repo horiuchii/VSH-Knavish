@@ -147,28 +147,4 @@ class BraveJumpTrait extends BossTrait
         boss.SetAbsVelocity(currentVelocity + newVelocity);
         FireListeners("bravejump", boss)
     }
-
-	function MeterAsPercentage()
-    {
-        if (TRAIT_COOLDOWN == null)
-            return 0;
-
-        if (meter < 0)
-            return (TRAIT_COOLDOWN + meter) * 90 / TRAIT_COOLDOWN;
-        return 200;
-    }
-
-    function MeterAsNumber()
-    {
-        if (TRAIT_COOLDOWN == null)
-            return "x";
-
-        local mapped = -meter+0.99;
-        if (mapped <= 1)
-            return "r";
-        if (mapped < 10)
-            return format(" %d", mapped);
-        else
-            return format("%d", mapped);
-    }
 };
