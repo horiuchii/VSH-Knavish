@@ -19,7 +19,7 @@
 function RegisterBoss(name, bossClass)
 {
     bossLibrary[name] <- bossClass;
-    bossList.push(bossClass);
+    bossList.push(name);
 }
 
 function AssignBoss(bossPlayer)

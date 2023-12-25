@@ -40,12 +40,13 @@ menus[MENU.Settings].items[SETTINGS_ITEMS.BossChoose] <- class extends MenuItem
 
     function GenerateDesc(player)
     {
-        return "[" + bossLibrary[CookieUtil.Get(player, "boss")].name_proper + "]\nChoose who you would like to play as when\nchosen as the boss. (More coming soon)";
+        return "[" + bossLibrary[CookieUtil.Get(player, "boss")].name_proper + "]\nChoose who you would like to play as when\nchosen as the boss.";
     }
 
     function OnSelected(player)
     {
-        PrintToClient(player, KNA_VSH + "Coming Soon!");
+        MenuHUD.menu_index[player] <- MENU.BossSelect;
+        MenuHUD.selected_option[player] <- bossList.find(CookieUtil.Get(player, "boss"));
     }
 }();
 

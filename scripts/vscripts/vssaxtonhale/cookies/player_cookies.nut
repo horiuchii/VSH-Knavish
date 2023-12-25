@@ -92,15 +92,7 @@ class Cookies
         "headstomps"
     ]
 
-    SpecificBossStats =
-    {
-        ["saxton_hale"] =
-        [
-            "slamkills"
-            "chargekills"
-            "bravejumpcount"
-        ]
-    }
+    SpecificBossStats = {}
 
     function constructor()
     {
@@ -138,6 +130,15 @@ class Cookies
                 Table[bossname + "_" + stat_name] <- {default_value = 0};
                 Table["total_" + stat_name] <- {default_value = 0};
             }
+        }
+
+        // Grab all specific stats from boss classes
+        foreach (bossname, bossclass in bossLibrary)
+        {
+            SpecificBossStats[bossname] <- {};
+
+            foreach(i, stat_name in bossclass.Stats)
+                SpecificBossStats[bossname][i] <- stat_name;
         }
 
         // Create Total and Per Boss Cookies for Specific Stats

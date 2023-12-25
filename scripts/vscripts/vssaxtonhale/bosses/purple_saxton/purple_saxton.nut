@@ -28,6 +28,13 @@ class PurpleSaxton extends Boss
     tfclass = TF_CLASS_HEAVY;
     HUDID = UniqueString();
 
+    Stats =
+    [
+        "slamkills"
+        "chargekills"
+        "bravejumpcount"
+    ]
+
     function OnApply()
     {
         base.OnApply();

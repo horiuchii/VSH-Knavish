@@ -1,6 +1,5 @@
 class BossHUD
 {
-    HUDID = UniqueString();
     HUDPriority = 1;
 
     //¹²³⁴⁵⁶⁷⁸⁹⁰
@@ -22,7 +21,7 @@ class BossHUD
 
     function AddHUD(player, boss_hud_id, channels)
     {
-        HUD.Add(player, CreateIdentifier(boss_hud_id), HUDObject());
+        HUD.Add(player, CreateIdentifier(boss_hud_id), HUDObject(channels));
     }
 
     function CreateIdentifier(boss_hud_id)
@@ -37,23 +36,23 @@ class BossHUD
             if (!player.IsAlive())
                 continue;
 
-            if (!(HUDID in HUDTable[player]))
+            if (!(player.Get().HUDID in HUDTable[player]))
                 continue;
 
-            if (!HUD.Get(player, HUDID).enabled)
+            if (!HUD.Get(player, player.Get().HUDID).enabled)
                 continue;
 
-            if (HUD.GetActive(player) != HUDID)
+            if (HUD.GetActive(player) != player.Get().HUDID)
                 continue;
 
             if (player.GetButtons() & IN_SCORE)
             {
-                HUD.Get(player, HUDID).overlay = null;
+                HUD.Get(player, player.Get().HUDID).overlay = null;
                 continue;
             }
 
             local overlay = "";
-            foreach (channel in HUD.Get(player, HUDID).channels)
+            foreach (channel in HUD.Get(player, player.Get().HUDID).channels)
             {
                 local cooldown = characterTraitsTable[player][channel.ability_class].TRAIT_COOLDOWN;
                 local meter = characterTraitsTable[player][channel.ability_class].meter;
@@ -76,7 +75,7 @@ class BossHUD
                 channel.params.message = progressBarText;
             }
 
-            HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
+            HUD.Get(player, player.Get().HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
         }
     }
 

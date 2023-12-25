@@ -38,7 +38,7 @@ AddListener("setup_start", 1, function ()
     {
         player.SwitchTeam(TF_TEAM_BOSS);
         player.ForceRegenerateAndRespawn();
-        player.Set(bossList[RandomInt(0, bossLibrary.len() - 1)]);
+        player.Set(bossLibrary[CookieUtil.Get(player, "boss")]);
     }
 });
 

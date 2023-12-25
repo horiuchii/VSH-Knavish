@@ -89,19 +89,14 @@ menus[MENU.StatsBoss] <- class extends Menu
     }
 };
 
-::BossStatMenus <-
-{
-    ["saxton_hale"] = MENU.StatsBossSaxton
-}
-
-foreach (i, value in BossStatMenus)
+foreach (bossname, boss in bossLibrary)
 {
     local boss_menu_pos = menus[MENU.StatsBoss].items.len();
 
     menus[MENU.StatsBoss].items[boss_menu_pos] <- class extends MenuItem
     {
-        boss_id = i
-        title = bossLibrary[i].name_proper
+        boss_id = bossname
+        title = boss.name_proper
 
         function GenerateDesc(player)
         {
@@ -110,38 +105,38 @@ foreach (i, value in BossStatMenus)
 
         function OnSelected(player)
         {
-            MenuHUD.menu_index[player] <- BossStatMenus[boss_id];
+            MenuHUD.menu_index[player] <- boss_id;
             MenuHUD.selected_option[player] <- 0;
         }
     }();
 
-    menus[value] <- class extends Menu
+    menus[bossname] <- class extends Menu
     {
         items = {};
-        overlay = "stats_boss_" + i;
+        overlay = "stats_boss_" + bossname;
         parent_menu = MENU.StatsBoss;
         parent_menuitem = boss_menu_pos;
     }();
 
     foreach(stat in Cookies.BossStats)
     {
-        local insert_index = menus[value].items.len();
+        local insert_index = menus[bossname].items.len();
 
         if(insert_index == 1)
         {
-            menus[value].items[insert_index] <- GeneralBossStatTemplates["victory"]();
-            menus[value].items[insert_index].boss_id = i;
+            menus[bossname].items[insert_index] <- GeneralBossStatTemplates["victory"]();
+            menus[bossname].items[insert_index].boss_id = bossname;
             insert_index++;
         }
 
-        menus[value].items[insert_index] <- GeneralBossStatTemplates[stat]();
-        menus[value].items[insert_index].boss_id = i;
+        menus[bossname].items[insert_index] <- GeneralBossStatTemplates[stat]();
+        menus[bossname].items[insert_index].boss_id = bossname;
     }
 
-    foreach(stat in Cookies.SpecificBossStats[i])
+    foreach(stat in Cookies.SpecificBossStats[bossname])
     {
-        local insert_index = menus[value].items.len();
-        menus[value].items[insert_index] <- SpecificBossStatTemplates[stat]();
-        menus[value].items[insert_index].boss_id = i;
+        local insert_index = menus[bossname].items.len();
+        menus[bossname].items[insert_index] <- SpecificBossStatTemplates[stat]();
+        menus[bossname].items[insert_index].boss_id = bossname;
     }
 }

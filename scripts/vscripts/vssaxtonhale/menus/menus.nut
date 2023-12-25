@@ -2,8 +2,9 @@
 
 enum MENU {
     MainMenu
-    BossDifficulty
     Settings
+    BossDifficulty
+    BossSelect
     Changes
     ChangesScout
     ChangesSoldier
@@ -27,7 +28,6 @@ enum MENU {
     StatsMercSniper
     StatsMercSpy
     StatsBoss
-    StatsBossSaxton
 }
 
 class Menu
@@ -51,6 +51,7 @@ Include("/menus/main_menu.nut");
 
 Include("/menus/settings_menu.nut");
 Include("/menus/bossdifficulty_menu.nut");
+Include("/menus/boss_select_menu.nut");
 
 Include("/menus/changes_menu.nut");
 
