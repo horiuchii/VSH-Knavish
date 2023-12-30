@@ -38,6 +38,8 @@ function AddBossTrait(bossName, traitClass)
 
 Include("/bosses/boss_util.nut");
 
+Include("/bosses/saxton_hale/abilities/sweeping_charge.nut");
+Include("/bosses/saxton_hale/abilities/mighty_slam.nut");
 Include("/bosses/generic/abilities/brave_jump.nut");
 Include("/bosses/generic/passives/stun_breakout.nut");
 Include("/bosses/generic/passives/debuff_resistance.nut");
@@ -45,7 +47,6 @@ Include("/bosses/generic/passives/received_damage_scaling.nut");
 Include("/bosses/generic/passives/head_stomp.nut");
 Include("/bosses/generic/misc/prevent_no_attack_damage.nut");
 Include("/bosses/generic/misc/freeze_boss_setup");
-Include("/bosses/generic/misc/ability_hud.nut");
 Include("/bosses/generic/misc/death_cleanup.nut");
 Include("/bosses/generic/misc/movespeed.nut");
 Include("/bosses/generic/misc/screen_shake.nut");
@@ -61,4 +62,4 @@ Include("/bosses/generic/voice_lines/last_mann_hiding.nut");
 Include("/bosses/generic/voice_lines/round_end.nut");
 
 Include("/bosses/saxton_hale/saxton_hale.nut");
-Include("/bosses/purple_saxton/purple_saxton.nut");
+//Include("/bosses/purple_saxton/purple_saxton.nut");

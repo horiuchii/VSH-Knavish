@@ -83,9 +83,9 @@ class PurpleSaxton extends Boss
 
         BossHUD.AddHUD(player, HUDID,
             [
-                BossHUDChannel(SweepingChargeTrait, 0.648, 0.92, "255 255 255"),
-                BossHUDChannel(BraveJumpTrait, 0.768, 0.92, "255 255 255"),
-                BossHUDChannel(MightySlamTrait, 0.893, 0.92, "255 255 255")
+                BossHUDChannel(SweepingCharge, 0.648, 0.92, "255 255 255"),
+                BossHUDChannel(BraveJump, 0.768, 0.92, "255 255 255"),
+                BossHUDChannel(MightySlam, 0.893, 0.92, "255 255 255")
             ]
         );
 
@@ -95,15 +95,12 @@ class PurpleSaxton extends Boss
 
 RegisterBoss(PurpleSaxton.name, PurpleSaxton);
 
-Include("/bosses/saxton_hale/abilities/sweeping_charge.nut");
-Include("/bosses/saxton_hale/abilities/mighty_slam.nut");
-Include("/bosses/saxton_hale/misc/colored_arms.nut");
 Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
 Include("/bosses/saxton_hale/misc/no_crit.nut")
 
-AddBossTrait(PurpleSaxton.name, SweepingChargeTrait);
-AddBossTrait(PurpleSaxton.name, BraveJumpTrait);
-AddBossTrait(PurpleSaxton.name, MightySlamTrait);
+AddBossTrait(PurpleSaxton.name, SweepingCharge);
+AddBossTrait(PurpleSaxton.name, BraveJump);
+AddBossTrait(PurpleSaxton.name, MightySlam);
 
 AddBossTrait(PurpleSaxton.name, FreezeSetupTrait);
 AddBossTrait(PurpleSaxton.name, DeathCleanupTrait);

@@ -36,46 +36,41 @@ class BossHUD
             if (!player.IsAlive())
                 continue;
 
-            if (!(player.Get().HUDID in HUDTable[player]))
+            local HUDID = player.Get().HUDID;
+            if (!(HUDID in HUDTable[player]))
                 continue;
 
-            if (!HUD.Get(player, player.Get().HUDID).enabled)
+            if (!HUD.Get(player, HUDID).enabled)
                 continue;
 
-            if (HUD.GetActive(player) != player.Get().HUDID)
+            if (HUD.GetActive(player) != HUDID)
                 continue;
 
             if (player.GetButtons() & IN_SCORE)
             {
-                HUD.Get(player, player.Get().HUDID).overlay = null;
+                HUD.Get(player, HUDID).overlay = null;
                 continue;
             }
 
             local overlay = "";
-            foreach (channel in HUD.Get(player, player.Get().HUDID).channels)
+            foreach (channel in HUD.Get(player, HUDID).channels)
             {
-                local cooldown = characterTraitsTable[player][channel.ability_class].TRAIT_COOLDOWN;
+                local progressBarText = "";
+                local cooldown = characterTraitsTable[player][channel.ability_class].cooldown;
                 local meter = characterTraitsTable[player][channel.ability_class].meter;
                 local percentage = MeterAsPercentage(cooldown, meter);
-                local progressBarText = BigToSmallNumbers(MeterAsNumber(cooldown, meter))+" ";
-                local i = 1;
+                local progressBarText = BigToSmallNumbers(MeterAsNumber(cooldown, meter)) + " ";
                 local max_bars = 7;
-                local progress = percentage * 0.01 * max_bars;
+                local progress = percentage == null ? 0.0 : percentage * 0.01 * max_bars;
 
-                for(; i <= progress; i++)
-                    progressBarText += "▰";
-                for(; i <= max_bars; i++)
-                    progressBarText += "▱";
+                for(local i = 1; i <= max_bars; i++)
+                    progressBarText += i <= progress ? "▰" : "▱";
 
-                if (percentage >= 100)
-                    overlay += "on_";
-                else
-                    overlay += "off_";
-
+                overlay += percentage >= 100 ? "on_" : "off_";
                 channel.params.message = progressBarText;
             }
 
-            HUD.Get(player, player.Get().HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
+            HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
         }
     }
 

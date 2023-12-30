@@ -19,7 +19,7 @@ class MightySlamTrait extends BossTrait
     meter = 0;
     inUse = false;
     lastFrameDownVelocity = 0;
-	TRAIT_COOLDOWN = 15;
+	cooldown = 15;
 
     function OnTickAlive(timeDelta)
     {
@@ -83,7 +83,7 @@ class MightySlamTrait extends BossTrait
         DispatchParticleEffect("hammer_impact_button", boss.GetOrigin() + Vector(0,0,20), Vector(0,0,0));
         EmitSoundOn("vsh_sfx.boss_slam_impact", boss);
         lastFrameDownVelocity = 0;
-        meter = -TRAIT_COOLDOWN;
+        meter = -cooldown;
 
         local bossLocal = boss;
         BossPlayViewModelAnim(boss, "vsh_slam_land");
@@ -151,4 +151,4 @@ class MightySlamTrait extends BossTrait
         ScreenShake(boss.GetCenter(), 10, 2.5, 1, 1000, 0, true);
     }
 };
-::MightySlamTrait <- MightySlamTrait;
+::MightySlam <- MightySlamTrait;

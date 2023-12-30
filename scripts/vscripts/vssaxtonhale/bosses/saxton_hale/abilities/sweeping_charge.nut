@@ -27,14 +27,14 @@ PrecacheModel(saxton_dash_effect_model_path);
 
 class SweepingChargeTrait extends BossTrait
 {
-	TRAIT_COOLDOWN = 10;
+	cooldown = 2;
     meter = 0;
     isCurrentlyDashing = false;
     lastDenySoundPlay = 0;
     haleLastFrameDownVelocity = 0;
-    voiceTime = 0;
+    startedWinding = false;
     voiceRNG = "a";
-    bashedByHale = [];
+    bashedByBoss = [];
     windUpChargeTime = 0;
     midAirWindUpOverload = 0;
     triggerCatapult = null;
@@ -103,7 +103,9 @@ class SweepingChargeTrait extends BossTrait
             WindUp();
         }
         else if (windUpChargeTime >= 0.01)
+        {
             Perform();
+        }
     }
 
     function WindUp()
@@ -121,7 +123,9 @@ class SweepingChargeTrait extends BossTrait
                 }
             }
             else
+            {
                 midAirWindUpOverload = 0;
+            }
         }
 
         if (!boss.IsOnGround())
@@ -129,21 +133,24 @@ class SweepingChargeTrait extends BossTrait
 
         BossPlayViewModelAnim(boss, "vsh_dash_windup");
 
-        if (Time() > voiceTime)
-        {
-            voiceRNG = ["a","b","c"][RandomInt(0,2)];
-            voiceTime = Time() + 999;
-            EmitPlayerVO(boss, "charge_"+voiceRNG);
-            EmitSoundOn("vsh_sfx.hale_charge", boss);
-            vsh_vscript.Hale_SetBlueArm(boss, true);
-        }
-
-        boss.SetAbsVelocity(Vector(0,0,0));
         PreventAttack(boss, 0.5);
+        boss.SetGravity(0.000001);
+        boss.SetAbsVelocity(Vector(0,0,0));
         boss.AddCustomAttribute("move speed penalty", 0.25, 0.5);
 
         if (!boss.InCond(TF_COND_AIMING))
             boss.AddCond(TF_COND_AIMING);
+
+        if (!startedWinding)
+        {
+            if (boss.Get().rawin("SweepingCharge_WindUp"))
+            {
+                voiceRNG = ["a","b","c"][RandomInt(0,2)];
+                boss.Get().SweepingCharge_WindUp(voiceRNG);
+            }
+
+            startedWinding = true;
+        }
     }
 
     function Perform()
@@ -151,7 +158,7 @@ class SweepingChargeTrait extends BossTrait
         DoEntFire("windup_vfx", "Kill", "", 0, null, null);
         SetItemId(boss.GetActiveWeapon(), 5);
         isCurrentlyDashing = true;
-        bashedByHale = [];
+        bashedByBoss = [];
         boss.RemoveCond(TF_COND_AIMING);
         boss.AddCondEx(TF_COND_HALLOWEEN_KART_DASH, 0.1, boss);
 
@@ -170,48 +177,53 @@ class SweepingChargeTrait extends BossTrait
         forward = QAngle(pitch, forward.Yaw(), 0);
         boss.Yeet(forward.Forward() * 800 * chargeDuration)
         boss.SetGravity(0.3);
-        voiceTime = 0;
+        startedWinding = false;
         midAirWindUpOverload = 0;
 
-        boss.AddCondEx(TF_COND_SHIELD_CHARGE, 100.0, null);
+        SetPropFloat(boss, "m_Shared.m_flChargeMeter", 100.0);
+        boss.AddCondEx(TF_COND_SHIELD_CHARGE, chargeDuration, null);
         boss.AddCondEx(TF_COND_KNOCKED_INTO_AIR, chargeDuration, null);
         PreventAttack(boss, chargeDuration + 0.5);
-        EmitPlayerVO(boss, "dash_"+voiceRNG);
-        EmitSoundOn("vsh_sfx.hale_dash", boss);
+
         RunWithDelay2(this, chargeDuration, Finish);
 
-        local dashDome = boss.CreateCustomWearable(null, saxton_dash_effect_model_path);
-        EntFireByHandle(dashDome, "Kill", "", chargeDuration, null, null);
+        if (boss.Get().rawin("SweepingCharge_Perform"))
+        {
+            boss.Get().SweepingCharge_Perform(voiceRNG, chargeDuration);
+        }
     }
 
     function Finish()
     {
-        vsh_vscript.Hale_SetBlueArm(boss, false);
         BossPlayViewModelAnim(boss, "vsh_dash_end");
-        boss.RemoveCond(TF_COND_SHIELD_CHARGE);
         boss.AddCondEx(TF_COND_GRAPPLINGHOOK_LATCHED, 0.1, boss);
-        meter = -TRAIT_COOLDOWN;
+        meter = -cooldown;
         isCurrentlyDashing = false;
         boss.SetGravity(1);
         EntFireByHandle(triggerCatapult, "Disable", "", 0, boss, boss)
         PreventAttack(boss, 0.5);
+
+        if (boss.Get().rawin("SweepingCharge_Finish"))
+        {
+            boss.Get().SweepingCharge_Finish();
+        }
     }
 
     function TickDash()
     {
-        local haleForwardDirection = boss.EyeAngles().Forward();
-        local forwardOffset = haleForwardDirection * 60;
+        local ForwardDirection = boss.EyeAngles().Forward();
+        local forwardOffset = ForwardDirection * 60;
 
         SetPropInt(boss, "m_Shared.m_bJumping", 1);
         SetPropFloat(boss, "m_Shared.m_flJumpTime", 1);
         SetPropEntity(boss, "m_hGroundEntity", null);
         local force = 1400;
-        boss.SetAbsVelocity(haleForwardDirection*force)
+        boss.SetAbsVelocity(ForwardDirection * force)
         triggerCatapult.SetAbsOrigin(boss.GetCenter());
 
         CreateAoEAABB(boss.GetCenter() + forwardOffset, Vector(-65, -65, -30), Vector(65, 65, 130),
             function (target, deltaVector, distance) {
-                if (bashedByHale.find(target) != null)
+                if (bashedByBoss.find(target) != null)
                     return;
                 local dmg = target.GetMaxHealth() * 0.55;
                 if (startswith(target.GetClassname(), "obj_"))
@@ -220,7 +232,7 @@ class SweepingChargeTrait extends BossTrait
                     boss.SetAbsVelocity(Vector(0,0,0))
                 }
                 else
-                    bashedByHale.push(target);
+                    bashedByBoss.push(target);
                 target.TakeDamageEx(
                     boss,
                     boss,
@@ -231,7 +243,7 @@ class SweepingChargeTrait extends BossTrait
                     DMG_BURN);
             }
             function (target, deltaVector, distance) {
-                if (bashedByHale.find(target) != null)
+                if (bashedByBoss.find(target) != null)
                     return;
                 EmitSoundOn("DemoCharge.HitFlesh", target);
                 deltaVector.Norm();
@@ -248,4 +260,5 @@ class SweepingChargeTrait extends BossTrait
             params.damage *= 0.5;
     }
 };
-::SweepingChargeTrait <- SweepingChargeTrait;
+::SweepingCharge <- SweepingChargeTrait;
+

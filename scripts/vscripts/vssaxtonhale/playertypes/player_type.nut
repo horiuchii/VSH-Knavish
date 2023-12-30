@@ -63,6 +63,7 @@ class Boss extends PlayerType
     startingHealth = 0;
     trait_team = TF_TEAM_BOSS;
     HUDID = null;
+    Stats = null;
 
     function OnApply()
     {
@@ -73,7 +74,9 @@ class Boss extends PlayerType
     function ApplyTraits()
     {
         foreach (traitClass in traitLibrary[name])
+        {
             traitClass().ApplyTrait(boss);
+        }
 
         ClearPlayerItems(boss); //Clear items in case a trait regenerates them
     }

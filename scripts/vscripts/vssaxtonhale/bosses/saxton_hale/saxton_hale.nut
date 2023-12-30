@@ -12,10 +12,19 @@
 //=========================================================================
 
 ::saxton_model_path <- "models/player/saxton_hale.mdl";
-::saxton_aura_model_path <- "models/player/items/vsh_effect_body_aura.mdl"
-::saxton_viewmodel_path <- "models/weapons/c_models/c_saxton_arms.mdl"
-::saxton_viewmodel_index <- GetModelIndex("models/weapons/c_models/c_saxton_arms.mdl")
+::saxton_aura_model_path <- "models/player/items/vsh_effect_body_aura.mdl";
+::saxton_viewmodel_path <- "models/weapons/c_models/c_saxton_arms.mdl";
+::saxton_viewmodel_index <- GetModelIndex("models/weapons/c_models/c_saxton_arms.mdl");
 
+::hale_aura_red_off <- "models/player/items/vsh_effect_ltarm_aura.mdl";
+::hale_aura_blue_off <- "models/player/items/vsh_effect_rtarm_aura.mdl";
+::hale_aura_red_on <- "models/player/items/vsh_effect_ltarm_aura_megapunch.mdl";
+::hale_aura_blue_on <- "models/player/items/vsh_effect_rtarm_aura_chargedash.mdl";
+
+PrecacheModel(hale_aura_red_off);
+PrecacheModel(hale_aura_blue_off);
+PrecacheModel(hale_aura_red_on);
+PrecacheModel(hale_aura_blue_on);
 PrecacheModel(saxton_model_path);
 PrecacheModel(saxton_aura_model_path);
 PrecacheModel(saxton_viewmodel_path);
@@ -27,6 +36,11 @@ class SaxtonHale extends Boss
     color = "255 230 0";
     tfclass = TF_CLASS_HEAVY;
     HUDID = UniqueString();
+
+    redArmEnabled = false;
+    blueArmEnabled = false;
+    RED_ARM = "red";
+    BLUE_ARM = "blue";
 
     Stats =
     [
@@ -46,28 +60,22 @@ class SaxtonHale extends Boss
 
     function CreateBoss()
     {
-        SetPropInt(boss, "m_bForcedSkin", 1);
-        SetPropInt(boss, "m_nForcedSkin", 0);
-
         boss.SetCustomModelWithClassAnimations(saxton_model_path);
-        vsh_vscript.Hale_SetRedArm(boss, false);
-        vsh_vscript.Hale_SetBlueArm(boss, false);
-        RunWithDelay2(this, 0.1, function() {
-            vsh_vscript.Hale_SetRedArm(boss, false);
-            vsh_vscript.Hale_SetBlueArm(boss, false);
+        SetArm(RED_ARM, false);
+        SetArm(BLUE_ARM, false);
+
+        RunWithDelay2(this, 0.1, function()
+        {
             boss.CreateCustomWearable(null, saxton_aura_model_path);
             boss.GiveWeapon("Hale's Own Fists");
         });
 
         boss.SetModelScale(API_GetFloat("boss_scale"), 0);
-        boss.GiveWeapon("Hale's Own Fists");
 
         player.AddCustomAttribute("move speed bonus", 1.8, -1);
         player.AddCustomAttribute("cancel falling damage", 1, -1);
         player.AddCustomAttribute("voice pitch scale", 0, -1);
-        //player.AddCustomAttribute("melee range multiplier", 1.2, -1);
         player.AddCustomAttribute("damage bonus", 3, -1);
-        //player.AddCustomAttribute("melee bounds multiplier", 1.1, -1);
         player.AddCustomAttribute("crit mod disabled hidden", 0, -1);
         player.AddCustomAttribute("increase player capture value", 2, -1);
         player.AddCustomAttribute("cannot pick up intelligence", 1, -1);
@@ -80,28 +88,105 @@ class SaxtonHale extends Boss
 
         BossHUD.AddHUD(player, HUDID,
             [
-                BossHUDChannel(SweepingChargeTrait, 0.648, 0.92, "255 255 255"),
-                BossHUDChannel(BraveJumpTrait, 0.768, 0.92, "255 255 255"),
-                BossHUDChannel(MightySlamTrait, 0.893, 0.92, "255 255 255")
+                BossHUDChannel(SweepingCharge, 0.648, 0.92, "255 255 255"),
+                BossHUDChannel(BraveJump, 0.768, 0.92, "255 255 255"),
+                BossHUDChannel(MightySlam, 0.893, 0.92, "255 255 255")
             ]
         );
 
         HUD.Get(player, HUDID).Enable();
     }
+
+    function SetArm(color, newStatus)
+    {
+        local aura = "wearable_vs_hale_aura_";
+        local wearable = Entities.FindByName(null, aura + color);
+        if (wearable != null)
+            wearable.Kill();
+
+        printl(viewmodel);
+        switch (color)
+        {
+            case RED_ARM:
+            {
+                redArmEnabled = newStatus;
+                wearable = boss.CreateCustomWearable(null, newStatus ? hale_aura_red_on : hale_aura_red_off);
+                ColorThirdPersonArms();
+                local viewmodel = null;
+                while (viewmodel = Entities.FindByClassname(viewmodel, "tf_wearable_vm"))
+                {
+                    if (viewmodel.GetOwner() == boss)
+                        viewmodel.SetBodygroup(1, newStatus ? 1 : 0);
+                }
+
+                GetPropEntity(boss, "m_hViewModel").SetBodygroup(1, newStatus ? 1 : 0);
+            }
+            case BLUE_ARM:
+            {
+                blueArmEnabled = newStatus;
+                wearable = boss.CreateCustomWearable(null, newStatus ? hale_aura_blue_on : hale_aura_blue_off);
+                ColorThirdPersonArms();
+                local viewmodel = null;
+                while (viewmodel = Entities.FindByClassname(viewmodel, "tf_wearable_vm"))
+                {
+                    if (viewmodel.GetOwner() == boss)
+                        viewmodel.SetBodygroup(0, newStatus ? 1 : 0);
+                }
+
+                if (newStatus)
+                    GetPropEntity(boss, "m_hViewModel").DisableDraw();
+                else
+                    GetPropEntity(boss, "m_hViewModel").EnableDraw();
+            }
+        }
+
+        wearable.KeyValueFromString("targetname", aura + color);
+    }
+
+    function ColorThirdPersonArms()
+    {
+        local newSkin = 0;
+        if (redArmEnabled)
+        {
+            newSkin = blueArmEnabled ? 4 : 2;
+        }
+        else
+        {
+            newSkin = blueArmEnabled ? 3 : 0;
+        }
+
+        SetPropInt(boss, "m_nForcedSkin", newSkin);
+    }
+
+    function SweepingCharge_WindUp(voiceRNG)
+    {
+        EmitPlayerVO(boss, "charge_" + voiceRNG);
+        EmitSoundOn("vsh_sfx.hale_charge", boss);
+        SetArm(BLUE_ARM, true);
+    }
+
+    function SweepingCharge_Perform(voiceRNG, chargeDuration)
+    {
+        EmitPlayerVO(boss, "dash_" + voiceRNG);
+        EmitSoundOn("vsh_sfx.hale_dash", boss);
+        local dashDome = boss.CreateCustomWearable(null, saxton_dash_effect_model_path);
+        EntFireByHandle(dashDome, "Kill", "", chargeDuration, null, null);
+    }
+
+    function SweepingCharge_Finish()
+    {
+        SetArm(BLUE_ARM, false);
+    }
 }
 
 RegisterBoss(SaxtonHale.name, SaxtonHale);
 
-Include("/bosses/saxton_hale/abilities/sweeping_charge.nut");
-Include("/bosses/saxton_hale/abilities/mighty_slam.nut");
-Include("/bosses/saxton_hale/misc/colored_arms.nut");
 Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
-Include("/bosses/saxton_hale/misc/no_crit.nut")
+Include("/bosses/saxton_hale/misc/no_crit.nut");
 
-AddBossTrait(SaxtonHale.name, SweepingChargeTrait);
-AddBossTrait(SaxtonHale.name, BraveJumpTrait);
-AddBossTrait(SaxtonHale.name, MightySlamTrait);
-
+AddBossTrait(SaxtonHale.name, SweepingCharge);
+AddBossTrait(SaxtonHale.name, BraveJump);
+AddBossTrait(SaxtonHale.name, MightySlam);
 AddBossTrait(SaxtonHale.name, FreezeSetupTrait);
 AddBossTrait(SaxtonHale.name, DeathCleanupTrait);
 AddBossTrait(SaxtonHale.name, MovespeedTrait);

@@ -27,7 +27,7 @@ class BraveJumpTrait extends BossTrait
     jumpStatus = BOSS_JUMP_STATUS.WALKING;
     voiceLinePlayed = 0;
 	meter = 0;
-	TRAIT_COOLDOWN = 2;
+	cooldown = 2;
 
 	function OnTickAlive(timeDelta)
     {
@@ -45,11 +45,11 @@ class BraveJumpTrait extends BossTrait
         {
             switch(CookieUtil.Get(player, "difficulty"))
             {
-                case DIFFICULTY.EASY: TRAIT_COOLDOWN = 0; break;
-                case DIFFICULTY.NORMAL: TRAIT_COOLDOWN = 2.5; break;
-                case DIFFICULTY.HARD: TRAIT_COOLDOWN = 3; break;
-                case DIFFICULTY.EXTREME: TRAIT_COOLDOWN = 4; break;
-                case DIFFICULTY.IMPOSSIBLE: TRAIT_COOLDOWN = null; break;
+                case DIFFICULTY.EASY: cooldown = 0; break;
+                case DIFFICULTY.NORMAL: cooldown = 2.5; break;
+                case DIFFICULTY.HARD: cooldown = 3; break;
+                case DIFFICULTY.EXTREME: cooldown = 4; break;
+                case DIFFICULTY.IMPOSSIBLE: cooldown = null; break;
                 default: break;
             }
         }
@@ -69,7 +69,7 @@ class BraveJumpTrait extends BossTrait
         if (!player.Get().CanUseAbilities())
             return;
 
-        if (API_GetBool("freeze_boss_setup") && IsRoundSetup() || TRAIT_COOLDOWN == null)
+        if (API_GetBool("freeze_boss_setup") && IsRoundSetup() || cooldown == null)
             return;
 
         local buttons = boss.GetButtons();
@@ -95,7 +95,7 @@ class BraveJumpTrait extends BossTrait
 	    if (meter != 0)
             return false;
 
-        meter = -TRAIT_COOLDOWN;
+        meter = -cooldown;
 
 	    if (!IsRoundSetup() && Time() - voiceLinePlayed > 1.5)
         {
@@ -141,4 +141,4 @@ class BraveJumpTrait extends BossTrait
         FireListeners("bravejump", boss)
     }
 };
-::BraveJumpTrait <- BraveJumpTrait;
+::BraveJump <- BraveJumpTrait;
