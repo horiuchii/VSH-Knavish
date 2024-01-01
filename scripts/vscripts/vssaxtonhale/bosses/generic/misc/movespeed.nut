@@ -30,7 +30,7 @@ class MovespeedTrait extends BossTrait
         local health = clampFloor(boss.GetHealth() - (boss.GetMaxHealth() * ignored_health_mult), 0);
 
         // 1000 * (1 - 0.25) = 750
-        local max_health = boss.GetMaxHealth() * (1 - ignore_health_mult);
+        local max_health = boss.GetMaxHealth() * (1 - ignored_health_mult);
 
         // 750 / 750 = 1
         local remaining_health_percent = health / max_health;
