@@ -46,7 +46,7 @@
     {
         ids = [357]
         name = "Half Zatoichi"
-        desc = "Heal 45% of health on hit\n\n"
+        desc = "Heal 45% of health on hit\n-66% Knockback on hit\n"
     },
     ["reserve_shooter"] =
     {
@@ -94,7 +94,7 @@
     {
         ids = [163]
         name = "Crit-a-Cola"
-        desc = "Each attack full crits\n\n"
+        desc = "Grants crits instead of mini-crits\n\n"
     },
     ["pbpp"] =
     {
@@ -107,7 +107,7 @@
     {
         ids = [450]
         name = "Atomizer"
-        desc = "Removed deploy time increase\n\n"
+        desc = "Removed deploy time penalty\n\n"
     },
     ["candy_cane"] =
     {
@@ -119,13 +119,13 @@
     {
         ids = [349]
         name = "Sun-on-a-Stick"
-        desc = "No passive crits\n+50% damage bonus\n"
+        desc = "No passive crits\n+50% damage bonus\n2x Damage vs burning victims"
     },
     ["fan_o_war"] =
     {
         ids = [355]
         name = "Fan O'War"
-        desc = "Marked-For-Death effect\nlasts 8 seconds instead of 15\n"
+        desc = "-50% Marked-For-Death duration\n(15s > 7.5s)\n"
     },
 
     /*
@@ -154,7 +154,7 @@
     {
         ids = [1104]
         name = "Air Strike"
-        desc = "Gain extra clip every 200 damage\n-5% damage penalty\n+20% faster reload"
+        desc = "Gain extra clip every 200 damage\n-20% damage penalty\n+20% faster reload"
     },
 
     ["mantreads"] =
@@ -167,7 +167,7 @@
     {
         ids = [128]
         name = "Equalizer"
-        desc = "+100% holster speed bonus\n+30% damage resist while active\n"
+        desc = "-100% holster speed\n+30% Damage resist while active\n"
     },
     ["market_gardener"] =
     {
@@ -195,44 +195,44 @@
         ids = [21, 208, 659, 741, 798, 807, 887, 896, 905, 914, 963, 972, 15005, 15017, 15030,
             15034, 15049, 15054, 15066, 15067, 15068, 15089, 15090, 15115, 15141, 30474]
         name = "Flame Thrower"
-        desc = "-25% vertical airblast scale\n+25% damage bonus\n"
+        desc = "-25% Vertical airblast scale\n+25% Damage bonus\n"
     },
     ["backburner"] =
     {
         ids = [40, 1146]
         name = "Backburner"
-        desc = "-25% vertical airblast scale\n+25% damage bonus\n"
+        desc = "-25% Vertical airblast scale\n+25% Damage bonus\n"
     },
     ["degreaser"] =
     {
         ids = [215]
         name = "Degreaser"
-        desc = "-25% vertical airblast scale\n+25% damage bonus\n+9% afterburn damage bonus"
+        desc = "-25% Vertical airblast scale\n+25% Damage bonus\n-25% Afterburn damage bonus"
     },
     ["phlog"] =
     {
         ids = [594]
         name = "Phlogistinator"
-        desc = "-25% vertical airblast scale\n+25% damage bonus\n"
+        desc = "-25% Vertical airblast scale\n+25% Damage bonus\n"
     },
     ["dragonsfury"] =
     {
         ids = [1178]
         name = "Dragon's Fury"
-        desc = "-25% vertical airblast scale\n+25% damage bonus\n"
+        desc = "-25% Vertical airblast scale\n+25% Damage bonus\n"
     },
 
     ["detonator"] =
     {
         ids = [351]
         name = "Detonator"
-        desc = "+100% self damage force\n\n"
+        desc = "+100% Self damage force\n\n"
     },
     ["manmelter"] =
     {
         ids = [595]
         name = "Manmelter"
-        desc = "+50% projectile speed\n+50% faster firing speed\n"
+        desc = "+50% Projectile speed\n+50% Faster firing speed\n"
     },
     ["thermal_thruster"] =
     {
@@ -243,7 +243,7 @@
     {
         ids = [38,1000]
         name = "Axtinguisher"
-        desc = "No passive crits\n+100% damage bonus\n"
+        desc = "No passive crits\n+100% Damage bonus\n"
     },
     ["homewrecker"] =
     {
@@ -253,13 +253,13 @@
     {
         ids = [214]
         name = "Powerjack"
-        desc = "No damage vulnerability\n+75 health on hit, overheals\n"
+        desc = "No damage vulnerability\n+75 Health on hit, overheals\n"
     },
     ["back_scratcher"] =
     {
         ids = [326]
         name = "Back Scratcher"
-        desc = "+50% health from healers\n\n"
+        desc = "+50% Health from healers\n\n"
     },
 
     /*
@@ -270,13 +270,13 @@
     {
         ids = [405]
         name = "Ali Baba's Wee Booties"
-        desc = "+10% faster move speed\n(no shield required)\n"
+        desc = "+10% Faster move speed\n(So shield required)\n"
     },
     ["boot_legger"] =
     {
         ids = [608]
         name = "Bootlegger"
-        desc = "+10% faster move speed\n(no shield required)\n"
+        desc = "+10% Faster move speed\n(No shield required)\n"
     },
 
     ["stickybomb_launcher"] =
@@ -294,7 +294,7 @@
     {
         ids = [131, 1144]
         name = "Chargin' Targe"
-        desc = "Blocks a single hit (can still charge)\n\n"
+        desc = "Blocks a single hit (Can still charge)\n\n"
     },
     ["sticky_jumper"] =
     {
@@ -306,13 +306,13 @@
     {
         ids = [406]
         name = "Splendid Screen"
-        desc = "Blocks a single hit (can still charge)\n\n"
+        desc = "Blocks a single hit (Can still charge)\n\n"
     },
     ["tide_turner"] =
     {
         ids = [1099]
         name = "Tide Turner"
-        desc = "Blocks a single hit (can still charge)\n\n"
+        desc = "Blocks a single hit (Can still charge)\n\n"
     },
     ["quickiebomb_launcher"] =
     {
@@ -323,13 +323,25 @@
     {
         ids = [132, 266, 482, 1082]
         name = "Eyelander"
-        desc = "Gain a head for every hit\n+15 health on hit, overheals\n"
+        desc = "Gain a head for every hit\n+15 Health on hit, overheals\n-66% Knockback on hit"
     },
     ["claidheamhmor"] =
     {
         ids = [327]
         name = "Claidheamh Mòr"
-        desc = "No damage vulnerability\n\n"
+        desc = "No damage vulnerability\n-66% Knockback on hit\n"
+    },
+    ["scotsmans_skullcutter"] =
+    {
+        ids = [172]
+        name = "Scotsman's Skullcutter"
+        desc = "-66% Knockback on hit\n\n"
+    },
+    ["persian_pursuader"] =
+    {
+        ids = [404]
+        name = "Persian Pursuader"
+        desc = "-66% Knockback on hit\n\n"
     },
 
     /*
@@ -347,19 +359,19 @@
     {
         ids = [43]
         name = "Killing Gloves of Boxing"
-        desc = "+5 seconds of crits on hit\n\n"
+        desc = "+5 Seconds of crits on hit\n\n"
     },
 	["gru"] =
     {
         ids = [239, 1084, 1100]
         name = "Gloves of Running Urgently"
-        desc = "+10% faster move speed while active\n-7 health per second\n"
+        desc = "+10% Faster move speed while active\n-7 Health per second\n"
     },
     ["warriors_spirit"] =
     {
         ids = [310]
         name = "Warrior's Spirit"
-        desc = "+50 health on hit, overheals\n\n"
+        desc = "+50 Health on hit, overheals\n\n"
     },
     ["fists_of_steel"] =
     {
@@ -368,6 +380,7 @@
     ["eviction_notice"] =
     {
         ids = [426]
+        desc = "Removed health drain\n-33% Knockback on hit\n"
     },
     ["holiday_punch"] =
     {
@@ -394,7 +407,7 @@
     {
         ids = [36]
         name = "Blutsauger"
-        desc = "No Regen penalty\n+3% ÜberCharge added on hit\n+5 health added on hit, overheals"
+        desc = "No Regen penalty\n+3% ÜberCharge added on hit\n+5 Health added on hit, overheals"
     },
     ["xbow"] =
     {
@@ -406,7 +419,7 @@
     {
         ids = [412]
         name = "Overdose"
-        desc = "+2% ÜberCharge added on hit\n+10% faster move speed while active\n"
+        desc = "+2% ÜberCharge added on hit\n+10% Faster move speed while active\n"
     },
 
     ["kritzkreig"] =
@@ -429,6 +442,7 @@
     ["ubersaw"] =
     {
         ids = [37, 1003]
+        desc = "-33% Knockback on hit\n\n"
     },
     ["vitasaw"] =
     {
@@ -440,7 +454,7 @@
     {
         ids = [413]
         name = "Solemn Vow"
-        desc = "+10% stronger wall climb\n\n"
+        desc = "+10% Stronger wall climb\n\n"
     },
 
     /*
@@ -464,7 +478,7 @@
     {
         ids = [16, 203, 1149, 15001, 15022, 15032, 15037, 15058, 15076, 15110, 15134, 15153]
         name = "SMG"
-        desc = "+50% damage bonus\nCrit on headshot\n"
+        desc = "+50% Damage bonus\nCrit on headshot\n"
     },
     ["razorback"] =
     {
@@ -476,7 +490,7 @@
     {
         ids = [231]
         name = "Darwin's Danger Shield"
-        desc = "Overheal increased to 225\n\n"
+        desc = "Max overheal increased to 225\n\n"
     },
     ["cozy_camper"] =
     {
@@ -493,7 +507,7 @@
     {
         ids = [232]
         name = "Bushwaka"
-        desc = "No passive crits\n+100% damage bonus\n"
+        desc = "No passive crits\n+100% Damage bonus\n"
     },
 
     /*
@@ -504,13 +518,13 @@
     {
         ids = [61, 1006]
         name = "Ambassador"
-        desc = "No headshot falloff\n\n"
+        desc = "Can headshot from any range\nHeadshots deal base 150 crit damage\n"
     },
     ["letranger"] =
     {
         ids = [224]
         name = "L'Etranger"
-        desc = "-10% cloak on hit\n\n"
+        desc = "-10% Cloak on hit\n\n"
     },
     ["diamondback"] =
     {
@@ -529,13 +543,13 @@
     {
         ids = [356]
         name = "Conniver's Kunai"
-        desc = "+180 health on backstab\n\n"
+        desc = "+180 Health on backstab\n\n"
     },
     ["big_earner"] =
     {
         ids = [461]
         name = "Big Earner"
-        desc = "No backstab stun\n-30 max health on wearer\n"
+        desc = "No backstab stun\n-30 Max health on wearer\n"
     },
 
     ["invis_watch"] =
@@ -550,7 +564,7 @@
     {
         ids = [60]
         name = "Cloak and Dagger"
-        desc = "+50% cloak / decloak rate\nSpeed boost while cloaked\nRegular cloak type"
+        desc = "+50% Cloak / Decloak rate\nSpeed boost while cloaked\nInvis Watch cloak mode"
     },
 };
 
