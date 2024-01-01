@@ -27,7 +27,7 @@ PrecacheModel(saxton_dash_effect_model_path);
 
 class SweepingChargeTrait extends BossTrait
 {
-	cooldown = 2;
+	cooldown = 10;
     meter = 0;
     isCurrentlyDashing = false;
     lastDenySoundPlay = 0;
