@@ -62,4 +62,4 @@ Include("/bosses/generic/voice_lines/last_mann_hiding.nut");
 Include("/bosses/generic/voice_lines/round_end.nut");
 
 Include("/bosses/saxton_hale/saxton_hale.nut");
-//Include("/bosses/purple_saxton/purple_saxton.nut");
+Include("/bosses/purple_saxton/purple_saxton.nut");

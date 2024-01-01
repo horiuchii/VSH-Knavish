@@ -16,10 +16,10 @@
     return damage_type & (DMG_BLAST | DMG_BURN | DMG_BULLET | DMG_CRUSH);
 }
 
-function RegisterBoss(name, bossClass)
+function RegisterBoss(bossClass)
 {
-    bossLibrary[name] <- bossClass;
-    bossList.push(name);
+    bossLibrary[bossClass.name] <- bossClass;
+    bossList.push(bossClass.name);
 }
 
 function AssignBoss(bossPlayer)

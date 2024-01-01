@@ -104,7 +104,6 @@ class SaxtonHale extends Boss
         if (wearable != null)
             wearable.Kill();
 
-        printl(viewmodel);
         switch (color)
         {
             case RED_ARM:
@@ -179,7 +178,7 @@ class SaxtonHale extends Boss
     }
 }
 
-RegisterBoss(SaxtonHale.name, SaxtonHale);
+RegisterBoss(SaxtonHale);
 
 Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
 Include("/bosses/saxton_hale/misc/no_crit.nut");

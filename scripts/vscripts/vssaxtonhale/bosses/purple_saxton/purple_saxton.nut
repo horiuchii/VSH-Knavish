@@ -11,15 +11,6 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-::saxton_model_path <- "models/player/saxton_hale.mdl";
-::saxton_aura_model_path <- "models/player/items/vsh_effect_body_aura.mdl"
-::saxton_viewmodel_path <- "models/weapons/c_models/c_saxton_arms.mdl"
-::saxton_viewmodel_index <- GetModelIndex("models/weapons/c_models/c_saxton_arms.mdl")
-
-PrecacheModel(saxton_model_path);
-PrecacheModel(saxton_aura_model_path);
-PrecacheModel(saxton_viewmodel_path);
-
 class PurpleSaxton extends Boss
 {
     name = "purple_saxton";
@@ -27,6 +18,11 @@ class PurpleSaxton extends Boss
     color = "102 51 153";
     tfclass = TF_CLASS_HEAVY;
     HUDID = UniqueString();
+
+    redArmEnabled = false;
+    blueArmEnabled = false;
+    RED_ARM = "red";
+    BLUE_ARM = "blue";
 
     Stats =
     [
@@ -46,28 +42,22 @@ class PurpleSaxton extends Boss
 
     function CreateBoss()
     {
-        SetPropInt(boss, "m_bForcedSkin", 1);
-        SetPropInt(boss, "m_nForcedSkin", 0);
-
         boss.SetCustomModelWithClassAnimations(saxton_model_path);
-        vsh_vscript.Hale_SetRedArm(boss, false);
-        vsh_vscript.Hale_SetBlueArm(boss, false);
-        RunWithDelay2(this, 0.1, function() {
-            vsh_vscript.Hale_SetRedArm(boss, false);
-            vsh_vscript.Hale_SetBlueArm(boss, false);
+        SetArm(RED_ARM, false);
+        SetArm(BLUE_ARM, false);
+
+        RunWithDelay2(this, 0.1, function()
+        {
             boss.CreateCustomWearable(null, saxton_aura_model_path);
             boss.GiveWeapon("Hale's Own Fists");
         });
 
         boss.SetModelScale(API_GetFloat("boss_scale"), 0);
-        boss.GiveWeapon("Hale's Own Fists");
 
         player.AddCustomAttribute("move speed bonus", 1.8, -1);
         player.AddCustomAttribute("cancel falling damage", 1, -1);
         player.AddCustomAttribute("voice pitch scale", 0, -1);
-        //player.AddCustomAttribute("melee range multiplier", 1.2, -1);
         player.AddCustomAttribute("damage bonus", 3, -1);
-        //player.AddCustomAttribute("melee bounds multiplier", 1.1, -1);
         player.AddCustomAttribute("crit mod disabled hidden", 0, -1);
         player.AddCustomAttribute("increase player capture value", 2, -1);
         player.AddCustomAttribute("cannot pick up intelligence", 1, -1);
@@ -78,7 +68,7 @@ class PurpleSaxton extends Boss
 
         boss.AddCond(TF_COND_CANNOT_SWITCH_FROM_MELEE);
 
-        SetPropInt(boss, "m_nRenderMode", Constants.ERenderMode.kRenderTransColor);
+        SetPropInt(boss, "m_nRenderMode", kRenderTransColor);
         EntFireByHandle(boss, "Color", color, -1, boss, boss);
 
         BossHUD.AddHUD(player, HUDID,
@@ -91,17 +81,94 @@ class PurpleSaxton extends Boss
 
         HUD.Get(player, HUDID).Enable();
     }
+
+    function SetArm(color, newStatus)
+    {
+        local aura = "wearable_vs_hale_aura_";
+        local wearable = Entities.FindByName(null, aura + color);
+        if (wearable != null)
+            wearable.Kill();
+
+
+        switch (color)
+        {
+            case RED_ARM:
+            {
+                redArmEnabled = newStatus;
+                wearable = boss.CreateCustomWearable(null, newStatus ? hale_aura_red_on : hale_aura_red_off);
+                ColorThirdPersonArms();
+                local viewmodel = null;
+                while (viewmodel = Entities.FindByClassname(viewmodel, "tf_wearable_vm"))
+                {
+                    if (viewmodel.GetOwner() == boss)
+                        viewmodel.SetBodygroup(1, newStatus ? 1 : 0);
+                }
+
+                GetPropEntity(boss, "m_hViewModel").SetBodygroup(1, newStatus ? 1 : 0);
+            }
+            case BLUE_ARM:
+            {
+                blueArmEnabled = newStatus;
+                wearable = boss.CreateCustomWearable(null, newStatus ? hale_aura_blue_on : hale_aura_blue_off);
+                ColorThirdPersonArms();
+                local viewmodel = null;
+                while (viewmodel = Entities.FindByClassname(viewmodel, "tf_wearable_vm"))
+                {
+                    if (viewmodel.GetOwner() == boss)
+                        viewmodel.SetBodygroup(0, newStatus ? 1 : 0);
+                }
+
+                if (newStatus)
+                    GetPropEntity(boss, "m_hViewModel").DisableDraw();
+                else
+                    GetPropEntity(boss, "m_hViewModel").EnableDraw();
+            }
+        }
+
+        wearable.KeyValueFromString("targetname", aura + color);
+    }
+
+    function ColorThirdPersonArms()
+    {
+        local newSkin = 0;
+        if (redArmEnabled)
+        {
+            newSkin = blueArmEnabled ? 4 : 2;
+        }
+        else
+        {
+            newSkin = blueArmEnabled ? 3 : 0;
+        }
+
+        SetPropInt(boss, "m_nForcedSkin", newSkin);
+    }
+
+    function SweepingCharge_WindUp(voiceRNG)
+    {
+        EmitPlayerVO(boss, "charge_" + voiceRNG);
+        EmitSoundOn("vsh_sfx.hale_charge", boss);
+        SetArm(BLUE_ARM, true);
+    }
+
+    function SweepingCharge_Perform(voiceRNG, chargeDuration)
+    {
+        EmitPlayerVO(boss, "dash_" + voiceRNG);
+        EmitSoundOn("vsh_sfx.hale_dash", boss);
+        local dashDome = boss.CreateCustomWearable(null, saxton_dash_effect_model_path);
+        EntFireByHandle(dashDome, "Kill", "", chargeDuration, null, null);
+    }
+
+    function SweepingCharge_Finish()
+    {
+        SetArm(BLUE_ARM, false);
+    }
 }
 
-RegisterBoss(PurpleSaxton.name, PurpleSaxton);
-
-Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
-Include("/bosses/saxton_hale/misc/no_crit.nut")
+RegisterBoss(PurpleSaxton);
 
 AddBossTrait(PurpleSaxton.name, SweepingCharge);
 AddBossTrait(PurpleSaxton.name, BraveJump);
 AddBossTrait(PurpleSaxton.name, MightySlam);
-
 AddBossTrait(PurpleSaxton.name, FreezeSetupTrait);
 AddBossTrait(PurpleSaxton.name, DeathCleanupTrait);
 AddBossTrait(PurpleSaxton.name, MovespeedTrait);
@@ -121,3 +188,27 @@ AddBossTrait(PurpleSaxton.name, PreventBossCritTrait);
 AddBossTrait(PurpleSaxton.name, JaratedVoiceLine);
 AddBossTrait(PurpleSaxton.name, LastMannHidingVoiceLine);
 AddBossTrait(PurpleSaxton.name, KillVoiceLine);
+
+RegisterCustomWeapon(
+    "Purple Hale's Own Fists",
+    "Fists",
+    null,
+    Defaults,
+    function (table, player) {
+        table.worldModel = "models/empty.mdl";
+        table.viewModel = saxton_viewmodel_path;
+        table.classArms = saxton_viewmodel_path;
+    },
+    function (weapon, player)
+    {
+        if (player.ValidateScriptScope())
+            player.GetScriptScope()["hide_base_arms"] <- true;
+
+        weapon.AddAttribute("kill eater", casti2f(9001), -1);
+
+        local isModelFlipped = false;
+        try { isModelFlipped = Convars.GetClientConvarValue("cl_flipviewmodels", player.entindex()).tointeger() > 0; }
+        catch(ignored) { }
+        SetPropInt(weapon, "m_bFlipViewModel", isModelFlipped ? 1 : 0);
+    }
+);
