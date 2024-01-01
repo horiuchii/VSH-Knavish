@@ -164,7 +164,6 @@ AddListener("tick_always", 0, function (timeDelta)
 
             TraceHullFilter(traceTable);
 
-            printl(traceTable.hit);
             if(!traceTable.hit || !hit_valid)
             {
                 // continue smack detection
