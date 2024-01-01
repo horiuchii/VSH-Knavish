@@ -134,7 +134,7 @@ AddListener("tick_always", 0, function (timeDelta)
 
             local eyepos = player.EyePosition();
             local bounds_scale = GetBoundsMultiplier(self);
-            local hit_enemy = false;
+            local hit_valid = false;
 
             traceTable <-
             {
@@ -147,17 +147,25 @@ AddListener("tick_always", 0, function (timeDelta)
                 {
                     if(IsValidBuilding(entity) || (IsValidPlayer(entity) && entity.GetTeam() != player.GetTeam()))
                     {
-                        hit_enemy = true;
+                        hit_valid = false;
                         return TRACE_STOP;
                     }
 
+                    if ((IsValidPlayer(entity) && entity.GetTeam() == player.GetTeam())
+                        || startswith(entity.GetClassname(), "tf_proj"))
+                    {
+                        return TRACE_CONTINUE;
+                    }
+
+                    hit_valid = true;
                     return TRACE_CONTINUE;
                 }
             }
 
             TraceHullFilter(traceTable);
 
-            if(!traceTable.hit || hit_enemy)
+            printl(traceTable.hit);
+            if(!traceTable.hit || !hit_valid)
             {
                 // continue smack detection
 		        SetPropInt(player, "m_Shared.m_iNextMeleeCrit", -2);
