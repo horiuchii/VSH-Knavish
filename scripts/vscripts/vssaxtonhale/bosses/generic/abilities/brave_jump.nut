@@ -21,7 +21,7 @@ enum BOSS_JUMP_STATUS
     DOUBLE_JUMPED = 3
 };
 
-class BraveJumpTrait extends BossTrait
+class BraveJumpTrait extends BossAbility
 {
     jumpForce = API_GetFloat("jump_force");
     jumpStatus = BOSS_JUMP_STATUS.WALKING;
@@ -31,15 +31,7 @@ class BraveJumpTrait extends BossTrait
 
 	function OnTickAlive(timeDelta)
     {
-        if (meter < 0)
-        {
-            meter += timeDelta;
-            if (meter >= 0)
-            {
-				EmitSoundOnClient("TFPlayer.ReCharged", boss);
-                meter = 0;
-			}
-		}
+        base.OnTickAlive(timeDelta);
 
         if(IsRoundSetup())
         {

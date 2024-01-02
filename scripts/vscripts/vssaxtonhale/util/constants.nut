@@ -88,6 +88,20 @@ enum DIFFICULTY
     IMPOSSIBLE = 4,
 }
 
+enum STUNFLAG
+{
+    NONE = 0
+    MOVEMENT = 1
+    CONTROLS = 2
+    BOTH = 3
+    MOVEMENT_FORWARD_ONLY = 4
+    SPECIAL_SOUND = 8
+    DODGE_COOLDOWN = 16
+    NO_EFFECTS = 32
+    LOSER_STATE = 64
+    BY_TRIGGER = 128
+}
+
 ::DifficultyInternalName <-
 [
     "easy"

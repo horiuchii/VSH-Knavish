@@ -95,7 +95,7 @@ class TFClassUtil
 
     function IDToNum(tfclass_id)
     {
-        switch(class_num)
+        switch(tfclass_id)
         {
             case TF_CLASS_UNDEFINED: return TF_CLASS_NUM.UNKNOWN;
             case TF_CLASS_SCOUT: return TF_CLASS_NUM.SCOUT;
@@ -108,6 +108,40 @@ class TFClassUtil
             case TF_CLASS_SNIPER: return TF_CLASS_NUM.SNIPER;
             case TF_CLASS_SPY: return TF_CLASS_NUM.SPY;
             default: return null;
+        }
+    }
+
+    function GetClassMaxHealth(tfclass_id)
+    {
+        switch(tfclass_id)
+        {
+            case TF_CLASS_UNDEFINED: return 0;
+            case TF_CLASS_SCOUT: return 125;
+            case TF_CLASS_SOLDIER: return 200;
+            case TF_CLASS_PYRO: return 175;
+            case TF_CLASS_DEMOMAN: return 175;
+            case TF_CLASS_HEAVY: return 300;
+            case TF_CLASS_ENGINEER: return 125;
+            case TF_CLASS_MEDIC: return 150;
+            case TF_CLASS_SNIPER: return 125;
+            case TF_CLASS_SPY: return 125;
+            default: return null;
+        }
+    }
+
+    function GetClassSpeed(class_id)
+    {
+        switch(class_id)
+        {
+            case TF_CLASS_SCOUT: return 400.0;
+            case TF_CLASS_SOLDIER: return 240.0;
+            case TF_CLASS_PYRO: return 300.0;
+            case TF_CLASS_DEMOMAN: return 280.0;
+            case TF_CLASS_HEAVYWEAPONS: return 230.0;
+            case TF_CLASS_ENGINEER: return 300.0;
+            case TF_CLASS_MEDIC: return 320.0;
+            case TF_CLASS_SNIPER: return 300.0;
+            case TF_CLASS_SPY: return 320.0;
         }
     }
 }

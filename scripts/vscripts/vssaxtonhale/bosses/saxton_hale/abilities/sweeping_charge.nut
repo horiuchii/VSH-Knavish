@@ -25,7 +25,7 @@ PrecacheScriptSound("saxton_hale.dash_c")
 ::saxton_dash_effect_model_path <- "models/player/items/vsh_dash_effect.mdl"
 PrecacheModel(saxton_dash_effect_model_path);
 
-class SweepingChargeTrait extends BossTrait
+class SweepingChargeTrait extends BossAbility
 {
 	cooldown = 10;
     meter = 0;

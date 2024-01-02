@@ -22,12 +22,12 @@ class MovespeedTrait extends BossTrait
         // Full health example where full health is 1000 and the boss class is Heavy with 230 speed
 
         // Brings heavy's speed from 230 to 320 (320 / 230 = 1.3913)
-        local class_mult = min_speed / GetClassSpeed(boss.GetPlayerClass());
+        local class_mult = min_speed / TFClassUtil.GetClassSpeed(boss.GetPlayerClass());
 
         local ignored_health_mult = 0.25;
 
         // 1000 - (clamped to 0 (1000 * 0.25)) = 750
-        local health = clampFloor(boss.GetHealth() - (boss.GetMaxHealth() * ignored_health_mult), 0);
+        local health = clampFloor(clampCeiling(boss.GetHealth(), boss.GetMaxHealth()) - (boss.GetMaxHealth() * ignored_health_mult), 0);
 
         // 1000 * (1 - 0.25) = 750
         local max_health = boss.GetMaxHealth() * (1 - ignored_health_mult);
@@ -44,21 +44,5 @@ class MovespeedTrait extends BossTrait
 
         // 1.3913 * 230 = 320
         boss.AddCustomAttribute("move speed bonus", result, -1);
-    }
-
-    function GetClassSpeed(class_id)
-    {
-        switch(class_id)
-        {
-            case TF_CLASS_SCOUT: return 400.0;
-            case TF_CLASS_SOLDIER: return 240.0;
-            case TF_CLASS_PYRO: return 300.0;
-            case TF_CLASS_DEMOMAN: return 280.0;
-            case TF_CLASS_HEAVYWEAPONS: return 230.0;
-            case TF_CLASS_ENGINEER: return 300.0;
-            case TF_CLASS_MEDIC: return 320.0;
-            case TF_CLASS_SNIPER: return 300.0;
-            case TF_CLASS_SPY: return 320.0;
-        }
     }
 };

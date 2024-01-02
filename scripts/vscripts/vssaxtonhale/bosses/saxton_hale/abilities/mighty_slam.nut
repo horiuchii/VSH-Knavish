@@ -14,7 +14,7 @@
 AddGenericScriptSoundToQueue("vsh_sfx.boss_slam_impact");
 AddGenericScriptSoundToQueue("vsh_sfx.slam_ready");
 
-class MightySlamTrait extends BossTrait
+class MightySlamTrait extends BossAbility
 {
     meter = 0;
     inUse = false;

@@ -52,7 +52,7 @@ class SaxtonHale extends Boss
     function OnApply()
     {
         base.OnApply();
-        boss.SetPlayerClass(TF_CLASS_HEAVY);
+        boss.SetPlayerClass(tfclass);
         boss.Regenerate(true);
         ApplyTraits();
         CreateBoss();
@@ -95,6 +95,18 @@ class SaxtonHale extends Boss
         );
 
         HUD.Get(player, HUDID).Enable();
+    }
+
+    function OnTickAlive(timeDelta)
+    {
+        local weapon = boss.GetActiveWeapon();
+        if (weapon != null && weapon.IsValid())
+        {
+            SetPropInt(weapon, "m_iWorldModelIndex", empty_model_index);
+            weapon.DisableDraw();
+            SetPropInt(weapon, "m_nRenderMode", 1);
+            weapon.SetModelScale(0.05, 0)
+        }
     }
 
     function SetArm(color, newStatus)

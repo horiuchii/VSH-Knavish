@@ -169,7 +169,7 @@ function FinishSetup()
     // a duel is accepted if the class locked duel isn't the boss's class ~ Brad
     // TODO: Hale-specific check to fix Class-Restricted Duels bug.
     local boss = GetRandomBossPlayer();
-    if (boss != null && boss.GetPlayerClass() != TF_CLASS_HEAVY && !IsRoundOver())
+    /*if (boss != null && !IsRoundOver())
     {
         boss.RemoveCond(TF_COND_STUNNED);
         boss.RemoveCond(TF_COND_TAUNTING);
@@ -187,7 +187,7 @@ function FinishSetup()
             boss.TakeDamage(999999, 0, null);
             EndRound(TF_TEAM_UNASSIGNED);
         }, boss)
-    }
+    }*/
 
     FireListeners("setup_end");
     isRoundSetup = false;

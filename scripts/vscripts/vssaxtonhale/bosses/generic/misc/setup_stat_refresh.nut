@@ -35,7 +35,7 @@
     boss.SetHealth(maxHealth);
     boss.SetMaxHealth(maxHealth);
     boss.RemoveCustomAttribute("max health additive bonus");
-    boss.AddCustomAttribute("max health additive bonus", maxHealth - 300, -1);
+    boss.AddCustomAttribute("max health additive bonus", maxHealth - TFClassUtil.GetClassMaxHealth(boss.Get().tfclass), -1);
     boss.Get().startingHealth = maxHealth;
     ::startMercCount <- GetAliveMercCount();
 }

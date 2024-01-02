@@ -132,7 +132,7 @@ AddListener("tick_always", 0, function (timeDelta)
                 return -1;
             }
 
-            local eyepos = player.EyePosition();
+            local eyepos = player.Weapon_ShootPosition();
             local bounds_scale = GetBoundsMultiplier(self);
             local hit_valid = false;
 
