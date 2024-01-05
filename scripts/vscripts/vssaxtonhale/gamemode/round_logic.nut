@@ -20,6 +20,10 @@ hasStalemateTimerBegun <- false;
 AddListener("setup_start", 1, function ()
 {
     SetConvarValue("mp_bonusroundtime", GetPersistentVar("mp_bonusroundtime"));
+
+    EntFireByHandle(tf_gamerules, "AddRedTeamScore", GetPersistentVar("merc_score", 0).tostring(), -1, null, null);
+    EntFireByHandle(tf_gamerules, "AddBlueTeamScore", GetPersistentVar("boss_score", 0).tostring(), -1, null, null);
+
     RemoveAllRespawnRooms();
 
     RecachePlayers();
@@ -38,7 +42,17 @@ AddListener("setup_start", 1, function ()
     {
         player.SwitchTeam(TF_TEAM_BOSS);
         player.ForceRegenerateAndRespawn();
-        player.Set(bossLibrary[CookieUtil.Get(player, "boss")]);
+        try
+        {
+            player.Set(bossLibrary[CookieUtil.Get(player, "boss")]);
+        }
+        catch (exception)
+        {
+            CookieUtil.Set(player, "boss", "saxton_hale");
+            player.Set(bossLibrary["saxton_hale"]);
+        }
+
+        CreatePDHud("knavish_vsh_hud_" + GetBossPlayers()[0].Get().name);
     }
 });
 
@@ -51,7 +65,7 @@ AddListener("setup_end", 0, function()
 
     RemoveAllRespawnRooms();
 
-    SetPropInt(tf_gamerules, "m_iRoundState", 7);
+    SetPropInt(tf_gamerules, "m_iRoundState", GR_STATE_STALEMATE);
     SetPropInt(tf_gamerules, "m_nHudType", 2);
 
     SetConvarValue("tf_rd_points_per_approach", "10");
@@ -142,19 +156,49 @@ function EndRound(winner)
     if (!IsAnyBossAlive() && IsRoundSetup())
         winner = TF_TEAM_UNASSIGNED;
 
-    local roundWin = Entities.FindByClassname(null, "game_round_win");
-    if (roundWin == null)
+    RunWithDelay2(this, Convars.GetInt("mp_bonusroundtime"), function()
     {
-        roundWin = SpawnEntityFromTable("game_round_win",
+        SetConvarValue("mp_restartgame_immediate", 1);
+    });
+
+    EntFireByHandle(team_round_timer, "Pause", null, -1, null, null);
+
+    local round_end_stun = SpawnEntityFromTable("trigger_stun",
+    {
+        stun_type = 2,
+        stun_effects = false,
+        stun_duration = 9999,
+        trigger_delay = -1,
+        StartDisabled = 0,
+        spawnflags = 1,
+        solid = 2
+    });
+
+    AddListener("tick_always", 8, function(timeDelta)
+    {
+        foreach(player in GetValidPlayers())
         {
-            win_reason = "0",
-            force_map_reset = "1", //not having
-            TeamNum = "0",         //these 3 lines
-            switch_teams = "0"     //causes the crash when trying to fire game_round_win
-        });
+            if(player.GetTeam() == winner)
+                player.AddCond(TF_COND_CRITBOOSTED_BONUS_TIME)
+            else
+            {
+                EntFireByHandle(round_end_stun, "EndTouch", "", -1, player, player);
+            }
+
+        }
+    });
+
+    if(winner == TF_TEAM_MERC)
+    {
+        EntFireByHandle(tf_gamerules, "AddRedTeamScore", "1", -1, null, null);
+        SetPersistentVar("merc_score", GetPersistentVar("merc_score", 0) + 1);
     }
-    EntFireByHandle(roundWin, "SetTeam", "" + winner, 0, null, null);
-    EntFireByHandle(roundWin, "RoundWin", "", 0, null, null);
+
+    else if(winner == TF_TEAM_BOSS)
+    {
+        EntFireByHandle(tf_gamerules, "AddBlueTeamScore", "1", -1, null, null);
+        SetPersistentVar("boss_score", GetPersistentVar("boss_score", 0) + 1);
+    }
 
     DoEntFire("vsh_round_end*", "Trigger", "", 0, null, null);
     if (winner == TF_TEAM_MERCS)
@@ -165,85 +209,26 @@ function EndRound(winner)
     isRoundOver = true;
     SetPersistentVar("last_round_winner", winner)
 
-    RunWithDelay2(this, -1, function()
+    local winpanelname = "knavish_vsh_hud_winpanel_"
+    if(isRoundBailout)
+        winpanelname += "bailout"
+    else if(winner == TF_TEAM_UNASSIGNED)
+        winpanelname += "stalemate"
+    else if(winner == TF_TEAM_MERC)
+        winpanelname += "merc"
+    else if(winner == TF_TEAM_BOSS)
+        winpanelname += GetBossPlayers()[0].Get().name
+
+    CreatePDHud(winpanelname);
+
+    RunWithDelay2(this, 0.15, function()
     {
-        SendGlobalGameEvent("teamplay_round_start", {});
-    })
+        RoundEndHUD.GenerateRoundEndPanel(winner);
 
-    RunWithDelay2(this, -1, function()
-    {
-        local leaderboard = GetDamageBoardSorted();
-
-        local merc_score = 0
-        local boss_score = 0
-
-        local ent = null
-        while( ent = Entities.FindByClassname(ent, "tf_team") )
+        foreach(player in GetValidClients())
         {
-            local team = GetPropInt(ent, "m_iTeamNum")
-            if(team == TF_TEAM_MERC)
-                merc_score = GetPropInt(ent, "m_iScore");
-            if(team == TF_TEAM_BOSS)
-                boss_score = GetPropInt(ent, "m_iScore");
+            RoundEndHUD.AddHUD(player, true);
         }
-
-        local event_data = {
-            panel_style = 1,
-            winning_team = winner,
-            winreason = 0,
-            cappers = "",
-            flagcaplimit = 3,
-            blue_score = boss_score,
-            red_score = merc_score,
-            blue_score_prev = winner == TF_TEAM_BOSS ? boss_score - 1 : boss_score,
-            red_score_prev = winner == TF_TEAM_MERC ? merc_score - 1 : merc_score,
-            round_complete = 1,
-            rounds_remaining = 0,
-            game_over = false
-        };
-
-        local count = clampCeiling(leaderboard.len(), 3);
-
-        if(count >= 3)
-        {
-            local ent_index = leaderboard[2][0].entindex()
-            local player = leaderboard[2][0]
-            event_data.player_3 <- ent_index
-            event_data.player_3_damage <- leaderboard[2][1]
-            event_data.player_3_lifetime <- GetLifetime(player)
-            event_data.player_3_healing <- GetRoundHealing(player)
-            event_data.player_3_kills <- GetRoundKills(player)
-        }
-        if(count >= 2)
-        {
-            local ent_index = leaderboard[1][0].entindex()
-            local player = leaderboard[1][0]
-            event_data.player_2 <- ent_index
-            event_data.player_2_damage <- leaderboard[1][1]
-            event_data.player_2_lifetime <- GetLifetime(player)
-            event_data.player_2_healing <- GetRoundHealing(player)
-            event_data.player_2_kills <- GetRoundKills(player)
-        }
-        if(count >= 1)
-        {
-            local ent_index = leaderboard[0][0].entindex()
-            local player = leaderboard[0][0]
-            event_data.player_1 <- leaderboard[0][0].entindex()
-            event_data.player_1_damage <- leaderboard[0][1]
-            event_data.player_1_lifetime <- GetLifetime(player)
-            event_data.player_1_healing <- GetRoundHealing(player)
-            event_data.player_1_kills <- GetRoundKills(player)
-        }
-
-        if(IsAnyBossValid())
-        {
-            event_data.player_4 <- GetBossPlayers()[0].entindex()
-            event_data.player_4_damage <- boss_damage //set up for duo-boss in future
-            event_data.player_4_lifetime <- GetTimeSinceRoundStarted() //set up for duo-boss in future
-            event_data.player_4_kills <- GetRoundKills(GetBossPlayers()[0])
-        }
-
-        SendGlobalGameEvent("arena_win_panel", event_data)
     });
 }
 

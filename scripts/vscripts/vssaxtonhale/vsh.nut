@@ -57,6 +57,7 @@ Include("/huds/menu_hud.nut");
 Include("/huds/merc_hud.nut");
 Include("/huds/inspect_hud.nut");
 Include("/huds/boss_hud.nut");
+Include("/huds/roundend_hud.nut");
 
 // These must be included last and in order!
 Include("/bosses/boss.nut");

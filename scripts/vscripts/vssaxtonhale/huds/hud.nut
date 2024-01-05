@@ -100,11 +100,14 @@ class HUDObject
 
     function UpdateOverlay()
     {
-        player.SetScriptOverlayMaterial(overlay);
+        player.SetScriptOverlayMaterial(player.GetButtons() & IN_SCORE ? null : overlay);
     }
 
 	function UpdateChannels()
 	{
+        if(player.GetButtons() & IN_SCORE)
+            return;
+
         local i = 0;
         foreach (index, channel in channels)
         {
@@ -304,7 +307,7 @@ AddListener("tick_only_valid", 2, function (deltaTime)
 
 ::TickBossBar <- function(boss)
 {
-    if (boss.IsDead())
+    if (isRoundOver)
         return;
 
     if(IsRoundSetup())

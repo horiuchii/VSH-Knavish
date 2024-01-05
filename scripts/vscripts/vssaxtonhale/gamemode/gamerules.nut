@@ -113,24 +113,14 @@ function SpawnHelperEntities()
             partial_cap_points_rate = 0
         });
 
-    pd_logic = SpawnEntityFromTable("tf_logic_player_destruction", {
-        blue_respawn_time = 9999,
-        finale_length = 999999,
-        flag_reset_delay = 60,
-        heal_distance = 0,
-        min_points = 255,
-        points_per_player = 0,
-        red_respawn_time = 0,
-        targetname = "pd_logic",
-        res_file = "resource/ui/knavish_vsh_hud.res"
-    });
-
     local auto = SpawnEntityFromTable("logic_auto", {
         spawnflags = 1,
         "OnMultiNewRound#1": "pd_logic,SetPointsOnPlayerDeath,0,0,-1",
         "OnMultiNewRound#2": "pd_logic,EnableMaxScoreUpdating,,0,-1",
         "OnMultiNewRound#3": "pd_logic,DisableMaxScoreUpdating,,5,-1",
     });
+
+    CreatePDHud("knavish_vsh_hud");
 
     team_round_timer = SpawnEntityFromTable("team_round_timer", {
         targetname = "team_round_timer",
@@ -186,11 +176,11 @@ function PrepareStalemate()
 
     EntFireByHandle(team_round_timer, "SetTime", delay.tostring(), 0, null, null);
 
-    PlayAnnouncerVODelayed(boss, "count5", delay - 6);
-    PlayAnnouncerVODelayed(boss, "count4", delay - 5);
-    PlayAnnouncerVODelayed(boss, "count3", delay - 4);
-    PlayAnnouncerVODelayed(boss, "count2", delay - 3);
-    PlayAnnouncerVODelayed(boss, "count1", delay - 2);
+    PlayAnnouncerVODelayed(boss, "count5", delay - 6, true);
+    PlayAnnouncerVODelayed(boss, "count4", delay - 5, true);
+    PlayAnnouncerVODelayed(boss, "count3", delay - 4, true);
+    PlayAnnouncerVODelayed(boss, "count2", delay - 3, true);
+    PlayAnnouncerVODelayed(boss, "count1", delay - 2, true);
 
     RunWithDelay("EndRound(TF_TEAM_UNASSIGNED)", null, delay);
 }

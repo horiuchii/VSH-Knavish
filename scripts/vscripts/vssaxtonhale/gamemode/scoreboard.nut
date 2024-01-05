@@ -16,7 +16,7 @@
 //
 boss_damage <- 0; //set up for duo-boss in future
 
-function GetRoundDamage(player)
+::GetRoundDamage <- function(player)
 {
     return player in MercenaryStats.TotalDamage ? MercenaryStats.TotalDamage[player] : 0;
 }
@@ -47,7 +47,7 @@ AddListener("player_hurt", 5, function (attacker, victim, params)
     SetRoundDamage(attacker, GetRoundDamage(attacker) + damage);
 });
 
-function GetDamageBoardSorted()
+::GetDamageBoardSorted <- function()
 {
     function sortFunction(it, that)
     {

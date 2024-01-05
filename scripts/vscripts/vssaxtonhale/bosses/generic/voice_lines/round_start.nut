@@ -50,11 +50,11 @@ function PlayRoundStartVO()
         if (!API_GetBool("setup_countdown_lines"))
             return;
         local countdownDelay = API_GetFloat("setup_length") - 8;
-        PlayAnnouncerVODelayed(boss, "count5", countdownDelay++);
-        PlayAnnouncerVODelayed(boss, "count4", countdownDelay++);
-        PlayAnnouncerVODelayed(boss, "count3", countdownDelay++);
-        PlayAnnouncerVODelayed(boss, "count2", countdownDelay++);
-        PlayAnnouncerVODelayed(boss, "count1", countdownDelay);
+        PlayAnnouncerVODelayed(boss, "count5", countdownDelay++, true);
+        PlayAnnouncerVODelayed(boss, "count4", countdownDelay++, true);
+        PlayAnnouncerVODelayed(boss, "count3", countdownDelay++, true);
+        PlayAnnouncerVODelayed(boss, "count2", countdownDelay++, true);
+        PlayAnnouncerVODelayed(boss, "count1", countdownDelay, true);
     }
     PlayAnnouncerVOToPlayer(boss, boss, "round_start_4boss");
 }

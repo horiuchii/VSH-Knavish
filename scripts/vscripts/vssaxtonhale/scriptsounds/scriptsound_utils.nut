@@ -45,17 +45,19 @@ function PlaySoundForAll(soundScript)
     return true;
 }
 
-::PlayAnnouncerVO <- function(player, soundPath)
+::PlayAnnouncerVO <- function(player, soundPath, dontPlayIfRoundOver = false)
 {
     if (player == null)
+        return false;
+    if(IsRoundOver() && dontPlayIfRoundOver)
         return false;
     PlaySoundForAll(GetCurrentCharacterName(player)+"."+soundPath);
     return true;
 }
 
-::PlayAnnouncerVODelayed <- function(player, soundPath, delay)
+::PlayAnnouncerVODelayed <- function(player, soundPath, delay, dontPlayIfRoundOver = false)
 {
-    RunWithDelay("PlayAnnouncerVO(activator,`"+soundPath+"`)", player, delay);
+    RunWithDelay("PlayAnnouncerVO(activator,`"+soundPath+"`,"+dontPlayIfRoundOver.tostring()+")", player, delay);
     return true;
 }
 

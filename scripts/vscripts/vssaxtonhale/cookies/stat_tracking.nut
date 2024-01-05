@@ -244,7 +244,7 @@ AddListener("round_end", 100, function (winner)
                 CookieUtil.Add(player, "total_victory_" + DifficultyInternalName[CookieUtil.Get(player, "difficulty")], 1, false);
             }
 
-            foreach(stat in Cookies.SpecificBossStats[boss_name])
+            foreach (stat in Cookies.SpecificBossStats[boss_name])
             {
                 switch(stat)
                 {
@@ -265,11 +265,19 @@ AddListener("round_end", 100, function (winner)
 
 AddListener("setup_end", 0, function()
 {
+    local tables_to_delete = []
+
     foreach (stat in TrackedStats)
     {
-        foreach(player in stat)
+        foreach (player in stat)
         {
-            delete TrackedStats[stat][player];
+            tables_to_delete.push(TrackedStats[stat][player]);
         }
+    }
+
+    local array_length = tables_to_delete.len();
+    for (local i = 0; i < array_length; i++)
+    {
+        delete tables_to_delete[i]
     }
 });
