@@ -16,6 +16,7 @@
 ::isRoundSetup <- true;
 hasStalemateTimerBegun <- false;
 ::isRoundBailout <- false;
+::hasRoundStarted <- false;
 
 AddListener("setup_start", 1, function ()
 {
@@ -56,8 +57,9 @@ AddListener("setup_start", 1, function ()
     }
 });
 
-AddListener("setup_end", 0, function()
+AddListener("setup_end", -1, function()
 {
+    hasRoundStarted <- true;
     //Respawn all Mercs when Setup ends
     foreach (player in GetValidMercs())
         if (!player.IsAlive())
@@ -199,6 +201,8 @@ function EndRound(winner)
         EntFireByHandle(tf_gamerules, "AddBlueTeamScore", "1", -1, null, null);
         SetPersistentVar("boss_score", GetPersistentVar("boss_score", 0) + 1);
     }
+
+    EntFireByHandle(Entities.FindByClassname(null, "team_control_point"), "SetLocked", "1", -1, null, null);
 
     DoEntFire("vsh_round_end*", "Trigger", "", 0, null, null);
     if (winner == TF_TEAM_MERCS)

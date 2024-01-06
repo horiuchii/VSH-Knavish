@@ -32,6 +32,9 @@
 
 ::AddToTrackedStat <- function(player, stat, amount = 1)
 {
+    if(!hasRoundStarted)
+        return;
+
     if(!(player in TrackedStats[stat]))
         TrackedStats[stat][player] <- 0;
 
@@ -260,24 +263,5 @@ AddListener("round_end", 100, function (winner)
 
             CookieUtil.SavePlayerData(player);
         }
-    }
-});
-
-AddListener("setup_end", 0, function()
-{
-    local tables_to_delete = []
-
-    foreach (stat in TrackedStats)
-    {
-        foreach (player in stat)
-        {
-            tables_to_delete.push(TrackedStats[stat][player]);
-        }
-    }
-
-    local array_length = tables_to_delete.len();
-    for (local i = 0; i < array_length; i++)
-    {
-        delete tables_to_delete[i]
     }
 });

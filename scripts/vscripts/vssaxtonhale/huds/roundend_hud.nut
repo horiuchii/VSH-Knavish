@@ -47,7 +47,6 @@ class RoundEndHUD
         local text = "";
 
         local leaderboard = GetDamageBoardSorted();
-        local boss = GetBossPlayers()[0];
 
         local merc_score = 0
         local boss_score = 0
