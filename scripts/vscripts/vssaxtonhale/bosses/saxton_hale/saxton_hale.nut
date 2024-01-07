@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-::saxton_model_path <- "models/player/saxton_hale.mdl";
+::saxton_model_path <- ("models/player/saxton_hale.mdl");
 ::saxton_aura_model_path <- "models/player/items/vsh_effect_body_aura.mdl";
 ::saxton_viewmodel_path <- "models/weapons/c_models/c_saxton_arms.mdl";
 ::saxton_viewmodel_index <- GetModelIndex("models/weapons/c_models/c_saxton_arms.mdl");
@@ -63,6 +63,8 @@ class SaxtonHale extends Boss
         boss.SetCustomModelWithClassAnimations(saxton_model_path);
         SetArm(RED_ARM, false);
         SetArm(BLUE_ARM, false);
+        SetPropInt(player, "m_nForcedSkin", 0);
+        SetPropBool(player, "m_bForcedSkin", true);
 
         RunWithDelay2(this, 0.1, function()
         {
@@ -114,7 +116,16 @@ class SaxtonHale extends Boss
         local aura = "wearable_vs_hale_aura_";
         local wearable = Entities.FindByName(null, aura + color);
         if (wearable != null)
+        {
             wearable.Kill();
+        }
+
+        local viewmodel = null;
+        while (viewmodel = Entities.FindByClassname(viewmodel, "tf_wearable_vm"))
+        {
+            if (viewmodel.GetOwner() == boss)
+                viewmodel.SetBodygroup(0, newStatus ? 1 : 0);
+        }
 
         switch (color)
         {
@@ -122,27 +133,12 @@ class SaxtonHale extends Boss
             {
                 redArmEnabled = newStatus;
                 wearable = boss.CreateCustomWearable(null, newStatus ? hale_aura_red_on : hale_aura_red_off);
-                ColorThirdPersonArms();
-                local viewmodel = null;
-                while (viewmodel = Entities.FindByClassname(viewmodel, "tf_wearable_vm"))
-                {
-                    if (viewmodel.GetOwner() == boss)
-                        viewmodel.SetBodygroup(1, newStatus ? 1 : 0);
-                }
-
                 GetPropEntity(boss, "m_hViewModel").SetBodygroup(1, newStatus ? 1 : 0);
             }
             case BLUE_ARM:
             {
                 blueArmEnabled = newStatus;
                 wearable = boss.CreateCustomWearable(null, newStatus ? hale_aura_blue_on : hale_aura_blue_off);
-                ColorThirdPersonArms();
-                local viewmodel = null;
-                while (viewmodel = Entities.FindByClassname(viewmodel, "tf_wearable_vm"))
-                {
-                    if (viewmodel.GetOwner() == boss)
-                        viewmodel.SetBodygroup(0, newStatus ? 1 : 0);
-                }
 
                 if (newStatus)
                     GetPropEntity(boss, "m_hViewModel").DisableDraw();
@@ -151,6 +147,7 @@ class SaxtonHale extends Boss
             }
         }
 
+        ColorThirdPersonArms();
         wearable.KeyValueFromString("targetname", aura + color);
     }
 

@@ -48,7 +48,7 @@ class MightySlamTrait extends BossAbility
             boss.SetGravity(1);
             BossPlayViewModelAnim(boss, "f_idle");
         }
-        else if (inUse && GetPropEntity(boss, "m_hGroundEntity") == worldspawn)
+        else if (inUse && !IsValidPlayer(GetPropEntity(boss, "m_hGroundEntity")))
         {
             inUse = false;
             SetItemId(boss.GetActiveWeapon(), 5);

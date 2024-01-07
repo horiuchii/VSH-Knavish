@@ -29,7 +29,6 @@ function IncludeTrait(type, path)
 }
 
 //Merc Traits
-IncludeTrait(TRAIT.ALL, "fix_boss_leftovers.nut");
 IncludeTrait(TRAIT.ALL, "airborne_minicrits.nut");
 IncludeTrait(TRAIT.ALL, "melee_buffs.nut");
 IncludeTrait(TRAIT.ALL, "melee_wall_climb.nut");

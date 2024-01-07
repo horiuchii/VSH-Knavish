@@ -151,7 +151,7 @@ AddListener("tick_always", 0, function (timeDelta)
                         return TRACE_STOP;
                     }
 
-                    if ((IsValidPlayer(entity) && entity.GetTeam() == player.GetTeam())
+                    if ((IsValidPlayer(entity) && entity == player)
                         || startswith(entity.GetClassname(), "tf_proj"))
                     {
                         return TRACE_CONTINUE;

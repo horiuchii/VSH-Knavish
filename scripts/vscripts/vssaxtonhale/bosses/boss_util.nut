@@ -13,7 +13,7 @@
 
 ::IsCollateralDamage <- function(damage_type)
 {
-    return damage_type & (DMG_BLAST | DMG_BURN | DMG_BULLET | DMG_CRUSH);
+    return damage_type & (DMG_BLAST | DMG_BULLET | DMG_CRUSH);
 }
 
 function RegisterBoss(bossClass)

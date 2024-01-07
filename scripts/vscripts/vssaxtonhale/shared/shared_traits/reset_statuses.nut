@@ -11,13 +11,13 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-mercTraitsLibrary.push(class extends MercenaryTrait
+sharedTraitLibrary.push(class extends SharedTrait
 {
     function OnApply()
     {
-        SetPropInt(player, "m_bForcedSkin", 0);
-        player.SetCustomModelWithClassAnimations("");
         player.SetGravity(1);
         player.SetScriptOverlayMaterial("");
+        player.SetCustomModelWithClassAnimations("");
+        SetPropInt(player, "m_bForcedSkin", 0);
     }
 });
