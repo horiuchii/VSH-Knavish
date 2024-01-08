@@ -48,7 +48,7 @@ function Tick()
 
 function OnScriptHook_OnTakeDamage(params)
 {
-    if (params.victim == null)
+    if (params.const_entity == null)
         return;
 
     if (IsValidPlayer(params.attacker)
