@@ -30,7 +30,8 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY)
+        if (victim.IsPlayer()
+            && params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY)
             && GetPropInt(params.const_entity, "m_LastHitGroup") == HITGROUP_HEAD)
         {
             if (!(params.damage_type & DMG_CRIT))

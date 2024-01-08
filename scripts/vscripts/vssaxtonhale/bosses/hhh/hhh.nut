@@ -67,18 +67,24 @@ class HHH extends Boss
         BossHUD.AddHUD(player, HUDID,
             [
                 BossHUDChannel(ScareTrait, 0.648, 0.92, "255 255 255"),
-                //BossHUDChannel(BraveJump, 0.768, 0.92, "255 255 255"),
+                BossHUDChannel(WallClimbTrait, 0.768, 0.92, "255 255 255"),
                 //BossHUDChannel(MightySlam, 0.893, 0.92, "255 255 255")
             ]
         );
 
         HUD.Get(player, HUDID).Enable();
     }
+
+    function WallClimb_Perform(newVelocity)
+    {
+        newVelocity.z = 750.0;
+    }
 }
 
 RegisterBoss(HHH);
 
 AddBossTrait(HHH.name, ScareTrait);
+AddBossTrait(HHH.name, WallClimbTrait);
 AddBossTrait(HHH.name, FreezeSetupTrait);
 AddBossTrait(HHH.name, DeathCleanupTrait);
 AddBossTrait(HHH.name, MovespeedTrait);
@@ -92,7 +98,6 @@ AddBossTrait(HHH.name, ReceivedDamageScalingTrait);
 AddBossTrait(HHH.name, BuildingDamageRescaleTrait);
 AddBossTrait(HHH.name, SpawnProtectionTrait);
 AddBossTrait(HHH.name, NoGibFixTrait);
-AddBossTrait(HHH.name, PreventBossCritTrait);
 
 RegisterCustomWeapon(
     "Horseless Headless Horsemann's Headtaker",

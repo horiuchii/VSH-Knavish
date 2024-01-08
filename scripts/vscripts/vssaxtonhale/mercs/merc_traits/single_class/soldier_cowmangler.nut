@@ -21,7 +21,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (params.damage_custom == TF_DMG_CUSTOM_PLASMA_CHARGED)
+        if (victim.IsPlayer() && params.damage_custom == TF_DMG_CUSTOM_PLASMA_CHARGED)
         {
             params.damage *= 1.65;
         }

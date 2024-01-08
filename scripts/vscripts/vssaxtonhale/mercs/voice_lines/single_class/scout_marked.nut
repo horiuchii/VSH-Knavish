@@ -25,7 +25,9 @@ mercTraitsLibrary.push(class extends CustomVoiceLine
 
     function OnDamageDealt(victim, params)
     {
-        if ((params.damage_type & DMG_CLUB) && Time() - lastPlay >= playInterval)
+        if (victim.IsPlayer()
+            && params.damage_type & DMG_CLUB
+            && Time() - lastPlay >= playInterval)
         {
             lastPlay = Time();
             EmitPlayerVODelayed(player, "marked", 0.2);

@@ -13,7 +13,8 @@
 
 ::hitStreak <- {};
 ::justWallClimbed <- {};
-ignoreWallClimb <- [
+ignoreWallClimb <-
+[
     "player",
     "tf_bot",
     "obj_sentrygun",
@@ -23,8 +24,11 @@ ignoreWallClimb <- [
 
 function MeleeWallClimb_Hit(params)
 {
-    if (IsMercValidAndAlive(params.attacker))
-        MeleeClimb_Perform(params.attacker);
+    local attacker = params.attacker;
+    if (IsMerc(attacker))
+    {
+        MeleeClimb_Perform(attacker);
+    }
 }
 
 function MeleeWallClimb_Check(params)
@@ -58,8 +62,8 @@ AddListener("tick_always", 0, function (timeDelta)
     local newVelocity = player.GetAbsVelocity();
     if (hits == 2)
     {
-        newVelocity.x /= 2;
-        newVelocity.y /= 2;
+        newVelocity.x *= 0.5;
+        newVelocity.y *= 0.5;
     }
 
     switch (player.GetPlayerClass())
@@ -94,6 +98,7 @@ AddListener("tick_always", 0, function (timeDelta)
     FireListeners("wall_climb", player, hits, quickFixLink);
 
     if (!quickFixLink)
+    {
         foreach (otherPlayer in GetAliveMercs())
         {
             if (otherPlayer.GetPlayerClass() != TF_CLASS_MEDIC)
@@ -105,6 +110,7 @@ AddListener("tick_always", 0, function (timeDelta)
             if (target == player)
                 return MeleeClimb_Perform(otherPlayer, true);
         }
+    }
 }
 
 ::LastActiveWeapon <- {};

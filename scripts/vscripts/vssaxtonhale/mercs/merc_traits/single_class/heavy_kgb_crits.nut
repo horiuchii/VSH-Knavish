@@ -20,7 +20,9 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if ((params.damage_type & DMG_CLUB) && WeaponIs(params.weapon, "kgb"))
+        if (victim.IsPlayer()
+            && params.damage_type & DMG_CLUB
+            && WeaponIs(params.weapon, "kgb"))
             player.AddCondEx(TF_COND_CRITBOOSTED_ON_KILL, 5, null);
     }
 });

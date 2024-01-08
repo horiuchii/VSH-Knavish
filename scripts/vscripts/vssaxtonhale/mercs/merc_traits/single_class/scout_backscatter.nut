@@ -20,6 +20,9 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
+        if (!victim.IsPlayer())
+            return;
+
         local distance = victim.GetOrigin() - player.GetOrigin();
 
         if(distance.Length() > 512)

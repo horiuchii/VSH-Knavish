@@ -18,15 +18,15 @@ mercTraitsLibrary.push(class extends MercenaryTrait
         return player.GetPlayerClass() == TF_CLASS_PYRO
             && WeaponIs(player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE), "powerjack");
     }
-	
+
 	function OnApply()
     {
 		player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE).AddAttribute("dmg taken increased", 1.0, -1);
     }
-	
+
     function OnDamageDealt(victim, params)
     {
-        if (params.damage_type & DMG_CLUB)
+        if (victim.IsPlayer() && params.damage_type & DMG_CLUB)
             player.SetHealth(clampCeiling(player.GetHealth() + 75, player.GetMaxOverheal()));
     }
 });

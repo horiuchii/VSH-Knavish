@@ -24,6 +24,9 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
+        if (!victim.IsPlayer())
+            return;
+
         local weapon = params.weapon;
         if (WeaponIs(weapon, "eyelander")
         || WeaponIs(weapon, "eyelander_xmas")

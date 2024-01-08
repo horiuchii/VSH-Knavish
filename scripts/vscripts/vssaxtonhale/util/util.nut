@@ -93,6 +93,22 @@
     }
 }
 
+::IsInRange <- function(entity, target, distance, bDoLOSCheck = false, traceTable = null)
+{
+    local deltaVector = target.GetCenter() - entity.GetCenter();
+    local deltaDist = deltaVector.Norm();
+    if (deltaDist > distance)
+        return false;
+
+    if (bDoLOSCheck)
+    {
+        TraceLineEx(traceTable);
+        return traceTable.fraction > 0.99;
+    }
+
+    return true;
+}
+
 ::clampCeiling <- function(A, B)
 {
     return (A < B) ? A : B;

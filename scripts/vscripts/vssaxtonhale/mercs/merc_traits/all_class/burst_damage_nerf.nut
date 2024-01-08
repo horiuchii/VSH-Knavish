@@ -22,7 +22,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (IsBoss(victim) && damageDoneRecently > 300)
+        if (victim.IsPlayer() && IsBoss(victim) && damageDoneRecently > 300)
         {
             local scaled = clampFloor(0.3, 1 - 0.0015 * (damageDoneRecently - 300));
             local pre = params.damage

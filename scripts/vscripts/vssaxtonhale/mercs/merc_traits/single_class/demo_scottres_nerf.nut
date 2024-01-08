@@ -26,7 +26,8 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
 	function OnDamageDealt(victim, params)
 	{
-		if (params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY))
+		if (victim.IsPlayer()
+			&& params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.SECONDARY))
 		{
 			params.crit_type = 0;
 			if (params.damage_type & DMG_ACID)

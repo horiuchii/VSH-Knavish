@@ -50,7 +50,8 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (IsBoss(victim)
+        if (victim.IsPlayer()
+            && IsBoss(victim)
             && (params.damage_type & DMG_CLUB)
             && player.InCond(TF_COND_CRITBOOSTED_ON_KILL))
         {

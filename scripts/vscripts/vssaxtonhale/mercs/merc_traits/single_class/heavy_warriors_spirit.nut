@@ -21,7 +21,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (params.damage_type & DMG_CLUB)
+        if (victim.IsPlayer() && params.damage_type & DMG_CLUB)
             player.SetHealth(clampCeiling(player.GetHealth() + 50, player.GetMaxOverheal()));
     }
 });

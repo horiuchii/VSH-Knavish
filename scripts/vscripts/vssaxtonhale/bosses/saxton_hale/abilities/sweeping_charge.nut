@@ -240,7 +240,7 @@ class SweepingChargeTrait extends BossAbility
                     deltaVector * 1250,
                     boss.GetOrigin(),
                     dmg,
-                    DMG_BURN);
+                    DMG_SLASH);
             }
             function (target, deltaVector, distance) {
                 if (bashedByBoss.find(target) != null)

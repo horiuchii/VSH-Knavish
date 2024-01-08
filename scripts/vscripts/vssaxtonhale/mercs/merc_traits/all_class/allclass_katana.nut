@@ -21,7 +21,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (WeaponIs(params.weapon, "half_zatoichi"))
+        if (victim.IsPlayer() && WeaponIs(params.weapon, "half_zatoichi"))
         {
             local newHealth = player.GetHealth() + (player.GetMaxHealth() * 0.45);
             player.SetHealth(clampCeiling(newHealth, player.GetMaxOverheal()));

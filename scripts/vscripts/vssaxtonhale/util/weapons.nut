@@ -701,21 +701,33 @@ foreach (key, weapon in WeaponTable)
 
 ::GetSwingLength <- function(weapon)
 {
+    local range = 1.0;
     if(WeaponIs(weapon, "any_sword"))
-        return 72;
+        range = 72.0;
 
-    if(WeaponIs(weapon, "disciplinary_action"))
-        return 81.6;
+    else if(WeaponIs(weapon, "disciplinary_action"))
+        range = 81.6;
 
-    return 48;
+    if (weapon.GetOwner() != null)
+    {
+        range *= weapon.GetOwner().GetModelScale();
+    }
+
+    return range;
 }
 
 ::GetBoundsMultiplier <- function(weapon)
 {
+    local bounds = 1.0;
     if(WeaponIs(weapon, "disciplinary_action"))
-        return 1.55;
+        bounds = 1.55;
 
-    return 1.0;
+    if (weapon.GetOwner() != null)
+    {
+        bounds *= weapon.GetOwner().GetModelScale();
+    }
+
+    return bounds;
 }
 
 // When we need to check for headshots, use HitboxDetector

@@ -54,6 +54,7 @@ class CharacterTrait
     function OnKill(victim, params) { }
     function OnDeath(attacker, params) { }
     function OnHurtDealtEvent(victim, params) { }
+    function OnStunPlayer(stunner, victim, params) { }
     function OnDiscard() { }
 
     function CanReceiveTrait()
@@ -169,10 +170,7 @@ AddListener("death", 2, function (attacker, victim, params)
 
 AddListener("damage_hook", 0, function (attacker, victim, params)
 {
-    if (IsValidPlayer(attacker))
-    {
-        CallCharacterTraitListener(attacker, "OnDamageDealt", victim, params);
-    }
+    CallCharacterTraitListener(attacker, "OnDamageDealt", victim, params);
 
     if (victim.IsPlayer())
     {
@@ -183,6 +181,14 @@ AddListener("damage_hook", 0, function (attacker, victim, params)
 AddListener("player_hurt", 0, function (attacker, victim, params)
 {
     CallCharacterTraitListener(attacker, "OnHurtDealtEvent", victim, params);
+});
+
+AddListener("stun_player", 0, function (stunner, victim, params)
+{
+    if (IsValidPlayer(stunner))
+    {
+        CallCharacterTraitListener(stunner, "OnStunPlayer", stunner, victim, params);
+    }
 });
 
 function CallCharacterTraitListener(player, func_name, ...)

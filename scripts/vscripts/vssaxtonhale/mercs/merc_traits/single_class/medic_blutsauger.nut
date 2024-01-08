@@ -29,7 +29,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
 	function OnDamageDealt(victim, params)
     {
-        if (params.damage_type & DMG_BULLET)
+        if (victim.IsPlayer() && params.damage_type & DMG_BULLET)
 		{
 			player.SetHealth(clampCeiling(player.GetHealth() + 5, player.GetMaxOverheal()));
 

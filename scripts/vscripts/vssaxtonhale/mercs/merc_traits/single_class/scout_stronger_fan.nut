@@ -21,7 +21,9 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (Time() - lastTimeApplied < 0.1 || !IsBoss(victim)
+        if (!victim.IsPlayer()
+            || Time() - lastTimeApplied < 0.1
+            || !IsBoss(victim)
             || (!WeaponIs(params.weapon, "force_a_nature") && !WeaponIs(params.weapon, "force_a_nature_xmas")))
             return;
         local deltaVector = victim.GetOrigin() - player.GetOrigin();

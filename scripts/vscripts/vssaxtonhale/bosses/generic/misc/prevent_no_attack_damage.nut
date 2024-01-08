@@ -17,7 +17,7 @@ class PreventNoAttackDamageClass extends BossTrait
 
     function OnDamageDealt(victim, params)
     {
-        if(params.damage_type & DMG_BURN)
+        if(params.damage_type & DMG_SLASH)
             return;
 
         if(params.damage_type & DMG_CRUSH)

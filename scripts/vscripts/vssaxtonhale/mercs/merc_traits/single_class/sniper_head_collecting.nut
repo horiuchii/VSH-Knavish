@@ -20,7 +20,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (params.damage_custom == TF_DMG_CUSTOM_HEADSHOT)
+        if (victim.IsPlayer() && params.damage_custom == TF_DMG_CUSTOM_HEADSHOT)
         {
             params.damage *= 1.2; //Hale has Crit Resistance. Making Headshots an exception.
             AddPropInt(player, "m_Shared.m_iDecapitations", 1);

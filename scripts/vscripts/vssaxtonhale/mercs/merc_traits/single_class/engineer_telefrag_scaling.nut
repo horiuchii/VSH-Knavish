@@ -15,7 +15,8 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 {
     function OnDamageDealt(victim, params)
     {
-        if (params.damage_custom == TF_DMG_CUSTOM_TELEFRAG)
+        if (victim.IsPlayer()
+            && params.damage_custom == TF_DMG_CUSTOM_TELEFRAG)
         {
             params.damage = vsh_vscript.CalcStabDamage(victim) * 2;
         }

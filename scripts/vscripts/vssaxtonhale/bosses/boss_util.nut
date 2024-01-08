@@ -16,6 +16,15 @@
     return damage_type & (DMG_BLAST | DMG_BULLET | DMG_CRUSH);
 }
 
+::MakeMeBoss <- function()
+{
+    if (IsDedicatedServer())
+        return;
+
+    SetNextBossByEntity(GetListenServerHost());
+    Convars.SetValue("mp_restartgame_immediate", 1);
+}
+
 function RegisterBoss(bossClass)
 {
     bossLibrary[bossClass.name] <- bossClass;

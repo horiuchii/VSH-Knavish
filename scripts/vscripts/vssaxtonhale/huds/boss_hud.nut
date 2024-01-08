@@ -55,11 +55,11 @@ class BossHUD
             local overlay = "";
             foreach (channel in HUD.Get(player, HUDID).channels)
             {
+                local ability = characterTraitsTable[player][channel.ability_class];
                 switch (characterTraitsTable[player][channel.ability_class].mode)
                 {
                     case AbilityMode.COOLDOWN:
                         {
-                            local ability = characterTraitsTable[player][channel.ability_class];
                             local progressBarText = "";
                             local cooldown = ability.cooldown;
                             local meter = ability.meter;

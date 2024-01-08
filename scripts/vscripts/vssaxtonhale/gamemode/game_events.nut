@@ -48,22 +48,34 @@ function Tick()
 
 function OnScriptHook_OnTakeDamage(params)
 {
-    if (params.const_entity == worldspawn) //wall climb off of the static world
-    {
-        if (params.damage_type & DMG_CLUB)
-            MeleeWallClimb_Hit(params);
+    if (params.victim == null)
         return;
-    }
-    if (params.damage_type & DMG_CLUB) // Wall climb off of the rest of the world. worldspawn handled separately for performance reasons
+
+    if (IsValidPlayer(params.attacker)
+        && params.attacker.IsAlive()
+        && IsMerc(params.attacker)
+        && params.attacker.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE) == params.weapon
+        && params.damage_type & DMG_CLUB)
     {
-        if (MeleeWallClimb_Check(params))
+        if (params.const_entity == worldspawn) //wall climb off of the static world
         {
             MeleeWallClimb_Hit(params);
             return;
         }
+        else
+        {
+            // Wall climb off of the rest of the world. worldspawn handled separately for performance reasons
+            if (MeleeWallClimb_Check(params))
+            {
+                MeleeWallClimb_Hit(params);
+                return;
+            }
+        }
     }
-    if (IsNotValidRound() || !IsValidPlayerOrBuilding(params.const_entity))
+
+    if (IsNotValidRound())
         return;
+
     FireListeners("damage_hook", params.attacker, params.const_entity, params);
 }
 

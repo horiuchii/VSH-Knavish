@@ -11,6 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
+// TODO: Remove all but jump_force and setup_length
 ::VSH_API_DEF_VALUES <- {
     boss_scale = 1.2,
     round_time = 240,

@@ -33,6 +33,9 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
+        if (!victim.IsPlayer())
+            return;
+
         //Le backstabe
         if (params.damage_custom == TF_DMG_CUSTOM_BACKSTAB)
         {

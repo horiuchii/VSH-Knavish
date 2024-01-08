@@ -190,7 +190,6 @@ class SaxtonHale extends Boss
 RegisterBoss(SaxtonHale);
 
 Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
-Include("/bosses/saxton_hale/misc/no_crit.nut");
 
 AddBossTrait(SaxtonHale.name, SweepingCharge);
 AddBossTrait(SaxtonHale.name, BraveJump);
@@ -209,7 +208,6 @@ AddBossTrait(SaxtonHale.name, StunBreakoutTrait);
 AddBossTrait(SaxtonHale.name, BuildingDamageRescaleTrait);
 AddBossTrait(SaxtonHale.name, SpawnProtectionTrait);
 AddBossTrait(SaxtonHale.name, NoGibFixTrait);
-AddBossTrait(SaxtonHale.name, PreventBossCritTrait);
 
 AddBossTrait(SaxtonHale.name, JaratedVoiceLine);
 AddBossTrait(SaxtonHale.name, LastMannHidingVoiceLine);

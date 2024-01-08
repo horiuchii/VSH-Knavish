@@ -27,7 +27,7 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (params.damage_type & DMG_CLUB)
+        if (victim.IsPlayer() && params.damage_type & DMG_CLUB)
             SetPropFloat(player, "m_Shared.m_flChargeMeter", clampCeiling(100.0, GetPropFloat(player, "m_Shared.m_flChargeMeter") + 25.0))
     }
 });

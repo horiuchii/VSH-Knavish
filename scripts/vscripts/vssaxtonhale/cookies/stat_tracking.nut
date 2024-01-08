@@ -92,7 +92,7 @@ AddListener("damage_hook", 0, function (attacker, victim, params)
             AddToTrackedStat(attacker, "stompkills");
 
         //saxton sweeping charge
-        if((params.damage_type & DMG_BURN) && params.damage >= victim.GetHealth())
+        if((params.damage_type & DMG_SLASH) && params.damage >= victim.GetHealth())
             AddToTrackedStat(attacker, "chargekills");
 
         //saxton slam

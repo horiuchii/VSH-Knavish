@@ -21,9 +21,8 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        local primary = player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY);
-
-        if (primary == params.weapon
+        if (victim.IsPlayer()
+            && player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY) == params.weapon
             && GetPropFloat(params.weapon, "m_flLastFireTime") + 1.0 < Time()
             && GetPropInt(params.const_entity, "m_LastHitGroup") == HITGROUP_HEAD)
         {

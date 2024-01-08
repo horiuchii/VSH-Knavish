@@ -34,7 +34,7 @@ class ScreenShakeTrait extends BossTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (victim != null && victim.IsValid())
+        if (victim.IsPlayer())
             ScreenShake(victim.GetCenter(), 140, 1, 1, 10, 0, true);
     }
 };

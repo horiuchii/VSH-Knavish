@@ -21,7 +21,9 @@ mercTraitsLibrary.push(class extends CharacterTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (IsBoss(victim) && params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY))
+        if (victim.IsPlayer()
+            && IsBoss(victim)
+            && params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.PRIMARY))
         {
             local glowTrait = GetTraitByClass(victim, GlowTrait);
             if (glowTrait != null)

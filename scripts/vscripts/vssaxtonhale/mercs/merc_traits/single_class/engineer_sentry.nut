@@ -23,7 +23,12 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (params.inflictor != null && params.inflictor.GetClassname() == "obj_sentrygun" && player != victim)
+        if (!victim.IsPlayer())
+            return;
+
+        if (params.inflictor != null
+            && params.inflictor.GetClassname() == "obj_sentrygun"
+            && player != victim)
         {
             //Nerfing damage and knockback by 40%.
             //There's an attribute that gives sentry resistance, but it doesn't give knockback res

@@ -26,7 +26,8 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE)
+        if (victim.IsPlayer()
+            && params.weapon == player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE)
             && (params.damage_type & DMG_CLUB)
             && victim.InCond(TF_COND_BURNING))
 			params.damage *= 2.0;

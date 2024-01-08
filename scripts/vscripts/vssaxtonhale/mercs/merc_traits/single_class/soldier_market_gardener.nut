@@ -23,7 +23,9 @@ mercTraitsLibrary.push(class extends MercenaryTrait
 
     function OnDamageDealt(victim, params)
     {
-        if (player.InCond(TF_COND_BLASTJUMPING) && WeaponIs(params.weapon, "market_gardener"))
+        if (victim.IsPlayer()
+            && player.InCond(TF_COND_BLASTJUMPING)
+            && WeaponIs(params.weapon, "market_gardener"))
         {
             params.damage = vsh_vscript.CalcStabDamage(victim) / 2.5;
             EmitSoundOn("vsh_sfx.gardened", player);
