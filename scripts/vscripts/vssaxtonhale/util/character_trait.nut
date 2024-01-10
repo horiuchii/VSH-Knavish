@@ -170,7 +170,10 @@ AddListener("death", 2, function (attacker, victim, params)
 
 AddListener("damage_hook", 0, function (attacker, victim, params)
 {
-    CallCharacterTraitListener(attacker, "OnDamageDealt", victim, params);
+    if (attacker.IsPlayer())
+    {
+        CallCharacterTraitListener(attacker, "OnDamageDealt", victim, params);
+    }
 
     if (victim.IsPlayer())
     {

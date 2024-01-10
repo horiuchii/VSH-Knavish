@@ -63,6 +63,7 @@ class HHH extends Boss
         player.AddCustomAttribute("dmg taken from crit reduced", 0.75, -1);
 
         boss.AddCond(TF_COND_CANNOT_SWITCH_FROM_MELEE);
+        boss.AddHudHideFlags(HIDEHUD_PIPES_AND_CHARGE);
 
         BossHUD.AddHUD(player, HUDID,
             [
