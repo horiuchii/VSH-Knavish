@@ -48,6 +48,9 @@ foreach (k, v in NetProps.getclass())
 ::CHAN_REPLACE <- -1;
 ::CHAN_MUSIC <- CHAN_REPLACE;
 
+::MASK_SHOT <- 1174421507;
+::MASK_PLAYERSOLID <- 33636363;
+
 enum TF_DEATHFLAG
 {
     KILLER_DOMINATION = 1,

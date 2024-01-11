@@ -63,6 +63,7 @@ Include("/bosses/generic/voice_lines/last_mann_hiding.nut");
 Include("/bosses/generic/voice_lines/round_end.nut");
 Include("/bosses/generic/abilities/scare.nut");
 Include("/bosses/generic/abilities/wall_climb.nut");
+Include("/bosses/generic/abilities/teleport.nut");
 
 Include("/bosses/saxton_hale/saxton_hale.nut");
 Include("/bosses/hhh/hhh.nut");

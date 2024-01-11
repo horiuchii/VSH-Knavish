@@ -69,7 +69,7 @@ class HHH extends Boss
             [
                 BossHUDChannel(ScareTrait, 0.648, 0.92, "255 255 255"),
                 BossHUDChannel(WallClimbTrait, 0.768, 0.92, "255 255 255"),
-                //BossHUDChannel(MightySlam, 0.893, 0.92, "255 255 255")
+                BossHUDChannel(TeleportTrait, 0.893, 0.92, "255 255 255")
             ]
         );
 
@@ -86,6 +86,7 @@ RegisterBoss(HHH);
 
 AddBossTrait(HHH.name, ScareTrait);
 AddBossTrait(HHH.name, WallClimbTrait);
+AddBossTrait(HHH.name, TeleportTrait);
 AddBossTrait(HHH.name, FreezeSetupTrait);
 AddBossTrait(HHH.name, DeathCleanupTrait);
 AddBossTrait(HHH.name, MovespeedTrait);
