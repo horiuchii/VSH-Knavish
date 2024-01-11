@@ -1,33 +1,111 @@
+
+enum TeleportState
+{
+    NONE
+    FADE_OUT
+    FADE_IN
+}
+
 class TeleportTrait extends BossAbility
 {
     cooldown = 1;
     meter = 0;
     mode = AbilityMode.COOLDOWN;
     inUse = false;
+    state = TeleportState.NONE;
+    teleTime = 0.0;
+    fade_out_time = 1.0;
+    fade_in_time = 1.0;
+    futureTelePos = null;
+
+    function OnTickAlive(timeDelta)
+    {
+        base.OnTickAlive(timeDelta);
+
+        switch (state)
+        {
+            case TeleportState.NONE:
+                {
+                    break;
+                }
+            case TeleportState.FADE_OUT:
+                {
+                    teleTime += timeDelta;
+
+                    if (teleTime >= 0.0)
+                    {
+                        state = TeleportState.FADE_IN;
+                        teleTime = -fade_in_time;
+                        boss.SetAbsOrigin(futureTelePos);
+                        boss.AddFlag(FL_ONGROUND);
+                        boss.SetGravity(1.0);
+                    }
+                    break;
+                }
+            case TeleportState.FADE_IN:
+                {
+                    teleTime += timeDelta;
+                    if (teleTime >= 0.0)
+                    {
+                        state = TeleportState.NONE;
+                        teleTime = 0.0;
+                        boss.RemoveFlag(FL_ATCONTROLS);
+                        boss.RemoveCond(TF_COND_IMMUNE_TO_PUSHBACK);
+                        SetPropInt(boss, "m_nForceTauntCam", 0);
+                    }
+                    break;
+                }
+        }
+    }
 
     function OnFrameTickAlive()
     {
-        if (!player.Get().CanUseAbilities() || meter != 0.0)
-            return;
-
-        if (inUse)
+        if (player.Get().CanUseAbilities())
         {
-            Trace();
-            return;
-        }
-
-        if (boss.WasButtonJustPressed(IN_ATTACK2))
-        {
-            inUse = true;
+            if (state == TeleportState.NONE)
+            {
+                if (!meter)
+                {
+                    if (inUse)
+                    {
+                        Trace();
+                        return;
+                    }
+                    else if (boss.WasButtonJustPressed(IN_ATTACK2))
+                    {
+                        inUse = true;
+                        return;
+                    }
+                }
+            }
         }
     }
 
     function Perform(finalPos)
     {
         SetCooldown();
-        boss.SetAbsOrigin(finalPos);
-        boss.SetAbsVelocity(Vector(0.0, 0.0, 0.0));
+        local vel = boss.GetAbsVelocity();
+        vel.x *= 0.1;
+        vel.y *= 0.1;
+        vel.z *= 0.1;
+        boss.SetGravity(0.1);
+        boss.SetAbsVelocity(vel);
+
+        boss.AddFlag(FL_ATCONTROLS);
+        boss.AddCond(TF_COND_IMMUNE_TO_PUSHBACK);
+        SetPropInt(boss, "m_nForceTauntCam", 1);
         inUse = false;
+        teleTime = -fade_out_time;
+        futureTelePos = finalPos;
+        state = TeleportState.FADE_OUT;
+        boss.AddCustomAttribute("no_attack", 1.0, fade_in_time + fade_out_time + 1.0);
+
+        local portalPos = boss.GetOrigin();
+        portalPos.z += 4.0;
+        DispatchParticleEffect("halloween_boss_summon", portalPos, Vector(0.0, 0.0, 0.0));
+
+        finalPos.z += 4.0;
+        DispatchParticleEffect("halloween_boss_summon", finalPos, Vector(0.0, 0.0, 0.0));
     }
 
     function Trace()
@@ -36,11 +114,11 @@ class TeleportTrait extends BossAbility
         local player = boss;
 
         local stairs = 60.0;
-        local max_dist = 1000.0;
+        local max_dist = 1200.0;
         local units_per_stair = max_dist / stairs;
         local min_valid_dist = 200.0;
 
-
+        // TODO: Use crouching bounding box
         local hullmin = player.GetBoundingMins();
         local hullmax = player.GetBoundingMaxs();
         local eyepos = player.EyePosition();
@@ -68,7 +146,7 @@ class TeleportTrait extends BossAbility
             local planeForward = VectorAngles(eyeTrace.plane_normal);
             if (planeForward.x > 270.0 && planeForward.x < 310.0)
             {
-                local finalPos = DoFinalHullTrace(eyeTrace, hullmin, hullmax);
+                local finalPos = DoFinalHullTrace(eyeTrace, hullmin, hullmax, planeForward.x - 270.0);
                 if (finalPos != null)
                 {
                     // Teleport Player
@@ -76,8 +154,8 @@ class TeleportTrait extends BossAbility
                     if (!(player.GetButtons() & IN_ATTACK2))
                     {
                         Perform(finalPos);
-                        return;
                     }
+                    return;
                 }
             }
         }
@@ -88,7 +166,7 @@ class TeleportTrait extends BossAbility
         {
             local ang = QAngle(90.0, 0.0, 0.0);
             local tail = eyepos + (fwd * rounded);
-            local stairTrace = MakeTraceLineTable(tail, tail + (ang.Forward() * 75.0));
+            local stairTrace = MakeTraceLineTable(tail, tail + (ang.Forward() * 125.0));
 
             TraceLineFilter(stairTrace);
 
@@ -105,7 +183,7 @@ class TeleportTrait extends BossAbility
                 continue;
             }
 
-            local finalPos = DoFinalHullTrace(stairTrace, hullmin, hullmax);
+            local finalPos = DoFinalHullTrace(stairTrace, hullmin, hullmax, planeForward.x - 270.0);
             if (finalPos == null)
             {
                 rounded -= units_per_stair;
@@ -132,9 +210,8 @@ class TeleportTrait extends BossAbility
         return;
     }
 
-    function DoFinalHullTrace(lastTrace, hullmin, hullmax)
+    function DoFinalHullTrace(lastTrace, hullmin, hullmax, slope_compensation)
     {
-        local slope_compensation = 40.0;
         local hullStart = lastTrace.pos;
         hullStart.z += slope_compensation;
         local hullTrace = MakeTraceHullTable(hullStart, lastTrace.endpos, hullmin, hullmax);

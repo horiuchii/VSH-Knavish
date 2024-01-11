@@ -52,6 +52,7 @@ class WallClimbTrait extends BossAbility
                 {
                     player = boss
                     start = eyepos
+                    // TODO: Get swing length from boss file
                     end = eyepos + (boss.EyeAngles().Forward() * GetSwingLength(melee))
                     hullmin = Vector(-18,-18,-18) * bounds_scale
                     hullmax = Vector(18,18,18) * bounds_scale
@@ -140,6 +141,13 @@ class WallClimbTrait extends BossAbility
         {
             boss.Get().WallClimb_Perform(newVelocity);
         }
+
+        // TODO: Make wall climb give slight velocity in movement direction
+        local eyeAng = boss.EyeAngles();
+        eyeAng.x = 0.0;
+        local fwd = eyeAng.Forward() * 100.0;
+        fwd.z = 0.0;
+        newVelocity += fwd;
 
         player.SetAbsVelocity(newVelocity);
     }

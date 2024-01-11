@@ -1,3 +1,5 @@
+PrecacheSound("vo/halloween_boss/knight_alert.mp3");
+
 class ScareTrait extends BossAbility
 {
     duration = 3;
@@ -32,6 +34,8 @@ class ScareTrait extends BossAbility
             solid = 2,
             "OnStunPlayer#1": "!self,Kill,0,0.01,-1",
         });
+
+        EmitSoundOn("vo/halloween_boss/knight_alert.mp3", boss);
 
         local boss_center = boss.GetCenter();
         for (local i = 1; i <= MAX_PLAYERS; i++)
