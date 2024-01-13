@@ -61,6 +61,7 @@ class Boss extends PlayerType
     boss = null;
     traits = null;
     startingHealth = 0;
+    melee_range_mult = 1.0;
     trait_team = TF_TEAM_BOSS;
     HUDID = null;
     Stats = null;

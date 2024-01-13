@@ -8,7 +8,7 @@ enum TeleportState
 
 class TeleportTrait extends BossAbility
 {
-    cooldown = 1;
+    cooldown = 8;
     meter = 0;
     mode = AbilityMode.COOLDOWN;
     inUse = false;
@@ -17,6 +17,7 @@ class TeleportTrait extends BossAbility
     fade_out_time = 1.0;
     fade_in_time = 1.0;
     futureTelePos = null;
+    forceCrouch = false;
 
     function OnTickAlive(timeDelta)
     {
@@ -36,6 +37,16 @@ class TeleportTrait extends BossAbility
                     {
                         state = TeleportState.FADE_IN;
                         teleTime = -fade_in_time;
+
+                        if (forceCrouch)
+                        {
+                            SetPropVector(boss, "m_vecMins", Vector(-24, -24, 0) * player.GetModelScale());
+                            SetPropVector(boss, "m_vecMaxs", Vector(24, 24, 62) * player.GetModelScale());
+                            SetPropBool(boss, "m_bDucked", true);
+                            boss.AddFlag(FL_DUCKING);
+                            forceCrouch = false;
+                        }
+
                         boss.SetAbsOrigin(futureTelePos);
                         boss.AddFlag(FL_ONGROUND);
                         boss.SetGravity(1.0);
@@ -118,9 +129,9 @@ class TeleportTrait extends BossAbility
         local units_per_stair = max_dist / stairs;
         local min_valid_dist = 200.0;
 
-        // TODO: Use crouching bounding box
-        local hullmin = player.GetBoundingMins();
-        local hullmax = player.GetBoundingMaxs();
+        // Use crouching bounding box
+        local hullmin = Vector(-24, -24, 0) * player.GetModelScale();
+        local hullmax = Vector(24, 24, 62) * player.GetModelScale();
         local eyepos = player.EyePosition();
         local eyeang = player.EyeAngles();
         local fwd = eyeang.Forward();
@@ -233,6 +244,19 @@ class TeleportTrait extends BossAbility
             return null;
         }
 
+        // Do one more hull trace with standing mins and maxs
+        // If this fails then force the player to crouch upon teleporting
+        local standing_min = Vector(-24, -24, 0) * player.GetModelScale();
+        local standing_max = Vector(24, 24, 82) * player.GetModelScale();
+
+        local standingHullTrace = MakeTraceHullTable(finalPos, finalPos, standing_min, standing_max);
+        TraceHull(standingHullTrace);
+
+        if (standingHullTrace.fraction != 1.0)
+        {
+            forceCrouch = true;
+        }
+
         return finalPos;
     }
 
@@ -341,3 +365,9 @@ class TeleportTrait extends BossAbility
     }
 }
 ::TeleportTrait <- TeleportTrait;
+
+::GiveHeight <- function()
+{
+    printl("Maxs | " + GetListenServerHost().GetBoundingMaxs());
+    printl("Mins | " + GetListenServerHost().GetBoundingMins());
+}

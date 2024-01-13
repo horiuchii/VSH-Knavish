@@ -5,6 +5,7 @@ class WallClimbTrait extends BossAbility
     mode = AbilityMode.LIMITED_USE;
     last_active_wep = null;
     justWallClimbed = false;
+    maxSpeedMult = 40.0;
 
     ignoreWallClimb =
     [
@@ -23,6 +24,9 @@ class WallClimbTrait extends BossAbility
 
     function DoFrameTick()
     {
+        local absVel = boss.GetAbsVelocity();
+        local hVel = sqrt(absVel.x * absVel.x + absVel.y * absVel.y);
+        ClientPrint(null, HUD_PRINTCENTER, hVel.tostring())
         local melee = boss.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
 
         if (melee == null)
@@ -52,7 +56,6 @@ class WallClimbTrait extends BossAbility
                 {
                     player = boss
                     start = eyepos
-                    // TODO: Get swing length from boss file
                     end = eyepos + (boss.EyeAngles().Forward() * GetSwingLength(melee))
                     hullmin = Vector(-18,-18,-18) * bounds_scale
                     hullmax = Vector(18,18,18) * bounds_scale
@@ -142,14 +145,36 @@ class WallClimbTrait extends BossAbility
             boss.Get().WallClimb_Perform(newVelocity);
         }
 
-        // TODO: Make wall climb give slight velocity in movement direction
-        local eyeAng = boss.EyeAngles();
-        eyeAng.x = 0.0;
-        local fwd = eyeAng.Forward() * 100.0;
-        fwd.z = 0.0;
-        newVelocity += fwd;
+        local maxSpeed = GetPropFloat(boss, "m_flMaxspeed");
+        local absVel = boss.GetAbsVelocity();
+        local currHVel = sqrt(absVel.x * absVel.x + absVel.y * absVel.y);
+        local velFwd = QAngle(0.0, atan2(absVel.y, absVel.x) * 180.0 / PI, 0.0).Forward();
+        DebugDrawLine(boss.GetOrigin(), boss.GetOrigin() + Vector(velFwd.x, velFwd.y, velFwd.z) * 200.0, 255, 0, 0, false, 5.0);
+        local maxClimbBoost = 600.0;
 
-        player.SetAbsVelocity(newVelocity);
+        // Ex: 540 < 600;
+        if (currHVel < maxClimbBoost)
+        {
+            local newHVel = currHVel * 1.15;
+
+            // Ex: (540 * 1.15 = 621) > 600
+            if (newHVel > maxClimbBoost)
+            {
+                velFwd *= maxClimbBoost - currHVel;
+            }
+            else
+            {
+                // Ex: 320 * 1.15 = 368
+                velFwd *= currHVel * 0.15;
+            }
+        }
+        else
+        {
+            velFwd = Vector(0.0, 0.0, 0.0);
+        }
+
+
+        player.SetAbsVelocity(newVelocity + Vector(velFwd.x, velFwd.y, velFwd.z));
     }
 }
 ::WallClimbTrait <- WallClimbTrait;

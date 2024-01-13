@@ -24,6 +24,7 @@ class HHH extends Boss
     color = "102 51 153";
     tfclass = TF_CLASS_DEMOMAN;
     HUDID = UniqueString();
+    melee_range_mult = 0.666666;
 
     Stats =
     [
@@ -45,7 +46,8 @@ class HHH extends Boss
 
         RunWithDelay2(this, 0.1, function()
         {
-            boss.GiveWeapon("Horseless Headless Horsemann's Headtaker");
+            local weapon = boss.GiveWeapon("Horseless Headless Horsemann's Headtaker");
+            weapon.AddAttribute("melee range multiplier", 0.666666, -1);
         });
 
         boss.SetModelScale(API_GetFloat("boss_scale"), 0);

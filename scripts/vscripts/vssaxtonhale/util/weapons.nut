@@ -702,14 +702,22 @@ foreach (key, weapon in WeaponTable)
 ::GetSwingLength <- function(weapon)
 {
     local range = 1.0;
+
     if(WeaponIs(weapon, "any_sword"))
         range = 72.0;
 
     else if(WeaponIs(weapon, "disciplinary_action"))
         range = 81.6;
 
-    if (weapon.GetOwner() != null)
+    local owner = weapon.GetOwner();
+
+    if (owner != null)
     {
+        if (IsBoss(owner))
+        {
+            range *= owner.Get().melee_range_mult;
+        }
+
         range *= weapon.GetOwner().GetModelScale();
     }
 
