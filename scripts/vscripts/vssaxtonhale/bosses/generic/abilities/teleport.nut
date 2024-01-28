@@ -15,7 +15,7 @@ class TeleportTrait extends BossAbility
     state = TeleportState.NONE;
     teleTime = 0.0;
     fade_out_time = 1.0;
-    fade_in_time = 1.0;
+    fade_in_time = 0.5;
     futureTelePos = null;
     forceCrouch = false;
 
@@ -128,6 +128,9 @@ class TeleportTrait extends BossAbility
         local max_dist = 1200.0;
         local units_per_stair = max_dist / stairs;
         local min_valid_dist = 200.0;
+        local plane_normal_reduction = 271.0;
+        local max_plane_slope = 315.0;
+        local min_plane_slope = 270.0;
 
         // Use crouching bounding box
         local hullmin = Vector(-24, -24, 0) * player.GetModelScale();
@@ -155,9 +158,9 @@ class TeleportTrait extends BossAbility
         if (eyeTrace.fraction < 1.0)
         {
             local planeForward = VectorAngles(eyeTrace.plane_normal);
-            if (planeForward.x > 270.0 && planeForward.x < 310.0)
+            if (planeForward.x >= min_plane_slope && planeForward.x <= max_plane_slope)
             {
-                local finalPos = DoFinalHullTrace(eyeTrace, hullmin, hullmax, planeForward.x - 270.0);
+                local finalPos = DoFinalHullTrace(eyeTrace, hullmin, hullmax, planeForward.x - plane_normal_reduction);
                 if (finalPos != null)
                 {
                     // Teleport Player
@@ -188,13 +191,13 @@ class TeleportTrait extends BossAbility
             }
 
             local planeForward = VectorAngles(stairTrace.plane_normal);
-            if (planeForward.x < 270.0 || planeForward.x > 310.0)
+            if (planeForward.x <= min_plane_slope || planeForward.x >= max_plane_slope)
             {
                 rounded -= units_per_stair;
                 continue;
             }
 
-            local finalPos = DoFinalHullTrace(stairTrace, hullmin, hullmax, planeForward.x - 270.0);
+            local finalPos = DoFinalHullTrace(stairTrace, hullmin, hullmax, planeForward.x - plane_normal_reduction);
             if (finalPos == null)
             {
                 rounded -= units_per_stair;

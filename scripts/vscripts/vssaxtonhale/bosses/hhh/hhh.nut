@@ -24,7 +24,7 @@ class HHH extends Boss
     color = "102 51 153";
     tfclass = TF_CLASS_DEMOMAN;
     HUDID = UniqueString();
-    melee_range_mult = 0.666666;
+    melee_range_mult = 1.0;
 
     Stats =
     [
