@@ -288,6 +288,12 @@ class TeleportTrait extends BossAbility
                 if (startswith(entity.GetClassname(), "prop_"))
                     return TRACE_STOP;
 
+                if (startswith(entity.GetClassname(), "func_breakable"))
+                    return TRACE_STOP;
+
+                if (startswith(entity.GetClassname(), "func_door"))
+                    return TRACE_STOP;
+
                 if (startswith(classname, "proj_"))
                     return TRACE_CONTINUE;
 

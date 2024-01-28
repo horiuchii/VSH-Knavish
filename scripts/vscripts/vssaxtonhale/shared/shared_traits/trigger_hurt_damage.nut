@@ -11,25 +11,16 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-class FreezeSetupTrait extends BossTrait
+class TriggerHurtDamage extends SharedTrait
 {
-    has_round_started = false;
-
-    function OnFrameTickAlive()
+    function OnTakeDamage(attacker, params)
     {
-        if(has_round_started || !API_GetBool("freeze_boss_setup"))
-            return;
-
-        if(IsRoundSetup())
+        if (attacker.GetClassname() == "trigger_hurt")
         {
-            SetPropBool(boss, "m_bAllowMoveDuringTaunt", false);
-            boss.AddFlag(FL_ATCONTROLS);
-        }
-        else
-        {
-            SetPropBool(boss, "m_bAllowMoveDuringTaunt", true);
-            boss.RemoveFlag(FL_ATCONTROLS);
-            has_round_started = true;
+            params.damage_type = DMG_GENERIC;
         }
     }
 }
+
+::TriggerHurtDamage <- TriggerHurtDamage;
+sharedTraitLibrary.push(TriggerHurtDamage);
