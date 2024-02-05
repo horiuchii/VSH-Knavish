@@ -46,8 +46,7 @@ class HHH extends Boss
 
         RunWithDelay2(this, 0.1, function()
         {
-            local weapon = boss.GiveWeapon("Horseless Headless Horsemann's Headtaker");
-            weapon.AddAttribute("melee range multiplier", 0.666666, -1);
+            boss.GiveWeapon("Horseless Headless Horsemann's Headtaker");
         });
 
         boss.SetModelScale(API_GetFloat("boss_scale"), 0);

@@ -8,7 +8,7 @@ enum TeleportState
 
 class TeleportTrait extends BossAbility
 {
-    cooldown = 8;
+    cooldown = 1;
     meter = 0;
     mode = AbilityMode.COOLDOWN;
     inUse = false;
@@ -128,7 +128,7 @@ class TeleportTrait extends BossAbility
         local max_dist = 1200.0;
         local units_per_stair = max_dist / stairs;
         local min_valid_dist = 200.0;
-        local plane_normal_reduction = 271.0;
+        local plane_normal_reduction = 270.0;
         local max_plane_slope = 315.0;
         local min_plane_slope = 270.0;
 
@@ -191,7 +191,7 @@ class TeleportTrait extends BossAbility
             }
 
             local planeForward = VectorAngles(stairTrace.plane_normal);
-            if (planeForward.x <= min_plane_slope || planeForward.x >= max_plane_slope)
+            if (planeForward.x < min_plane_slope || planeForward.x > max_plane_slope)
             {
                 rounded -= units_per_stair;
                 continue;
@@ -255,17 +255,12 @@ class TeleportTrait extends BossAbility
         local standingHullTrace = MakeTraceHullTable(finalPos, finalPos, standing_min, standing_max);
         TraceHull(standingHullTrace);
 
-        if (standingHullTrace.fraction != 1.0)
+        if (standingHullTrace.fraction <= 0.99)
         {
             forceCrouch = true;
         }
 
         return finalPos;
-    }
-
-    function TracePrint(text)
-    {
-        ClientPrint(null, HUD_PRINTTALK, text.tostring());
     }
 
     function MakeTraceLineTable(_start, _end)
@@ -278,7 +273,7 @@ class TeleportTrait extends BossAbility
             filter = function(entity)
             {
                 local classname = entity.GetClassname();
-
+                //printl(classname);
                 if (entity == worldspawn)
                     return TRACE_STOP;
 
@@ -292,6 +287,9 @@ class TeleportTrait extends BossAbility
                     return TRACE_STOP;
 
                 if (startswith(entity.GetClassname(), "func_door"))
+                    return TRACE_STOP;
+
+                if (startswith(entity.GetClassname(), "func_brush"))
                     return TRACE_STOP;
 
                 if (startswith(classname, "proj_"))
@@ -346,25 +344,14 @@ class TeleportTrait extends BossAbility
         local yaw;
         local pitch;
 
-        if (fwd.y == 0 && fwd.x == 0)
-        {
-            yaw = 0;
-            if (fwd.z > 0)
-                pitch = 270.0;
-            else
-                pitch = 90.0;
-        }
-        else
-        {
-            yaw = (atan2(fwd.y, fwd.x) * 180.0 / PI);
-            if (yaw < 0)
-                yaw += 360.0;
+		yaw = (atan2(fwd.y, fwd.x) * 180.0 / PI);
+		if (yaw < 0)
+			yaw += 360.0;
 
-            tmp = sqrt( (fwd.x*fwd.x) + (fwd.y*fwd.y) );
-            pitch = ( atan2(-fwd.z, tmp) * 180.0 / PI );
-            if (pitch < 0)
-                pitch += 360.0;
-        }
+		tmp = sqrt( (fwd.x*fwd.x) + (fwd.y*fwd.y) );
+		pitch = ( atan2(-fwd.z, tmp) * 180.0 / PI );
+		if (pitch < 0)
+			pitch += 360.0;
 
         ang.x = pitch;
         ang.y = yaw;
