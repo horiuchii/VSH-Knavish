@@ -38,11 +38,7 @@ class BraveJumpTrait extends BossAbility
             switch(CookieUtil.Get(player, "difficulty"))
             {
                 case DIFFICULTY.EASY: cooldown = 0; break;
-                case DIFFICULTY.NORMAL: cooldown = 2.5; break;
-                case DIFFICULTY.HARD: cooldown = 3; break;
-                case DIFFICULTY.EXTREME: cooldown = 4; break;
-                case DIFFICULTY.IMPOSSIBLE: cooldown = null; break;
-                default: break;
+                default: cooldown = 2; break;
             }
         }
 	}

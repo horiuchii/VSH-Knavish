@@ -35,7 +35,7 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Easy] <- class extends Men
 
     function GenerateDesc(player)
     {
-        return title + " Modifiers\nHealth (+20%) | Jump Cooldown (0s)\nNo Saved Stats";
+        return title + " Modifiers\n+20% Health | No Jump Cooldown\nStats Will Not Be Tracked";
     }
 
     function OnSelected(player)
@@ -50,7 +50,7 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Normal] <- class extends M
 
     function GenerateDesc(player)
     {
-        return title + " Modifiers\nJump Cooldown (2.5s) | Slam Damage (-20%)\n";
+        return "Default Difficulty\n\n";
     }
 
     function OnSelected(player)
@@ -65,7 +65,7 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Hard] <- class extends Men
 
     function GenerateDesc(player)
     {
-        return title + " Modifiers\nHealth (-20%) | Jump Cooldown (3s)\nSlam Damage (-40%)";
+        return title + " Modifiers\n-20% Health\n";
     }
 
     function OnSelected(player)
@@ -80,7 +80,7 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Extreme] <- class extends 
 
     function GenerateDesc(player)
     {
-        return title + " Modifiers\nHealth (-40%) | Jump Cooldown (4s)\nSlam Damage (-60%)";
+        return title + " Modifiers\n-40% Health\n";
     }
 
     function OnSelected(player)
@@ -95,7 +95,7 @@ menus[MENU.BossDifficulty].items[BOSSDIFFICULTY_ITEMS.Impossible] <- class exten
 
     function GenerateDesc(player)
     {
-        return title + " Modifiers\nHealth (-60%) | No Double Jump\nSlam Damage (-80%)";
+        return title + " Modifiers\n-60% Health\n";
     }
 
     function OnSelected(player)

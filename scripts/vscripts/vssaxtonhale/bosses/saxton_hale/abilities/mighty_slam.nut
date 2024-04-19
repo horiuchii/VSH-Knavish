@@ -97,15 +97,6 @@ class MightySlamTrait extends BossAbility
             {
                 local damage = target.GetMaxHealth() * (1 - distance / radius);
 
-                switch(CookieUtil.Get(boss, "difficulty"))
-                {
-                    case DIFFICULTY.NORMAL: damage -= (damage * 0.2); break;
-                    case DIFFICULTY.HARD: damage -= (damage * 0.4); break;
-                    case DIFFICULTY.EXTREME: damage -= (damage * 0.6); break;
-                    case DIFFICULTY.IMPOSSIBLE: damage -= (damage * 0.8); break;
-                    default: break;
-                }
-
                 if(!InLOS)
                 {
                     if(ZDiff < 151)
