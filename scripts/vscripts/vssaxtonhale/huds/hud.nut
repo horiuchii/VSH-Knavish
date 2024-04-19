@@ -319,14 +319,16 @@ AddListener("tick_only_valid", 2, function (deltaTime)
         return;
     }
 
-    if (bossBarTicker < 2)
+    local barValue = clampCeiling(boss.GetHealth(), boss.GetMaxHealth());
+
+    // This enables the bar to update it's progress when setup ends
+    if (!bossBarTicker)
     {
         bossBarTicker++;
-        SetPropInt(pd_logic, "m_nBlueScore", 0);
-        SetPropInt(pd_logic, "m_nBlueTargetPoints", 0);
-        return
+        SetPropInt(pd_logic, "m_nBlueTargetPoints", barValue);
+        return;
     }
-    local barValue = clampCeiling(boss.GetHealth(), boss.GetMaxHealth());
+
     SetPropInt(pd_logic, "m_nBlueScore", barValue);
     SetPropInt(pd_logic, "m_nBlueTargetPoints", barValue);
     SetPropInt(pd_logic, "m_nMaxPoints", boss.GetMaxHealth());
