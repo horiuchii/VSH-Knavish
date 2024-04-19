@@ -80,10 +80,27 @@ class BossHUD
                             channel.params.message = ability.uses_left + " / " + ability.max_uses;
                             break;
                         }
+                    default:
+                        {
+                            local progressBarText = "";
+                            local cooldown = ability.cooldown;
+                            local meter = ability.meter;
+                            local percentage = MeterAsPercentage(cooldown, meter);
+                            local progressBarText = BigToSmallNumbers(MeterAsNumber(cooldown, meter)) + " ";
+                            local max_bars = 7;
+                            local progress = percentage == null ? 0.0 : percentage * 0.01 * max_bars;
+
+                            for(local i = 1; i <= max_bars; i++)
+                                progressBarText += i <= progress ? "▰" : "▱";
+
+                            overlay += percentage >= 100 ? "on_" : "off_";
+                            channel.params.message = progressBarText;
+                            break;
+                        }
                 }
             }
 
-            //HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
+            HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
         }
     }
 

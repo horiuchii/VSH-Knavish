@@ -53,7 +53,7 @@ AddListener("setup_start", 1, function ()
             player.Set(bossLibrary["saxton_hale"]);
         }
 
-        CreatePDHud("knavish_vsh_hud_" + GetBossPlayers()[0].Get().name);
+        //CreatePDHud("knavish_vsh_hud_" + GetBossPlayers()[0].Get().name);
     }
 });
 
@@ -223,7 +223,7 @@ function EndRound(winner)
     else if(winner == TF_TEAM_BOSS)
         winpanelname += GetBossPlayers()[0].Get().name
 
-    CreatePDHud(winpanelname);
+    //CreatePDHud(winpanelname);
 
     RunWithDelay2(this, 0.15, function()
     {
