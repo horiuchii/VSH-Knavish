@@ -28,6 +28,8 @@ mercTraitsLibrary.push(class extends MercenaryTrait
             || vsh_vscript.totalHealthKits > 30
             || params.weapon != player.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE))
             return;
+
+        // TODO: Make this an entity output hook so that we can subtract from total heathkits
         local healthKit = SpawnEntityFromTable("item_healthkit_small", {
             "OnPlayerTouch": "!self,Kill,,0,-1",
         });

@@ -361,9 +361,3 @@ class TeleportTrait extends BossAbility
     }
 }
 ::TeleportTrait <- TeleportTrait;
-
-::GiveHeight <- function()
-{
-    printl("Maxs | " + GetListenServerHost().GetBoundingMaxs());
-    printl("Mins | " + GetListenServerHost().GetBoundingMins());
-}

@@ -21,6 +21,7 @@ mercTraitsLibrary.push(class extends CustomVoiceLine
     {
         if (timesPlayedGlobal[0] > 3 || RandomInt(0, 7) != 0)
             return;
+
         timesPlayedGlobal[0]++;
         EmitPlayerVODelayed(player, "setup", RandomInt(13, 15));
     }

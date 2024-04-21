@@ -22,11 +22,7 @@ mercTraitsLibrary.push(class extends CustomVoiceLine
         if (player.GetTimeSinceCalledForMedic() > 0.1 || Time() < nextTimeAvailable || IsAnyMedicsAlive())
             return;
         nextTimeAvailable = Time() + 0.5;
-
-        if (MedicsAtStart() > 0)
-            return EmitPlayerVODelayed(player, "medic_dead", 0);
-        else
-            return EmitPlayerVODelayed(player, "no_medic", 0);
+        return EmitPlayerVODelayed(player, MedicsAtStart() > 0 ? "medic_dead" : "no_medic", 0);
     }
 
     function IsAnyMedicsAlive()

@@ -101,7 +101,7 @@ class BossHUD
             }
 
             // If the overlay is null in the first place, don't replace it
-            if (HUD.Get(player, HUDID).overlay)
+            if (player.Get().name == "saxton_hale")
                 HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
         }
     }
