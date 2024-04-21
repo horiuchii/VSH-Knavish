@@ -31,7 +31,7 @@
         if (IsValidClient(player))
         {
             validClientsL.push(player);
-            if (player.GetTeam() > TF_TEAM_SPECTATOR)
+            if (player.GetTeam() > TF_TEAM_SPECTATOR && player.GetPlayerClass() > TF_CLASS_UNDEFINED)
             {
                 validPlayersL.push(player);
 

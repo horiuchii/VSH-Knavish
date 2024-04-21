@@ -100,7 +100,9 @@ class BossHUD
                 }
             }
 
-            HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
+            // If the overlay is null in the first place, don't replace it
+            if (HUD.Get(player, HUDID).overlay)
+                HUD.Get(player, HUDID).overlay = API_GetString("ability_hud_folder") + "/" + overlay;
         }
     }
 

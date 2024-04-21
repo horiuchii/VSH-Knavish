@@ -91,7 +91,7 @@ class HUDObject
     player = null
     enabled = false
 	channels = []
-    overlay = ""
+    overlay = null
 
     function constructor(_channels = {})
     {

@@ -273,7 +273,7 @@ class TeleportTrait extends BossAbility
             filter = function(entity)
             {
                 local classname = entity.GetClassname();
-                //printl(classname);
+
                 if (entity == worldspawn)
                     return TRACE_STOP;
 

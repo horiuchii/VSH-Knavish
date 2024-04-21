@@ -26,7 +26,6 @@ class WallClimbTrait extends BossAbility
     {
         local absVel = boss.GetAbsVelocity();
         local hVel = sqrt(absVel.x * absVel.x + absVel.y * absVel.y);
-        ClientPrint(null, HUD_PRINTCENTER, hVel.tostring())
         local melee = boss.GetWeaponBySlot(TF_WEAPONSLOTS.MELEE);
 
         if (melee == null)

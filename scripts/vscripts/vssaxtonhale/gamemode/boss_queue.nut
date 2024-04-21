@@ -95,6 +95,7 @@ function ProgressBossQueue(iterations = 0)
                     valid_players.append(player)
                 }
             }
+
             return valid_players[RandomInt(0, valid_players.len() - 1)];
         }
         catch(e)
