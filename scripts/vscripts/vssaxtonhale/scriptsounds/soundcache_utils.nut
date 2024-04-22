@@ -1,9 +1,9 @@
-::genericPrecacheQueue <- [];
+::rawPrecacheQueue <- [];
 ::voiceLinePrecacheQueue <- [];
 
-function AddGenericScriptSoundToQueue(sound)
+function AddRawScriptSoundToQueue(sound)
 {
-    genericPrecacheQueue.push(sound);
+    rawPrecacheQueue.push(sound);
 }
 
 function AddVoiceLineScriptSoundToQueue(sound)
@@ -27,10 +27,29 @@ function PrecacheVoiceLineSoundScripts()
     }
 }
 
-function PrecacheGenericSoundScripts()
+function PrecacheRawSoundScripts()
 {
-    foreach (sound in genericPrecacheQueue)
+    foreach (sound in rawPrecacheQueue)
     {
         PrecacheScriptSound(sound);
+    }
+}
+
+function AddClassToBossVOToQueue(tfclass, soundPath)
+{
+    foreach (name in bossList)
+    {
+        AddRawScriptSoundToQueue(tfclass+"."+name+"."+soundPath);
+    }
+}
+
+function AddAllClassToBossVOToQueue(soundPath)
+{
+    foreach (name in bossList)
+    {
+        for (local i = TF_CLASS_SCOUT; i <= TF_CLASS_ENGINEER; i++)
+        {
+            AddRawScriptSoundToQueue(TFClassUtil.GetCacheString(i)+"."+name+"."+soundPath);
+        }
     }
 }

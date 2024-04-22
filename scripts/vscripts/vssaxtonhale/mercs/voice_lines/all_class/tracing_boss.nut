@@ -14,7 +14,7 @@
 AddVoiceLineScriptSoundToQueue("behind")
 AddVoiceLineScriptSoundToQueue("above")
 AddVoiceLineScriptSoundToQueue("contact")
-AddGenericScriptSoundToQueue("medic.contact_uber")
+AddRawScriptSoundToQueue("medic.contact_uber")
 
 mercTraitsLibrary.push(class extends CustomVoiceLine
 {

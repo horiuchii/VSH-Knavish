@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-AddGenericScriptSoundToQueue("soldier.setup_special")
+AddRawScriptSoundToQueue("soldier.setup_special")
 
 mercTraitsLibrary.push(class extends CustomVoiceLine
 {

@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-AddGenericScriptSoundToQueue("scout.marked")
+AddClassToBossVOToQueue("scout", "marked")
 
 mercTraitsLibrary.push(class extends CustomVoiceLine
 {
@@ -30,7 +30,7 @@ mercTraitsLibrary.push(class extends CustomVoiceLine
             && Time() - lastPlay >= playInterval)
         {
             lastPlay = Time();
-            EmitPlayerVODelayed(player, "marked", 0.2);
+            EmitPlayerToBossVODelayed(player, "marked", 0.2);
         }
     }
 });

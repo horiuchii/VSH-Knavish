@@ -25,7 +25,7 @@ function OnPostSpawn()
     }
 
     RecachePlayers();
-    PrecacheGenericSoundScripts();
+    PrecacheRawSoundScripts();
     PrecacheVoiceLineSoundScripts();
 
     FireListeners("new_round");

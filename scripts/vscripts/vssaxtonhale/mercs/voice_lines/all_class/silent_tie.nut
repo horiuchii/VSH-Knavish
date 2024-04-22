@@ -11,7 +11,7 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-AddGenericScriptSoundToQueue("vsh_sfx.silent_tie")
+AddRawScriptSoundToQueue("vsh_sfx.silent_tie")
 
 AddListener("round_end", 0, function (winnerTeam)
 {

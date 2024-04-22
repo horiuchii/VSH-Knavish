@@ -12,7 +12,7 @@
 //=========================================================================
 
 AddVoiceLineScriptSoundToQueue("rage");
-AddGenericScriptSoundToQueue("xmas.jingle_noisemaker");
+AddRawScriptSoundToQueue("xmas.jingle_noisemaker");
 
 class StunBreakoutTrait extends BossTrait
 {

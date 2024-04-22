@@ -113,9 +113,23 @@ function PlaySoundForAll(soundScript)
     return true;
 }
 
+::EmitPlayerToBossVO <- function(player, soundPath)
+{
+    if (player == null)
+        return false;
+    EmitSoundOn(GetCurrentCharacterName(player)+"."+GetBossPlayers()[0].Get().name+"."+soundPath, player);
+    return true;
+}
+
 ::EmitPlayerVODelayed <- function(player, soundPath, delay)
 {
     RunWithDelay("if (IsValidPlayer(activator) && activator.IsAlive()) EmitPlayerVO(activator,`"+soundPath+"`)", player, delay);
+    return true;
+}
+
+::EmitPlayerToBossVODelayed <- function(player, soundPath, delay)
+{
+    RunWithDelay("if (IsValidPlayer(activator) && activator.IsAlive()) EmitPlayerToBossVO(activator,`"+soundPath+"`)", player, delay);
     return true;
 }
 
