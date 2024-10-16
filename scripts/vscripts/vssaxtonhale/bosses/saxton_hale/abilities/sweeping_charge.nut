@@ -11,19 +11,10 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-PrecacheScriptSound("vsh_sfx.hale_charge");
-PrecacheScriptSound("vsh_sfx.hale_dash");
 PrecacheScriptSound("DemoCharge.HitFlesh");
 
-PrecacheScriptSound("saxton_hale.charge_a")
-PrecacheScriptSound("saxton_hale.charge_b")
-PrecacheScriptSound("saxton_hale.charge_c")
-PrecacheScriptSound("saxton_hale.dash_a")
-PrecacheScriptSound("saxton_hale.dash_b")
-PrecacheScriptSound("saxton_hale.dash_c")
-
-::saxton_dash_effect_model_path <- "models/player/items/vsh_dash_effect.mdl"
-PrecacheModel(saxton_dash_effect_model_path);
+::dash_effect_model_path <- "models/player/items/vsh_dash_effect.mdl"
+PrecacheModel(dash_effect_model_path);
 
 class SweepingChargeTrait extends BossAbility
 {

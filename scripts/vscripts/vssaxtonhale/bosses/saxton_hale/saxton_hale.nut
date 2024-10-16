@@ -11,24 +11,6 @@
 //  Yakibomb - give_tf_weapon script bundle (used for Hale's first-person hands model).
 //=========================================================================
 
-::saxton_model_path <- ("models/player/saxton_hale.mdl");
-::saxton_aura_model_path <- "models/player/items/vsh_effect_body_aura.mdl";
-::saxton_viewmodel_path <- "models/weapons/c_models/c_saxton_arms.mdl";
-::saxton_viewmodel_index <- GetModelIndex("models/weapons/c_models/c_saxton_arms.mdl");
-
-::hale_aura_red_off <- "models/player/items/vsh_effect_ltarm_aura.mdl";
-::hale_aura_blue_off <- "models/player/items/vsh_effect_rtarm_aura.mdl";
-::hale_aura_red_on <- "models/player/items/vsh_effect_ltarm_aura_megapunch.mdl";
-::hale_aura_blue_on <- "models/player/items/vsh_effect_rtarm_aura_chargedash.mdl";
-
-PrecacheModel(hale_aura_red_off);
-PrecacheModel(hale_aura_blue_off);
-PrecacheModel(hale_aura_red_on);
-PrecacheModel(hale_aura_blue_on);
-PrecacheModel(saxton_model_path);
-PrecacheModel(saxton_aura_model_path);
-PrecacheModel(saxton_viewmodel_path);
-
 class SaxtonHale extends Boss
 {
     name = "saxton_hale";
@@ -41,6 +23,18 @@ class SaxtonHale extends Boss
     blueArmEnabled = false;
     RED_ARM = "red";
     BLUE_ARM = "blue";
+
+    empty_model_index = GetModelIndex("models/empty.mdl");
+
+    hale_aura_red_off = "models/player/items/vsh_effect_ltarm_aura.mdl";
+    hale_aura_blue_off = "models/player/items/vsh_effect_rtarm_aura.mdl";
+    hale_aura_red_on = "models/player/items/vsh_effect_ltarm_aura_megapunch.mdl";
+    hale_aura_blue_on = "models/player/items/vsh_effect_rtarm_aura_chargedash.mdl";
+
+    saxton_model_path = ("models/player/saxton_hale.mdl");
+    saxton_aura_model_path = "models/player/items/vsh_effect_body_aura.mdl";
+    saxton_viewmodel_path = "models/weapons/c_models/c_saxton_arms.mdl";
+    saxton_viewmodel_index = GetModelIndex(saxton_viewmodel_path);
 
     Stats =
     [
@@ -74,17 +68,17 @@ class SaxtonHale extends Boss
 
         boss.SetModelScale(API_GetFloat("boss_scale"), 0);
 
-        player.AddCustomAttribute("move speed bonus", 1.8, -1);
-        player.AddCustomAttribute("cancel falling damage", 1, -1);
-        player.AddCustomAttribute("voice pitch scale", 0, -1);
-        player.AddCustomAttribute("damage bonus", 3, -1);
-        player.AddCustomAttribute("crit mod disabled hidden", 0, -1);
-        player.AddCustomAttribute("increase player capture value", 2, -1);
-        player.AddCustomAttribute("cannot pick up intelligence", 1, -1);
-        player.AddCustomAttribute("patient overheal penalty", 1, -1);
-        player.AddCustomAttribute("health from packs decreased", 0, -1);
-        player.AddCustomAttribute("damage force reduction", 0.75, -1);
-        player.AddCustomAttribute("dmg taken from crit reduced", 0.75, -1);
+        boss.AddCustomAttribute("move speed bonus", 1.8, -1);
+        boss.AddCustomAttribute("cancel falling damage", 1, -1);
+        boss.AddCustomAttribute("voice pitch scale", 0, -1);
+        boss.AddCustomAttribute("damage bonus", 3, -1);
+        boss.AddCustomAttribute("crit mod disabled hidden", 0, -1);
+        boss.AddCustomAttribute("increase player capture value", 2, -1);
+        boss.AddCustomAttribute("cannot pick up intelligence", 1, -1);
+        boss.AddCustomAttribute("patient overheal penalty", 1, -1);
+        boss.AddCustomAttribute("health from packs decreased", 0, -1);
+        boss.AddCustomAttribute("damage force reduction", 0.75, -1);
+        boss.AddCustomAttribute("dmg taken from crit reduced", 0.75, -1);
 
         boss.AddCond(TF_COND_CANNOT_SWITCH_FROM_MELEE);
 
@@ -104,7 +98,7 @@ class SaxtonHale extends Boss
         local weapon = boss.GetActiveWeapon();
         if (weapon != null && weapon.IsValid())
         {
-            SetPropInt(weapon, "m_iWorldModelIndex", empty_model_index);
+            SetPropInt(weapon, "m_iWorldModelIndex", SaxtonHale.empty_model_index);
             weapon.DisableDraw();
             SetPropInt(weapon, "m_nRenderMode", 1);
             weapon.SetModelScale(0.05, 0);
@@ -177,7 +171,7 @@ class SaxtonHale extends Boss
     {
         EmitPlayerVO(boss, "dash_" + voiceRNG);
         EmitSoundOn("vsh_sfx.hale_dash", boss);
-        local dashDome = boss.CreateCustomWearable(null, saxton_dash_effect_model_path);
+        local dashDome = boss.CreateCustomWearable(null, dash_effect_model_path);
         EntFireByHandle(dashDome, "Kill", "", chargeDuration, null, null);
     }
 
@@ -186,10 +180,9 @@ class SaxtonHale extends Boss
         SetArm(BLUE_ARM, false);
     }
 }
+::SaxtonHale <- SaxtonHale;
 
 RegisterBoss(SaxtonHale);
-
-Include("/bosses/saxton_hale/misc/visible_weapon_fix.nut");
 
 AddBossTrait(SaxtonHale.name, SweepingCharge);
 AddBossTrait(SaxtonHale.name, BraveJump);
@@ -220,8 +213,8 @@ RegisterCustomWeapon(
     Defaults,
     function (table, player) {
         table.worldModel = "models/empty.mdl";
-        table.viewModel = saxton_viewmodel_path;
-        table.classArms = saxton_viewmodel_path;
+        table.viewModel = SaxtonHale.saxton_viewmodel_path;
+        table.classArms = SaxtonHale.saxton_viewmodel_path;
     },
     function (weapon, player)
     {
@@ -236,3 +229,20 @@ RegisterCustomWeapon(
         SetPropInt(weapon, "m_bFlipViewModel", isModelFlipped ? 1 : 0);
     }
 );
+
+PrecacheModel(SaxtonHale.hale_aura_red_off);
+PrecacheModel(SaxtonHale.hale_aura_blue_off);
+PrecacheModel(SaxtonHale.hale_aura_red_on);
+PrecacheModel(SaxtonHale.hale_aura_blue_on);
+PrecacheModel(SaxtonHale.saxton_model_path);
+PrecacheModel(SaxtonHale.saxton_aura_model_path);
+PrecacheModel(SaxtonHale.saxton_viewmodel_path);
+
+PrecacheScriptSound("saxton_hale.charge_a");
+PrecacheScriptSound("saxton_hale.charge_b");
+PrecacheScriptSound("saxton_hale.charge_c");
+PrecacheScriptSound("saxton_hale.dash_a");
+PrecacheScriptSound("saxton_hale.dash_b");
+PrecacheScriptSound("saxton_hale.dash_c");
+PrecacheScriptSound("vsh_sfx.hale_charge");
+PrecacheScriptSound("vsh_sfx.hale_dash");
